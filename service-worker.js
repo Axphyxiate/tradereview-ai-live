@@ -1,4 +1,4 @@
-const CACHE_NAME = "tradereview-ai-mobile-v1";
+const CACHE_NAME = "tradereview-ai-mobile-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -6,6 +6,7 @@ const APP_SHELL = [
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./manifest.webmanifest",
+  "./privacy.html",
   "./app/tradereview-ai.html",
   "./app/supabase-config.js?v=20260716-3",
   "./app/vendor/supabase.js",
