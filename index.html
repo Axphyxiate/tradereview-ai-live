@@ -19,6 +19,9 @@
       --cyan: #5bd9ee;
       --red: #ff536d;
       --shadow: 0 32px 90px rgba(0,0,0,.4);
+      --scroll-accent: #18d995;
+      --scroll-opposite: #ff536d;
+      --scroll-soft: rgba(24, 217, 149, .1);
     }
 
     * { box-sizing: border-box; }
@@ -37,7 +40,17 @@
     a { color: inherit; text-decoration: none; }
     button, input { font: inherit; }
     button { cursor: pointer; }
-    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .scroll-aura {
+      position: fixed;
+      z-index: 0;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 8% 16%, var(--scroll-soft), transparent 32rem),
+        radial-gradient(circle at 94% 74%, color-mix(in srgb, var(--scroll-opposite) 8%, transparent), transparent 30rem);
+      transition: background .35s ease;
+    }
+    .shell { position: relative; z-index: 1; width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
 
     .nav {
       position: relative;
@@ -82,19 +95,36 @@
       background: rgba(255,255,255,.025);
       font-size: 13px;
       font-weight: 830;
-      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+      transition: transform .16s ease, border-color .16s ease, background .4s ease, box-shadow .4s ease;
     }
 
     .button:hover { transform: translateY(-2px); border-color: rgba(91,230,170,.32); }
-    .button.primary { border: 0; color: #061410; background: linear-gradient(135deg, #65eab0, #3fc78a); box-shadow: 0 14px 34px rgba(52,194,130,.16); }
+    .button.primary { border: 0; color: #061410; background: linear-gradient(135deg, color-mix(in srgb, var(--scroll-accent) 78%, white), var(--scroll-accent)); box-shadow: 0 14px 34px color-mix(in srgb, var(--scroll-accent) 20%, transparent); }
     .button.small { min-height: 40px; padding: 0 15px; }
 
     .hero {
       position: relative;
+      isolation: isolate;
       display: grid;
       justify-items: center;
       padding: clamp(72px, 10vw, 126px) 0 74px;
       text-align: center;
+    }
+
+    .hero > *:not(.market-canvas) { position: relative; z-index: 2; }
+
+    .market-canvas {
+      position: absolute;
+      z-index: 1;
+      top: 72px;
+      left: 50%;
+      width: 100vw;
+      height: 560px;
+      transform: translateX(-50%);
+      opacity: .48;
+      pointer-events: none;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 15%, #000 74%, transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, #000 15%, #000 74%, transparent 100%);
     }
 
     .hero::before {
@@ -102,7 +132,7 @@
       position: absolute;
       z-index: -1;
       top: 34px;
-      width: 760px;
+      width: min(760px, 100%);
       height: 430px;
       border-radius: 50%;
       background: linear-gradient(90deg, rgba(24, 217, 149, .075), rgba(255, 83, 109, .035));
@@ -116,7 +146,7 @@
       padding: 8px 13px;
       border: 1px solid rgba(91,230,170,.18);
       border-radius: 999px;
-      color: #87edbd;
+      color: var(--scroll-accent);
       background: rgba(67,202,143,.055);
       font-size: 12px;
       font-weight: 800;
@@ -124,9 +154,9 @@
       letter-spacing: .08em;
     }
 
-    .dot { width: 7px; height: 7px; border-radius: 50%; background: #62e9ad; box-shadow: 0 0 0 5px rgba(98,233,173,.08), 0 0 15px rgba(98,233,173,.62); }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--scroll-accent); box-shadow: 0 0 0 5px color-mix(in srgb, var(--scroll-accent) 10%, transparent), 0 0 15px color-mix(in srgb, var(--scroll-accent) 60%, transparent); transition: background .35s ease, box-shadow .35s ease; }
     h1 { max-width: 950px; margin: 26px 0 0; font-size: clamp(52px, 8vw, 92px); line-height: .95; letter-spacing: -.068em; }
-    .gradient { color: transparent; background: linear-gradient(105deg, #f8fffb 24%, #e5f7f0 58%, #5ee3aa 100%); background-clip: text; -webkit-background-clip: text; }
+    .gradient { color: transparent; background: linear-gradient(105deg, #f8fffb 24%, #e5f7f0 58%, var(--scroll-accent) 100%); background-clip: text; -webkit-background-clip: text; transition: background .35s ease; }
     .lead { max-width: 720px; margin: 27px 0 0; color: var(--muted); font-size: clamp(17px, 2vw, 20px); line-height: 1.68; }
     .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 11px; margin-top: 34px; }
     .microcopy { margin-top: 15px; color: #617972; font-size: 11px; }
@@ -176,12 +206,15 @@
     .mock-chart { width: 100%; height: 165px; padding: 15px; overflow: visible; }
     .draw { stroke-dasharray: 620; stroke-dashoffset: 620; animation: draw 2s ease forwards .35s; }
     @keyframes draw { to { stroke-dashoffset: 0; } }
-    .mock-candle { transform-box: fill-box; transform-origin: center bottom; animation: candleIn .55s cubic-bezier(.2,.8,.2,1) both; }
+    .mock-candle { transform-box: fill-box; transform-origin: center bottom; animation: candleIn .55s cubic-bezier(.2,.8,.2,1) both, candleLive 2.7s ease-in-out .8s infinite alternate; }
     .mock-candle:nth-of-type(2n) { animation-delay: .08s; }
     .mock-candle:nth-of-type(3n) { animation-delay: .16s; }
     .mock-candle.up line, .mock-candle.up rect { stroke: #18d995; fill: #18d995; }
     .mock-candle.down line, .mock-candle.down rect { stroke: #ff536d; fill: #ff536d; }
     @keyframes candleIn { from { opacity: 0; transform: scaleY(.15); } to { opacity: 1; transform: scaleY(1); } }
+    @keyframes candleLive { from { filter: brightness(.86); } to { filter: brightness(1.42) drop-shadow(0 0 5px currentColor); } }
+    .live-marker { stroke: var(--scroll-accent); stroke-width: 1.2; stroke-dasharray: 7 7; opacity: .5; animation: markerFlow 1.6s linear infinite; }
+    @keyframes markerFlow { to { stroke-dashoffset: -28; } }
     .chart-legend { display: flex; gap: 15px; padding: 0 15px 13px; color: #627972; font-size: 8px; text-transform: uppercase; letter-spacing: .07em; }
     .chart-legend span { display: flex; align-items: center; gap: 5px; }
     .chart-legend i { width: 6px; height: 6px; border-radius: 2px; background: var(--green); }
@@ -198,7 +231,7 @@
 
     .section { padding: 100px 0; border-top: 1px solid rgba(176,221,206,.08); }
     .section-head { max-width: 720px; }
-    .section-label { color: #62dda7; font-size: 11px; font-weight: 850; text-transform: uppercase; letter-spacing: .1em; }
+    .section-label { color: var(--scroll-accent); font-size: 11px; font-weight: 850; text-transform: uppercase; letter-spacing: .1em; transition: color .35s ease; }
     h2 { margin: 16px 0 0; font-size: clamp(38px, 5.5vw, 64px); line-height: 1.02; letter-spacing: -.055em; }
     .section-copy { margin: 20px 0 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
 
@@ -238,7 +271,7 @@
     .footer-links { display: flex; gap: 18px; }
 
     .help-button { position: fixed; z-index: 50; right: 22px; bottom: 22px; display: flex; align-items: center; gap: 10px; min-height: 50px; padding: 8px 16px 8px 9px; border: 1px solid rgba(91,230,170,.22); border-radius: 999px; color: #e8f5f0; background: rgba(10,26,29,.94); box-shadow: 0 18px 50px rgba(0,0,0,.38); backdrop-filter: blur(16px); font-size: 12px; font-weight: 800; }
-    .help-icon { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; color: #071510; background: linear-gradient(135deg,#65eab0,#3cbd81); font-weight: 950; }
+    .help-icon { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; color: #071510; background: linear-gradient(135deg, color-mix(in srgb, var(--scroll-accent) 78%, white), var(--scroll-accent)); font-weight: 950; transition: background .35s ease; }
     .help-card { position: fixed; z-index: 55; right: 22px; bottom: 84px; width: min(370px,calc(100vw - 28px)); overflow: hidden; border: 1px solid rgba(176,221,206,.13); border-radius: 20px; background: rgba(8,21,24,.98); box-shadow: 0 30px 90px rgba(0,0,0,.5); opacity: 0; transform: translateY(10px) scale(.98); pointer-events: none; transition: .18s ease; }
     .help-card.open { opacity: 1; transform: none; pointer-events: auto; }
     .help-head { display: flex; justify-content: space-between; align-items: center; padding: 17px; border-bottom: 1px solid var(--line); }
@@ -266,6 +299,7 @@
       .nav-actions .button:first-child { display: none; }
       .brand { font-size: 13px; }
       .hero { padding-top: 62px; }
+      .market-canvas { top: 50px; left: 0; width: 100%; height: 520px; transform: none; opacity: .36; }
       h1 { font-size: 51px; }
       .hero-actions { flex-direction: column; width: 100%; }
       .hero-actions .button { width: 100%; }
@@ -291,6 +325,7 @@
   </style>
 </head>
 <body>
+  <div class="scroll-aura" aria-hidden="true"></div>
   <div class="shell">
     <nav class="nav" aria-label="Primary navigation">
       <a class="brand" href="#top"><span class="brand-mark">TR</span><span>TradeReview AI</span></a>
@@ -307,6 +342,7 @@
 
     <main id="top">
       <section class="hero">
+        <canvas class="market-canvas" id="marketCanvas" aria-hidden="true"></canvas>
         <div class="eyebrow"><span class="dot"></span> Built for deliberate traders</div>
         <h1><span class="gradient">Trade less on impulse. Review more on evidence.</span></h1>
         <p class="lead">A private performance workspace that turns executions, risk, screenshots, and daily notes into a review process you can actually repeat.</p>
@@ -328,7 +364,7 @@
                 <div class="mock-title"><div><small>Performance workspace</small><h2>Review the decision, not only the result.</h2></div><a class="button primary">Add trade</a></div>
                 <div class="mock-stats"><div class="mock-stat"><span>Total P/L</span><strong class="positive">+$148.75</strong></div><div class="mock-stat"><span>Total R</span><strong class="positive">+2.37R</strong></div><div class="mock-stat"><span>Win rate</span><strong>58%</strong></div><div class="mock-stat"><span>Risk breaks</span><strong style="color:var(--red)">1</strong></div></div>
                 <div class="mock-grid">
-                  <div class="mock-card"><div class="mock-card-head"><span>Execution chart</span><span class="positive">Price action</span></div><svg class="mock-chart" viewBox="0 0 560 165" aria-hidden="true"><g opacity=".15" stroke="#8ba19b"><path d="M0 40H560M0 82H560M0 124H560"/><path d="M93 0V165M186 0V165M279 0V165M372 0V165M465 0V165"/></g><g class="mock-candle up"><line x1="28" y1="94" x2="28" y2="142"/><rect x="21" y="105" width="14" height="25" rx="1"/></g><g class="mock-candle down"><line x1="66" y1="84" x2="66" y2="130"/><rect x="59" y="94" width="14" height="24" rx="1"/></g><g class="mock-candle up"><line x1="104" y1="75" x2="104" y2="119"/><rect x="97" y="86" width="14" height="22" rx="1"/></g><g class="mock-candle up"><line x1="142" y1="55" x2="142" y2="105"/><rect x="135" y="68" width="14" height="26" rx="1"/></g><g class="mock-candle down"><line x1="180" y1="62" x2="180" y2="108"/><rect x="173" y="73" width="14" height="24" rx="1"/></g><g class="mock-candle down"><line x1="218" y1="78" x2="218" y2="122"/><rect x="211" y="87" width="14" height="25" rx="1"/></g><g class="mock-candle up"><line x1="256" y1="65" x2="256" y2="113"/><rect x="249" y="76" width="14" height="26" rx="1"/></g><g class="mock-candle up"><line x1="294" y1="44" x2="294" y2="94"/><rect x="287" y="55" width="14" height="29" rx="1"/></g><g class="mock-candle down"><line x1="332" y1="51" x2="332" y2="96"/><rect x="325" y="61" width="14" height="25" rx="1"/></g><g class="mock-candle up"><line x1="370" y1="33" x2="370" y2="83"/><rect x="363" y="43" width="14" height="29" rx="1"/></g><g class="mock-candle down"><line x1="408" y1="42" x2="408" y2="88"/><rect x="401" y="52" width="14" height="25" rx="1"/></g><g class="mock-candle up"><line x1="446" y1="24" x2="446" y2="75"/><rect x="439" y="35" width="14" height="29" rx="1"/></g><g class="mock-candle up"><line x1="484" y1="12" x2="484" y2="62"/><rect x="477" y="23" width="14" height="28" rx="1"/></g><g class="mock-candle down"><line x1="522" y1="20" x2="522" y2="66"/><rect x="515" y="30" width="14" height="26" rx="1"/></g></svg><div class="chart-legend"><span><i></i>Followed plan</span><span><i></i>Rule break</span></div></div>
+                  <div class="mock-card"><div class="mock-card-head"><span>Execution chart</span><span class="positive">Price action · moving</span></div><svg class="mock-chart" viewBox="0 0 560 165" aria-hidden="true"><g opacity=".15" stroke="#8ba19b"><path d="M0 40H560M0 82H560M0 124H560"/><path d="M93 0V165M186 0V165M279 0V165M372 0V165M465 0V165"/></g><line class="live-marker" x1="0" y1="74" x2="560" y2="74"/><g class="mock-candle up"><line x1="28" y1="94" x2="28" y2="142"/><rect x="21" y="105" width="14" height="25" rx="1"/></g><g class="mock-candle down"><line x1="66" y1="84" x2="66" y2="130"/><rect x="59" y="94" width="14" height="24" rx="1"/></g><g class="mock-candle up"><line x1="104" y1="75" x2="104" y2="119"/><rect x="97" y="86" width="14" height="22" rx="1"/></g><g class="mock-candle up"><line x1="142" y1="55" x2="142" y2="105"/><rect x="135" y="68" width="14" height="26" rx="1"/></g><g class="mock-candle down"><line x1="180" y1="62" x2="180" y2="108"/><rect x="173" y="73" width="14" height="24" rx="1"/></g><g class="mock-candle down"><line x1="218" y1="78" x2="218" y2="122"/><rect x="211" y="87" width="14" height="25" rx="1"/></g><g class="mock-candle up"><line x1="256" y1="65" x2="256" y2="113"/><rect x="249" y="76" width="14" height="26" rx="1"/></g><g class="mock-candle up"><line x1="294" y1="44" x2="294" y2="94"/><rect x="287" y="55" width="14" height="29" rx="1"/></g><g class="mock-candle down"><line x1="332" y1="51" x2="332" y2="96"/><rect x="325" y="61" width="14" height="25" rx="1"/></g><g class="mock-candle up"><line x1="370" y1="33" x2="370" y2="83"/><rect x="363" y="43" width="14" height="29" rx="1"/></g><g class="mock-candle down"><line x1="408" y1="42" x2="408" y2="88"/><rect x="401" y="52" width="14" height="25" rx="1"/></g><g class="mock-candle up"><line x1="446" y1="24" x2="446" y2="75"/><rect x="439" y="35" width="14" height="29" rx="1"/></g><g class="mock-candle up"><line x1="484" y1="12" x2="484" y2="62"/><rect x="477" y="23" width="14" height="28" rx="1"/></g><g class="mock-candle down"><line x1="522" y1="20" x2="522" y2="66"/><rect x="515" y="30" width="14" height="26" rx="1"/></g></svg><div class="chart-legend"><span><i></i>Followed plan</span><span><i></i>Rule break</span></div></div>
                   <div class="mock-card"><div class="mock-card-head"><span>Review coach</span><span class="positive">3 insights</span></div><div class="coach"><div>Your best setup held risk at or below plan.</div><div>Late-morning trades produced weaker results.</div><div>Review the one oversized winner before repeating it.</div></div></div>
                 </div>
               </div>
@@ -371,6 +407,156 @@
   <section class="help-card" id="helpCard" aria-label="TradeReview help" aria-hidden="true"><div class="help-head"><div><strong>TradeReview guide</strong><span>Ask about accounts, imports, or journaling</span></div><button class="help-close" id="helpClose" type="button" aria-label="Close help">×</button></div><div class="help-messages" id="helpMessages"><div class="message">Hi — I can help you understand TradeReview before you create an account. What would you like to know?</div></div><form class="help-form" id="helpForm"><input id="helpInput" placeholder="Ask a question…" autocomplete="off" aria-label="Ask a question"><button type="submit" aria-label="Send">↑</button></form></section>
 
   <script>
+    const pageRoot = document.documentElement;
+    const marketCanvas = document.querySelector("#marketCanvas");
+    const marketContext = marketCanvas.getContext("2d");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const themeGreen = [24, 217, 149];
+    const themeRed = [255, 83, 109];
+    let currentAccent = themeGreen;
+    let scrollUpdateQueued = false;
+
+    const mixChannel = (from, to, amount) => Math.round(from + (to - from) * amount);
+    const mixColor = (from, to, amount) => from.map((value, index) => mixChannel(value, to[index], amount));
+    const rgb = color => `rgb(${color.join(", ")})`;
+    const rgba = (color, alpha) => `rgba(${color.join(", ")}, ${alpha})`;
+
+    function updateScrollTheme() {
+      const scrollable = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      const progress = Math.min(Math.max(window.scrollY / scrollable, 0), 1);
+      const redMix = (1 - Math.cos(progress * Math.PI * 4)) / 2;
+      currentAccent = mixColor(themeGreen, themeRed, redMix);
+      const opposite = mixColor(themeRed, themeGreen, redMix);
+      pageRoot.style.setProperty("--scroll-accent", rgb(currentAccent));
+      pageRoot.style.setProperty("--scroll-opposite", rgb(opposite));
+      pageRoot.style.setProperty("--scroll-soft", rgba(currentAccent, .105));
+      scrollUpdateQueued = false;
+    }
+
+    window.addEventListener("scroll", () => {
+      if (scrollUpdateQueued) return;
+      scrollUpdateQueued = true;
+      window.requestAnimationFrame(updateScrollTheme);
+    }, { passive: true });
+
+    let marketWidth = 0;
+    let marketHeight = 0;
+    let marketCandles = [];
+    let lastMarketFrame = 0;
+    const candleSpacing = 27;
+
+    function nextMarketCandle(open, x) {
+      const drift = (Math.random() - .47) * 8.5;
+      const close = open + drift;
+      const wick = 2 + Math.random() * 7;
+      return {
+        x,
+        open,
+        close,
+        high: Math.max(open, close) + wick,
+        low: Math.min(open, close) - wick * (.7 + Math.random() * .5)
+      };
+    }
+
+    function seedMarketCandles() {
+      marketCandles = [];
+      let price = 100;
+      const count = Math.ceil(marketWidth / candleSpacing) + 5;
+      for (let index = 0; index < count; index += 1) {
+        const candle = nextMarketCandle(price, index * candleSpacing - candleSpacing * 2);
+        marketCandles.push(candle);
+        price = candle.close;
+      }
+    }
+
+    function resizeMarketCanvas() {
+      const rect = marketCanvas.getBoundingClientRect();
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      marketWidth = Math.max(rect.width, 320);
+      marketHeight = Math.max(rect.height, 360);
+      marketCanvas.width = Math.round(marketWidth * ratio);
+      marketCanvas.height = Math.round(marketHeight * ratio);
+      marketContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+      seedMarketCandles();
+    }
+
+    function drawMarket(timestamp) {
+      const elapsed = lastMarketFrame ? Math.min((timestamp - lastMarketFrame) / 16.67, 2.5) : 1;
+      lastMarketFrame = timestamp;
+      marketContext.clearRect(0, 0, marketWidth, marketHeight);
+
+      marketContext.lineWidth = 1;
+      marketContext.strokeStyle = "rgba(153, 184, 174, .09)";
+      for (let y = 70; y < marketHeight; y += 70) {
+        marketContext.beginPath();
+        marketContext.moveTo(0, y + .5);
+        marketContext.lineTo(marketWidth, y + .5);
+        marketContext.stroke();
+      }
+      for (let x = 0; x < marketWidth; x += 110) {
+        marketContext.beginPath();
+        marketContext.moveTo(x + .5, 0);
+        marketContext.lineTo(x + .5, marketHeight);
+        marketContext.stroke();
+      }
+
+      if (!reduceMotion) {
+        marketCandles.forEach(candle => { candle.x -= .48 * elapsed; });
+        while (marketCandles.length && marketCandles[0].x < -candleSpacing) {
+          marketCandles.shift();
+          const last = marketCandles[marketCandles.length - 1];
+          marketCandles.push(nextMarketCandle(last.close, last.x + candleSpacing));
+        }
+      }
+
+      const lowest = Math.min(...marketCandles.map(candle => candle.low));
+      const highest = Math.max(...marketCandles.map(candle => candle.high));
+      const range = Math.max(highest - lowest, 1);
+      const priceY = price => 36 + ((highest - price) / range) * (marketHeight - 95);
+
+      marketCandles.forEach((candle, index) => {
+        const rising = candle.close >= candle.open;
+        const color = rising ? "rgba(24, 217, 149, .62)" : "rgba(255, 83, 109, .62)";
+        const bodyTop = priceY(Math.max(candle.open, candle.close));
+        const bodyBottom = priceY(Math.min(candle.open, candle.close));
+        marketContext.strokeStyle = color;
+        marketContext.fillStyle = color;
+        marketContext.beginPath();
+        marketContext.moveTo(candle.x, priceY(candle.high));
+        marketContext.lineTo(candle.x, priceY(candle.low));
+        marketContext.stroke();
+        marketContext.fillRect(candle.x - 5, bodyTop, 10, Math.max(bodyBottom - bodyTop, 3));
+
+        if (index === marketCandles.length - 2) {
+          marketContext.save();
+          marketContext.globalAlpha = .22;
+          marketContext.fillStyle = rgba(currentAccent, .5);
+          marketContext.beginPath();
+          marketContext.arc(candle.x, priceY(candle.close), 17, 0, Math.PI * 2);
+          marketContext.fill();
+          marketContext.restore();
+        }
+      });
+
+      const latest = marketCandles[marketCandles.length - 2];
+      if (latest) {
+        marketContext.setLineDash([8, 8]);
+        marketContext.strokeStyle = rgba(currentAccent, .34);
+        marketContext.beginPath();
+        marketContext.moveTo(0, priceY(latest.close));
+        marketContext.lineTo(marketWidth, priceY(latest.close));
+        marketContext.stroke();
+        marketContext.setLineDash([]);
+      }
+
+      if (!reduceMotion) window.requestAnimationFrame(drawMarket);
+    }
+
+    updateScrollTheme();
+    resizeMarketCanvas();
+    window.addEventListener("resize", resizeMarketCanvas);
+    window.requestAnimationFrame(drawMarket);
+
     const helpButton = document.querySelector("#helpButton");
     const helpCard = document.querySelector("#helpCard");
     const helpMessages = document.querySelector("#helpMessages");
