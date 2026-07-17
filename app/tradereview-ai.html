@@ -2376,6 +2376,7 @@
 
     async function syncBrokerConnectionMetadata(connection) {
       if (!cloudSyncReady || !currentUser || !connection?.provider || connection.status !== "requested") return;
+      const note = document.querySelector("#brokerConnectionNote");
       const syncScope = {
         executions: Boolean(connection.syncExecutions),
         fees: Boolean(connection.syncFees),
@@ -2383,7 +2384,7 @@
         notes: Boolean(connection.syncNotes)
       };
       const now = new Date().toISOString();
-      const { error } = await cloudClient.from("broker_connections").upsert({
+      const payload = {
         user_id: currentUser.id,
         provider: connection.provider,
         provider_kind: connection.providerKind || brokerProviderKind(connection.provider),
@@ -2396,8 +2397,31 @@
           source: "tradereview_web_app",
           note: "User prepared secure broker sync. Provider connection URL is created server-side after API keys are configured."
         }
-      }, { onConflict: "user_id,provider" });
-      if (error) console.error("Broker connection metadata sync failed", error.message);
+      };
+
+      const { data: existing, error: lookupError } = await cloudClient
+        .from("broker_connections")
+        .select("id")
+        .eq("user_id", currentUser.id)
+        .eq("provider", connection.provider)
+        .maybeSingle();
+
+      if (lookupError) {
+        console.error("Broker connection lookup failed", lookupError.message);
+        if (note) note.innerHTML = `<strong>Could not save broker request:</strong> ${escapeHtml(lookupError.message)}`;
+        return;
+      }
+
+      const result = existing?.id
+        ? await cloudClient.from("broker_connections").update(payload).eq("id", existing.id)
+        : await cloudClient.from("broker_connections").insert(payload);
+
+      if (result.error) {
+        console.error("Broker connection metadata sync failed", result.error.message);
+        if (note) note.innerHTML = `<strong>Could not save broker request:</strong> ${escapeHtml(result.error.message)}`;
+      } else if (note) {
+        note.innerHTML = `<strong>Broker sync request saved:</strong> ${escapeHtml(connection.provider)} is now tracked in Supabase. Direct sync will start after provider API keys are connected.`;
+      }
     }
 
     async function deleteBrokerConnectionMetadata(provider) {
@@ -2408,6 +2432,10 @@
         .eq("user_id", currentUser.id)
         .eq("provider", provider);
       if (error) console.error("Broker connection metadata delete failed", error.message);
+      else {
+        const note = document.querySelector("#brokerConnectionNote");
+        if (note) note.innerHTML = "<strong>Broker request cleared:</strong> Supabase broker request metadata was removed for this broker.";
+      }
     }
 
     function setAuthStatus(message, isError = false) {
