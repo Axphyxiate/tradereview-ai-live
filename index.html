@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A private trading journal for reviewing execution, risk, setups, and the decisions behind every trade.">
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <meta name="theme-color" content="#050817">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="TradeReview">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>TradeReview AI — Turn trades into a repeatable edge</title>
   <style>
     :root {
@@ -699,6 +704,11 @@
       input.value = "";
       window.setTimeout(() => addMessage(answer(question)), 160);
     });
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service-worker.js").catch(error => {
+        console.warn("Mobile app shell registration failed", error);
+      });
+    }
   </script>
 </body>
 </html>

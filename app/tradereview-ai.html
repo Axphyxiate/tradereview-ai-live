@@ -4,6 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="manifest" href="../manifest.webmanifest">
+  <meta name="theme-color" content="#050817">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="TradeReview">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>TradeReview AI</title>
   <style>
     :root {
@@ -1510,6 +1515,45 @@
       .broker-status { justify-self: start; white-space: normal; }
       .sync-options { grid-template-columns: 1fr; }
     }
+    .mobile-app-card {
+      display: grid;
+      gap: 14px;
+    }
+    .mobile-device {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid rgba(157,174,232,.13);
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(95,134,255,.13), rgba(24,217,149,.055));
+    }
+    .mobile-icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(127,160,255,.32);
+      border-radius: 16px;
+      background: radial-gradient(circle at 28% 22%, rgba(95,134,255,.46), transparent 46%), linear-gradient(145deg, rgba(12,24,56,.98), rgba(5,10,28,.98));
+    }
+    .mobile-icon svg { width: 38px; height: 38px; }
+    .mobile-device h3 { margin: 0 0 4px; color: #edf4ff; font-size: 17px; letter-spacing: -.015em; }
+    .mobile-device p { margin: 0; color: #8ea0bd; font-size: 12px; line-height: 1.5; }
+    .mobile-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .mobile-status {
+      padding: 12px 13px;
+      border: 1px solid rgba(95,134,255,.15);
+      border-radius: 11px;
+      color: #aebbd1;
+      background: rgba(95,134,255,.06);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .mobile-status strong { color: #8fb1ff; }
     .review-item.roadmap-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-left-color: #718fff; background: linear-gradient(90deg, rgba(95,134,255,.08), rgba(155,124,255,.035)); }
 
     /* First-login trader profile */
@@ -2081,8 +2125,26 @@
             <div class="panel-body review-list">
               <div class="review-item roadmap-item"><span>Manual entries and CSV imports</span><span class="roadmap-status live">Available</span></div>
               <div class="review-item roadmap-item"><span id="primaryBrokerRoadmap">Direct broker sync</span><span class="roadmap-status" id="brokerRoadmapStatus">Planned</span></div>
-              <div class="review-item roadmap-item"><span>Installable mobile web app</span><span class="roadmap-status">Next phase</span></div>
+              <div class="review-item roadmap-item"><span>Installable mobile web app</span><span class="roadmap-status live">Available</span></div>
               <div class="review-item roadmap-item"><span>Native iOS and Android deployment</span><span class="roadmap-status">Future</span></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header"><h2>Mobile App</h2><button id="installMobileApp" type="button">Install</button></div>
+            <div class="panel-body mobile-app-card">
+              <div class="mobile-device">
+                <div class="mobile-icon" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div>
+                <div>
+                  <h3>TradeReview on your phone</h3>
+                  <p>Install TradeReview AI to your home screen with the app icon, full-screen launch, and cached app shell for faster mobile opens.</p>
+                </div>
+              </div>
+              <div class="mobile-actions">
+                <button class="primary" id="mobileInstallPrimary" type="button">Install mobile app</button>
+                <button id="mobileInstallHelp" type="button">Show phone steps</button>
+              </div>
+              <div class="mobile-status" id="mobileInstallStatus"><strong>Ready:</strong> On Android/Chrome, tap Install. On iPhone/Safari, tap Share, then Add to Home Screen.</div>
             </div>
           </div>
 
@@ -2154,6 +2216,7 @@
     let activatingUserId = null;
     let authMode = "signin";
     let onboardingStep = 0;
+    let deferredInstallPrompt = null;
 
     const columns = {
       date: ["date", "time", "exec time", "execution time", "filled time"],
@@ -3131,6 +3194,46 @@
       render();
     }
 
+    function isStandaloneApp() {
+      return window.matchMedia?.("(display-mode: standalone)")?.matches || window.navigator.standalone === true;
+    }
+
+    function setMobileInstallStatus(message) {
+      const status = document.querySelector("#mobileInstallStatus");
+      if (status) status.innerHTML = message;
+    }
+
+    function updateMobileInstallState() {
+      const installed = isStandaloneApp();
+      document.querySelectorAll("#installMobileApp, #mobileInstallPrimary").forEach(button => {
+        button.disabled = installed;
+        button.textContent = installed ? "Installed" : "Install";
+      });
+      if (installed) {
+        setMobileInstallStatus("<strong>Installed:</strong> TradeReview AI is running like a mobile app from your home screen.");
+      } else if (deferredInstallPrompt) {
+        setMobileInstallStatus("<strong>Ready:</strong> Tap Install to add TradeReview AI to your phone home screen.");
+      } else {
+        setMobileInstallStatus("<strong>Phone steps:</strong> Android Chrome: open browser menu, then Install app. iPhone Safari: tap Share, then Add to Home Screen.");
+      }
+    }
+
+    async function installMobileApp() {
+      if (isStandaloneApp()) {
+        updateMobileInstallState();
+        return;
+      }
+      if (!deferredInstallPrompt) {
+        setMobileInstallStatus("<strong>Phone steps:</strong> Android Chrome: open browser menu, then Install app. iPhone Safari: tap Share, then Add to Home Screen.");
+        return;
+      }
+      deferredInstallPrompt.prompt();
+      const choice = await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      setMobileInstallStatus(choice.outcome === "accepted" ? "<strong>Installing:</strong> TradeReview AI is being added to your device." : "<strong>Not installed yet:</strong> You can install it anytime from Settings.");
+      updateMobileInstallState();
+    }
+
     function render() {
       renderStats();
       renderPerformanceChart();
@@ -3142,6 +3245,7 @@
       renderTradeReview();
       renderProfileContext();
       renderBrokerConnection();
+      updateMobileInstallState();
       loadSettingsForm();
       setManualDefaults();
     }
@@ -3196,6 +3300,20 @@
       renderBrokerConnection();
     });
     document.querySelector("#brokerImportShortcut").addEventListener("click", () => switchView("import"));
+    document.querySelector("#installMobileApp").addEventListener("click", installMobileApp);
+    document.querySelector("#mobileInstallPrimary").addEventListener("click", installMobileApp);
+    document.querySelector("#mobileInstallHelp").addEventListener("click", () => {
+      setMobileInstallStatus("<strong>Phone steps:</strong> Android Chrome: tap the browser menu and choose Install app. iPhone Safari: tap Share, then Add to Home Screen.");
+    });
+    window.addEventListener("beforeinstallprompt", event => {
+      event.preventDefault();
+      deferredInstallPrompt = event;
+      updateMobileInstallState();
+    });
+    window.addEventListener("appinstalled", () => {
+      deferredInstallPrompt = null;
+      updateMobileInstallState();
+    });
 
     function setManualDefaults() {
       const date = document.querySelector("#manualDate");
@@ -3373,7 +3491,7 @@
         return `Open Settings, then Broker Account Linking to request direct sync for your broker.${broker} CSV import is available today and recognizes date, symbol, quantity, P/L, entry time, exit time, setup, and mistake. Live broker sync will use broker-approved OAuth/API access when enabled.`;
       }
       if (/mobile|iphone|android|ios|app store|play store/.test(query)) {
-        return "The website is responsive on phones today. An installable mobile web app is the next deployment phase, followed by native iOS and Android apps. Those releases are planned and are not published yet.";
+        return "Open Settings, then Mobile App. Android Chrome can show an Install button. On iPhone Safari, use Share, then Add to Home Screen. Native App Store and Play Store releases are still future work.";
       }
       if (/private|privacy|secure|see my|data/.test(query)) {
         return "Your account is protected by Supabase authentication and row-level security. Each signed-in user can read and update only their own journal record. Avoid sharing passwords, reset links, or login tokens with anyone.";
@@ -3560,7 +3678,16 @@
       }
     }
 
+    function registerMobileAppShell() {
+      if (!("serviceWorker" in navigator)) return;
+      const workerUrl = new URL("../service-worker.js", window.location.href);
+      navigator.serviceWorker.register(workerUrl.href).catch(error => {
+        console.warn("Mobile app shell registration failed", error);
+      });
+    }
+
     render();
+    registerMobileAppShell();
     initializeAuth();
   </script>
 </body>
