@@ -1511,6 +1511,19 @@
       line-height: 1.5;
     }
     .connection-note strong { color: #f2d394; }
+    .broker-provider-note {
+      display: grid;
+      gap: 7px;
+      padding: 12px 13px;
+      border: 1px solid rgba(108,145,255,.15);
+      border-radius: 11px;
+      color: #91a4c8;
+      background: rgba(108,145,255,.06);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .broker-provider-note strong { color: #b9c8ff; }
+    .broker-provider-note code { color: #dce6ff; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
     @media (max-width: 620px) {
       .broker-hero { grid-template-columns: 1fr; }
       .broker-status { justify-self: start; white-space: normal; }
@@ -2101,7 +2114,7 @@
               <div class="broker-hero">
                 <div>
                   <h3 id="brokerConnectionTitle">Choose your broker</h3>
-                  <p id="brokerConnectionCopy">Prepare your account for direct trade sync. Live broker sync will use broker-approved OAuth/API access, not broker passwords.</p>
+                  <p id="brokerConnectionCopy">Prepare your account for direct trade sync. Live broker sync will use a secure connection provider or broker-approved API access, never broker passwords saved in this app.</p>
                 </div>
                 <span class="broker-status" id="brokerConnectionStatus"><i></i> Not linked</span>
               </div>
@@ -2133,11 +2146,15 @@
                   <label class="sync-option"><input type="checkbox" id="syncPositions"> Symbols and position size</label>
                   <label class="sync-option"><input type="checkbox" id="syncNotes"> Link imported trades to journal notes</label>
                 </div>
+                <div class="broker-provider-note" id="brokerProviderNote">
+                  <strong>Secure sync plan</strong>
+                  <span>Best first provider: <code>SnapTrade</code> for trading-account connections. Backup path: <code>Plaid Investments</code> for holdings and investment transactions where execution-level fills are not available.</span>
+                </div>
                 <div class="connection-actions">
-                  <button class="primary" id="requestBrokerAccess" type="button">Request broker link</button>
+                  <button class="primary" id="requestBrokerAccess" type="button">Prepare secure broker sync</button>
                   <button id="clearBrokerRequest" type="button">Clear request</button>
                 </div>
-                <div class="connection-note" id="brokerConnectionNote"><strong>Current live path:</strong> CSV import and manual trade logging are available today. Direct broker syncing is being prepared for approved providers.</div>
+                <div class="connection-note" id="brokerConnectionNote"><strong>Current live path:</strong> CSV import and manual trade logging are available today. Direct broker syncing is being prepared with provider OAuth/API access.</div>
               </div>
             </div>
           </div>
@@ -2146,7 +2163,7 @@
             <div class="panel-header"><h2>Integration Roadmap</h2></div>
             <div class="panel-body review-list">
               <div class="review-item roadmap-item"><span>Manual entries and CSV imports</span><span class="roadmap-status live">Available</span></div>
-              <div class="review-item roadmap-item"><span id="primaryBrokerRoadmap">Direct broker sync</span><span class="roadmap-status" id="brokerRoadmapStatus">Planned</span></div>
+              <div class="review-item roadmap-item"><span id="primaryBrokerRoadmap">Secure broker sync</span><span class="roadmap-status" id="brokerRoadmapStatus">Planned</span></div>
               <div class="review-item roadmap-item"><span>Installable mobile web app</span><span class="roadmap-status live">Available</span></div>
               <div class="review-item roadmap-item"><span>Native iOS and Android deployment</span><span class="roadmap-status">Future</span></div>
             </div>
@@ -2286,6 +2303,7 @@
         syncFees: true,
         syncPositions: true,
         syncNotes: true,
+        providerKind: "planned",
         requestedAt: "",
         updatedAt: ""
       };
@@ -3113,24 +3131,31 @@
         roadmap.textContent = "Requested";
         roadmap.classList.remove("live");
         document.querySelector("#brokerConnectionTitle").textContent = `${providerLabel} link requested`;
-        document.querySelector("#brokerConnectionCopy").textContent = "Your broker preference and sync scope are saved. When approved broker access is available, this account will be ready for the secure connection flow.";
+        document.querySelector("#brokerConnectionCopy").textContent = "Your broker preference and sync scope are saved. When provider keys are connected on the backend, this account will be ready for the secure connection flow.";
       } else if (connection.status === "ready") {
         status.classList.add("ready");
         status.innerHTML = "<i></i> Ready";
         roadmap.textContent = "Ready";
         roadmap.classList.add("live");
         document.querySelector("#brokerConnectionTitle").textContent = `${providerLabel} sync ready`;
-        document.querySelector("#brokerConnectionCopy").textContent = "Approved broker access is ready for this provider.";
+        document.querySelector("#brokerConnectionCopy").textContent = "Approved broker access is ready for this provider. You will connect through the provider portal, not by typing broker passwords into TradeReview.";
       } else {
         status.innerHTML = "<i></i> Not linked";
         roadmap.textContent = "Planned";
         roadmap.classList.remove("live");
         document.querySelector("#brokerConnectionTitle").textContent = provider ? `Prepare ${provider} sync` : "Choose your broker";
-        document.querySelector("#brokerConnectionCopy").textContent = "Prepare your account for direct trade sync. Live broker sync will use broker-approved OAuth/API access, not broker passwords.";
+        document.querySelector("#brokerConnectionCopy").textContent = "Prepare your account for direct trade sync. Live broker sync will use a secure connection provider or broker-approved API access, never broker passwords saved in this app.";
       }
 
       const when = connection.requestedAt ? ` Requested ${new Date(connection.requestedAt).toLocaleDateString()}.` : "";
-      document.querySelector("#brokerConnectionNote").innerHTML = `<strong>Current live path:</strong> CSV import and manual trade logging are available today. Direct broker syncing is being prepared for approved providers.${when}`;
+      document.querySelector("#brokerConnectionNote").innerHTML = `<strong>Current live path:</strong> CSV import and manual trade logging are available today. Backend broker sync tables are prepared for secure provider connections.${when}`;
+    }
+
+    function brokerProviderKind(provider) {
+      if (!provider) return "planned";
+      if (provider === "Interactive Brokers") return "direct_broker_api";
+      if (/Fidelity|E\*TRADE|Schwab|Robinhood|Webull|TradeStation|NinjaTrader|Tradovate/i.test(provider)) return "snaptrade";
+      return "planned";
     }
 
     function saveBrokerConnectionFromForm(status = brokerConnection().status) {
@@ -3146,6 +3171,7 @@
         syncFees: document.querySelector("#syncFees").checked,
         syncPositions: document.querySelector("#syncPositions").checked,
         syncNotes: document.querySelector("#syncNotes").checked,
+        providerKind: brokerProviderKind(provider),
         requestedAt: status === "requested" ? (connection.requestedAt || now) : "",
         updatedAt: now
       };
