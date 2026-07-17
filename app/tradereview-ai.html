@@ -2379,15 +2379,44 @@
     }
 
     async function syncBrokerConnectionMetadata(connection) {
-      if (!cloudSyncReady || !currentUser || !connection?.provider || connection.status !== "requested") return;
+      if (!cloudSyncReady || !currentUser || !connection?.provider || connection.status !== "requested") return { ok: false, error: "Sign in before connecting a broker." };
       const note = document.querySelector("#brokerConnectionNote");
       if (note) note.innerHTML = `<strong>Saving broker request:</strong> Syncing ${escapeHtml(connection.provider)} to your private journal...`;
       const result = await syncCloudState();
       if (note && result.ok) {
-        note.innerHTML = `<strong>Broker sync request saved:</strong> ${escapeHtml(connection.provider)} is saved with your journal. Supabase mirrors this into the broker request table after cloud sync.`;
+        note.innerHTML = `<strong>Broker sync request saved:</strong> ${escapeHtml(connection.provider)} is saved with your journal. Opening the secure broker portal next...`;
       } else if (note) {
         note.innerHTML = `<strong>Could not save broker request:</strong> ${escapeHtml(result.error || "Cloud sync did not complete.")}`;
       }
+      return result;
+    }
+
+    async function openBrokerConnectionPortal(connection) {
+      const note = document.querySelector("#brokerConnectionNote");
+      if (!cloudSyncReady || !currentUser) {
+        if (note) note.innerHTML = "<strong>Sign in required:</strong> Create or sign in to your free account before linking a broker.";
+        return;
+      }
+      if (connection?.providerKind !== "snaptrade") {
+        if (note) note.innerHTML = `<strong>${escapeHtml(connection?.provider || "This broker")} is queued:</strong> Direct provider linking is being prepared for this broker. CSV import still works today.`;
+        return;
+      }
+      if (note) note.innerHTML = `<strong>Opening secure broker portal:</strong> Creating a private SnapTrade connection link for ${escapeHtml(connection.provider)}...`;
+      const { data, error } = await cloudClient.functions.invoke("snaptrade-link", { body: { provider: connection.provider } });
+      if (error || !data?.redirectURI) {
+        const message = error?.message || data?.error || "The broker portal is not deployed or configured yet.";
+        if (note) note.innerHTML = `<strong>Broker portal not ready:</strong> ${escapeHtml(message)}`;
+        return;
+      }
+      state.brokerConnection = {
+        ...connection,
+        status: "ready",
+        updatedAt: new Date().toISOString()
+      };
+      saveState();
+      renderBrokerConnection();
+      if (note) note.innerHTML = `<strong>Secure portal ready:</strong> Redirecting to SnapTrade so you can connect ${escapeHtml(connection.provider)}.`;
+      window.location.href = data.redirectURI;
     }
 
     async function deleteBrokerConnectionMetadata(provider) {
@@ -3180,7 +3209,7 @@
       return "planned";
     }
 
-    function saveBrokerConnectionFromForm(status = brokerConnection().status) {
+    async function saveBrokerConnectionFromForm(status = brokerConnection().status) {
       const connection = brokerConnection();
       const now = new Date().toISOString();
       const provider = document.querySelector("#brokerProvider").value || state.profile?.broker || "";
@@ -3201,7 +3230,7 @@
       saveState();
       renderProfileContext();
       renderBrokerConnection();
-      syncBrokerConnectionMetadata(state.brokerConnection);
+      return await syncBrokerConnectionMetadata(state.brokerConnection);
     }
 
     function selectedOnboardingValue(name) {
@@ -3367,17 +3396,26 @@
       }
     });
     document.querySelector("#editProfile").addEventListener("click", openOnboarding);
-    document.querySelector("#brokerProvider").addEventListener("change", () => saveBrokerConnectionFromForm("not-linked"));
-    document.querySelector("#brokerSyncWindow").addEventListener("change", () => saveBrokerConnectionFromForm());
+    document.querySelector("#brokerProvider").addEventListener("change", () => { saveBrokerConnectionFromForm("not-linked"); });
+    document.querySelector("#brokerSyncWindow").addEventListener("change", () => { saveBrokerConnectionFromForm(); });
     document.querySelectorAll("#syncExecutions, #syncFees, #syncPositions, #syncNotes").forEach(input => {
-      input.addEventListener("change", () => saveBrokerConnectionFromForm());
+      input.addEventListener("change", () => { saveBrokerConnectionFromForm(); });
     });
-    document.querySelector("#requestBrokerAccess").addEventListener("click", () => {
+    document.querySelector("#requestBrokerAccess").addEventListener("click", async () => {
       if (!document.querySelector("#brokerProvider").value && !state.profile?.broker) {
         alert("Choose a broker first.");
         return;
       }
-      saveBrokerConnectionFromForm("requested");
+      const button = document.querySelector("#requestBrokerAccess");
+      button.disabled = true;
+      button.textContent = "Opening secure portal...";
+      try {
+        const result = await saveBrokerConnectionFromForm("requested");
+        if (result?.ok) await openBrokerConnectionPortal(state.brokerConnection);
+      } finally {
+        button.disabled = false;
+        button.textContent = "Prepare secure broker sync";
+      }
     });
     document.querySelector("#clearBrokerRequest").addEventListener("click", () => {
       const providerToClear = state.brokerConnection?.provider || state.profile?.broker || "";
