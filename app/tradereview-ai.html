@@ -842,8 +842,8 @@
       --line: rgba(174, 218, 204, .13);
       --soft: #0a1619;
       --paper: #0e1b1e;
-      --green: #55e6a5;
-      --red: #ff7186;
+      --green: #18d995;
+      --red: #ff536d;
       --blue: #5ad9f5;
       --gold: #f2c56d;
       --shadow: 0 22px 60px rgba(0, 0, 0, .28);
@@ -854,8 +854,8 @@
     body {
       min-height: 100vh;
       background:
-        radial-gradient(circle at 14% 0%, rgba(52, 210, 145, .09), transparent 29rem),
-        radial-gradient(circle at 100% 35%, rgba(63, 180, 220, .08), transparent 32rem),
+        radial-gradient(circle at 14% 0%, rgba(24, 217, 149, .09), transparent 29rem),
+        radial-gradient(circle at 100% 18%, rgba(255, 83, 109, .065), transparent 30rem),
         #071114;
     }
 
@@ -867,8 +867,8 @@
       background:
         linear-gradient(rgba(125, 226, 193, .025) 1px, transparent 1px),
         linear-gradient(90deg, rgba(125, 226, 193, .025) 1px, transparent 1px),
-        radial-gradient(circle at 12% 18%, rgba(53, 218, 150, .16), transparent 30rem),
-        radial-gradient(circle at 91% 80%, rgba(52, 150, 224, .13), transparent 34rem),
+        radial-gradient(circle at 12% 18%, rgba(24, 217, 149, .14), transparent 30rem),
+        radial-gradient(circle at 91% 72%, rgba(255, 83, 109, .09), transparent 34rem),
         #061012;
       background-size: 54px 54px, 54px 54px, auto, auto, auto;
     }
@@ -969,7 +969,7 @@
 
     .auth-story h1 span {
       color: transparent;
-      background: linear-gradient(100deg, #f7fffb 18%, #7cebb9 88%);
+      background: linear-gradient(100deg, #f7fffb 18%, #dff8ef 58%, #56e4aa 100%);
       -webkit-background-clip: text;
       background-clip: text;
     }
@@ -1016,6 +1016,19 @@
     .preview-chart { width: 100%; height: 112px; margin: 10px 0 4px; overflow: visible; }
     .chart-line { stroke-dasharray: 700; stroke-dashoffset: 700; animation: drawLine 1.8s ease forwards .2s; }
     @keyframes drawLine { to { stroke-dashoffset: 0; } }
+
+    .candle { transform-box: fill-box; transform-origin: center bottom; animation: candleRise .52s cubic-bezier(.2,.8,.2,1) both; }
+    .candle:nth-of-type(2n) { animation-delay: .08s; }
+    .candle:nth-of-type(3n) { animation-delay: .16s; }
+    .candle.up line, .candle.up rect { stroke: #18d995; fill: #18d995; }
+    .candle.down line, .candle.down rect { stroke: #ff536d; fill: #ff536d; }
+    @keyframes candleRise { from { opacity: 0; transform: scaleY(.18); } to { opacity: 1; transform: scaleY(1); } }
+
+    .preview-trades { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin: 4px 0 10px; }
+    .preview-trade { display: flex; align-items: center; justify-content: space-between; padding: 9px 11px; border: 1px solid rgba(174,218,204,.09); border-radius: 10px; background: rgba(255,255,255,.022); font-size: 11px; }
+    .preview-trade span { color: #718881; }
+    .preview-trade strong.win { color: #18d995; }
+    .preview-trade strong.loss { color: #ff536d; }
 
     .preview-stats {
       display: grid;
@@ -1180,9 +1193,25 @@
     }
 
     .stat { position: relative; min-height: 118px; }
-    .stat::after { content: ""; position: absolute; inset: auto 14px 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(87,226,166,.52), transparent); }
+    .stat::after { content: ""; position: absolute; inset: auto 14px 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(24,217,149,.48), rgba(255,83,109,.24), transparent); }
     .stat span { color: #788d87; text-transform: uppercase; letter-spacing: .05em; font-size: 10px; font-weight: 750; }
     .stat strong { color: #edf8f4; letter-spacing: -.04em; }
+    .performance-overview { margin-bottom: 18px; }
+    .chart-legend-app { display: flex; align-items: center; gap: 13px; color: #728982; font-size: 10px; text-transform: uppercase; letter-spacing: .07em; }
+    .chart-legend-app span { display: inline-flex; align-items: center; gap: 5px; }
+    .chart-legend-app i { width: 7px; height: 7px; border-radius: 2px; background: var(--green); }
+    .chart-legend-app span:last-child i { background: var(--red); }
+    .equity-chart { min-height: 250px; overflow: hidden; }
+    .equity-chart svg { display: block; width: 100%; height: 250px; }
+    .equity-grid { stroke: rgba(174,218,204,.075); stroke-width: 1; }
+    .equity-zero { stroke: rgba(218,235,229,.22); stroke-width: 1; stroke-dasharray: 5 6; }
+    .equity-line { fill: none; stroke: #e5f5ef; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 7px rgba(229,245,239,.15)); }
+    .equity-area { fill: url(#equityArea); }
+    .equity-point.win { fill: var(--green); stroke: #071114; stroke-width: 2; }
+    .equity-point.loss { fill: var(--red); stroke: #071114; stroke-width: 2; }
+    .equity-bar.win { fill: rgba(24,217,149,.65); }
+    .equity-bar.loss { fill: rgba(255,83,109,.68); }
+    .chart-empty { min-height: 250px; display: grid; place-items: center; color: #718780; text-align: center; background: linear-gradient(rgba(174,218,204,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(174,218,204,.035) 1px, transparent 1px); background-size: 48px 48px; }
     .panel-header { border-color: rgba(174, 218, 204, .09); }
     .panel-header h2 { color: #e8f4f0; }
     th { background: rgba(255,255,255,.025); color: #718780; }
@@ -1193,7 +1222,7 @@
     .sample { background: #061012; }
     .review-item { border-color: #51d99f; border-radius: 0 10px 10px 0; background: rgba(77, 214, 157, .055); color: #b9cbc5; }
     .bar { background: rgba(255,255,255,.055); }
-    .bar-fill { background: linear-gradient(90deg, #39bf83, #68e8b1); }
+    .bar-fill { background: linear-gradient(90deg, #16bd82, #39e0a0); }
     .day-button { border-color: rgba(174,218,204,.08); background: transparent; }
     .day-button.active { background: rgba(76,213,156,.075); }
     .timing-field { border-color: rgba(91,223,171,.25); background: rgba(69,209,151,.06); color: #7ee8b8; }
@@ -1296,6 +1325,8 @@
       .help-launcher { padding: 8px; }
       .help-panel { right: 14px; bottom: 72px; }
       .preview-stats { grid-template-columns: 1fr; }
+      .chart-legend-app { flex-wrap: wrap; }
+      .equity-chart, .equity-chart svg, .chart-empty { min-height: 205px; height: 205px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1315,11 +1346,11 @@
         <div class="auth-preview" aria-label="TradeReview performance preview">
           <div class="preview-toolbar">
             <div class="preview-dots" aria-hidden="true"><i></i><i></i><i></i></div>
-            <span>Session review · private</span>
+            <span>Example performance view</span>
           </div>
           <div class="preview-head">
             <div><span>Net performance</span><strong>+3.42R</strong></div>
-            <div class="preview-change">Risk discipline ↑</div>
+            <div class="preview-change">Price action review</div>
           </div>
           <svg class="preview-chart" viewBox="0 0 600 112" role="img" aria-label="Illustrative upward performance curve">
             <defs>
@@ -1328,13 +1359,28 @@
                 <stop offset="1" stop-color="#55e6a5" stop-opacity="0"/>
               </linearGradient>
             </defs>
-            <path d="M0 94 C42 88 58 70 99 76 S159 91 198 65 S256 67 294 53 S350 60 390 35 S451 45 493 25 S548 27 600 8 L600 112 L0 112Z" fill="url(#areaFill)"/>
-            <path class="chart-line" d="M0 94 C42 88 58 70 99 76 S159 91 198 65 S256 67 294 53 S350 60 390 35 S451 45 493 25 S548 27 600 8" fill="none" stroke="#63e9ad" stroke-width="3" stroke-linecap="round"/>
+            <g opacity=".17" stroke="#91a6a1" stroke-width="1"><path d="M0 28H600M0 56H600M0 84H600"/><path d="M100 0V112M200 0V112M300 0V112M400 0V112M500 0V112"/></g>
+            <g class="candle up"><line x1="28" y1="69" x2="28" y2="99"/><rect x="22" y="77" width="12" height="14" rx="1"/></g>
+            <g class="candle down"><line x1="66" y1="60" x2="66" y2="91"/><rect x="60" y="67" width="12" height="17" rx="1"/></g>
+            <g class="candle up"><line x1="104" y1="54" x2="104" y2="84"/><rect x="98" y="61" width="12" height="16" rx="1"/></g>
+            <g class="candle up"><line x1="142" y1="40" x2="142" y2="75"/><rect x="136" y="49" width="12" height="19" rx="1"/></g>
+            <g class="candle down"><line x1="180" y1="46" x2="180" y2="79"/><rect x="174" y="54" width="12" height="17" rx="1"/></g>
+            <g class="candle down"><line x1="218" y1="58" x2="218" y2="88"/><rect x="212" y="64" width="12" height="17" rx="1"/></g>
+            <g class="candle up"><line x1="256" y1="47" x2="256" y2="82"/><rect x="250" y="55" width="12" height="20" rx="1"/></g>
+            <g class="candle up"><line x1="294" y1="32" x2="294" y2="69"/><rect x="288" y="41" width="12" height="21" rx="1"/></g>
+            <g class="candle down"><line x1="332" y1="37" x2="332" y2="70"/><rect x="326" y="44" width="12" height="18" rx="1"/></g>
+            <g class="candle up"><line x1="370" y1="25" x2="370" y2="61"/><rect x="364" y="32" width="12" height="21" rx="1"/></g>
+            <g class="candle down"><line x1="408" y1="30" x2="408" y2="62"/><rect x="402" y="37" width="12" height="18" rx="1"/></g>
+            <g class="candle up"><line x1="446" y1="18" x2="446" y2="54"/><rect x="440" y="25" width="12" height="22" rx="1"/></g>
+            <g class="candle up"><line x1="484" y1="8" x2="484" y2="43"/><rect x="478" y="16" width="12" height="20" rx="1"/></g>
+            <g class="candle down"><line x1="522" y1="14" x2="522" y2="47"/><rect x="516" y="21" width="12" height="18" rx="1"/></g>
+            <g class="candle up"><line x1="560" y1="4" x2="560" y2="37"/><rect x="554" y="11" width="12" height="19" rx="1"/></g>
           </svg>
+          <div class="preview-trades"><div class="preview-trade"><span>Best execution</span><strong class="win">+1.82R</strong></div><div class="preview-trade"><span>Risk leak</span><strong class="loss">−0.74R</strong></div></div>
           <div class="preview-stats">
-            <div class="preview-stat"><span>Win rate</span><strong>Measured automatically</strong></div>
-            <div class="preview-stat"><span>Risk breaks</span><strong>Flagged instantly</strong></div>
-            <div class="preview-stat"><span>Setups</span><strong>Compared clearly</strong></div>
+            <div class="preview-stat"><span>Winners</span><strong class="money-win">Measured clearly</strong></div>
+            <div class="preview-stat"><span>Losers</span><strong class="money-loss">Reviewed honestly</strong></div>
+            <div class="preview-stat"><span>Setups</span><strong>Compared side by side</strong></div>
           </div>
         </div>
       </div>
@@ -1414,6 +1460,14 @@
           <div class="panel stat"><span>Total Trades</span><strong id="statTrades">0</strong></div>
           <div class="panel stat"><span>Avg Trade</span><strong id="statAvg">$0.00</strong></div>
           <div class="panel stat"><span>Over-Risk Trades</span><strong id="statRiskBreaks">0</strong></div>
+        </div>
+
+        <div class="panel performance-overview">
+          <div class="panel-header">
+            <h2>Performance Curve</h2>
+            <div class="chart-legend-app"><span><i></i> Winning trade</span><span><i></i> Losing trade</span></div>
+          </div>
+          <div class="equity-chart" id="performanceChart"></div>
         </div>
 
         <div class="grid">
@@ -2119,6 +2173,54 @@
       document.querySelector("#statRiskBreaks").className = summary.riskBreaks ? "risk-bad" : "risk-ok";
     }
 
+    function renderPerformanceChart() {
+      const wrap = document.querySelector("#performanceChart");
+      if (!state.trades.length) {
+        wrap.innerHTML = '<div class="chart-empty"><div><strong>Your performance chart starts with the first trade.</strong><br><small>Import a CSV or load demo data to see wins, losses, and the cumulative curve.</small></div></div>';
+        return;
+      }
+
+      const trades = [...state.trades]
+        .sort((a, b) => `${a.date} ${a.entryTime || ""}`.localeCompare(`${b.date} ${b.entryTime || ""}`))
+        .slice(-30);
+      const cumulative = [0];
+      trades.forEach(trade => cumulative.push(cumulative[cumulative.length - 1] + trade.pnl));
+      const width = 1000;
+      const height = 250;
+      const side = 28;
+      const top = 22;
+      const plotBottom = 190;
+      const minimum = Math.min(0, ...cumulative);
+      const maximum = Math.max(0, ...cumulative);
+      const range = Math.max(maximum - minimum, 1);
+      const x = index => side + (index * (width - side * 2)) / Math.max(cumulative.length - 1, 1);
+      const y = value => top + ((maximum - value) / range) * (plotBottom - top);
+      const zeroY = y(0);
+      const linePath = cumulative.map((value, index) => `${index ? "L" : "M"}${x(index).toFixed(1)} ${y(value).toFixed(1)}`).join(" ");
+      const areaPath = `${linePath} L${x(cumulative.length - 1).toFixed(1)} ${zeroY.toFixed(1)} L${x(0).toFixed(1)} ${zeroY.toFixed(1)} Z`;
+      const maxTrade = Math.max(...trades.map(trade => Math.abs(trade.pnl)), 1);
+      const barWidth = Math.max(4, Math.min(16, (width - side * 2) / trades.length - 5));
+      const bars = trades.map((trade, index) => {
+        const barHeight = 8 + (Math.abs(trade.pnl) / maxTrade) * 26;
+        return `<rect class="equity-bar ${trade.pnl >= 0 ? "win" : "loss"}" x="${(x(index + 1) - barWidth / 2).toFixed(1)}" y="${(239 - barHeight).toFixed(1)}" width="${barWidth.toFixed(1)}" height="${barHeight.toFixed(1)}" rx="2"/>`;
+      }).join("");
+      const points = trades.map((trade, index) => `<circle class="equity-point ${trade.pnl >= 0 ? "win" : "loss"}" cx="${x(index + 1).toFixed(1)}" cy="${y(cumulative[index + 1]).toFixed(1)}" r="5"/>`).join("");
+      const grid = [0, .25, .5, .75, 1].map(position => {
+        const gy = top + position * (plotBottom - top);
+        return `<line class="equity-grid" x1="${side}" y1="${gy.toFixed(1)}" x2="${width - side}" y2="${gy.toFixed(1)}"/>`;
+      }).join("");
+
+      wrap.innerHTML = `<svg viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" role="img" aria-label="Cumulative trading performance with green winning trades and red losing trades">
+        <defs><linearGradient id="equityArea" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#18d995" stop-opacity=".18"/><stop offset="1" stop-color="#ff536d" stop-opacity=".025"/></linearGradient></defs>
+        ${grid}
+        <line class="equity-zero" x1="${side}" y1="${zeroY.toFixed(1)}" x2="${width - side}" y2="${zeroY.toFixed(1)}"/>
+        <path class="equity-area" d="${areaPath}"/>
+        <path class="equity-line" d="${linePath}"/>
+        ${points}
+        ${bars}
+      </svg>`;
+    }
+
     function renderTrades() {
       const wrap = document.querySelector("#tradeTableWrap");
       if (!state.trades.length) {
@@ -2429,6 +2531,7 @@
 
     function render() {
       renderStats();
+      renderPerformanceChart();
       renderTrades();
       renderReview();
       renderBars("#setupBars", "setup");
