@@ -2380,13 +2380,13 @@
       const { error } = await cloudClient.rpc("save_broker_connection_request", {
         p_provider: connection.provider,
         p_provider_kind: connection.providerKind || brokerProviderKind(connection.provider),
-        p_sync_window: connection.syncWindow || "90",
         p_sync_scope: {
           executions: Boolean(connection.syncExecutions),
           fees: Boolean(connection.syncFees),
           positions: Boolean(connection.syncPositions),
           notes: Boolean(connection.syncNotes)
-        }
+        },
+        p_sync_window: connection.syncWindow || "90"
       });
 
       if (error) {
