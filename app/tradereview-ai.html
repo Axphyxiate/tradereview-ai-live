@@ -2365,20 +2365,28 @@
     }
 
     async function syncCloudState() {
-      if (!cloudSyncReady || !currentUser) return;
+      if (!cloudSyncReady || !currentUser) return { ok: false, error: "Not signed in." };
       const { error } = await cloudClient.from("app_state").upsert({
         user_id: currentUser.id,
         state: serializableState(),
         updated_at: new Date().toISOString()
       }, { onConflict: "user_id" });
-      if (error) console.error("Cloud sync failed", error.message);
+      if (error) {
+        console.error("Cloud sync failed", error.message);
+        return { ok: false, error: error.message };
+      }
+      return { ok: true };
     }
 
     async function syncBrokerConnectionMetadata(connection) {
       if (!cloudSyncReady || !currentUser || !connection?.provider || connection.status !== "requested") return;
       const note = document.querySelector("#brokerConnectionNote");
-      if (note) {
+      if (note) note.innerHTML = `<strong>Saving broker request:</strong> Syncing ${escapeHtml(connection.provider)} to your private journal...`;
+      const result = await syncCloudState();
+      if (note && result.ok) {
         note.innerHTML = `<strong>Broker sync request saved:</strong> ${escapeHtml(connection.provider)} is saved with your journal. Supabase mirrors this into the broker request table after cloud sync.`;
+      } else if (note) {
+        note.innerHTML = `<strong>Could not save broker request:</strong> ${escapeHtml(result.error || "Cloud sync did not complete.")}`;
       }
     }
 
