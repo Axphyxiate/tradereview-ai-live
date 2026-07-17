@@ -2480,6 +2480,20 @@
         : undefined;
     }
 
+    function oauthRedirectError() {
+      const search = new URLSearchParams(location.search);
+      const hash = new URLSearchParams(location.hash.replace(/^#/, ""));
+      const error = search.get("error") || hash.get("error") || search.get("error_code") || hash.get("error_code");
+      const description = search.get("error_description") || hash.get("error_description") || "";
+      if (!error && !description) return "";
+      return friendlyAuthError({ message: `${error || ""} ${description}`.trim() });
+    }
+
+    function clearOauthErrorUrl() {
+      const cleanUrl = `${location.origin}${location.pathname}`;
+      history.replaceState(null, document.title, cleanUrl);
+    }
+
     function todayKey() {
       return new Date().toISOString().slice(0, 10);
     }
@@ -3580,6 +3594,9 @@
 
     function friendlyAuthError(error) {
       const message = error?.message || "";
+      if (/validation_failed|validation failed|oauth|provider|redirect|unsupported|not enabled|not configured/i.test(message)) {
+        return "Google sign-in is not connected correctly yet. Please create your free account with email for now.";
+      }
       if (/invalid login credentials|invalid.*credentials|user not found|email not confirmed/i.test(message)) {
         return "No account found under this email, or the password is incorrect. Create a free account first, or check the password and try again.";
       }
@@ -3609,7 +3626,7 @@
       } catch (error) {
         const providerDisabled = /provider|unsupported|enabled/i.test(error.message || "");
         setAuthStatus(
-          providerDisabled ? "Google sign-in is not enabled yet. Create a free account with email while it is being connected." : friendlyAuthError(error),
+          providerDisabled ? "Google sign-in is not connected correctly yet. Please create your free account with email for now." : friendlyAuthError(error),
           true
         );
         button.disabled = false;
@@ -3705,6 +3722,12 @@
     });
 
     async function initializeAuth() {
+      const redirectError = oauthRedirectError();
+      if (redirectError) {
+        clearOauthErrorUrl();
+        showAuth(redirectError, true);
+        return;
+      }
       try {
         const { data, error } = await cloudClient.auth.getSession();
         if (error) throw error;
