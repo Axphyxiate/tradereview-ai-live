@@ -1,258 +1,400 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Review trades, charts, entries, and performance in one focused trading journal.">
-    <title>TradeReview AI</title>
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-    <style>
-      :root {
-        color-scheme: dark;
-        --bg: #06101d;
-        --panel: rgba(17, 34, 53, 0.76);
-        --line: rgba(148, 188, 219, 0.16);
-        --muted: #a9bbca;
-        --cyan: #72e4f4;
-        --cyan-strong: #2dd4e7;
-        --white: #f7fbff;
-      }
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A private trading journal for reviewing execution, risk, setups, and the decisions behind every trade.">
+  <title>TradeReview AI — Turn trades into a repeatable edge</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #061012;
+      --panel: #0c191d;
+      --panel-2: #102126;
+      --text: #eef8f4;
+      --muted: #8ba19b;
+      --line: rgba(176, 221, 206, .12);
+      --green: #5be6aa;
+      --green-2: #39bd81;
+      --cyan: #5bd9ee;
+      --red: #ff7186;
+      --shadow: 0 32px 90px rgba(0,0,0,.4);
+    }
 
-      * { box-sizing: border-box; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 8% 4%, rgba(65, 220, 157, .12), transparent 34rem),
+        radial-gradient(circle at 96% 28%, rgba(66, 165, 218, .09), transparent 35rem),
+        var(--bg);
+    }
 
-      html { background: var(--bg); scroll-behavior: smooth; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
 
-      body {
-        min-height: 100vh;
-        margin: 0;
-        color: var(--white);
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background:
-          radial-gradient(circle at 15% 5%, rgba(45, 212, 231, 0.15), transparent 28rem),
-          radial-gradient(circle at 88% 75%, rgba(48, 102, 255, 0.13), transparent 30rem),
-          var(--bg);
-      }
+    .nav {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 24px 0;
+    }
 
-      a { color: inherit; text-decoration: none; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: -.025em; }
+    .brand-mark {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid rgba(91,230,170,.28);
+      border-radius: 12px;
+      color: #76f0b9;
+      background: linear-gradient(145deg, rgba(72,222,160,.18), rgba(52,158,194,.08));
+      box-shadow: inset 0 0 24px rgba(91,230,170,.07);
+    }
 
-      .shell {
-        width: min(1160px, calc(100% - 40px));
-        min-height: 100vh;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-      }
+    .brand-mark::after { content: ""; position: absolute; inset: auto -35% -70% 20%; height: 100%; background: rgba(255,255,255,.17); transform: rotate(-22deg); }
+    .nav-links { display: flex; align-items: center; gap: 26px; color: #91a69f; font-size: 13px; font-weight: 700; }
+    .nav-links a:hover { color: #dff1ea; }
+    .nav-actions { display: flex; align-items: center; gap: 9px; }
 
-      nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        padding: 28px 0;
-      }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 46px;
+      padding: 0 18px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: #dcebe6;
+      background: rgba(255,255,255,.025);
+      font-size: 13px;
+      font-weight: 830;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
+    }
 
-      .brand { display: flex; align-items: center; gap: 12px; }
+    .button:hover { transform: translateY(-2px); border-color: rgba(91,230,170,.32); }
+    .button.primary { border: 0; color: #061410; background: linear-gradient(135deg, #65eab0, #3fc78a); box-shadow: 0 14px 34px rgba(52,194,130,.16); }
+    .button.small { min-height: 40px; padding: 0 15px; }
 
-      .brand-mark {
-        width: 42px;
-        height: 42px;
-        display: grid;
-        place-items: center;
-        border: 1px solid rgba(114, 228, 244, 0.32);
-        border-radius: 13px;
-        color: var(--cyan);
-        font-weight: 900;
-        background: rgba(114, 228, 244, 0.08);
-        box-shadow: inset 0 0 24px rgba(114, 228, 244, 0.05);
-      }
+    .hero {
+      position: relative;
+      display: grid;
+      justify-items: center;
+      padding: clamp(72px, 10vw, 126px) 0 74px;
+      text-align: center;
+    }
 
-      .brand-name { font-weight: 850; letter-spacing: -0.02em; }
-      .brand-sub { margin-top: 2px; color: var(--muted); font-size: 12px; }
+    .hero::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: 34px;
+      width: 760px;
+      height: 430px;
+      border-radius: 50%;
+      background: rgba(57, 201, 138, .08);
+      filter: blur(90px);
+    }
 
-      .nav-link {
-        padding: 10px 16px;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        color: #dbeaf4;
-        font-size: 14px;
-        font-weight: 700;
-        transition: 160ms ease;
-      }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 8px 13px;
+      border: 1px solid rgba(91,230,170,.18);
+      border-radius: 999px;
+      color: #87edbd;
+      background: rgba(67,202,143,.055);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
 
-      .nav-link:hover { border-color: var(--cyan); color: var(--cyan); }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #62e9ad; box-shadow: 0 0 0 5px rgba(98,233,173,.08), 0 0 15px rgba(98,233,173,.62); }
+    h1 { max-width: 950px; margin: 26px 0 0; font-size: clamp(52px, 8vw, 92px); line-height: .95; letter-spacing: -.068em; }
+    .gradient { color: transparent; background: linear-gradient(105deg, #f8fffb 24%, #79eeb7 92%); background-clip: text; -webkit-background-clip: text; }
+    .lead { max-width: 720px; margin: 27px 0 0; color: var(--muted); font-size: clamp(17px, 2vw, 20px); line-height: 1.68; }
+    .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 11px; margin-top: 34px; }
+    .microcopy { margin-top: 15px; color: #617972; font-size: 11px; }
 
-      main {
-        flex: 1;
-        display: grid;
-        grid-template-columns: 1.02fr 0.98fr;
-        align-items: center;
-        gap: clamp(40px, 7vw, 84px);
-        padding: 64px 0 88px;
-      }
+    .product-frame {
+      position: relative;
+      width: min(1080px, 100%);
+      margin-top: 70px;
+      padding: 13px;
+      border: 1px solid rgba(178,224,209,.13);
+      border-radius: 26px;
+      background: rgba(16,35,38,.64);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      transform: perspective(1200px) rotateX(1.6deg);
+    }
 
-      .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 24px;
-        padding: 8px 13px;
-        border: 1px solid rgba(114, 228, 244, 0.24);
-        border-radius: 999px;
-        color: #b9f6ff;
-        background: rgba(114, 228, 244, 0.08);
-        font-size: 13px;
-        font-weight: 750;
-      }
+    .product-frame::after { content: ""; position: absolute; z-index: -1; inset: 20% 12% -12%; background: rgba(75,220,157,.13); filter: blur(55px); }
+    .app-window { overflow: hidden; border: 1px solid rgba(182,224,211,.08); border-radius: 18px; background: #081417; }
+    .window-top { height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid var(--line); color: #687e77; font-size: 10px; }
+    .window-dots { display: flex; gap: 6px; }
+    .window-dots i { width: 7px; height: 7px; border-radius: 50%; background: #2d4640; }
+    .window-dots i:first-child { background: #5be6aa; }
 
-      .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #51e69a;
-        box-shadow: 0 0 12px rgba(81, 230, 154, 0.8);
-      }
+    .mock-app { display: grid; grid-template-columns: 175px minmax(0,1fr); min-height: 520px; }
+    .mock-side { padding: 20px 13px; border-right: 1px solid var(--line); background: #09171a; }
+    .mock-brand { display: flex; align-items: center; gap: 9px; margin-bottom: 25px; font-size: 12px; font-weight: 900; }
+    .mock-brand span { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 8px; color: #64e7aa; background: rgba(89,230,170,.09); }
+    .mock-nav { display: grid; gap: 7px; }
+    .mock-nav div { padding: 10px; border-radius: 8px; color: #607872; font-size: 10px; text-align: left; }
+    .mock-nav div.active { color: #70e6ae; background: rgba(82,220,160,.08); box-shadow: inset 2px 0 #5be6aa; }
 
-      h1 {
-        margin: 0;
-        max-width: 720px;
-        font-size: clamp(48px, 7vw, 78px);
-        line-height: 0.98;
-        letter-spacing: -0.055em;
-      }
+    .mock-main { min-width: 0; padding: 24px; text-align: left; background: radial-gradient(circle at 100% 0%, rgba(77,215,159,.055), transparent 25rem); }
+    .mock-title { display: flex; align-items: end; justify-content: space-between; gap: 20px; }
+    .mock-title small { color: #5de1a5; font-size: 9px; text-transform: uppercase; letter-spacing: .08em; }
+    .mock-title h2 { margin: 7px 0 0; font-size: 24px; letter-spacing: -.04em; }
+    .mock-title .button { min-height: 35px; font-size: 10px; }
+    .mock-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-top: 21px; }
+    .mock-stat, .mock-card { border: 1px solid rgba(178,221,208,.08); background: linear-gradient(145deg, #102024, #0b181c); }
+    .mock-stat { padding: 14px; border-radius: 11px; }
+    .mock-stat span { color: #647c75; font-size: 8px; text-transform: uppercase; letter-spacing: .08em; }
+    .mock-stat strong { display: block; margin-top: 8px; font-size: 17px; }
+    .positive { color: #5be6aa; }
+    .mock-grid { display: grid; grid-template-columns: 1.4fr .7fr; gap: 11px; margin-top: 11px; }
+    .mock-card { overflow: hidden; border-radius: 12px; }
+    .mock-card-head { display: flex; align-items: center; justify-content: space-between; padding: 13px 15px; border-bottom: 1px solid rgba(178,221,208,.07); font-size: 10px; font-weight: 800; }
+    .mock-chart { width: 100%; height: 165px; padding: 15px; }
+    .draw { stroke-dasharray: 620; stroke-dashoffset: 620; animation: draw 2s ease forwards .35s; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+    .coach { display: grid; gap: 8px; padding: 13px; }
+    .coach div { padding: 10px; border-left: 2px solid #4ed39a; border-radius: 0 8px 8px 0; color: #839a93; background: rgba(82,220,160,.04); font-size: 9px; line-height: 1.45; }
 
-      .gradient {
-        color: transparent;
-        background: linear-gradient(100deg, #ffffff 15%, #91edf8 72%);
-        background-clip: text;
-        -webkit-background-clip: text;
-      }
+    .tool-strip { padding: 23px 0 88px; }
+    .tool-strip > p { margin: 0 0 20px; color: #5f7670; text-align: center; font-size: 10px; text-transform: uppercase; letter-spacing: .16em; }
+    .tools { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
+    .tool { display: flex; align-items: center; gap: 8px; padding: 10px 13px; border: 1px solid rgba(176,221,206,.08); border-radius: 999px; color: #80968f; background: rgba(255,255,255,.018); font-size: 11px; font-weight: 700; }
+    .tool i { width: 6px; height: 6px; border-radius: 50%; background: #53dca0; }
 
-      .lead {
-        max-width: 640px;
-        margin: 26px 0 0;
-        color: var(--muted);
-        font-size: clamp(17px, 2vw, 20px);
-        line-height: 1.65;
-      }
+    .section { padding: 100px 0; border-top: 1px solid rgba(176,221,206,.08); }
+    .section-head { max-width: 720px; }
+    .section-label { color: #62dda7; font-size: 11px; font-weight: 850; text-transform: uppercase; letter-spacing: .1em; }
+    h2 { margin: 16px 0 0; font-size: clamp(38px, 5.5vw, 64px); line-height: 1.02; letter-spacing: -.055em; }
+    .section-copy { margin: 20px 0 0; color: var(--muted); font-size: 17px; line-height: 1.7; }
 
-      .actions { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 34px; }
+    .feature-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 48px; }
+    .feature-card { position: relative; overflow: hidden; min-height: 310px; padding: 25px; border: 1px solid var(--line); border-radius: 19px; background: linear-gradient(150deg, rgba(17,35,38,.94), rgba(9,23,27,.96)); }
+    .feature-card::before { content: ""; position: absolute; top: -80px; right: -70px; width: 170px; height: 170px; border-radius: 50%; background: rgba(73,217,157,.09); filter: blur(28px); }
+    .feature-icon { width: 44px; height: 44px; display: grid; place-items: center; border: 1px solid rgba(91,230,170,.16); border-radius: 13px; color: #68e4ad; background: rgba(79,216,157,.07); font-size: 19px; }
+    .feature-card h3 { margin: 42px 0 10px; font-size: 22px; letter-spacing: -.03em; }
+    .feature-card p { margin: 0; color: #849a94; font-size: 14px; line-height: 1.65; }
+    .feature-meta { position: absolute; right: 25px; bottom: 22px; left: 25px; display: flex; justify-content: space-between; padding-top: 14px; border-top: 1px solid rgba(176,221,206,.08); color: #5f7770; font-size: 10px; text-transform: uppercase; letter-spacing: .07em; }
 
-      .button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 50px;
-        padding: 0 21px;
-        border-radius: 14px;
-        font-size: 15px;
-        font-weight: 820;
-        transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
-      }
+    .workflow { display: grid; grid-template-columns: .82fr 1.18fr; gap: clamp(40px,8vw,100px); align-items: center; }
+    .steps { display: grid; gap: 12px; }
+    .step { display: grid; grid-template-columns: 42px 1fr; gap: 15px; padding: 19px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.018); }
+    .step-num { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 12px; color: #69e3ad; background: rgba(76,211,154,.07); font-size: 12px; font-weight: 900; }
+    .step h3 { margin: 1px 0 6px; font-size: 16px; }
+    .step p { margin: 0; color: #7f9690; font-size: 13px; line-height: 1.55; }
 
-      .button:hover { transform: translateY(-2px); }
+    .privacy-card { display: grid; grid-template-columns: 1fr .8fr; gap: 50px; align-items: center; margin-top: 48px; padding: clamp(28px,5vw,58px); border: 1px solid rgba(91,230,170,.15); border-radius: 25px; background: linear-gradient(135deg, rgba(33,92,72,.25), rgba(12,27,31,.96)); box-shadow: var(--shadow); }
+    .privacy-card h3 { margin: 0; font-size: clamp(30px,4vw,48px); letter-spacing: -.05em; }
+    .privacy-card p { color: #8ea59e; line-height: 1.7; }
+    .privacy-points { display: grid; gap: 10px; }
+    .privacy-point { display: flex; align-items: center; gap: 11px; padding: 13px; border: 1px solid rgba(176,221,206,.09); border-radius: 12px; background: rgba(255,255,255,.02); color: #a8bbb5; font-size: 13px; }
+    .check { width: 25px; height: 25px; display: grid; place-items: center; border-radius: 50%; color: #071510; background: #5be6aa; font-weight: 950; }
 
-      .primary {
-        color: #041018;
-        background: linear-gradient(135deg, #91f0fa, var(--cyan-strong));
-        box-shadow: 0 14px 40px rgba(45, 212, 231, 0.2);
-      }
+    .cta { padding: 120px 0; text-align: center; }
+    .cta-inner { position: relative; overflow: hidden; padding: clamp(55px,8vw,95px) 24px; border: 1px solid rgba(91,230,170,.15); border-radius: 28px; background: radial-gradient(circle at 50% 115%, rgba(80,222,162,.18), transparent 30rem), #0b191d; }
+    .cta-inner::before { content: ""; position: absolute; inset: 0; background: linear-gradient(rgba(125,226,193,.022) 1px, transparent 1px), linear-gradient(90deg, rgba(125,226,193,.022) 1px, transparent 1px); background-size: 42px 42px; }
+    .cta-inner > * { position: relative; }
+    .cta h2 { max-width: 780px; margin: 0 auto; }
+    .cta p { max-width: 610px; margin: 20px auto 0; color: var(--muted); line-height: 1.7; }
+    .cta .button { margin-top: 30px; }
 
-      .secondary { border: 1px solid var(--line); background: rgba(255, 255, 255, 0.055); }
-      .secondary:hover { border-color: rgba(114, 228, 244, 0.48); background: rgba(114, 228, 244, 0.08); }
+    footer { display: flex; align-items: center; justify-content: space-between; gap: 30px; padding: 34px 0 42px; border-top: 1px solid rgba(176,221,206,.08); color: #5f756f; font-size: 11px; }
+    .footer-links { display: flex; gap: 18px; }
 
-      .note { margin-top: 16px; color: #7691a5; font-size: 12px; }
+    .help-button { position: fixed; z-index: 50; right: 22px; bottom: 22px; display: flex; align-items: center; gap: 10px; min-height: 50px; padding: 8px 16px 8px 9px; border: 1px solid rgba(91,230,170,.22); border-radius: 999px; color: #e8f5f0; background: rgba(10,26,29,.94); box-shadow: 0 18px 50px rgba(0,0,0,.38); backdrop-filter: blur(16px); font-size: 12px; font-weight: 800; }
+    .help-icon { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; color: #071510; background: linear-gradient(135deg,#65eab0,#3cbd81); font-weight: 950; }
+    .help-card { position: fixed; z-index: 55; right: 22px; bottom: 84px; width: min(370px,calc(100vw - 28px)); overflow: hidden; border: 1px solid rgba(176,221,206,.13); border-radius: 20px; background: rgba(8,21,24,.98); box-shadow: 0 30px 90px rgba(0,0,0,.5); opacity: 0; transform: translateY(10px) scale(.98); pointer-events: none; transition: .18s ease; }
+    .help-card.open { opacity: 1; transform: none; pointer-events: auto; }
+    .help-head { display: flex; justify-content: space-between; align-items: center; padding: 17px; border-bottom: 1px solid var(--line); }
+    .help-head strong { font-size: 14px; }
+    .help-head span { display: block; margin-top: 3px; color: #6f8780; font-size: 10px; }
+    .help-close { width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 50%; color: #a9bbb5; background: transparent; }
+    .help-messages { height: 240px; overflow-y: auto; display: grid; align-content: start; gap: 9px; padding: 16px; }
+    .message { max-width: 88%; padding: 11px 12px; border-radius: 13px; color: #bfd1cb; background: rgba(255,255,255,.045); font-size: 12px; line-height: 1.55; }
+    .message.user { margin-left: auto; color: #071510; background: #55dca0; }
+    .help-form { display: flex; gap: 8px; padding: 11px; border-top: 1px solid var(--line); }
+    .help-form input { width: 100%; min-height: 42px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; outline: 0; color: #e8f4ef; background: #0b181c; }
+    .help-form button { width: 43px; border: 0; border-radius: 10px; color: #071510; background: #55dca0; font-weight: 900; }
 
-      .preview {
-        padding: 14px;
-        border: 1px solid var(--line);
-        border-radius: 27px;
-        background: var(--panel);
-        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.38);
-        backdrop-filter: blur(18px);
-      }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .mock-app { grid-template-columns: 1fr; }
+      .mock-side { display: none; }
+      .feature-grid { grid-template-columns: 1fr; }
+      .feature-card { min-height: 250px; }
+      .workflow, .privacy-card { grid-template-columns: 1fr; }
+    }
 
-      .window {
-        overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        border-radius: 19px;
-        background: #0c1826;
-      }
+    @media (max-width: 620px) {
+      .shell { width: min(100% - 28px,1180px); }
+      .nav-actions .button:first-child { display: none; }
+      .brand { font-size: 13px; }
+      .hero { padding-top: 62px; }
+      h1 { font-size: 51px; }
+      .hero-actions { flex-direction: column; width: 100%; }
+      .hero-actions .button { width: 100%; }
+      .product-frame { margin-top: 45px; padding: 7px; border-radius: 19px; transform: none; }
+      .app-window { border-radius: 14px; }
+      .mock-main { padding: 14px; }
+      .mock-title h2 { font-size: 19px; }
+      .mock-title .button { display: none; }
+      .mock-stats { grid-template-columns: repeat(2,1fr); }
+      .mock-grid { grid-template-columns: 1fr; }
+      .mock-grid .mock-card:last-child { display: none; }
+      .section { padding: 78px 0; }
+      .privacy-card { gap: 28px; }
+      footer { flex-direction: column; text-align: center; }
+      .help-button { right: 14px; bottom: 14px; padding: 8px; }
+      .help-button > span:last-child { display: none; }
+      .help-card { right: 14px; bottom: 72px; }
+    }
 
-      .window-bar { display: flex; gap: 7px; padding: 15px 16px; }
-      .window-bar span { width: 10px; height: 10px; border-radius: 50%; }
-      .window-bar span:nth-child(1) { background: #f26f70; }
-      .window-bar span:nth-child(2) { background: #f4c85e; }
-      .window-bar span:nth-child(3) { background: #55d59a; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="#top"><span class="brand-mark">TR</span><span>TradeReview AI</span></a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#workflow">How it works</a>
+        <a href="#privacy">Privacy</a>
+      </div>
+      <div class="nav-actions">
+        <a class="button small" href="./app/tradereview-ai.html?release=20260717-premium">Sign in</a>
+        <a class="button primary small" href="./app/tradereview-ai.html?release=20260717-premium">Start free →</a>
+      </div>
+    </nav>
 
-      .preview img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
-
-      .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 14px; }
-      .stat { padding: 12px 8px; border-radius: 12px; text-align: center; background: rgba(255, 255, 255, 0.045); }
-      .stat strong { display: block; font-size: 13px; }
-      .stat span { display: block; margin-top: 4px; color: #7790a4; font-size: 11px; }
-
-      footer { padding: 0 0 30px; color: #6f8698; font-size: 12px; }
-
-      @media (max-width: 850px) {
-        main { grid-template-columns: 1fr; padding-top: 42px; }
-        .copy { text-align: center; }
-        .eyebrow { margin-left: auto; margin-right: auto; }
-        .lead { margin-left: auto; margin-right: auto; }
-        .actions { justify-content: center; }
-        .preview { width: min(620px, 100%); margin: 0 auto; }
-        footer { text-align: center; }
-      }
-
-      @media (max-width: 520px) {
-        .shell { width: min(100% - 28px, 1160px); }
-        nav { align-items: flex-start; }
-        .brand-sub { display: none; }
-        .nav-link { padding: 9px 12px; font-size: 12px; }
-        main { padding-bottom: 54px; }
-        .actions { flex-direction: column; }
-        .button { width: 100%; }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="shell">
-      <nav>
-        <div class="brand">
-          <div class="brand-mark" aria-hidden="true">TR</div>
-          <div>
-            <div class="brand-name">TradeReview AI</div>
-            <div class="brand-sub">Journal. Review. Improve.</div>
-          </div>
+    <main id="top">
+      <section class="hero">
+        <div class="eyebrow"><span class="dot"></span> Built for deliberate traders</div>
+        <h1><span class="gradient">Trade less on impulse. Review more on evidence.</span></h1>
+        <p class="lead">A private performance workspace that turns executions, risk, screenshots, and daily notes into a review process you can actually repeat.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="./app/tradereview-ai.html?release=20260717-premium">Open your free journal →</a>
+          <a class="button" href="#features">Explore the workspace</a>
         </div>
-        <a class="nav-link" href="./TradeReview-AI-Installer.exe" download>Download for Windows</a>
-      </nav>
+        <div class="microcopy">Free account · No credit card · Private cloud sync</div>
 
-      <main>
-        <section class="copy">
-          <div class="eyebrow"><span class="dot"></span> Your trading journal is ready</div>
-          <h1><span class="gradient">Turn every trade into a better decision.</span></h1>
-          <p class="lead">Log entries, attach charts, review execution, and spot the patterns behind your best and worst trades—all in one focused journal.</p>
-          <div class="actions">
-            <a class="button primary" href="./app/tradereview-ai.html">Open TradeReview AI</a>
-            <a class="button secondary" href="./TradeReview-AI-Installer.exe" download>Download Windows app</a>
-          </div>
-          <p class="note">The browser version opens instantly. The Windows installer adds Desktop and Start menu shortcuts.</p>
-        </section>
-
-        <section class="preview" aria-label="TradeReview AI preview">
-          <div class="window">
-            <div class="window-bar"><span></span><span></span><span></span></div>
-            <img src="./app/chart-captures/demo-spy-1m-entry.png" alt="SPY one-minute chart preview in TradeReview AI">
-            <div class="stats">
-              <div class="stat"><strong>Journal</strong><span>Capture the trade</span></div>
-              <div class="stat"><strong>Charts</strong><span>Review entries</span></div>
-              <div class="stat"><strong>Insights</strong><span>Find patterns</span></div>
+        <div class="product-frame" aria-label="TradeReview AI product preview">
+          <div class="app-window">
+            <div class="window-top"><div class="window-dots"><i></i><i></i><i></i></div><span>tradereview.ai / performance</span><span>Private session</span></div>
+            <div class="mock-app">
+              <div class="mock-side">
+                <div class="mock-brand"><span>TR</span> TradeReview</div>
+                <div class="mock-nav"><div class="active">⌂ &nbsp; Dashboard</div><div>＋ &nbsp; Add trade</div><div>✎ &nbsp; Journal</div><div>◉ &nbsp; Review</div><div>⚙ &nbsp; Settings</div></div>
+              </div>
+              <div class="mock-main">
+                <div class="mock-title"><div><small>Performance workspace</small><h2>Review the decision, not only the result.</h2></div><a class="button primary">Add trade</a></div>
+                <div class="mock-stats"><div class="mock-stat"><span>Total P/L</span><strong class="positive">+$148.75</strong></div><div class="mock-stat"><span>Total R</span><strong class="positive">+2.37R</strong></div><div class="mock-stat"><span>Win rate</span><strong>58%</strong></div><div class="mock-stat"><span>Risk breaks</span><strong>1</strong></div></div>
+                <div class="mock-grid">
+                  <div class="mock-card"><div class="mock-card-head"><span>Performance curve</span><span class="positive">Risk-adjusted</span></div><svg class="mock-chart" viewBox="0 0 560 165" aria-hidden="true"><defs><linearGradient id="mockFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#5be6aa" stop-opacity=".25"/><stop offset="1" stop-color="#5be6aa" stop-opacity="0"/></linearGradient></defs><path d="M0 142 C48 136 70 111 111 119 S174 139 215 91 S278 111 317 75 S381 91 423 45 S496 57 560 17 L560 165 L0 165Z" fill="url(#mockFill)"/><path class="draw" d="M0 142 C48 136 70 111 111 119 S174 139 215 91 S278 111 317 75 S381 91 423 45 S496 57 560 17" fill="none" stroke="#60e9ad" stroke-width="3" stroke-linecap="round"/></svg></div>
+                  <div class="mock-card"><div class="mock-card-head"><span>Review coach</span><span class="positive">3 insights</span></div><div class="coach"><div>Your best setup held risk at or below plan.</div><div>Late-morning trades produced weaker results.</div><div>Review the one oversized winner before repeating it.</div></div></div>
+                </div>
+              </div>
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
 
-      <footer>TradeReview AI · Built for disciplined review</footer>
-    </div>
-  </body>
+      <section class="tool-strip" aria-label="Included capabilities">
+        <p>One focused workflow</p>
+        <div class="tools"><div class="tool"><i></i> Manual trade log</div><div class="tool"><i></i> CSV import</div><div class="tool"><i></i> R-multiple tracking</div><div class="tool"><i></i> Chart screenshots</div><div class="tool"><i></i> Daily journal</div><div class="tool"><i></i> Private sync</div></div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="section-head"><div class="section-label">Everything in one review loop</div><h2>The tools that make your next decision clearer.</h2><p class="section-copy">TradeReview connects the execution, the context, and the lesson so your journal becomes a working feedback system—not a graveyard of notes.</p></div>
+        <div class="feature-grid">
+          <article class="feature-card"><div class="feature-icon">↗</div><h3>Performance dashboard</h3><p>See P/L, total R, win rate, average trade, setup performance, and risk breaks without rebuilding a spreadsheet.</p><div class="feature-meta"><span>Automatic</span><span>After every save</span></div></article>
+          <article class="feature-card"><div class="feature-icon">◎</div><h3>Visual trade review</h3><p>Pair exact entry and exit times with chart screenshots, then review execution, invalidation, and emotional decisions together.</p><div class="feature-meta"><span>Entry + exit</span><span>One view</span></div></article>
+          <article class="feature-card"><div class="feature-icon">✦</div><h3>Behavior insights</h3><p>Compare setups and mistake tags, surface over-risk trades, and turn the day recap into one practical rule for tomorrow.</p><div class="feature-meta"><span>Plain English</span><span>Action focused</span></div></article>
+        </div>
+      </section>
+
+      <section class="section workflow" id="workflow">
+        <div class="section-head"><div class="section-label">A process you can repeat</div><h2>From fill to feedback in minutes.</h2><p class="section-copy">The workflow is intentionally simple enough to finish after a demanding session—and structured enough to reveal patterns over time.</p></div>
+        <div class="steps"><article class="step"><div class="step-num">01</div><div><h3>Capture the trade</h3><p>Add it manually or import a CSV with the trading day, execution times, risk, setup, and result.</p></div></article><article class="step"><div class="step-num">02</div><div><h3>Review the evidence</h3><p>Attach entry and exit charts and compare the planned trade with the decision you actually made.</p></div></article><article class="step"><div class="step-num">03</div><div><h3>Write the next rule</h3><p>Grade the session, name the behavior, and leave tomorrow with one clear adjustment instead of a vague promise.</p></div></article></div>
+      </section>
+
+      <section class="section" id="privacy">
+        <div class="section-head"><div class="section-label">Your data stays yours</div><h2>Built around a private journal, not public performance.</h2></div>
+        <div class="privacy-card"><div><h3>Your trades are personal.</h3><p>TradeReview uses secure account authentication and row-level database rules so each user can access only their own journal data. Your review is available across devices after sign-in.</p></div><div class="privacy-points"><div class="privacy-point"><span class="check">✓</span> Private user-level access</div><div class="privacy-point"><span class="check">✓</span> Secure cloud synchronization</div><div class="privacy-point"><span class="check">✓</span> Exportable journal backup</div></div></div>
+      </section>
+
+      <section class="cta"><div class="cta-inner"><h2>Make the review part of the trade.</h2><p>Start with one session. Capture the evidence, name the mistake, and build the process that protects your edge.</p><a class="button primary" href="./app/tradereview-ai.html?release=20260717-premium">Create your free account →</a></div></section>
+    </main>
+
+    <footer><a class="brand" href="#top"><span class="brand-mark">TR</span><span>TradeReview AI</span></a><span>Built for disciplined review. Trading involves substantial risk.</span><div class="footer-links"><a href="#privacy">Privacy</a><a href="./app/tradereview-ai.html?release=20260717-premium">Sign in</a></div></footer>
+  </div>
+
+  <button class="help-button" id="helpButton" type="button" aria-expanded="false"><span class="help-icon">?</span><span>How can I help?</span></button>
+  <section class="help-card" id="helpCard" aria-label="TradeReview help" aria-hidden="true"><div class="help-head"><div><strong>TradeReview guide</strong><span>Ask about accounts, imports, or journaling</span></div><button class="help-close" id="helpClose" type="button" aria-label="Close help">×</button></div><div class="help-messages" id="helpMessages"><div class="message">Hi — I can help you understand TradeReview before you create an account. What would you like to know?</div></div><form class="help-form" id="helpForm"><input id="helpInput" placeholder="Ask a question…" autocomplete="off" aria-label="Ask a question"><button type="submit" aria-label="Send">↑</button></form></section>
+
+  <script>
+    const helpButton = document.querySelector("#helpButton");
+    const helpCard = document.querySelector("#helpCard");
+    const helpMessages = document.querySelector("#helpMessages");
+    const setHelpOpen = open => {
+      helpCard.classList.toggle("open", open);
+      helpCard.setAttribute("aria-hidden", String(!open));
+      helpButton.setAttribute("aria-expanded", String(open));
+      if (open) document.querySelector("#helpInput").focus();
+    };
+    const answer = question => {
+      const query = question.toLowerCase();
+      if (/free|price|cost|card/.test(query)) return "Creating a TradeReview account is free and does not require a credit card.";
+      if (/private|privacy|secure|data/.test(query)) return "Your journal uses secure sign-in and row-level database rules so each account can access only its own saved journal data.";
+      if (/google|gmail|sign|account|login/.test(query)) return "Open the journal and choose Continue with Google, or create an account with email and password.";
+      if (/import|csv|broker|trade/.test(query)) return "You can add trades manually or import a CSV. TradeReview understands common fields including date, symbol, P/L, entry and exit times, setup, and mistake.";
+      if (/journal|review|chart|screenshot/.test(query)) return "After adding a trade, use Journal to attach entry and exit screenshots, grade the session, write a recap, and set one rule for tomorrow.";
+      if (/risk|stat|performance|win/.test(query)) return "The dashboard calculates P/L, total R, win rate, average trade, setup performance, mistake patterns, and over-risk trades from your saved data.";
+      return "I can help with pricing, privacy, account access, importing trades, charts, risk statistics, and the daily journal. Ask about any of those topics.";
+    };
+    const addMessage = (text, role = "") => {
+      const message = document.createElement("div");
+      message.className = `message ${role}`;
+      message.textContent = text;
+      helpMessages.appendChild(message);
+      helpMessages.scrollTop = helpMessages.scrollHeight;
+    };
+    helpButton.addEventListener("click", () => setHelpOpen(!helpCard.classList.contains("open")));
+    document.querySelector("#helpClose").addEventListener("click", () => setHelpOpen(false));
+    document.querySelector("#helpForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const input = document.querySelector("#helpInput");
+      const question = input.value.trim();
+      if (!question) return;
+      addMessage(question, "user");
+      input.value = "";
+      window.setTimeout(() => addMessage(answer(question)), 160);
+    });
+  </script>
+</body>
 </html>

@@ -833,30 +833,547 @@
         display: none;
       }
     }
+
+    /* Premium product shell */
+    :root {
+      color-scheme: dark;
+      --ink: #edf7f4;
+      --muted: #91a6a1;
+      --line: rgba(174, 218, 204, .13);
+      --soft: #0a1619;
+      --paper: #0e1b1e;
+      --green: #55e6a5;
+      --red: #ff7186;
+      --blue: #5ad9f5;
+      --gold: #f2c56d;
+      --shadow: 0 22px 60px rgba(0, 0, 0, .28);
+    }
+
+    html { background: #061012; }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 14% 0%, rgba(52, 210, 145, .09), transparent 29rem),
+        radial-gradient(circle at 100% 35%, rgba(63, 180, 220, .08), transparent 32rem),
+        #071114;
+    }
+
+    .auth-gate {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      padding: clamp(18px, 3vw, 42px);
+      background:
+        linear-gradient(rgba(125, 226, 193, .025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(125, 226, 193, .025) 1px, transparent 1px),
+        radial-gradient(circle at 12% 18%, rgba(53, 218, 150, .16), transparent 30rem),
+        radial-gradient(circle at 91% 80%, rgba(52, 150, 224, .13), transparent 34rem),
+        #061012;
+      background-size: 54px 54px, 54px 54px, auto, auto, auto;
+    }
+
+    .auth-gate::before,
+    .auth-gate::after {
+      content: "";
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border: 1px solid rgba(83, 230, 165, .14);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: orbit 18s linear infinite;
+    }
+
+    .auth-gate::before { top: -190px; right: 8%; }
+    .auth-gate::after { bottom: -230px; left: 6%; animation-direction: reverse; }
+
+    @keyframes orbit {
+      to { transform: rotate(360deg) scale(1.08); }
+    }
+
+    .auth-shell {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, 100%);
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(390px, .72fr);
+      gap: clamp(34px, 7vw, 90px);
+      align-items: center;
+    }
+
+    .auth-story { color: #f1fbf7; }
+
+    .auth-brand {
+      color: #f4fff9;
+      font-size: 18px;
+      letter-spacing: -.02em;
+    }
+
+    .auth-brand .mark,
+    .brand .mark {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(90, 239, 177, .3);
+      border-radius: 12px;
+      background: linear-gradient(145deg, rgba(73, 234, 166, .22), rgba(57, 172, 205, .11));
+      color: #74f3b8;
+      box-shadow: inset 0 0 25px rgba(84, 229, 168, .08), 0 12px 30px rgba(0, 0, 0, .22);
+    }
+
+    .auth-brand .mark::after,
+    .brand .mark::after {
+      content: "";
+      position: absolute;
+      inset: auto -35% -70% 20%;
+      height: 100%;
+      background: rgba(255,255,255,.18);
+      transform: rotate(-22deg);
+    }
+
+    .product-pill,
+    .page-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #82efbd;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .product-pill {
+      margin-top: clamp(50px, 9vh, 110px);
+      padding: 8px 12px;
+      border: 1px solid rgba(90, 230, 171, .18);
+      border-radius: 999px;
+      background: rgba(73, 196, 148, .07);
+    }
+
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #5ce7a7;
+      box-shadow: 0 0 0 5px rgba(92, 231, 167, .1), 0 0 18px rgba(92, 231, 167, .75);
+    }
+
+    .auth-story h1 {
+      max-width: 730px;
+      margin: 24px 0 18px;
+      font-size: clamp(46px, 6vw, 76px);
+      line-height: .98;
+      letter-spacing: -.06em;
+    }
+
+    .auth-story h1 span {
+      color: transparent;
+      background: linear-gradient(100deg, #f7fffb 18%, #7cebb9 88%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .auth-story > p {
+      max-width: 630px;
+      margin: 0;
+      color: #9db3ad;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .auth-preview {
+      position: relative;
+      max-width: 650px;
+      margin-top: 34px;
+      padding: 18px;
+      border: 1px solid rgba(167, 227, 207, .14);
+      border-radius: 24px;
+      background: linear-gradient(145deg, rgba(20, 42, 41, .76), rgba(9, 23, 27, .92));
+      box-shadow: 0 30px 80px rgba(0, 0, 0, .34);
+      backdrop-filter: blur(18px);
+    }
+
+    .preview-toolbar,
+    .preview-head,
+    .feature-row,
+    .assistant-head,
+    .assistant-form,
+    .help-launcher {
+      display: flex;
+      align-items: center;
+    }
+
+    .preview-toolbar { justify-content: space-between; color: #8fa49e; font-size: 12px; }
+    .preview-dots { display: flex; gap: 6px; }
+    .preview-dots i { width: 7px; height: 7px; border-radius: 50%; background: #35504b; }
+    .preview-dots i:first-child { background: #5ce7a7; }
+    .preview-head { justify-content: space-between; gap: 18px; margin-top: 24px; }
+    .preview-head span { color: #829892; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
+    .preview-head strong { display: block; margin-top: 4px; font-size: 30px; letter-spacing: -.04em; }
+    .preview-change { color: #65e5a8; font-weight: 800; font-size: 13px; }
+
+    .preview-chart { width: 100%; height: 112px; margin: 10px 0 4px; overflow: visible; }
+    .chart-line { stroke-dasharray: 700; stroke-dashoffset: 700; animation: drawLine 1.8s ease forwards .2s; }
+    @keyframes drawLine { to { stroke-dashoffset: 0; } }
+
+    .preview-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+    }
+
+    .preview-stat {
+      padding: 12px;
+      border: 1px solid rgba(174, 218, 204, .1);
+      border-radius: 13px;
+      background: rgba(255, 255, 255, .025);
+    }
+
+    .preview-stat span { color: #718881; font-size: 10px; text-transform: uppercase; letter-spacing: .06em; }
+    .preview-stat strong { display: block; margin-top: 5px; color: #eef8f4; font-size: 14px; }
+
+    .auth-card-wrap { width: 100%; }
+
+    .auth-card {
+      width: 100%;
+      padding: clamp(24px, 4vw, 38px);
+      border: 1px solid rgba(174, 228, 209, .14);
+      border-radius: 26px;
+      background: linear-gradient(155deg, rgba(19, 37, 38, .96), rgba(10, 23, 27, .98));
+      color: #edf7f4;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, .46);
+      backdrop-filter: blur(20px);
+    }
+
+    .auth-card .auth-brand { display: none; }
+
+    .auth-card h1 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 40px);
+      letter-spacing: -.045em;
+    }
+
+    .auth-copy { color: #90a6a0; margin: 10px 0 24px; }
+
+    .auth-tabs {
+      border: 1px solid rgba(172, 217, 203, .09);
+      border-radius: 13px;
+      background: rgba(255, 255, 255, .035);
+      padding: 5px;
+      margin-bottom: 18px;
+    }
+
+    .auth-tabs button { color: #8da39d; border-radius: 9px; }
+    .auth-tabs button.active {
+      color: #f0faf6;
+      background: rgba(99, 231, 177, .1);
+      box-shadow: inset 0 0 0 1px rgba(101, 229, 173, .11);
+    }
+
+    .google-button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px;
+      border-color: rgba(181, 220, 207, .16);
+      border-radius: 12px;
+      background: #f7fbf9;
+      color: #162420;
+      font-weight: 800;
+    }
+
+    .google-button:hover { background: #fff; transform: translateY(-1px); }
+    .google-button svg { width: 19px; height: 19px; }
+
+    .auth-divider {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: center;
+      margin: 18px 0;
+      color: #6f8780;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after { content: ""; height: 1px; background: rgba(177, 220, 205, .11); }
+
+    label { color: #9aafa9; font-weight: 650; }
+
+    input, select, textarea {
+      border-color: rgba(178, 219, 206, .14);
+      border-radius: 10px;
+      background: #091519;
+      color: #edf7f4;
+      outline: none;
+      transition: border-color .16s ease, box-shadow .16s ease, background .16s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(83, 230, 165, .58);
+      box-shadow: 0 0 0 4px rgba(83, 230, 165, .08);
+      background: #0b181c;
+    }
+
+    button { border-color: var(--line); border-radius: 10px; background: #112126; color: #e8f4f0; transition: transform .15s ease, border-color .15s ease, background .15s ease; }
+    button:hover { filter: none; border-color: rgba(91, 225, 171, .28); transform: translateY(-1px); }
+    button.primary { border-color: transparent; background: linear-gradient(135deg, #5be6a9, #3ec989); color: #061410; font-weight: 850; box-shadow: 0 13px 30px rgba(55, 207, 143, .15); }
+    .auth-submit { min-height: 48px; border-radius: 12px; }
+    .auth-link { color: #77dcae; }
+    .auth-status { color: #91a7a1; }
+    .free-note { border-color: rgba(178, 219, 206, .11); color: #718780; }
+
+    .auth-benefits {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .auth-benefit {
+      padding: 12px 9px;
+      border: 1px solid rgba(170, 219, 202, .09);
+      border-radius: 12px;
+      color: #829892;
+      background: rgba(255,255,255,.02);
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .auth-benefit strong { display: block; margin-bottom: 3px; color: #cfe0db; font-size: 12px; }
+
+    .app { grid-template-columns: 250px minmax(0, 1fr); }
+
+    aside {
+      border-color: rgba(174, 218, 204, .1);
+      background: linear-gradient(180deg, rgba(9, 24, 27, .98), rgba(6, 17, 20, .98));
+      padding: 22px 15px;
+    }
+
+    .brand { color: #f2fbf8; padding-bottom: 26px; }
+    .brand .mark { width: 38px; height: 38px; }
+    nav { gap: 6px; }
+    nav button { min-height: 45px; border-radius: 11px; color: #809690; }
+    nav button:hover { background: rgba(255,255,255,.028); color: #c9d8d4; }
+    nav button.active { background: linear-gradient(90deg, rgba(73, 226, 163, .13), rgba(73, 226, 163, .035)); color: #71e7ae; box-shadow: inset 3px 0 #58dfa5; }
+
+    .account-panel { border-color: rgba(174,218,204,.11); border-radius: 13px; background: rgba(255,255,255,.025); }
+    .account-panel strong { color: #dceae6; }
+    .account-panel span { color: #6f8580; }
+
+    main { padding: clamp(22px, 3vw, 38px); background: radial-gradient(circle at 96% 4%, rgba(74, 210, 157, .055), transparent 28rem); }
+    h1 { letter-spacing: -.045em; }
+    .subtitle { color: #829892; line-height: 1.55; }
+    .page-kicker { margin-bottom: 10px; }
+
+    .panel {
+      overflow: hidden;
+      border-color: rgba(174, 218, 204, .1);
+      border-radius: 14px;
+      background: linear-gradient(155deg, rgba(17, 34, 37, .96), rgba(11, 25, 29, .98));
+      box-shadow: var(--shadow);
+    }
+
+    .stat { position: relative; min-height: 118px; }
+    .stat::after { content: ""; position: absolute; inset: auto 14px 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(87,226,166,.52), transparent); }
+    .stat span { color: #788d87; text-transform: uppercase; letter-spacing: .05em; font-size: 10px; font-weight: 750; }
+    .stat strong { color: #edf8f4; letter-spacing: -.04em; }
+    .panel-header { border-color: rgba(174, 218, 204, .09); }
+    .panel-header h2 { color: #e8f4f0; }
+    th { background: rgba(255,255,255,.025); color: #718780; }
+    th, td { border-color: rgba(174,218,204,.08); }
+    tr:hover td { background: rgba(83,230,165,.025); }
+    .empty { color: #718780; }
+    .drop { border-color: rgba(126, 194, 172, .34); background: rgba(72, 186, 143, .045); }
+    .sample { background: #061012; }
+    .review-item { border-color: #51d99f; border-radius: 0 10px 10px 0; background: rgba(77, 214, 157, .055); color: #b9cbc5; }
+    .bar { background: rgba(255,255,255,.055); }
+    .bar-fill { background: linear-gradient(90deg, #39bf83, #68e8b1); }
+    .day-button { border-color: rgba(174,218,204,.08); background: transparent; }
+    .day-button.active { background: rgba(76,213,156,.075); }
+    .timing-field { border-color: rgba(91,223,171,.25); background: rgba(69,209,151,.06); color: #7ee8b8; }
+    .visual-frame { border-radius: 12px; background: #061012; }
+    .detail-row { border-color: rgba(174,218,204,.09); }
+    .detail-row strong { color: #e8f4f0; }
+    .chart-link { border-color: rgba(174,218,204,.13); background: #102126; color: #72dcae; }
+
+    .help-launcher {
+      position: fixed;
+      z-index: 90;
+      right: 22px;
+      bottom: 22px;
+      gap: 10px;
+      min-height: 50px;
+      padding: 9px 16px 9px 9px;
+      border: 1px solid rgba(96, 229, 177, .24);
+      border-radius: 999px;
+      background: rgba(12, 29, 32, .94);
+      color: #eaf7f2;
+      box-shadow: 0 18px 50px rgba(0,0,0,.38);
+      backdrop-filter: blur(16px);
+      font-weight: 780;
+    }
+
+    .help-launcher-icon {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #65e9ae, #39bd81);
+      color: #071410;
+      font-weight: 950;
+      box-shadow: 0 0 0 5px rgba(92, 231, 167, .08);
+    }
+
+    .help-panel {
+      position: fixed;
+      z-index: 100;
+      right: 22px;
+      bottom: 84px;
+      width: min(380px, calc(100vw - 28px));
+      max-height: min(620px, calc(100vh - 110px));
+      display: grid;
+      grid-template-rows: auto minmax(190px, 1fr) auto auto;
+      overflow: hidden;
+      border: 1px solid rgba(174,218,204,.14);
+      border-radius: 22px;
+      background: rgba(8, 21, 24, .98);
+      box-shadow: 0 30px 90px rgba(0,0,0,.52);
+      opacity: 0;
+      transform: translateY(12px) scale(.98);
+      transform-origin: bottom right;
+      pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+
+    .help-panel.open { opacity: 1; transform: none; pointer-events: auto; }
+    .assistant-head { justify-content: space-between; padding: 17px 18px; border-bottom: 1px solid rgba(174,218,204,.1); background: linear-gradient(120deg, rgba(66,210,151,.1), transparent); }
+    .assistant-identity { display: flex; align-items: center; gap: 11px; }
+    .assistant-avatar { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 11px; background: linear-gradient(145deg, #55dfa3, #2d9d70); color: #061410; font-weight: 950; }
+    .assistant-identity strong { display: block; font-size: 14px; }
+    .assistant-identity span { display: block; margin-top: 2px; color: #6f8881; font-size: 11px; }
+    .assistant-identity span .live-dot { display: inline-block; width: 6px; height: 6px; margin: 0 5px 1px 0; }
+    .assistant-close { width: 35px; min-height: 35px; padding: 0; border-radius: 50%; background: transparent; font-size: 18px; }
+    .assistant-messages { overflow-y: auto; display: grid; align-content: start; gap: 10px; padding: 18px; }
+    .assistant-message { max-width: 88%; padding: 11px 13px; border-radius: 14px; font-size: 13px; line-height: 1.55; white-space: pre-line; }
+    .assistant-message.guide { border: 1px solid rgba(174,218,204,.09); border-bottom-left-radius: 4px; background: rgba(255,255,255,.045); color: #c5d7d1; }
+    .assistant-message.user { margin-left: auto; border-bottom-right-radius: 4px; background: linear-gradient(135deg, #50d99d, #36b67c); color: #061510; font-weight: 650; }
+    .assistant-suggestions { display: flex; gap: 7px; overflow-x: auto; padding: 0 16px 12px; }
+    .assistant-suggestions button { flex: 0 0 auto; min-height: 32px; padding: 6px 10px; border-radius: 999px; color: #87ddb7; font-size: 11px; background: rgba(72,205,151,.055); }
+    .assistant-form { gap: 8px; padding: 12px; border-top: 1px solid rgba(174,218,204,.1); }
+    .assistant-form input { min-height: 42px; }
+    .assistant-form button { width: 42px; min-height: 42px; padding: 0; border-radius: 11px; }
+
+    @media (max-width: 940px) {
+      .auth-shell { grid-template-columns: 1fr; max-width: 680px; padding: 34px 0; }
+      .auth-story { text-align: center; }
+      .auth-brand { justify-content: center; }
+      .product-pill { margin-top: 36px; }
+      .auth-story h1, .auth-story > p, .auth-preview { margin-left: auto; margin-right: auto; }
+      .auth-story h1 { max-width: 650px; }
+      .auth-preview { text-align: left; }
+      .app { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .auth-gate { padding: 16px; place-items: start center; overflow: auto; }
+      .auth-shell { gap: 24px; padding: 18px 0 80px; }
+      .product-pill { margin-top: 26px; }
+      .auth-story h1 { margin-top: 18px; font-size: 42px; }
+      .auth-story > p { font-size: 15px; }
+      .auth-preview { display: none; }
+      .auth-card { padding: 23px 18px; border-radius: 20px; }
+      .auth-benefits { grid-template-columns: 1fr; }
+      .auth-benefit { display: flex; justify-content: center; gap: 6px; }
+      .help-launcher { right: 14px; bottom: 14px; }
+      .help-launcher-label { display: none; }
+      .help-launcher { padding: 8px; }
+      .help-panel { right: 14px; bottom: 72px; }
+      .preview-stats { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+    }
   </style>
 </head>
 <body class="auth-pending">
   <section class="auth-gate" id="authGate" aria-labelledby="authTitle">
-    <div class="auth-card">
-      <div class="auth-brand"><div class="mark">TR</div><span>TradeReview AI</span></div>
-      <h1 id="authTitle">Welcome back</h1>
-      <p class="auth-copy" id="authCopy">Sign in to open your private trading journal.</p>
-      <div class="auth-tabs" id="authTabs">
-        <button class="active" type="button" data-auth-mode="signin">Sign in</button>
-        <button type="button" data-auth-mode="signup">Create account</button>
+    <div class="auth-shell">
+      <div class="auth-story">
+        <div class="auth-brand"><div class="mark">TR</div><span>TradeReview AI</span></div>
+        <div class="product-pill"><span class="live-dot"></span> Your performance workspace</div>
+        <h1><span>Turn every session into a repeatable edge.</span></h1>
+        <p>Journal the trade, measure the risk, and find the behavior behind your results. Your review process finally lives in one focused workspace.</p>
+
+        <div class="auth-preview" aria-label="TradeReview performance preview">
+          <div class="preview-toolbar">
+            <div class="preview-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span>Session review · private</span>
+          </div>
+          <div class="preview-head">
+            <div><span>Net performance</span><strong>+3.42R</strong></div>
+            <div class="preview-change">Risk discipline ↑</div>
+          </div>
+          <svg class="preview-chart" viewBox="0 0 600 112" role="img" aria-label="Illustrative upward performance curve">
+            <defs>
+              <linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#55e6a5" stop-opacity=".26"/>
+                <stop offset="1" stop-color="#55e6a5" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <path d="M0 94 C42 88 58 70 99 76 S159 91 198 65 S256 67 294 53 S350 60 390 35 S451 45 493 25 S548 27 600 8 L600 112 L0 112Z" fill="url(#areaFill)"/>
+            <path class="chart-line" d="M0 94 C42 88 58 70 99 76 S159 91 198 65 S256 67 294 53 S350 60 390 35 S451 45 493 25 S548 27 600 8" fill="none" stroke="#63e9ad" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <div class="preview-stats">
+            <div class="preview-stat"><span>Win rate</span><strong>Measured automatically</strong></div>
+            <div class="preview-stat"><span>Risk breaks</span><strong>Flagged instantly</strong></div>
+            <div class="preview-stat"><span>Setups</span><strong>Compared clearly</strong></div>
+          </div>
+        </div>
       </div>
-      <form class="auth-form" id="authForm">
-        <label>Email
-          <input id="authEmail" type="email" autocomplete="email" required placeholder="trader@example.com">
-        </label>
-        <label>Password
-          <input id="authPassword" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters">
-        </label>
-        <button class="primary auth-submit" id="authSubmit" type="submit">Sign in</button>
-        <button class="auth-link" id="forgotPassword" type="button">Forgot password?</button>
-      </form>
-      <p class="auth-status" id="authStatus" role="status" aria-live="polite">Connecting securely…</p>
-      <p class="free-note">Free account · No credit card required · Your journal stays private</p>
+
+      <div class="auth-card-wrap">
+        <div class="auth-card">
+          <div class="auth-brand"><div class="mark">TR</div><span>TradeReview AI</span></div>
+          <h1 id="authTitle">Welcome back</h1>
+          <p class="auth-copy" id="authCopy">Sign in to open your private trading journal.</p>
+          <div class="auth-tabs" id="authTabs">
+            <button class="active" type="button" data-auth-mode="signin">Sign in</button>
+            <button type="button" data-auth-mode="signup">Create account</button>
+          </div>
+          <div id="socialAuth">
+            <button class="google-button" id="googleAuth" type="button">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3Z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4L15.4 17c-.9.6-2 1-3.4 1a5.8 5.8 0 0 1-5.5-4H3.2v2.6A10 10 0 0 0 12 22Z"/><path fill="#FBBC05" d="M6.5 14a6 6 0 0 1 0-3.9V7.5H3.2a10 10 0 0 0 0 9.1L6.5 14Z"/><path fill="#EA4335" d="M12 6.1c1.5 0 2.8.5 3.8 1.5l2.9-2.8A9.7 9.7 0 0 0 3.2 7.5l3.3 2.6a5.8 5.8 0 0 1 5.5-4Z"/></svg>
+              Continue with Google
+            </button>
+            <div class="auth-divider">or continue with email</div>
+          </div>
+          <form class="auth-form" id="authForm">
+            <label>Email
+              <input id="authEmail" type="email" autocomplete="email" required placeholder="trader@example.com">
+            </label>
+            <label>Password
+              <input id="authPassword" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters">
+            </label>
+            <button class="primary auth-submit" id="authSubmit" type="submit">Sign in</button>
+            <button class="auth-link" id="forgotPassword" type="button">Forgot password?</button>
+          </form>
+          <p class="auth-status" id="authStatus" role="status" aria-live="polite">Connecting securely…</p>
+          <div class="auth-benefits" aria-label="Account benefits">
+            <div class="auth-benefit"><strong>Private</strong> Row-level security</div>
+            <div class="auth-benefit"><strong>Synced</strong> Across devices</div>
+            <div class="auth-benefit"><strong>Free</strong> No card required</div>
+          </div>
+          <p class="free-note">Your trades stay in your private account. Trading involves risk.</p>
+        </div>
+      </div>
     </div>
   </section>
   <div class="app">
@@ -880,8 +1397,9 @@
       <section id="dashboard" class="section active">
         <div class="topbar">
           <div>
+            <div class="page-kicker"><span class="live-dot"></span> Performance workspace</div>
             <h1>Review today before tomorrow trades you.</h1>
-            <p class="subtitle">Add trades with the trading day and exact entry and exit times, tag each trade, write the day recap, and let the dashboard show the habits that are helping or hurting.</p>
+            <p class="subtitle">Turn executions into evidence. Capture the trade, review the decision, and let your dashboard expose the habits shaping your results.</p>
           </div>
           <div class="actions">
             <button class="primary" data-view-button="import">Add Trade</button>
@@ -908,7 +1426,7 @@
           </div>
 
           <div class="panel">
-            <div class="panel-header"><h2>AI-Style Review</h2></div>
+            <div class="panel-header"><h2>Review Coach</h2></div>
             <div class="panel-body review-list" id="reviewList"></div>
           </div>
         </div>
@@ -1134,6 +1652,33 @@
     </main>
   </div>
 
+  <button class="help-launcher" id="helpLauncher" type="button" aria-controls="helpPanel" aria-expanded="false">
+    <span class="help-launcher-icon">?</span>
+    <span class="help-launcher-label">How can I help?</span>
+  </button>
+
+  <section class="help-panel" id="helpPanel" aria-label="TradeReview help assistant" aria-hidden="true">
+    <div class="assistant-head">
+      <div class="assistant-identity">
+        <div class="assistant-avatar">TR</div>
+        <div><strong>Review Assistant</strong><span><span class="live-dot"></span> Instant product guidance</span></div>
+      </div>
+      <button class="assistant-close" id="helpClose" type="button" aria-label="Close help">×</button>
+    </div>
+    <div class="assistant-messages" id="helpMessages" aria-live="polite">
+      <div class="assistant-message guide">Hi — I can help with accounts, imports, journaling, risk, and the statistics in your workspace. What would you like to know?</div>
+    </div>
+    <div class="assistant-suggestions" aria-label="Suggested questions">
+      <button type="button" data-help-question="How do I add a trade?">Add a trade</button>
+      <button type="button" data-help-question="Explain my stats">Explain my stats</button>
+      <button type="button" data-help-question="Is my journal private?">Privacy</button>
+    </div>
+    <form class="assistant-form" id="helpForm">
+      <input id="helpInput" type="text" autocomplete="off" placeholder="Ask a question…" aria-label="Ask the Review Assistant">
+      <button class="primary" type="submit" aria-label="Send question">↑</button>
+    </form>
+  </section>
+
   <script src="./supabase-config.js?v=20260716-3"></script>
   <script src="./vendor/supabase.js"></script>
   <script>
@@ -1259,15 +1804,17 @@
       const password = document.querySelector("#authPassword");
       const email = document.querySelector("#authEmail");
       const forgot = document.querySelector("#forgotPassword");
+      const social = document.querySelector("#socialAuth");
       document.querySelectorAll("[data-auth-mode]").forEach(button => {
         button.classList.toggle("active", button.dataset.authMode === mode);
       });
       if (mode === "signup") {
         title.textContent = "Create your free account";
-        copy.textContent = "Save your journal privately and use it across devices.";
+        copy.textContent = "Build a private review process that follows you across devices.";
         submit.textContent = "Create free account";
         password.autocomplete = "new-password";
         forgot.hidden = true;
+        social.hidden = false;
         document.querySelector("#authTabs").hidden = false;
         email.closest("label").hidden = false;
         email.disabled = false;
@@ -1277,6 +1824,7 @@
         submit.textContent = "Update password";
         password.autocomplete = "new-password";
         forgot.hidden = true;
+        social.hidden = true;
         document.querySelector("#authTabs").hidden = true;
         email.closest("label").hidden = true;
         email.disabled = true;
@@ -1286,6 +1834,7 @@
         submit.textContent = "Sign in";
         password.autocomplete = "current-password";
         forgot.hidden = false;
+        social.hidden = false;
         document.querySelector("#authTabs").hidden = false;
         email.closest("label").hidden = false;
         email.disabled = false;
@@ -2049,6 +2598,101 @@
         render();
         switchView("dashboard");
       });
+    });
+
+    function addHelpMessage(role, message) {
+      const messages = document.querySelector("#helpMessages");
+      const bubble = document.createElement("div");
+      bubble.className = `assistant-message ${role}`;
+      bubble.textContent = message;
+      messages.appendChild(bubble);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function helpAnswer(question) {
+      const query = question.toLowerCase();
+      const summary = stats();
+
+      if (/add|enter|log/.test(query) && /trade|position|execution/.test(query)) {
+        return "Open Add Trade in the left menu. Enter the trading day, exact entry and exit times, symbol, result, planned risk, and setup. Save it, then open Journal to attach charts and write your review.";
+      }
+      if (/csv|import|broker|thinkorswim|schwab/.test(query)) {
+        return "Open Add Trade, then use CSV Import. The importer recognizes common fields such as date, symbol, quantity, P/L, entry time, exit time, setup, and mistake. You can also drag a CSV into the import area.";
+      }
+      if (/private|privacy|secure|see my|data/.test(query)) {
+        return "Your account is protected by Supabase authentication and row-level security. Each signed-in user can read and update only their own journal record. Avoid sharing passwords, reset links, or login tokens with anyone.";
+      }
+      if (/win rate|profit|p\/l|performance|stat|result/.test(query)) {
+        if (!summary.trades) return "Your dashboard will calculate win rate, total P/L, average trade, total R, and risk breaks after you add or import trades. You can load the demo data to preview how the analysis works.";
+        return `Your journal currently has ${summary.trades} trades, a ${summary.winRate}% win rate, ${money.format(summary.total)} total P/L, ${formatR(summary.totalR)} total performance, and ${summary.riskBreaks} over-risk trade${summary.riskBreaks === 1 ? "" : "s"}.`;
+      }
+      if (/risk|r multiple|over.?risk|position size/.test(query)) {
+        return "TradeReview compares risk used with the planned risk for each trade. Above your warning level is flagged even when the trade wins, because a good outcome does not make an oversized decision safe.";
+      }
+      if (/journal|recap|mindset|grade|review/.test(query)) {
+        return "Open Journal, choose a trading day, review every trade, then record mindset, grade, recap, and one rule for tomorrow. The strongest review is specific: what you saw, what you planned, what you did, and what changes next time.";
+      }
+      if (/chart|screenshot|image|entry|exit/.test(query)) {
+        return "In Journal, attach an entry and exit screenshot to each trade. Then choose Full Review to compare the charts with the exact execution times, risk, setup, mistake tag, and notes.";
+      }
+      if (/google|gmail|sign in|login|account|password/.test(query)) {
+        return "Use Continue with Google for a Gmail account, or use email and password. If you forget your password, enter your email and choose Forgot password. Never paste a confirmation or reset link into a message.";
+      }
+      return "I can help with account access, CSV imports, adding trades, chart screenshots, daily journaling, risk flags, and dashboard statistics. Ask me about one of those and I’ll walk you through it.";
+    }
+
+    function setHelpOpen(isOpen) {
+      const panel = document.querySelector("#helpPanel");
+      const launcher = document.querySelector("#helpLauncher");
+      panel.classList.toggle("open", isOpen);
+      panel.setAttribute("aria-hidden", String(!isOpen));
+      launcher.setAttribute("aria-expanded", String(isOpen));
+      if (isOpen) document.querySelector("#helpInput").focus();
+    }
+
+    document.querySelector("#helpLauncher").addEventListener("click", () => {
+      setHelpOpen(!document.querySelector("#helpPanel").classList.contains("open"));
+    });
+    document.querySelector("#helpClose").addEventListener("click", () => setHelpOpen(false));
+    document.querySelectorAll("[data-help-question]").forEach(button => {
+      button.addEventListener("click", () => {
+        const question = button.dataset.helpQuestion;
+        addHelpMessage("user", question);
+        addHelpMessage("guide", helpAnswer(question));
+      });
+    });
+    document.querySelector("#helpForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const input = document.querySelector("#helpInput");
+      const question = input.value.trim();
+      if (!question) return;
+      addHelpMessage("user", question);
+      input.value = "";
+      window.setTimeout(() => addHelpMessage("guide", helpAnswer(question)), 180);
+    });
+
+    document.querySelector("#googleAuth").addEventListener("click", async () => {
+      const button = document.querySelector("#googleAuth");
+      button.disabled = true;
+      setAuthStatus("Opening Google sign-in...");
+      try {
+        const redirectTo = authRedirectUrl();
+        const { error } = await cloudClient.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo,
+            queryParams: { prompt: "select_account" }
+          }
+        });
+        if (error) throw error;
+      } catch (error) {
+        const providerDisabled = /provider|unsupported|enabled/i.test(error.message || "");
+        setAuthStatus(
+          providerDisabled ? "Google sign-in is not enabled yet. Please use email while it is being connected." : (error.message || "Google sign-in could not start."),
+          true
+        );
+        button.disabled = false;
+      }
     });
 
     document.querySelectorAll("[data-auth-mode]").forEach(button => {
