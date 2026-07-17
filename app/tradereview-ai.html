@@ -2374,6 +2374,42 @@
       if (error) console.error("Cloud sync failed", error.message);
     }
 
+    async function syncBrokerConnectionMetadata(connection) {
+      if (!cloudSyncReady || !currentUser || !connection?.provider || connection.status !== "requested") return;
+      const syncScope = {
+        executions: Boolean(connection.syncExecutions),
+        fees: Boolean(connection.syncFees),
+        positions: Boolean(connection.syncPositions),
+        notes: Boolean(connection.syncNotes)
+      };
+      const now = new Date().toISOString();
+      const { error } = await cloudClient.from("broker_connections").upsert({
+        user_id: currentUser.id,
+        provider: connection.provider,
+        provider_kind: connection.providerKind || brokerProviderKind(connection.provider),
+        status: "requested",
+        sync_window: connection.syncWindow || "90",
+        sync_scope: syncScope,
+        requested_at: connection.requestedAt || now,
+        updated_at: now,
+        metadata: {
+          source: "tradereview_web_app",
+          note: "User prepared secure broker sync. Provider connection URL is created server-side after API keys are configured."
+        }
+      }, { onConflict: "user_id,provider" });
+      if (error) console.error("Broker connection metadata sync failed", error.message);
+    }
+
+    async function deleteBrokerConnectionMetadata(provider) {
+      if (!cloudSyncReady || !currentUser || !provider) return;
+      const { error } = await cloudClient
+        .from("broker_connections")
+        .delete()
+        .eq("user_id", currentUser.id)
+        .eq("provider", provider);
+      if (error) console.error("Broker connection metadata delete failed", error.message);
+    }
+
     function setAuthStatus(message, isError = false) {
       const status = document.querySelector("#authStatus");
       status.textContent = message;
@@ -3179,6 +3215,7 @@
       saveState();
       renderProfileContext();
       renderBrokerConnection();
+      syncBrokerConnectionMetadata(state.brokerConnection);
     }
 
     function selectedOnboardingValue(name) {
@@ -3357,9 +3394,11 @@
       saveBrokerConnectionFromForm("requested");
     });
     document.querySelector("#clearBrokerRequest").addEventListener("click", () => {
+      const providerToClear = state.brokerConnection?.provider || state.profile?.broker || "";
       state.brokerConnection = { ...defaultBrokerConnection(), provider: state.brokerConnection?.provider || state.profile?.broker || "" };
       saveState();
       renderBrokerConnection();
+      deleteBrokerConnectionMetadata(providerToClear);
     });
     document.querySelector("#brokerImportShortcut").addEventListener("click", () => switchView("import"));
     document.querySelector("#installMobileApp").addEventListener("click", installMobileApp);
