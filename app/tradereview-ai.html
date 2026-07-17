@@ -2509,7 +2509,7 @@
         showOnboardingIfNeeded();
 
       } catch (error) {
-        showAuth("Your account works, but the private journal database is not ready yet. Run the supplied Supabase schema, then sign in again.", true);
+        showAuth(`Your account works, but the private journal database did not save: ${friendlyAuthError(error)}`, true);
         console.error(error);
       } finally {
         activatingUserId = null;
