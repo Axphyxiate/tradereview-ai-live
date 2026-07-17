@@ -557,6 +557,20 @@
       font-size: 12px;
     }
 
+    .shot-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .shot-actions .chart-link,
+    .shot-actions button {
+      min-height: 32px;
+      padding: 6px 7px;
+      font-size: 11px;
+    }
+
     .chart-tools {
       display: grid;
       gap: 8px;
@@ -577,6 +591,9 @@
       text-decoration: none;
       padding: 7px 9px;
     }
+
+    .chart-link.entry { border-color: rgba(24, 217, 149, .24); color: #55e5a5; }
+    .chart-link.exit { border-color: rgba(255, 83, 109, .28); color: #ff7588; }
 
     .time-note {
       color: var(--muted);
@@ -2510,6 +2527,12 @@
       return `${trade.date || todayKey()} ${time}`;
     }
 
+    function captureLabel(trade, field) {
+      const side = field === "entryScreenshot" ? "Entry" : "Exit";
+      const timeField = field === "entryScreenshot" ? "entryTime" : "exitTime";
+      return `${side} screenshot - ${chartTicker(trade) || trade.symbol} - ${marketTimeLabel(trade, timeField)} - 1m TradingView`;
+    }
+
     function plannedRisk() {
       return Math.max(num(state.settings.riskPerTrade), 1);
     }
@@ -2789,6 +2812,9 @@
       document.querySelectorAll("[data-shot-save]").forEach(button => {
         button.addEventListener("click", () => saveScreenshotUrl(button));
       });
+      document.querySelectorAll("[data-copy-shot-label]").forEach(button => {
+        button.addEventListener("click", () => copyShotLabel(button));
+      });
       bindReviewButtons();
     }
 
@@ -2805,8 +2831,13 @@
     function screenshotBox(trade, field, label) {
       const timeField = field === "entryScreenshot" ? "entryTime" : "exitTime";
       const image = trade[field] ? `<img src="${trade[field]}" alt="${label} screenshot for ${escapeHtml(trade.symbol)}">` : `<span>${label}<br>${escapeHtml(marketTimeLabel(trade, timeField))}</span>`;
+      const tone = field === "entryScreenshot" ? "entry" : "exit";
       return `<div class="shot-box">
         ${image}
+        <div class="shot-actions">
+          <a class="chart-link ${tone}" href="${tradingViewUrl(trade)}" target="_blank" rel="noopener">Open ${label}</a>
+          <button type="button" data-copy-shot-label="${trade.id}" data-field="${field}">Copy time</button>
+        </div>
         <input type="file" accept="image/*" data-shot="${trade.id}" data-field="${field}" title="${label} screenshot">
         <div class="shot-url">
           <input value="" data-shot-url="${trade.id}" data-field="${field}" placeholder="image URL">
@@ -2818,7 +2849,8 @@
     function chartTools(trade) {
       const url = tradingViewUrl(trade);
       return `<div class="chart-tools">
-        <a class="chart-link" href="${url}" target="_blank" rel="noopener">Open 1m chart</a>
+        <a class="chart-link entry" href="${url}" target="_blank" rel="noopener">Open entry chart</a>
+        <a class="chart-link exit" href="${url}" target="_blank" rel="noopener">Open exit chart</a>
         <div class="time-note">Entry: ${escapeHtml(marketTimeLabel(trade, "entryTime"))}<br>Exit: ${escapeHtml(marketTimeLabel(trade, "exitTime"))}</div>
       </div>`;
     }
@@ -2845,6 +2877,18 @@
       render();
     }
 
+    function copyShotLabel(button) {
+      const trade = state.trades.find(item => item.id === button.dataset.copyShotLabel);
+      if (!trade) return;
+      const text = captureLabel(trade, button.dataset.field);
+      navigator.clipboard?.writeText(text).then(() => {
+        button.textContent = "Copied";
+        setTimeout(() => { button.textContent = "Copy time"; }, 1200);
+      }).catch(() => {
+        prompt("Copy this TradingView capture label:", text);
+      });
+    }
+
     function selectedTrade() {
       if (selectedTradeId) {
         const match = state.trades.find(trade => trade.id === selectedTradeId);
@@ -2858,13 +2902,15 @@
     function visualPanel(trade, field, title, timeField) {
       const image = trade?.[field];
       const label = trade ? marketTimeLabel(trade, timeField) : "";
+      const tone = field === "entryScreenshot" ? "entry" : "exit";
+      const empty = trade ? `<div class="visual-empty"><strong>No ${title.toLowerCase()} chart yet</strong><span>Open TradingView at ${escapeHtml(label)}, take the screenshot, then attach it in the Journal screenshot box.</span><a class="chart-link ${tone}" href="${tradingViewUrl(trade)}" target="_blank" rel="noopener">Open ${title} chart</a></div>` : "";
       return `<div class="panel">
         <div class="panel-header">
           <h2>${title}</h2>
           <span class="time-note">${escapeHtml(label)}</span>
         </div>
         <div class="visual-frame">
-          ${image ? `<img src="${image}" alt="${title} chart for ${escapeHtml(trade.symbol)}">` : `<div class="visual-empty"><strong>No ${title.toLowerCase()} chart yet</strong><span>Attach a chart screenshot in the journal, then review the candle, level, stop, and decision here.</span></div>`}
+          ${image ? `<img src="${image}" alt="${title} chart for ${escapeHtml(trade.symbol)}">` : empty}
         </div>
       </div>`;
     }
@@ -3343,7 +3389,7 @@
         return "Open Journal, choose a trading day, review every trade, then record mindset, grade, recap, and one rule for tomorrow. The strongest review is specific: what you saw, what you planned, what you did, and what changes next time.";
       }
       if (/chart|screenshot|image|entry|exit/.test(query)) {
-        return "In Journal, attach an entry and exit screenshot to each trade. Then choose Full Review to compare the charts with the exact execution times, risk, setup, mistake tag, and notes.";
+        return "In Journal, use Open entry chart or Open exit chart beside a trade. TradingView opens on the 1-minute chart for that ticker; use the copied time label to capture the exact entry or exit candle, then attach the screenshot back to the trade.";
       }
       if (/google|gmail|sign in|login|account|password/.test(query)) {
         return "Use Continue with Google for a Gmail account, or use email and password. If you forget your password, enter your email and choose Forgot password. Never paste a confirmation or reset link into a message.";
