@@ -1069,6 +1069,24 @@
 
     .auth-copy { color: #90a6a0; margin: 10px 0 24px; }
 
+    .auth-free-badge {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: -8px 0 18px;
+      padding: 11px 13px;
+      border: 1px solid rgba(83, 230, 165, .15);
+      border-radius: 11px;
+      color: #c8dad4;
+      background: rgba(73, 211, 154, .055);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .auth-free-badge strong { color: #18d995; font-size: 17px; }
+    .auth-free-badge span { color: #728982; font-size: 10px; font-weight: 650; }
+
     .auth-tabs {
       border: 1px solid rgba(172, 217, 203, .09);
       border-radius: 13px;
@@ -1295,6 +1313,10 @@
     .assistant-message.user { margin-left: auto; border-bottom-right-radius: 4px; background: linear-gradient(135deg, #50d99d, #36b67c); color: #061510; font-weight: 650; }
     .assistant-suggestions { display: flex; gap: 7px; overflow-x: auto; padding: 0 16px 12px; }
     .assistant-suggestions button { flex: 0 0 auto; min-height: 32px; padding: 6px 10px; border-radius: 999px; color: #87ddb7; font-size: 11px; background: rgba(72,205,151,.055); }
+    .assistant-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; padding: 0 16px 10px; }
+    .assistant-actions button { min-height: 34px; padding: 6px 10px; border-radius: 9px; color: #9cb0aa; font-size: 10px; font-weight: 800; background: rgba(255,255,255,.025); }
+    .agent-support-link { display: block; margin: 0 16px 11px; padding: 10px 12px; border-radius: 9px; color: #061410; background: #18d995; text-align: center; text-decoration: none; font-size: 11px; font-weight: 900; }
+    .agent-support-link[hidden] { display: none; }
     .assistant-form { gap: 8px; padding: 12px; border-top: 1px solid rgba(174,218,204,.1); }
     .assistant-form input { min-height: 42px; }
     .assistant-form button { width: 42px; min-height: 42px; padding: 0; border-radius: 11px; }
@@ -1390,6 +1412,7 @@
           <div class="auth-brand"><div class="mark">TR</div><span>TradeReview AI</span></div>
           <h1 id="authTitle">Welcome back</h1>
           <p class="auth-copy" id="authCopy">Sign in to open your private trading journal.</p>
+          <div class="auth-free-badge"><strong>$0 account</strong><span>Full current journal workflow · No card required</span></div>
           <div class="auth-tabs" id="authTabs">
             <button class="active" type="button" data-auth-mode="signin">Sign in</button>
             <button type="button" data-auth-mode="signup">Create account</button>
@@ -1722,6 +1745,8 @@
     <div class="assistant-messages" id="helpMessages" aria-live="polite">
       <div class="assistant-message guide">Hi — I can help with accounts, imports, journaling, risk, and the statistics in your workspace. What would you like to know?</div>
     </div>
+    <div class="assistant-actions"><button id="instantGuideApp" type="button">Instant guide</button><button id="talkAgentApp" type="button">Talk to an agent</button></div>
+    <a class="agent-support-link" id="agentSupportLink" href="https://github.com/Axphyxiate/tradereview-ai-live/issues/new?title=TradeReview%20support%20request&amp;body=Please%20describe%20what%20you%20need%20help%20with.%20Do%20not%20include%20passwords%2C%20login%20links%2C%20or%20private%20trade%20data." target="_blank" rel="noopener" hidden>Open human support request →</a>
     <div class="assistant-suggestions" aria-label="Suggested questions">
       <button type="button" data-help-question="How do I add a trade?">Add a trade</button>
       <button type="button" data-help-question="Explain my stats">Explain my stats</button>
@@ -2716,6 +2741,9 @@
       const query = question.toLowerCase();
       const summary = stats();
 
+      if (/agent|human|person|support/.test(query)) {
+        return "Choose Talk to an agent below to open a human support request. Requests are handled through public GitHub Issues, so never include passwords, login links, or private trading data.";
+      }
       if (/add|enter|log/.test(query) && /trade|position|execution/.test(query)) {
         return "Open Add Trade in the left menu. Enter the trading day, exact entry and exit times, symbol, result, planned risk, and setup. Save it, then open Journal to attach charts and write your review.";
       }
@@ -2757,6 +2785,15 @@
       setHelpOpen(!document.querySelector("#helpPanel").classList.contains("open"));
     });
     document.querySelector("#helpClose").addEventListener("click", () => setHelpOpen(false));
+    document.querySelector("#instantGuideApp").addEventListener("click", () => {
+      document.querySelector("#agentSupportLink").hidden = true;
+      addHelpMessage("guide", "Ask me about the free account, importing trades, journal reviews, risk, privacy, or performance statistics.");
+      document.querySelector("#helpInput").focus();
+    });
+    document.querySelector("#talkAgentApp").addEventListener("click", () => {
+      addHelpMessage("guide", "Human support is available through a GitHub support request. It is not live chat and the request is public, so do not include passwords, authentication links, or private trading data.");
+      document.querySelector("#agentSupportLink").hidden = false;
+    });
     document.querySelectorAll("[data-help-question]").forEach(button => {
       button.addEventListener("click", () => {
         const question = button.dataset.helpQuestion;
