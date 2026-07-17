@@ -2377,36 +2377,15 @@
     async function syncBrokerConnectionMetadata(connection) {
       if (!cloudSyncReady || !currentUser || !connection?.provider || connection.status !== "requested") return;
       const note = document.querySelector("#brokerConnectionNote");
-      const { error } = await cloudClient.rpc("save_broker_connection_request", {
-        p_provider: connection.provider,
-        p_provider_kind: connection.providerKind || brokerProviderKind(connection.provider),
-        p_sync_scope: {
-          executions: Boolean(connection.syncExecutions),
-          fees: Boolean(connection.syncFees),
-          positions: Boolean(connection.syncPositions),
-          notes: Boolean(connection.syncNotes)
-        },
-        p_sync_window: connection.syncWindow || "90"
-      });
-
-      if (error) {
-        console.error("Broker connection metadata sync failed", error.message);
-        if (note) note.innerHTML = `<strong>Could not save broker request:</strong> ${escapeHtml(error.message)}`;
-      } else if (note) {
-        note.innerHTML = `<strong>Broker sync request saved:</strong> ${escapeHtml(connection.provider)} is now tracked in Supabase. Direct sync will start after provider API keys are connected.`;
+      if (note) {
+        note.innerHTML = `<strong>Broker sync request saved:</strong> ${escapeHtml(connection.provider)} is saved with your journal. Supabase mirrors this into the broker request table after cloud sync.`;
       }
     }
 
     async function deleteBrokerConnectionMetadata(provider) {
       if (!cloudSyncReady || !currentUser || !provider) return;
-      const { error } = await cloudClient.rpc("clear_broker_connection_request", {
-        p_provider: provider
-      });
-      if (error) console.error("Broker connection metadata delete failed", error.message);
-      else {
-        const note = document.querySelector("#brokerConnectionNote");
-        if (note) note.innerHTML = "<strong>Broker request cleared:</strong> Supabase broker request metadata was removed for this broker.";
-      }
+      const note = document.querySelector("#brokerConnectionNote");
+      if (note) note.innerHTML = "<strong>Broker request cleared:</strong> The request was cleared from your journal and will be mirrored to Supabase.";
     }
 
     function setAuthStatus(message, isError = false) {
