@@ -838,25 +838,28 @@
     :root {
       color-scheme: dark;
       --ink: #edf7f4;
-      --muted: #91a6a1;
-      --line: rgba(174, 218, 204, .13);
-      --soft: #0a1619;
-      --paper: #0e1b1e;
+      --muted: #93a5bd;
+      --line: rgba(168, 185, 236, .14);
+      --soft: #081126;
+      --paper: #0d1830;
       --green: #18d995;
       --red: #ff536d;
-      --blue: #5ad9f5;
+      --blue: #5f86ff;
+      --violet: #9b7cff;
+      --cyan: #59d9f0;
       --gold: #f2c56d;
       --shadow: 0 22px 60px rgba(0, 0, 0, .28);
     }
 
-    html { background: #061012; }
+    html { background: #050817; }
 
     body {
       min-height: 100vh;
       background:
-        radial-gradient(circle at 14% 0%, rgba(24, 217, 149, .09), transparent 29rem),
-        radial-gradient(circle at 100% 18%, rgba(255, 83, 109, .065), transparent 30rem),
-        #071114;
+        radial-gradient(circle at 12% 0%, rgba(95, 134, 255, .2), transparent 34rem),
+        radial-gradient(circle at 92% 12%, rgba(155, 124, 255, .18), transparent 35rem),
+        radial-gradient(circle at 55% 94%, rgba(89, 217, 240, .08), transparent 38rem),
+        #050817;
     }
 
     .auth-gate {
@@ -865,11 +868,12 @@
       overflow: hidden;
       padding: clamp(18px, 3vw, 42px);
       background:
-        linear-gradient(rgba(125, 226, 193, .025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(125, 226, 193, .025) 1px, transparent 1px),
-        radial-gradient(circle at 12% 18%, rgba(24, 217, 149, .14), transparent 30rem),
-        radial-gradient(circle at 91% 72%, rgba(255, 83, 109, .09), transparent 34rem),
-        #061012;
+        linear-gradient(rgba(151, 170, 235, .035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(151, 170, 235, .035) 1px, transparent 1px),
+        radial-gradient(circle at 12% 18%, rgba(95, 134, 255, .22), transparent 32rem),
+        radial-gradient(circle at 91% 72%, rgba(155, 124, 255, .17), transparent 35rem),
+        radial-gradient(circle at 52% 105%, rgba(242, 197, 109, .075), transparent 25rem),
+        #050817;
       background-size: 54px 54px, 54px 54px, auto, auto, auto;
     }
 
@@ -879,7 +883,7 @@
       position: absolute;
       width: 320px;
       height: 320px;
-      border: 1px solid rgba(83, 230, 165, .14);
+      border: 1px solid rgba(128, 151, 255, .2);
       border-radius: 50%;
       pointer-events: none;
       animation: orbit 18s linear infinite;
@@ -914,11 +918,11 @@
     .brand .mark {
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(90, 239, 177, .3);
+      border: 1px solid rgba(123, 157, 255, .34);
       border-radius: 12px;
-      background: linear-gradient(145deg, rgba(73, 234, 166, .22), rgba(57, 172, 205, .11));
-      color: #74f3b8;
-      box-shadow: inset 0 0 25px rgba(84, 229, 168, .08), 0 12px 30px rgba(0, 0, 0, .22);
+      background: linear-gradient(145deg, rgba(95, 134, 255, .28), rgba(155, 124, 255, .16));
+      color: #b9c8ff;
+      box-shadow: inset 0 0 25px rgba(115, 143, 255, .1), 0 12px 30px rgba(0, 0, 0, .22);
     }
 
     .auth-brand .mark::after,
@@ -936,7 +940,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      color: #82efbd;
+      color: #8eb4ff;
       font-size: 12px;
       font-weight: 800;
       letter-spacing: .08em;
@@ -946,17 +950,17 @@
     .product-pill {
       margin-top: clamp(50px, 9vh, 110px);
       padding: 8px 12px;
-      border: 1px solid rgba(90, 230, 171, .18);
+      border: 1px solid rgba(111, 146, 255, .24);
       border-radius: 999px;
-      background: rgba(73, 196, 148, .07);
+      background: rgba(91, 121, 236, .1);
     }
 
     .live-dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: #5ce7a7;
-      box-shadow: 0 0 0 5px rgba(92, 231, 167, .1), 0 0 18px rgba(92, 231, 167, .75);
+      background: #69c7ff;
+      box-shadow: 0 0 0 5px rgba(105, 199, 255, .1), 0 0 18px rgba(105, 199, 255, .7);
     }
 
     .auth-story h1 {
@@ -969,7 +973,7 @@
 
     .auth-story h1 span {
       color: transparent;
-      background: linear-gradient(100deg, #f7fffb 18%, #dff8ef 58%, #56e4aa 100%);
+      background: linear-gradient(100deg, #f8fbff 16%, #dce7ff 54%, #9f86ff 100%);
       -webkit-background-clip: text;
       background-clip: text;
     }
@@ -987,9 +991,9 @@
       max-width: 650px;
       margin-top: 34px;
       padding: 18px;
-      border: 1px solid rgba(167, 227, 207, .14);
+      border: 1px solid rgba(153, 169, 236, .17);
       border-radius: 24px;
-      background: linear-gradient(145deg, rgba(20, 42, 41, .76), rgba(9, 23, 27, .92));
+      background: linear-gradient(145deg, rgba(21, 33, 63, .82), rgba(8, 16, 34, .94));
       box-shadow: 0 30px 80px rgba(0, 0, 0, .34);
       backdrop-filter: blur(18px);
     }
@@ -1051,9 +1055,9 @@
     .auth-card {
       width: 100%;
       padding: clamp(24px, 4vw, 38px);
-      border: 1px solid rgba(174, 228, 209, .14);
+      border: 1px solid rgba(157, 174, 239, .18);
       border-radius: 26px;
-      background: linear-gradient(155deg, rgba(19, 37, 38, .96), rgba(10, 23, 27, .98));
+      background: linear-gradient(155deg, rgba(19, 31, 59, .97), rgba(8, 15, 33, .99));
       color: #edf7f4;
       box-shadow: 0 40px 100px rgba(0, 0, 0, .46);
       backdrop-filter: blur(20px);
@@ -1076,15 +1080,15 @@
       gap: 12px;
       margin: -8px 0 18px;
       padding: 11px 13px;
-      border: 1px solid rgba(83, 230, 165, .15);
+      border: 1px solid rgba(102, 151, 255, .2);
       border-radius: 11px;
       color: #c8dad4;
-      background: rgba(73, 211, 154, .055);
+      background: linear-gradient(110deg, rgba(76, 129, 255, .1), rgba(155, 124, 255, .055));
       font-size: 12px;
       font-weight: 800;
     }
 
-    .auth-free-badge strong { color: #18d995; font-size: 17px; }
+    .auth-free-badge strong { color: #74b8ff; font-size: 17px; }
     .auth-free-badge span { color: #728982; font-size: 10px; font-weight: 650; }
 
     .auth-tabs {
@@ -1139,21 +1143,21 @@
     input, select, textarea {
       border-color: rgba(178, 219, 206, .14);
       border-radius: 10px;
-      background: #091519;
+      background: #081127;
       color: #edf7f4;
       outline: none;
       transition: border-color .16s ease, box-shadow .16s ease, background .16s ease;
     }
 
     input:focus, select:focus, textarea:focus {
-      border-color: rgba(83, 230, 165, .58);
-      box-shadow: 0 0 0 4px rgba(83, 230, 165, .08);
-      background: #0b181c;
+      border-color: rgba(105, 143, 255, .68);
+      box-shadow: 0 0 0 4px rgba(95, 134, 255, .1);
+      background: #0a1530;
     }
 
-    button { border-color: var(--line); border-radius: 10px; background: #112126; color: #e8f4f0; transition: transform .15s ease, border-color .15s ease, background .15s ease; }
-    button:hover { filter: none; border-color: rgba(91, 225, 171, .28); transform: translateY(-1px); }
-    button.primary { border-color: transparent; background: linear-gradient(135deg, #5be6a9, #3ec989); color: #061410; font-weight: 850; box-shadow: 0 13px 30px rgba(55, 207, 143, .15); }
+    button { border-color: var(--line); border-radius: 10px; background: #111d38; color: #edf2ff; transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease; }
+    button:hover { filter: none; border-color: rgba(120, 151, 255, .38); transform: translateY(-1px); }
+    button.primary { border-color: transparent; background: linear-gradient(135deg, #5f86ff, #8d68ee); color: #fff; font-weight: 850; box-shadow: 0 13px 30px rgba(91, 113, 238, .24); }
     .auth-submit { min-height: 48px; border-radius: 12px; }
     .auth-link { color: #77dcae; }
     .auth-status { color: #91a7a1; }
@@ -1182,7 +1186,7 @@
 
     aside {
       border-color: rgba(174, 218, 204, .1);
-      background: linear-gradient(180deg, rgba(9, 24, 27, .98), rgba(6, 17, 20, .98));
+      background: linear-gradient(180deg, rgba(10, 19, 40, .99), rgba(6, 11, 27, .99));
       padding: 22px 15px;
     }
 
@@ -1191,27 +1195,27 @@
     nav { gap: 6px; }
     nav button { min-height: 45px; border-radius: 11px; color: #809690; }
     nav button:hover { background: rgba(255,255,255,.028); color: #c9d8d4; }
-    nav button.active { background: linear-gradient(90deg, rgba(73, 226, 163, .13), rgba(73, 226, 163, .035)); color: #71e7ae; box-shadow: inset 3px 0 #58dfa5; }
+    nav button.active { background: linear-gradient(90deg, rgba(95, 134, 255, .18), rgba(155, 124, 255, .05)); color: #9db7ff; box-shadow: inset 3px 0 #7195ff, 0 10px 30px rgba(58, 79, 168, .08); }
 
     .account-panel { border-color: rgba(174,218,204,.11); border-radius: 13px; background: rgba(255,255,255,.025); }
     .account-panel strong { color: #dceae6; }
     .account-panel span { color: #6f8580; }
 
-    main { padding: clamp(22px, 3vw, 38px); background: radial-gradient(circle at 96% 4%, rgba(74, 210, 157, .055), transparent 28rem); }
+    main { position: relative; z-index: 1; padding: clamp(22px, 3vw, 38px); background: radial-gradient(circle at 96% 4%, rgba(155,124,255,.13), transparent 30rem), radial-gradient(circle at 4% 56%, rgba(95,134,255,.1), transparent 34rem), radial-gradient(circle at 82% 92%, rgba(242,197,109,.055), transparent 24rem); }
     h1 { letter-spacing: -.045em; }
     .subtitle { color: #829892; line-height: 1.55; }
     .page-kicker { margin-bottom: 10px; }
 
     .panel {
       overflow: hidden;
-      border-color: rgba(174, 218, 204, .1);
+      border-color: rgba(157, 174, 232, .13);
       border-radius: 14px;
-      background: linear-gradient(155deg, rgba(17, 34, 37, .96), rgba(11, 25, 29, .98));
+      background: linear-gradient(155deg, rgba(17, 29, 55, .97), rgba(8, 17, 35, .99));
       box-shadow: var(--shadow);
     }
 
     .stat { position: relative; min-height: 118px; }
-    .stat::after { content: ""; position: absolute; inset: auto 14px 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(24,217,149,.48), rgba(255,83,109,.24), transparent); }
+    .stat::after { content: ""; position: absolute; inset: auto 14px 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(95,134,255,.55), rgba(155,124,255,.44), rgba(242,197,109,.2), transparent); }
     .stat span { color: #788d87; text-transform: uppercase; letter-spacing: .05em; font-size: 10px; font-weight: 750; }
     .stat strong { color: #edf8f4; letter-spacing: -.04em; }
     .performance-overview { margin-bottom: 18px; }
@@ -1321,6 +1325,147 @@
     .assistant-form input { min-height: 42px; }
     .assistant-form button { width: 42px; min-height: 42px; padding: 0; border-radius: 11px; }
 
+    /* Dynamic workspace color and motion */
+    .app { position: relative; isolation: isolate; overflow: hidden; background: #050817; }
+    .app::before,
+    .app::after {
+      content: "";
+      position: fixed;
+      z-index: 0;
+      width: 42vw;
+      height: 42vw;
+      min-width: 420px;
+      min-height: 420px;
+      border-radius: 50%;
+      filter: blur(110px);
+      opacity: .11;
+      pointer-events: none;
+      animation: workspaceAurora 17s ease-in-out infinite alternate;
+    }
+    .app::before { top: 5%; left: 18%; background: #5f86ff; }
+    .app::after { right: -8%; bottom: -12%; background: #9b7cff; animation-delay: -8s; animation-direction: alternate-reverse; }
+    .app > aside { z-index: 2; }
+    @keyframes workspaceAurora { from { transform: translate3d(-5%, -4%, 0) scale(.86); } to { transform: translate3d(13%, 11%, 0) scale(1.14); } }
+
+    .section.active { animation: viewReveal .4s ease both; }
+    .section.active > .topbar { animation: titleReveal .5s cubic-bezier(.2,.8,.2,1) both; }
+    .section.active .panel { animation: panelReveal .5s cubic-bezier(.2,.8,.2,1) both; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+    .section.active .panel:hover { transform: translateY(-3px); border-color: rgba(121, 150, 255, .27); box-shadow: 0 28px 70px rgba(0,0,0,.32), 0 0 0 1px rgba(117,145,255,.035); }
+    .stats .stat:nth-child(2) { animation-delay: .05s; }
+    .stats .stat:nth-child(3) { animation-delay: .1s; }
+    .stats .stat:nth-child(4) { animation-delay: .15s; }
+    .stats .stat:nth-child(5) { animation-delay: .2s; }
+    .stats .stat:nth-child(6) { animation-delay: .25s; }
+    @keyframes viewReveal { from { opacity: .62; } to { opacity: 1; } }
+    @keyframes titleReveal { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+    @keyframes panelReveal { from { opacity: 0; transform: translateY(14px) scale(.992); } to { opacity: 1; transform: none; } }
+
+    .equity-line { stroke-dasharray: 1500; stroke-dashoffset: 1500; animation: equityTrace 1.5s ease forwards .2s; }
+    .equity-point { transform-box: fill-box; transform-origin: center; animation: pointPop .35s ease both .9s; }
+    .equity-bar { transform-box: fill-box; transform-origin: center bottom; animation: barRise .6s ease both .55s; }
+    @keyframes equityTrace { to { stroke-dashoffset: 0; } }
+    @keyframes pointPop { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: scale(1); } }
+    @keyframes barRise { from { opacity: 0; transform: scaleY(.08); } to { opacity: 1; transform: scaleY(1); } }
+
+    .trader-context {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 13px;
+      padding: 7px 10px;
+      border: 1px solid rgba(113, 149, 255, .18);
+      border-radius: 999px;
+      color: #aab9dc;
+      background: rgba(82, 112, 225, .075);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .trader-context::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #69c7ff; box-shadow: 0 0 12px rgba(105,199,255,.75); }
+
+    .review-pulse {
+      display: grid;
+      grid-template-columns: auto minmax(0,1fr);
+      align-items: center;
+      gap: 16px;
+      overflow: hidden;
+      margin: -3px 0 18px;
+      padding: 10px 13px;
+      border: 1px solid rgba(151, 172, 237, .12);
+      border-radius: 12px;
+      background: linear-gradient(90deg, rgba(95,134,255,.08), rgba(155,124,255,.045));
+    }
+    .pulse-label { color: #77b8ff; font-size: 9px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+    .pulse-mask { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+    .pulse-track { width: max-content; display: flex; gap: 9px; animation: pulseFlow 20s linear infinite; }
+    .pulse-track span { display: inline-flex; align-items: center; gap: 8px; color: #8d9dbd; font-size: 10px; font-weight: 750; white-space: nowrap; }
+    .pulse-track span::after { content: "◆"; color: #8b78f2; font-size: 6px; }
+    @keyframes pulseFlow { to { transform: translateX(-50%); } }
+
+    .profile-summary { display: grid; gap: 10px; }
+    .profile-summary-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 11px 0; border-bottom: 1px solid rgba(157,174,232,.09); color: #8191ad; font-size: 12px; }
+    .profile-summary-row:last-child { border-bottom: 0; }
+    .profile-summary-row strong { color: #e1e8fa; text-align: right; }
+    .roadmap-status { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; padding: 5px 8px; border-radius: 999px; color: #8fb1ff; background: rgba(95,134,255,.09); font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
+    .roadmap-status.live { color: #55e5a5; background: rgba(24,217,149,.08); }
+    .review-item.roadmap-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-left-color: #718fff; background: linear-gradient(90deg, rgba(95,134,255,.08), rgba(155,124,255,.035)); }
+
+    /* First-login trader profile */
+    .onboarding {
+      display: none;
+      position: fixed;
+      z-index: 220;
+      inset: 0;
+      place-items: center;
+      overflow-y: auto;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 14% 10%, rgba(95,134,255,.24), transparent 32rem),
+        radial-gradient(circle at 88% 82%, rgba(155,124,255,.2), transparent 34rem),
+        rgba(3, 7, 20, .9);
+      backdrop-filter: blur(18px);
+    }
+    .onboarding-active { overflow: hidden; }
+    .onboarding-active .onboarding { display: grid; }
+    .onboarding-active .app { pointer-events: none; }
+    .onboarding-card {
+      width: min(760px, 100%);
+      overflow: hidden;
+      border: 1px solid rgba(157,174,239,.2);
+      border-radius: 26px;
+      background: linear-gradient(155deg, rgba(18,31,61,.99), rgba(7,14,32,.995));
+      box-shadow: 0 42px 120px rgba(0,0,0,.58);
+      animation: onboardingIn .48s cubic-bezier(.2,.8,.2,1) both;
+    }
+    @keyframes onboardingIn { from { opacity: 0; transform: translateY(24px) scale(.975); } to { opacity: 1; transform: none; } }
+    .onboarding-head { padding: 24px 26px 18px; border-bottom: 1px solid rgba(157,174,232,.1); }
+    .onboarding-brand { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .onboarding-brand strong { font-size: 15px; }
+    .onboarding-brand span { color: #8091af; font-size: 10px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+    .onboarding-progress { height: 4px; margin-top: 18px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.06); }
+    .onboarding-progress i { display: block; width: 33.333%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #5f86ff, #a174ff); box-shadow: 0 0 18px rgba(113,137,255,.42); transition: width .3s ease; }
+    .onboarding-body { padding: clamp(24px, 5vw, 42px); }
+    .onboarding-kicker { color: #78a7ff; font-size: 10px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+    .onboarding-step { display: none; }
+    .onboarding-step.active { display: block; animation: stepIn .3s ease both; }
+    @keyframes stepIn { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: none; } }
+    .onboarding-step h2 { margin: 10px 0 8px; color: #f2f5ff; font-size: clamp(29px, 5vw, 42px); letter-spacing: -.045em; }
+    .onboarding-step > p { max-width: 600px; margin: 0; color: #8e9cb8; line-height: 1.6; }
+    .onboarding-options { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin-top: 26px; }
+    .onboarding-option { position: relative; cursor: pointer; }
+    .onboarding-option input { position: absolute; top: 0; left: 0; width: 1px; height: 1px; overflow: hidden; opacity: 0; pointer-events: none; }
+    .onboarding-option-body { min-height: 72px; display: grid; align-content: center; gap: 4px; padding: 13px 15px; border: 1px solid rgba(157,174,232,.13); border-radius: 13px; color: #c8d1e6; background: rgba(255,255,255,.025); transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease; }
+    .onboarding-option-body strong { font-size: 13px; }
+    .onboarding-option-body small { color: #71819e; font-size: 10px; line-height: 1.4; }
+    .onboarding-option:hover .onboarding-option-body { transform: translateY(-2px); border-color: rgba(116,150,255,.32); }
+    .onboarding-option input:checked + .onboarding-option-body { border-color: rgba(120,151,255,.68); background: linear-gradient(125deg, rgba(95,134,255,.18), rgba(155,124,255,.1)); box-shadow: 0 0 0 3px rgba(95,134,255,.07), 0 18px 42px rgba(18,28,78,.2); }
+    .onboarding-option input:focus-visible + .onboarding-option-body { outline: 2px solid #83a2ff; outline-offset: 3px; }
+    .onboarding-actions { display: flex; justify-content: space-between; gap: 12px; margin-top: 30px; }
+    .onboarding-actions button { min-width: 126px; }
+    .onboarding-actions button[hidden] { display: none; }
+    .onboarding-actions .primary:disabled { cursor: not-allowed; opacity: .45; transform: none; }
+
     @media (max-width: 940px) {
       .auth-shell { grid-template-columns: 1fr; max-width: 680px; padding: 34px 0; }
       .auth-story { text-align: center; }
@@ -1349,6 +1494,13 @@
       .preview-stats { grid-template-columns: 1fr; }
       .chart-legend-app { flex-wrap: wrap; }
       .equity-chart, .equity-chart svg, .chart-empty { min-height: 205px; height: 205px; }
+      .review-pulse { grid-template-columns: 1fr; gap: 8px; }
+      .onboarding { place-items: start center; padding: 14px; }
+      .onboarding-card { border-radius: 20px; }
+      .onboarding-head { padding: 19px 18px 15px; }
+      .onboarding-body { padding: 24px 18px; }
+      .onboarding-options { grid-template-columns: 1fr; }
+      .onboarding-actions button { min-width: 0; flex: 1; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1445,6 +1597,65 @@
       </div>
     </div>
   </section>
+
+  <section class="onboarding" id="onboarding" aria-label="Trader profile onboarding" aria-hidden="true">
+    <div class="onboarding-card">
+      <div class="onboarding-head">
+        <div class="onboarding-brand"><strong>Build your trader profile</strong><span>$0 journal · no card</span></div>
+        <div class="onboarding-progress" aria-hidden="true"><i id="onboardingProgress"></i></div>
+      </div>
+      <form class="onboarding-body" id="onboardingForm">
+        <div class="onboarding-step active" data-onboarding-step="0">
+          <div class="onboarding-kicker">Question 1 of 3</div>
+          <h2 id="onboardingTitle">How long have you been trading?</h2>
+          <p>This helps TradeReview frame coaching and risk reminders at the right level.</p>
+          <div class="onboarding-options">
+            <label class="onboarding-option"><input type="radio" name="experience" value="Just starting"><span class="onboarding-option-body"><strong>Just starting</strong><small>I’m learning the process and language.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="experience" value="Less than 1 year"><span class="onboarding-option-body"><strong>Less than 1 year</strong><small>I’m building consistency and a playbook.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="experience" value="1–3 years"><span class="onboarding-option-body"><strong>1–3 years</strong><small>I have experience and want cleaner execution.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="experience" value="3–5 years"><span class="onboarding-option-body"><strong>3–5 years</strong><small>I’m refining risk, setups, and repeatability.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="experience" value="5+ years"><span class="onboarding-option-body"><strong>5+ years</strong><small>I’m protecting and scaling a developed edge.</small></span></label>
+          </div>
+        </div>
+
+        <div class="onboarding-step" data-onboarding-step="1">
+          <div class="onboarding-kicker">Question 2 of 3</div>
+          <h2>What is your primary broker?</h2>
+          <p>We’ll use this to prioritize direct broker sync. For now, CSV import and manual entries remain available.</p>
+          <div class="onboarding-options">
+            <label class="onboarding-option"><input type="radio" name="broker" value="Schwab / thinkorswim"><span class="onboarding-option-body"><strong>Schwab / thinkorswim</strong><small>Stocks, options, and futures workflows.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="broker" value="Robinhood"><span class="onboarding-option-body"><strong>Robinhood</strong><small>Mobile-first equities and options.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="broker" value="Webull"><span class="onboarding-option-body"><strong>Webull</strong><small>Equities and options trading.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="broker" value="Interactive Brokers"><span class="onboarding-option-body"><strong>Interactive Brokers</strong><small>Multi-asset and global markets.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="broker" value="NinjaTrader / Tradovate"><span class="onboarding-option-body"><strong>NinjaTrader / Tradovate</strong><small>Futures-focused execution.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="broker" value="TradeStation"><span class="onboarding-option-body"><strong>TradeStation</strong><small>Active trading and automation.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="broker" value="Fidelity / E*TRADE"><span class="onboarding-option-body"><strong>Fidelity / E*TRADE</strong><small>Stocks and listed options.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="broker" value="Other"><span class="onboarding-option-body"><strong>Another broker</strong><small>We’ll still support CSV and manual logging.</small></span></label>
+          </div>
+        </div>
+
+        <div class="onboarding-step" data-onboarding-step="2">
+          <div class="onboarding-kicker">Question 3 of 3</div>
+          <h2>What do you trade most?</h2>
+          <p>Your workspace will surface this beside your broker so future imports and insights can be prioritized around you.</p>
+          <div class="onboarding-options">
+            <label class="onboarding-option"><input type="radio" name="market" value="Stocks"><span class="onboarding-option-body"><strong>Stocks</strong><small>Equities and share-based positions.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="market" value="Options"><span class="onboarding-option-body"><strong>Options</strong><small>Calls, puts, spreads, and premium risk.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="market" value="Futures"><span class="onboarding-option-body"><strong>Futures</strong><small>Index, commodity, or rate contracts.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="market" value="Forex"><span class="onboarding-option-body"><strong>Forex</strong><small>Currency pairs and session-based review.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="market" value="Crypto"><span class="onboarding-option-body"><strong>Crypto</strong><small>Spot and derivatives across digital assets.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="market" value="Multiple markets"><span class="onboarding-option-body"><strong>Multiple markets</strong><small>I want one review process across assets.</small></span></label>
+          </div>
+        </div>
+
+        <div class="onboarding-actions">
+          <button id="onboardingBack" type="button" hidden>Back</button>
+          <button class="primary" id="onboardingNext" type="button" disabled>Continue →</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
   <div class="app">
     <aside>
       <div class="brand"><div class="mark">TR</div><span>TradeReview AI</span></div>
@@ -1458,6 +1669,7 @@
       <div class="account-panel">
         <strong>Free account</strong>
         <span id="accountEmail">Signed in</span>
+        <span id="accountProfile">Trader profile</span>
         <button id="signOut" type="button">Sign out</button>
       </div>
     </aside>
@@ -1469,11 +1681,17 @@
             <div class="page-kicker"><span class="live-dot"></span> Performance workspace</div>
             <h1>Review today before tomorrow trades you.</h1>
             <p class="subtitle">Turn executions into evidence. Capture the trade, review the decision, and let your dashboard expose the habits shaping your results.</p>
+            <div class="trader-context" id="traderContext">Your free review workspace</div>
           </div>
           <div class="actions">
             <button class="primary" data-view-button="import">Add Trade</button>
             <button id="addDemo">Load Demo</button>
           </div>
+        </div>
+
+        <div class="review-pulse" aria-label="Animated journal workflow">
+          <span class="pulse-label">Workspace rhythm</span>
+          <div class="pulse-mask"><div class="pulse-track"><span>Capture execution</span><span>Measure risk</span><span>Tag the setup</span><span>Review the chart</span><span>Name the behavior</span><span>Write tomorrow’s rule</span><span>Capture execution</span><span>Measure risk</span><span>Tag the setup</span><span>Review the chart</span><span>Name the behavior</span><span>Write tomorrow’s rule</span></div></div>
         </div>
 
         <div class="stats">
@@ -1679,11 +1897,16 @@
         <div class="topbar">
           <div>
             <h1>Settings</h1>
-            <p class="subtitle">This first version is CSV-based. The next upgrade can connect to Schwab Trader API after you create a developer app and OAuth credentials.</p>
+            <p class="subtitle">Your trader profile is stored with your private journal and will guide broker-sync priorities and the future mobile experience.</p>
           </div>
         </div>
 
         <div class="grid">
+          <div class="panel">
+            <div class="panel-header"><h2>Trader Profile</h2><button id="editProfile" type="button">Edit profile</button></div>
+            <div class="panel-body profile-summary" id="profileSummary"></div>
+          </div>
+
           <div class="panel">
             <div class="panel-header"><h2>Risk Rules</h2></div>
             <div class="panel-body">
@@ -1706,12 +1929,12 @@
           </div>
 
           <div class="panel">
-            <div class="panel-header"><h2>Broker Connection Plan</h2></div>
+            <div class="panel-header"><h2>Integration Roadmap</h2></div>
             <div class="panel-body review-list">
-              <div class="review-item">Step 1: Use CSV import until your journal habits feel useful.</div>
-              <div class="review-item">Step 2: Create a Schwab Developer account and app.</div>
-              <div class="review-item">Step 3: Add OAuth login so the app can fetch account orders and fills.</div>
-              <div class="review-item">Step 4: Match fills into trades, then keep notes and tags in this app.</div>
+              <div class="review-item roadmap-item"><span>Manual entries and CSV imports</span><span class="roadmap-status live">Available</span></div>
+              <div class="review-item roadmap-item"><span id="primaryBrokerRoadmap">Direct broker sync</span><span class="roadmap-status">Planned</span></div>
+              <div class="review-item roadmap-item"><span>Installable mobile web app</span><span class="roadmap-status">Next phase</span></div>
+              <div class="review-item roadmap-item"><span>Native iOS and Android deployment</span><span class="roadmap-status">Future</span></div>
             </div>
           </div>
 
@@ -1782,6 +2005,7 @@
     let cloudSyncTimer = null;
     let activatingUserId = null;
     let authMode = "signin";
+    let onboardingStep = 0;
 
     const columns = {
       date: ["date", "time", "exec time", "execution time", "filled time"],
@@ -1810,16 +2034,27 @@
       };
     }
 
+    function defaultProfile() {
+      return {
+        completed: false,
+        experience: "",
+        broker: "",
+        market: "",
+        completedAt: ""
+      };
+    }
+
     function loadState(key = activeStoreKey) {
       try {
         const saved = JSON.parse(localStorage.getItem(key));
         return {
           trades: saved?.trades || [],
           journals: saved?.journals || {},
-          settings: { ...defaultSettings(), ...(saved?.settings || {}) }
+          settings: { ...defaultSettings(), ...(saved?.settings || {}) },
+          profile: { ...defaultProfile(), ...(saved?.profile || {}) }
         };
       } catch {
-        return { trades: [], journals: {}, settings: defaultSettings() };
+        return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile() };
       }
     }
 
@@ -1829,7 +2064,7 @@
     }
 
     function emptyState() {
-      return { trades: [], journals: {}, settings: defaultSettings() };
+      return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile() };
     }
 
     function applyState(nextState) {
@@ -1837,6 +2072,7 @@
       state.trades = Array.isArray(safeState.trades) ? safeState.trades : [];
       state.journals = safeState.journals && typeof safeState.journals === "object" ? safeState.journals : {};
       state.settings = { ...defaultSettings(), ...(safeState.settings || {}) };
+      state.profile = { ...defaultProfile(), ...(safeState.profile || {}) };
       selectedDay = null;
       selectedTradeId = null;
     }
@@ -1845,12 +2081,13 @@
       return {
         trades: state.trades,
         journals: state.journals,
-        settings: state.settings
+        settings: state.settings,
+        profile: state.profile
       };
     }
 
     function hasMeaningfulState(candidate) {
-      return Boolean(candidate?.trades?.length || Object.keys(candidate?.journals || {}).length);
+      return Boolean(candidate?.trades?.length || Object.keys(candidate?.journals || {}).length || candidate?.profile?.completed);
     }
 
     function queueCloudSync() {
@@ -1924,6 +2161,8 @@
     function showAuth(message = "Sign in or create a free account to continue.", isError = false) {
       cloudSyncReady = false;
       currentUser = null;
+      document.body.classList.remove("onboarding-active");
+      document.querySelector("#onboarding").setAttribute("aria-hidden", "true");
       document.body.classList.remove("auth-pending");
       document.body.classList.add("auth-required");
       setAuthMode("signin");
@@ -1977,6 +2216,7 @@
         document.querySelector("#accountEmail").textContent = user.email || "Signed in";
         render();
         document.body.classList.remove("auth-pending", "auth-required");
+        showOnboardingIfNeeded();
 
       } catch (error) {
         showAuth("Your account works, but the private journal database is not ready yet. Run the supplied Supabase schema, then sign in again.", true);
@@ -2538,6 +2778,78 @@
       });
     }
 
+    function profileValue(name) {
+      return state.profile?.[name] || "Not selected";
+    }
+
+    function renderProfileContext() {
+      const profile = { ...defaultProfile(), ...(state.profile || {}) };
+      const context = [profile.market, profile.broker].filter(Boolean).join(" · ") || "Your free review workspace";
+      document.querySelector("#traderContext").textContent = context;
+      document.querySelector("#accountProfile").textContent = profile.market && profile.broker ? `${profile.market} · ${profile.broker}` : "Complete trader profile";
+      document.querySelector("#primaryBrokerRoadmap").textContent = profile.broker ? `${profile.broker} direct sync` : "Direct broker sync";
+      document.querySelector("#profileSummary").innerHTML = `
+        <div class="profile-summary-row"><span>Trading experience</span><strong>${escapeHtml(profileValue("experience"))}</strong></div>
+        <div class="profile-summary-row"><span>Primary broker</span><strong>${escapeHtml(profileValue("broker"))}</strong></div>
+        <div class="profile-summary-row"><span>Main market</span><strong>${escapeHtml(profileValue("market"))}</strong></div>
+        <p class="footer-note">These answers stay with your private journal and help prioritize future broker connections. They do not connect an account by themselves.</p>`;
+    }
+
+    function selectedOnboardingValue(name) {
+      return document.querySelector(`input[name="${name}"]:checked`)?.value || "";
+    }
+
+    function renderOnboardingStep() {
+      const fieldNames = ["experience", "broker", "market"];
+      document.querySelectorAll("[data-onboarding-step]").forEach(step => {
+        step.classList.toggle("active", Number(step.dataset.onboardingStep) === onboardingStep);
+      });
+      document.querySelector("#onboardingProgress").style.width = `${((onboardingStep + 1) / 3) * 100}%`;
+      document.querySelector("#onboardingBack").hidden = onboardingStep === 0;
+      const next = document.querySelector("#onboardingNext");
+      next.textContent = onboardingStep === 2 ? "Open my free journal →" : "Continue →";
+      next.disabled = !selectedOnboardingValue(fieldNames[onboardingStep]);
+    }
+
+    function openOnboarding() {
+      const profile = { ...defaultProfile(), ...(state.profile || {}) };
+      ["experience", "broker", "market"].forEach(name => {
+        document.querySelectorAll(`input[name="${name}"]`).forEach(input => {
+          input.checked = input.value === profile[name];
+        });
+      });
+      onboardingStep = 0;
+      document.body.classList.add("onboarding-active");
+      document.querySelector("#onboarding").setAttribute("aria-hidden", "false");
+      renderOnboardingStep();
+    }
+
+    function closeOnboarding() {
+      document.body.classList.remove("onboarding-active");
+      document.querySelector("#onboarding").setAttribute("aria-hidden", "true");
+    }
+
+    function showOnboardingIfNeeded() {
+      if (!state.profile?.completed) openOnboarding();
+    }
+
+    function completeOnboarding() {
+      const experience = selectedOnboardingValue("experience");
+      const broker = selectedOnboardingValue("broker");
+      const market = selectedOnboardingValue("market");
+      if (!experience || !broker || !market) return;
+      state.profile = {
+        completed: true,
+        experience,
+        broker,
+        market,
+        completedAt: state.profile?.completedAt || new Date().toISOString()
+      };
+      saveState();
+      renderProfileContext();
+      closeOnboarding();
+    }
+
     function loadSettingsForm() {
       document.querySelector("#accountSize").value = state.settings.accountSize;
       document.querySelector("#riskPerTrade").value = state.settings.riskPerTrade;
@@ -2563,6 +2875,7 @@
       renderBars("#mistakeBars", "mistake");
       renderDays();
       renderTradeReview();
+      renderProfileContext();
       loadSettingsForm();
       setManualDefaults();
     }
@@ -2579,6 +2892,26 @@
     document.querySelectorAll("#accountSize, #riskPerTrade, #optionMultiplier, #riskWarningR").forEach(input => {
       input.addEventListener("change", saveSettingsFromForm);
     });
+
+    document.querySelector("#onboardingForm").addEventListener("submit", event => event.preventDefault());
+    document.querySelectorAll(".onboarding-option input").forEach(input => {
+      input.addEventListener("change", renderOnboardingStep);
+    });
+    document.querySelector("#onboardingBack").addEventListener("click", () => {
+      onboardingStep = Math.max(0, onboardingStep - 1);
+      renderOnboardingStep();
+    });
+    document.querySelector("#onboardingNext").addEventListener("click", () => {
+      const fieldNames = ["experience", "broker", "market"];
+      if (!selectedOnboardingValue(fieldNames[onboardingStep])) return;
+      if (onboardingStep < 2) {
+        onboardingStep += 1;
+        renderOnboardingStep();
+      } else {
+        completeOnboarding();
+      }
+    });
+    document.querySelector("#editProfile").addEventListener("click", openOnboarding);
 
     function setManualDefaults() {
       const date = document.querySelector("#manualDate");
@@ -2722,6 +3055,7 @@
         state.trades = backup.trades || [];
         state.journals = backup.journals || {};
         state.settings = { ...defaultSettings(), ...(backup.settings || {}) };
+        state.profile = { ...defaultProfile(), ...(backup.profile || state.profile || {}) };
         saveState();
         render();
         switchView("dashboard");
@@ -2748,7 +3082,11 @@
         return "Open Add Trade in the left menu. Enter the trading day, exact entry and exit times, symbol, result, planned risk, and setup. Save it, then open Journal to attach charts and write your review.";
       }
       if (/csv|import|broker|thinkorswim|schwab/.test(query)) {
-        return "Open Add Trade, then use CSV Import. The importer recognizes common fields such as date, symbol, quantity, P/L, entry time, exit time, setup, and mistake. You can also drag a CSV into the import area.";
+        const broker = state.profile?.broker ? ` Your profile lists ${state.profile.broker} as your primary broker.` : "";
+        return `Open Add Trade, then use CSV Import. The importer recognizes common fields such as date, symbol, quantity, P/L, entry time, exit time, setup, and mistake.${broker} Direct broker sync is planned, but it is not connected yet.`;
+      }
+      if (/mobile|iphone|android|ios|app store|play store/.test(query)) {
+        return "The website is responsive on phones today. An installable mobile web app is the next deployment phase, followed by native iOS and Android apps. Those releases are planned and are not published yet.";
       }
       if (/private|privacy|secure|see my|data/.test(query)) {
         return "Your account is protected by Supabase authentication and row-level security. Each signed-in user can read and update only their own journal record. Avoid sharing passwords, reset links, or login tokens with anyone.";
