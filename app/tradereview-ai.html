@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <title>TradeReview AI</title>
   <style>
     :root {
@@ -920,9 +921,18 @@
       overflow: hidden;
       border: 1px solid rgba(123, 157, 255, .34);
       border-radius: 12px;
-      background: linear-gradient(145deg, rgba(95, 134, 255, .28), rgba(155, 124, 255, .16));
-      color: #b9c8ff;
+      background: radial-gradient(circle at 28% 22%, rgba(95,134,255,.46), transparent 46%), linear-gradient(145deg, rgba(12,24,56,.98), rgba(5,10,28,.98));
+      color: #eaf1ff;
       box-shadow: inset 0 0 25px rgba(115, 143, 255, .1), 0 12px 30px rgba(0, 0, 0, .22);
+    }
+
+    .auth-brand .mark svg,
+    .brand .mark svg {
+      position: relative;
+      z-index: 1;
+      width: 76%;
+      height: 76%;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,.3));
     }
 
     .auth-brand .mark::after,
@@ -1409,6 +1419,80 @@
     .profile-summary-row strong { color: #e1e8fa; text-align: right; }
     .roadmap-status { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; padding: 5px 8px; border-radius: 999px; color: #8fb1ff; background: rgba(95,134,255,.09); font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
     .roadmap-status.live { color: #55e5a5; background: rgba(24,217,149,.08); }
+    .broker-linking { display: grid; gap: 16px; }
+    .broker-hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px;
+      border: 1px solid rgba(157,174,232,.13);
+      border-radius: 13px;
+      background: linear-gradient(135deg, rgba(95,134,255,.12), rgba(24,217,149,.055));
+    }
+    .broker-hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -14% -76% 40%;
+      height: 130%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+      transform: rotate(-18deg);
+    }
+    .broker-hero h3 { margin: 0 0 6px; color: #edf4ff; font-size: 18px; letter-spacing: -.015em; }
+    .broker-hero p { margin: 0; color: #8ea0bd; font-size: 12px; line-height: 1.55; }
+    .broker-status {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      color: #ffd892;
+      background: rgba(242,197,109,.09);
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      white-space: nowrap;
+    }
+    .broker-status.ready { color: #55e5a5; background: rgba(24,217,149,.09); }
+    .broker-status.requested { color: #8fb1ff; background: rgba(95,134,255,.1); }
+    .broker-status i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 14px currentColor; }
+    .broker-controls { display: grid; gap: 13px; }
+    .sync-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+    .sync-option {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 43px;
+      padding: 9px 10px;
+      border: 1px solid rgba(157,174,232,.11);
+      border-radius: 10px;
+      color: #bac6dd;
+      background: rgba(255,255,255,.025);
+      font-size: 12px;
+      font-weight: 760;
+    }
+    .sync-option input { width: 16px; height: 16px; min-height: 0; accent-color: #6c91ff; }
+    .connection-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .connection-note {
+      padding: 12px 13px;
+      border: 1px solid rgba(242,197,109,.16);
+      border-radius: 11px;
+      color: #aebbd1;
+      background: rgba(242,197,109,.055);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .connection-note strong { color: #f2d394; }
+    @media (max-width: 620px) {
+      .broker-hero { grid-template-columns: 1fr; }
+      .broker-status { justify-self: start; white-space: normal; }
+      .sync-options { grid-template-columns: 1fr; }
+    }
     .review-item.roadmap-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; border-left-color: #718fff; background: linear-gradient(90deg, rgba(95,134,255,.08), rgba(155,124,255,.035)); }
 
     /* First-login trader profile */
@@ -1512,7 +1596,7 @@
   <section class="auth-gate" id="authGate" aria-labelledby="authTitle">
     <div class="auth-shell">
       <div class="auth-story">
-        <div class="auth-brand"><div class="mark">TR</div><span>TradeReview AI</span></div>
+        <div class="auth-brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
         <div class="product-pill"><span class="live-dot"></span> Your performance workspace</div>
         <h1><span>Turn every session into a repeatable edge.</span></h1>
         <p>Journal the trade, measure the risk, and find the behavior behind your results. Your review process finally lives in one focused workspace.</p>
@@ -1561,7 +1645,7 @@
 
       <div class="auth-card-wrap">
         <div class="auth-card">
-          <div class="auth-brand"><div class="mark">TR</div><span>TradeReview AI</span></div>
+          <div class="auth-brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
           <h1 id="authTitle">Welcome back</h1>
           <p class="auth-copy" id="authCopy">Sign in to open your private trading journal.</p>
           <div class="auth-free-badge"><strong>$0 account</strong><span>Full current journal workflow · No card required</span></div>
@@ -1658,7 +1742,7 @@
 
   <div class="app">
     <aside>
-      <div class="brand"><div class="mark">TR</div><span>TradeReview AI</span></div>
+      <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
       <nav aria-label="Main navigation">
         <button class="active" data-view="dashboard" title="Dashboard">⌂ Dashboard</button>
         <button data-view="import" title="Add a trade">＋ Add Trade</button>
@@ -1929,10 +2013,57 @@
           </div>
 
           <div class="panel">
+            <div class="panel-header"><h2>Broker Account Linking</h2><button id="brokerImportShortcut" type="button">Use CSV now</button></div>
+            <div class="panel-body broker-linking">
+              <div class="broker-hero">
+                <div>
+                  <h3 id="brokerConnectionTitle">Choose your broker</h3>
+                  <p id="brokerConnectionCopy">Prepare your account for direct trade sync. Live broker sync will use broker-approved OAuth/API access, not broker passwords.</p>
+                </div>
+                <span class="broker-status" id="brokerConnectionStatus"><i></i> Not linked</span>
+              </div>
+              <div class="broker-controls">
+                <label>Broker to connect
+                  <select id="brokerProvider">
+                    <option value="">Select broker</option>
+                    <option>Schwab / thinkorswim</option>
+                    <option>Robinhood</option>
+                    <option>Webull</option>
+                    <option>Interactive Brokers</option>
+                    <option>NinjaTrader / Tradovate</option>
+                    <option>TradeStation</option>
+                    <option>Fidelity / E*TRADE</option>
+                    <option>Other</option>
+                  </select>
+                </label>
+                <label>Sync history
+                  <select id="brokerSyncWindow">
+                    <option value="30">Last 30 days</option>
+                    <option value="90">Last 90 days</option>
+                    <option value="365">Last 12 months</option>
+                    <option value="all">All available history</option>
+                  </select>
+                </label>
+                <div class="sync-options" aria-label="Broker sync details">
+                  <label class="sync-option"><input type="checkbox" id="syncExecutions"> Executions and fills</label>
+                  <label class="sync-option"><input type="checkbox" id="syncFees"> Fees and commissions</label>
+                  <label class="sync-option"><input type="checkbox" id="syncPositions"> Symbols and position size</label>
+                  <label class="sync-option"><input type="checkbox" id="syncNotes"> Link imported trades to journal notes</label>
+                </div>
+                <div class="connection-actions">
+                  <button class="primary" id="requestBrokerAccess" type="button">Request broker link</button>
+                  <button id="clearBrokerRequest" type="button">Clear request</button>
+                </div>
+                <div class="connection-note" id="brokerConnectionNote"><strong>Current live path:</strong> CSV import and manual trade logging are available today. Direct broker syncing is being prepared for approved providers.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
             <div class="panel-header"><h2>Integration Roadmap</h2></div>
             <div class="panel-body review-list">
               <div class="review-item roadmap-item"><span>Manual entries and CSV imports</span><span class="roadmap-status live">Available</span></div>
-              <div class="review-item roadmap-item"><span id="primaryBrokerRoadmap">Direct broker sync</span><span class="roadmap-status">Planned</span></div>
+              <div class="review-item roadmap-item"><span id="primaryBrokerRoadmap">Direct broker sync</span><span class="roadmap-status" id="brokerRoadmapStatus">Planned</span></div>
               <div class="review-item roadmap-item"><span>Installable mobile web app</span><span class="roadmap-status">Next phase</span></div>
               <div class="review-item roadmap-item"><span>Native iOS and Android deployment</span><span class="roadmap-status">Future</span></div>
             </div>
@@ -2044,6 +2175,20 @@
       };
     }
 
+    function defaultBrokerConnection() {
+      return {
+        provider: "",
+        status: "not-linked",
+        syncWindow: "90",
+        syncExecutions: true,
+        syncFees: true,
+        syncPositions: true,
+        syncNotes: true,
+        requestedAt: "",
+        updatedAt: ""
+      };
+    }
+
     function loadState(key = activeStoreKey) {
       try {
         const saved = JSON.parse(localStorage.getItem(key));
@@ -2051,10 +2196,11 @@
           trades: saved?.trades || [],
           journals: saved?.journals || {},
           settings: { ...defaultSettings(), ...(saved?.settings || {}) },
-          profile: { ...defaultProfile(), ...(saved?.profile || {}) }
+          profile: { ...defaultProfile(), ...(saved?.profile || {}) },
+          brokerConnection: { ...defaultBrokerConnection(), ...(saved?.brokerConnection || {}) }
         };
       } catch {
-        return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile() };
+        return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile(), brokerConnection: defaultBrokerConnection() };
       }
     }
 
@@ -2064,7 +2210,7 @@
     }
 
     function emptyState() {
-      return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile() };
+      return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile(), brokerConnection: defaultBrokerConnection() };
     }
 
     function applyState(nextState) {
@@ -2073,6 +2219,7 @@
       state.journals = safeState.journals && typeof safeState.journals === "object" ? safeState.journals : {};
       state.settings = { ...defaultSettings(), ...(safeState.settings || {}) };
       state.profile = { ...defaultProfile(), ...(safeState.profile || {}) };
+      state.brokerConnection = { ...defaultBrokerConnection(), ...(safeState.brokerConnection || {}) };
       selectedDay = null;
       selectedTradeId = null;
     }
@@ -2082,12 +2229,13 @@
         trades: state.trades,
         journals: state.journals,
         settings: state.settings,
-        profile: state.profile
+        profile: state.profile,
+        brokerConnection: state.brokerConnection
       };
     }
 
     function hasMeaningfulState(candidate) {
-      return Boolean(candidate?.trades?.length || Object.keys(candidate?.journals || {}).length || candidate?.profile?.completed);
+      return Boolean(candidate?.trades?.length || Object.keys(candidate?.journals || {}).length || candidate?.profile?.completed || candidate?.brokerConnection?.provider);
     }
 
     function queueCloudSync() {
@@ -2795,6 +2943,73 @@
         <p class="footer-note">These answers stay with your private journal and help prioritize future broker connections. They do not connect an account by themselves.</p>`;
     }
 
+    function brokerConnection() {
+      state.brokerConnection = { ...defaultBrokerConnection(), ...(state.brokerConnection || {}) };
+      return state.brokerConnection;
+    }
+
+    function renderBrokerConnection() {
+      const connection = brokerConnection();
+      const provider = connection.provider || state.profile?.broker || "";
+      const status = document.querySelector("#brokerConnectionStatus");
+      const roadmap = document.querySelector("#brokerRoadmapStatus");
+      const providerLabel = provider || "your broker";
+      document.querySelector("#brokerProvider").value = provider;
+      document.querySelector("#brokerSyncWindow").value = connection.syncWindow || "90";
+      document.querySelector("#syncExecutions").checked = Boolean(connection.syncExecutions);
+      document.querySelector("#syncFees").checked = Boolean(connection.syncFees);
+      document.querySelector("#syncPositions").checked = Boolean(connection.syncPositions);
+      document.querySelector("#syncNotes").checked = Boolean(connection.syncNotes);
+
+      status.className = "broker-status";
+      if (connection.status === "requested") {
+        status.classList.add("requested");
+        status.innerHTML = "<i></i> Requested";
+        roadmap.textContent = "Requested";
+        roadmap.classList.remove("live");
+        document.querySelector("#brokerConnectionTitle").textContent = `${providerLabel} link requested`;
+        document.querySelector("#brokerConnectionCopy").textContent = "Your broker preference and sync scope are saved. When approved broker access is available, this account will be ready for the secure connection flow.";
+      } else if (connection.status === "ready") {
+        status.classList.add("ready");
+        status.innerHTML = "<i></i> Ready";
+        roadmap.textContent = "Ready";
+        roadmap.classList.add("live");
+        document.querySelector("#brokerConnectionTitle").textContent = `${providerLabel} sync ready`;
+        document.querySelector("#brokerConnectionCopy").textContent = "Approved broker access is ready for this provider.";
+      } else {
+        status.innerHTML = "<i></i> Not linked";
+        roadmap.textContent = "Planned";
+        roadmap.classList.remove("live");
+        document.querySelector("#brokerConnectionTitle").textContent = provider ? `Prepare ${provider} sync` : "Choose your broker";
+        document.querySelector("#brokerConnectionCopy").textContent = "Prepare your account for direct trade sync. Live broker sync will use broker-approved OAuth/API access, not broker passwords.";
+      }
+
+      const when = connection.requestedAt ? ` Requested ${new Date(connection.requestedAt).toLocaleDateString()}.` : "";
+      document.querySelector("#brokerConnectionNote").innerHTML = `<strong>Current live path:</strong> CSV import and manual trade logging are available today. Direct broker syncing is being prepared for approved providers.${when}`;
+    }
+
+    function saveBrokerConnectionFromForm(status = brokerConnection().status) {
+      const connection = brokerConnection();
+      const now = new Date().toISOString();
+      const provider = document.querySelector("#brokerProvider").value || state.profile?.broker || "";
+      state.brokerConnection = {
+        ...connection,
+        provider,
+        status,
+        syncWindow: document.querySelector("#brokerSyncWindow").value,
+        syncExecutions: document.querySelector("#syncExecutions").checked,
+        syncFees: document.querySelector("#syncFees").checked,
+        syncPositions: document.querySelector("#syncPositions").checked,
+        syncNotes: document.querySelector("#syncNotes").checked,
+        requestedAt: status === "requested" ? (connection.requestedAt || now) : "",
+        updatedAt: now
+      };
+      if (provider && !state.profile?.broker) state.profile = { ...defaultProfile(), ...(state.profile || {}), broker: provider };
+      saveState();
+      renderProfileContext();
+      renderBrokerConnection();
+    }
+
     function selectedOnboardingValue(name) {
       return document.querySelector(`input[name="${name}"]:checked`)?.value || "";
     }
@@ -2845,8 +3060,12 @@
         market,
         completedAt: state.profile?.completedAt || new Date().toISOString()
       };
+      if (!state.brokerConnection?.provider) {
+        state.brokerConnection = { ...defaultBrokerConnection(), ...(state.brokerConnection || {}), provider: broker };
+      }
       saveState();
       renderProfileContext();
+      renderBrokerConnection();
       closeOnboarding();
     }
 
@@ -2876,6 +3095,7 @@
       renderDays();
       renderTradeReview();
       renderProfileContext();
+      renderBrokerConnection();
       loadSettingsForm();
       setManualDefaults();
     }
@@ -2912,6 +3132,24 @@
       }
     });
     document.querySelector("#editProfile").addEventListener("click", openOnboarding);
+    document.querySelector("#brokerProvider").addEventListener("change", () => saveBrokerConnectionFromForm("not-linked"));
+    document.querySelector("#brokerSyncWindow").addEventListener("change", () => saveBrokerConnectionFromForm());
+    document.querySelectorAll("#syncExecutions, #syncFees, #syncPositions, #syncNotes").forEach(input => {
+      input.addEventListener("change", () => saveBrokerConnectionFromForm());
+    });
+    document.querySelector("#requestBrokerAccess").addEventListener("click", () => {
+      if (!document.querySelector("#brokerProvider").value && !state.profile?.broker) {
+        alert("Choose a broker first.");
+        return;
+      }
+      saveBrokerConnectionFromForm("requested");
+    });
+    document.querySelector("#clearBrokerRequest").addEventListener("click", () => {
+      state.brokerConnection = { ...defaultBrokerConnection(), provider: state.brokerConnection?.provider || state.profile?.broker || "" };
+      saveState();
+      renderBrokerConnection();
+    });
+    document.querySelector("#brokerImportShortcut").addEventListener("click", () => switchView("import"));
 
     function setManualDefaults() {
       const date = document.querySelector("#manualDate");
@@ -3032,6 +3270,8 @@
       state.trades = [];
       state.journals = {};
       state.settings = defaultSettings();
+      state.profile = defaultProfile();
+      state.brokerConnection = defaultBrokerConnection();
       selectedDay = null;
       saveState();
       render();
@@ -3056,6 +3296,7 @@
         state.journals = backup.journals || {};
         state.settings = { ...defaultSettings(), ...(backup.settings || {}) };
         state.profile = { ...defaultProfile(), ...(backup.profile || state.profile || {}) };
+        state.brokerConnection = { ...defaultBrokerConnection(), ...(backup.brokerConnection || state.brokerConnection || {}) };
         saveState();
         render();
         switchView("dashboard");
@@ -3083,7 +3324,7 @@
       }
       if (/csv|import|broker|thinkorswim|schwab/.test(query)) {
         const broker = state.profile?.broker ? ` Your profile lists ${state.profile.broker} as your primary broker.` : "";
-        return `Open Add Trade, then use CSV Import. The importer recognizes common fields such as date, symbol, quantity, P/L, entry time, exit time, setup, and mistake.${broker} Direct broker sync is planned, but it is not connected yet.`;
+        return `Open Settings, then Broker Account Linking to request direct sync for your broker.${broker} CSV import is available today and recognizes date, symbol, quantity, P/L, entry time, exit time, setup, and mistake. Live broker sync will use broker-approved OAuth/API access when enabled.`;
       }
       if (/mobile|iphone|android|ios|app store|play store/.test(query)) {
         return "The website is responsive on phones today. An installable mobile web app is the next deployment phase, followed by native iOS and Android apps. Those releases are planned and are not published yet.";

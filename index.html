@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A private trading journal for reviewing execution, risk, setups, and the decisions behind every trade.">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
   <title>TradeReview AI — Turn trades into a repeatable edge</title>
   <style>
     :root {
@@ -89,16 +90,18 @@
       position: relative;
       width: 40px;
       height: 40px;
-      display: grid;
-      place-items: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
-      border: 1px solid rgba(91,230,170,.28);
+      border: 1px solid rgba(127,160,255,.32);
       border-radius: 12px;
-      color: #76f0b9;
-      background: linear-gradient(145deg, rgba(72,222,160,.18), rgba(52,158,194,.08));
-      box-shadow: inset 0 0 24px rgba(91,230,170,.07);
+      color: #eaf1ff;
+      background: radial-gradient(circle at 28% 22%, rgba(95,134,255,.46), transparent 46%), linear-gradient(145deg, rgba(12,24,56,.98), rgba(5,10,28,.98));
+      box-shadow: inset 0 0 24px rgba(127,160,255,.14), 0 14px 38px rgba(0,0,0,.28);
     }
 
+    .brand-mark svg { position: relative; z-index: 1; width: 29px; height: 29px; filter: drop-shadow(0 6px 12px rgba(0,0,0,.28)); }
     .brand-mark::after { content: ""; position: absolute; inset: auto -35% -70% 20%; height: 100%; background: rgba(255,255,255,.17); transform: rotate(-22deg); }
     .nav-links { display: flex; align-items: center; gap: 26px; color: #91a69f; font-size: 13px; font-weight: 700; }
     .nav-links a:hover { color: #dff1ea; }
@@ -397,7 +400,7 @@
   <div class="scroll-aura" aria-hidden="true"></div>
   <div class="shell">
     <nav class="nav" aria-label="Primary navigation">
-      <a class="brand" href="#top"><span class="brand-mark">TR</span><span>TradeReview AI</span></a>
+      <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></span><span>TradeReview AI</span></a>
       <div class="nav-links">
         <a href="#features">Features</a>
         <a href="#workflow">How it works</a>
@@ -445,7 +448,7 @@
 
       <section class="tool-strip" aria-label="Included capabilities">
         <p>One focused workflow</p>
-        <div class="tools"><div class="tool"><i></i> Manual trade log</div><div class="tool"><i></i> CSV import</div><div class="tool"><i></i> R-multiple tracking</div><div class="tool"><i></i> Chart screenshots</div><div class="tool"><i></i> Daily journal</div><div class="tool"><i></i> Private sync</div></div>
+        <div class="tools"><div class="tool"><i></i> Manual trade log</div><div class="tool"><i></i> CSV import</div><div class="tool"><i></i> Broker sync prep</div><div class="tool"><i></i> R-multiple tracking</div><div class="tool"><i></i> Chart screenshots</div><div class="tool"><i></i> Private sync</div></div>
       </section>
 
       <section class="free-banner" aria-label="Free account details">
@@ -459,7 +462,7 @@
         <div class="feature-grid">
           <article class="feature-card"><div class="feature-icon">↗</div><h3>Performance dashboard</h3><p>See P/L, total R, win rate, average trade, setup performance, and risk breaks without rebuilding a spreadsheet.</p><div class="feature-meta"><span>Automatic</span><span>After every save</span></div></article>
           <article class="feature-card"><div class="feature-icon">◎</div><h3>Visual trade review</h3><p>Pair exact entry and exit times with chart screenshots, then review execution, invalidation, and emotional decisions together.</p><div class="feature-meta"><span>Entry + exit</span><span>One view</span></div></article>
-          <article class="feature-card"><div class="feature-icon">✦</div><h3>Behavior insights</h3><p>Compare setups and mistake tags, surface over-risk trades, and turn the day recap into one practical rule for tomorrow.</p><div class="feature-meta"><span>Plain English</span><span>Action focused</span></div></article>
+          <article class="feature-card"><div class="feature-icon">✦</div><h3>Broker-link ready</h3><p>Choose your primary broker, request direct sync, and keep using CSV import while approved broker OAuth/API access is prepared.</p><div class="feature-meta"><span>No broker passwords</span><span>CSV today</span></div></article>
         </div>
       </section>
 
@@ -485,7 +488,7 @@
       <section class="cta"><div class="cta-inner"><h2>Make the review part of the trade.</h2><p>Start with one session. Capture the evidence, name the mistake, and build the process that protects your edge.</p><a class="button primary" href="./app/tradereview-ai.html?release=20260717-premium">Create your free account →</a></div></section>
     </main>
 
-    <footer><a class="brand" href="#top"><span class="brand-mark">TR</span><span>TradeReview AI</span></a><span>Built for disciplined review. Trading involves substantial risk.</span><div class="footer-links"><a href="./blog/">Blog</a><a href="#privacy">Privacy</a><a href="./app/tradereview-ai.html?release=20260717-premium">Sign in</a></div></footer>
+    <footer><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></span><span>TradeReview AI</span></a><span>Built for disciplined review. Trading involves substantial risk.</span><div class="footer-links"><a href="./blog/">Blog</a><a href="#privacy">Privacy</a><a href="./app/tradereview-ai.html?release=20260717-premium">Sign in</a></div></footer>
   </div>
 
   <button class="help-button" id="helpButton" type="button" aria-expanded="false"><span class="help-icon">?</span><span>How can I help?</span></button>
