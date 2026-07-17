@@ -1154,6 +1154,7 @@
 
     .google-button:hover { background: #fff; transform: translateY(-1px); }
     .google-button svg { width: 19px; height: 19px; }
+    .google-note { margin: 9px 0 0; color: #74879f; font-size: 11px; line-height: 1.45; text-align: center; }
 
     .auth-divider {
       display: grid;
@@ -1729,8 +1730,9 @@
           <div id="socialAuth">
             <button class="google-button" id="googleAuth" type="button">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.2c0-.7-.1-1.4-.2-2H12v3.8h5.4a4.6 4.6 0 0 1-2 3v2.5h3.2c1.9-1.7 3-4.3 3-7.3Z"/><path fill="#34A853" d="M12 22c2.7 0 5-.9 6.6-2.4L15.4 17c-.9.6-2 1-3.4 1a5.8 5.8 0 0 1-5.5-4H3.2v2.6A10 10 0 0 0 12 22Z"/><path fill="#FBBC05" d="M6.5 14a6 6 0 0 1 0-3.9V7.5H3.2a10 10 0 0 0 0 9.1L6.5 14Z"/><path fill="#EA4335" d="M12 6.1c1.5 0 2.8.5 3.8 1.5l2.9-2.8A9.7 9.7 0 0 0 3.2 7.5l3.3 2.6a5.8 5.8 0 0 1 5.5-4Z"/></svg>
-              Continue with Google or create account
+              Google sign-in coming soon
             </button>
+            <p class="google-note">Google account creation is being connected. Use email below to create your free account right now.</p>
             <div class="auth-divider">or continue with email</div>
           </div>
           <form class="auth-form" id="authForm">
@@ -3548,7 +3550,7 @@
         return "In Journal, use Open entry chart or Open exit chart beside a trade. TradingView opens on the 1-minute chart for that ticker; use the copied time label to capture the exact entry or exit candle, then attach the screenshot back to the trade.";
       }
       if (/google|gmail|sign in|login|account|password/.test(query)) {
-        return "Use Continue with Google to sign in or create a new free account. You can also create an account with email and password. If sign-in says no account exists, switch to Create account first.";
+        return "Google sign-in is being connected. For now, choose Create account and use email and password to make your free account. If sign-in says no account exists, switch to Create account first.";
       }
       return "I can help with account access, CSV imports, adding trades, chart screenshots, daily journaling, risk flags, and dashboard statistics. Ask me about one of those and I’ll walk you through it.";
     }
@@ -3610,27 +3612,9 @@
     }
 
     document.querySelector("#googleAuth").addEventListener("click", async () => {
-      const button = document.querySelector("#googleAuth");
-      button.disabled = true;
-      setAuthStatus("Opening Google sign-in. If this is your first time, Google will create your free account.");
-      try {
-        const redirectTo = authRedirectUrl();
-        const { error } = await cloudClient.auth.signInWithOAuth({
-          provider: "google",
-          options: {
-            redirectTo,
-            queryParams: { prompt: "select_account" }
-          }
-        });
-        if (error) throw error;
-      } catch (error) {
-        const providerDisabled = /provider|unsupported|enabled/i.test(error.message || "");
-        setAuthStatus(
-          providerDisabled ? "Google sign-in is not connected correctly yet. Please create your free account with email for now." : friendlyAuthError(error),
-          true
-        );
-        button.disabled = false;
-      }
+      setAuthMode("signup");
+      setAuthStatus("Google sign-in is being connected. Use Create account with email for now.", true);
+      document.querySelector("#authEmail").focus();
     });
 
     document.querySelectorAll("[data-auth-mode]").forEach(button => {
