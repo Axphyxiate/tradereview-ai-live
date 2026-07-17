@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Review trades, charts, entries, and performance in one focused trading journal.">
+    <title>TradeReview AI</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #06101d;
+        --panel: rgba(17, 34, 53, 0.76);
+        --line: rgba(148, 188, 219, 0.16);
+        --muted: #a9bbca;
+        --cyan: #72e4f4;
+        --cyan-strong: #2dd4e7;
+        --white: #f7fbff;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { background: var(--bg); scroll-behavior: smooth; }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--white);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at 15% 5%, rgba(45, 212, 231, 0.15), transparent 28rem),
+          radial-gradient(circle at 88% 75%, rgba(48, 102, 255, 0.13), transparent 30rem),
+          var(--bg);
+      }
+
+      a { color: inherit; text-decoration: none; }
+
+      .shell {
+        width: min(1160px, calc(100% - 40px));
+        min-height: 100vh;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 28px 0;
+      }
+
+      .brand { display: flex; align-items: center; gap: 12px; }
+
+      .brand-mark {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        border: 1px solid rgba(114, 228, 244, 0.32);
+        border-radius: 13px;
+        color: var(--cyan);
+        font-weight: 900;
+        background: rgba(114, 228, 244, 0.08);
+        box-shadow: inset 0 0 24px rgba(114, 228, 244, 0.05);
+      }
+
+      .brand-name { font-weight: 850; letter-spacing: -0.02em; }
+      .brand-sub { margin-top: 2px; color: var(--muted); font-size: 12px; }
+
+      .nav-link {
+        padding: 10px 16px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        color: #dbeaf4;
+        font-size: 14px;
+        font-weight: 700;
+        transition: 160ms ease;
+      }
+
+      .nav-link:hover { border-color: var(--cyan); color: var(--cyan); }
+
+      main {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1.02fr 0.98fr;
+        align-items: center;
+        gap: clamp(40px, 7vw, 84px);
+        padding: 64px 0 88px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 24px;
+        padding: 8px 13px;
+        border: 1px solid rgba(114, 228, 244, 0.24);
+        border-radius: 999px;
+        color: #b9f6ff;
+        background: rgba(114, 228, 244, 0.08);
+        font-size: 13px;
+        font-weight: 750;
+      }
+
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #51e69a;
+        box-shadow: 0 0 12px rgba(81, 230, 154, 0.8);
+      }
+
+      h1 {
+        margin: 0;
+        max-width: 720px;
+        font-size: clamp(48px, 7vw, 78px);
+        line-height: 0.98;
+        letter-spacing: -0.055em;
+      }
+
+      .gradient {
+        color: transparent;
+        background: linear-gradient(100deg, #ffffff 15%, #91edf8 72%);
+        background-clip: text;
+        -webkit-background-clip: text;
+      }
+
+      .lead {
+        max-width: 640px;
+        margin: 26px 0 0;
+        color: var(--muted);
+        font-size: clamp(17px, 2vw, 20px);
+        line-height: 1.65;
+      }
+
+      .actions { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 34px; }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 50px;
+        padding: 0 21px;
+        border-radius: 14px;
+        font-size: 15px;
+        font-weight: 820;
+        transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
+      }
+
+      .button:hover { transform: translateY(-2px); }
+
+      .primary {
+        color: #041018;
+        background: linear-gradient(135deg, #91f0fa, var(--cyan-strong));
+        box-shadow: 0 14px 40px rgba(45, 212, 231, 0.2);
+      }
+
+      .secondary { border: 1px solid var(--line); background: rgba(255, 255, 255, 0.055); }
+      .secondary:hover { border-color: rgba(114, 228, 244, 0.48); background: rgba(114, 228, 244, 0.08); }
+
+      .note { margin-top: 16px; color: #7691a5; font-size: 12px; }
+
+      .preview {
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 27px;
+        background: var(--panel);
+        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.38);
+        backdrop-filter: blur(18px);
+      }
+
+      .window {
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 19px;
+        background: #0c1826;
+      }
+
+      .window-bar { display: flex; gap: 7px; padding: 15px 16px; }
+      .window-bar span { width: 10px; height: 10px; border-radius: 50%; }
+      .window-bar span:nth-child(1) { background: #f26f70; }
+      .window-bar span:nth-child(2) { background: #f4c85e; }
+      .window-bar span:nth-child(3) { background: #55d59a; }
+
+      .preview img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+
+      .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 14px; }
+      .stat { padding: 12px 8px; border-radius: 12px; text-align: center; background: rgba(255, 255, 255, 0.045); }
+      .stat strong { display: block; font-size: 13px; }
+      .stat span { display: block; margin-top: 4px; color: #7790a4; font-size: 11px; }
+
+      footer { padding: 0 0 30px; color: #6f8698; font-size: 12px; }
+
+      @media (max-width: 850px) {
+        main { grid-template-columns: 1fr; padding-top: 42px; }
+        .copy { text-align: center; }
+        .eyebrow { margin-left: auto; margin-right: auto; }
+        .lead { margin-left: auto; margin-right: auto; }
+        .actions { justify-content: center; }
+        .preview { width: min(620px, 100%); margin: 0 auto; }
+        footer { text-align: center; }
+      }
+
+      @media (max-width: 520px) {
+        .shell { width: min(100% - 28px, 1160px); }
+        nav { align-items: flex-start; }
+        .brand-sub { display: none; }
+        .nav-link { padding: 9px 12px; font-size: 12px; }
+        main { padding-bottom: 54px; }
+        .actions { flex-direction: column; }
+        .button { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <nav>
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">TR</div>
+          <div>
+            <div class="brand-name">TradeReview AI</div>
+            <div class="brand-sub">Journal. Review. Improve.</div>
+          </div>
+        </div>
+        <a class="nav-link" href="./TradeReview-AI-Installer.exe" download>Download for Windows</a>
+      </nav>
+
+      <main>
+        <section class="copy">
+          <div class="eyebrow"><span class="dot"></span> Your trading journal is ready</div>
+          <h1><span class="gradient">Turn every trade into a better decision.</span></h1>
+          <p class="lead">Log entries, attach charts, review execution, and spot the patterns behind your best and worst trades—all in one focused journal.</p>
+          <div class="actions">
+            <a class="button primary" href="./app/tradereview-ai.html">Open TradeReview AI</a>
+            <a class="button secondary" href="./TradeReview-AI-Installer.exe" download>Download Windows app</a>
+          </div>
+          <p class="note">The browser version opens instantly. The Windows installer adds Desktop and Start menu shortcuts.</p>
+        </section>
+
+        <section class="preview" aria-label="TradeReview AI preview">
+          <div class="window">
+            <div class="window-bar"><span></span><span></span><span></span></div>
+            <img src="./app/chart-captures/demo-spy-1m-entry.png" alt="SPY one-minute chart preview in TradeReview AI">
+            <div class="stats">
+              <div class="stat"><strong>Journal</strong><span>Capture the trade</span></div>
+              <div class="stat"><strong>Charts</strong><span>Review entries</span></div>
+              <div class="stat"><strong>Insights</strong><span>Find patterns</span></div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer>TradeReview AI · Built for disciplined review</footer>
+    </div>
+  </body>
+</html>
