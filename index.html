@@ -252,12 +252,121 @@
     .coach { display: grid; gap: 8px; padding: 13px; }
     .coach div { padding: 10px; border-left: 2px solid #4ed39a; border-radius: 0 8px 8px 0; color: #839a93; background: rgba(82,220,160,.04); font-size: 9px; line-height: 1.45; }
 
-    .tool-strip { padding: 23px 0 88px; }
+    .tool-strip { padding: 23px 0 48px; }
     .tool-strip > p { margin: 0 0 20px; color: #5f7670; text-align: center; font-size: 10px; text-transform: uppercase; letter-spacing: .16em; }
     .tools { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
     .tool { display: flex; align-items: center; gap: 8px; padding: 10px 13px; border: 1px solid rgba(176,221,206,.08); border-radius: 999px; color: #80968f; background: rgba(255,255,255,.018); font-size: 11px; font-weight: 700; }
     .tool i { width: 6px; height: 6px; border-radius: 50%; background: #53dca0; }
     .tool:nth-child(3n) i { background: var(--red); box-shadow: 0 0 10px rgba(255,83,109,.32); }
+
+    .trust-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 0 0 70px;
+    }
+    .trust-stat {
+      min-height: 118px;
+      padding: 22px;
+      border: 1px solid rgba(176,221,206,.1);
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(18,30,57,.82), rgba(8,18,34,.94));
+      box-shadow: 0 18px 55px rgba(0,0,0,.2);
+    }
+    .trust-stat strong { display: block; color: #f4fffb; font-size: clamp(27px, 4vw, 42px); line-height: 1; letter-spacing: -.055em; }
+    .trust-stat span { display: block; margin-top: 10px; color: #789089; font-size: 11px; line-height: 1.45; text-transform: uppercase; letter-spacing: .08em; }
+
+    .broker-cloud {
+      overflow: hidden;
+      margin: 0 0 92px;
+      padding: 28px;
+      border: 1px solid rgba(176,221,206,.1);
+      border-radius: 24px;
+      background: linear-gradient(145deg, rgba(11,22,43,.9), rgba(7,15,30,.96));
+    }
+    .broker-cloud-head { display: flex; justify-content: space-between; gap: 18px; align-items: end; margin-bottom: 22px; }
+    .broker-cloud-head h3 { margin: 0; font-size: clamp(24px, 3vw, 36px); letter-spacing: -.045em; }
+    .broker-cloud-head p { max-width: 500px; margin: 0; color: #7e948e; font-size: 13px; line-height: 1.6; }
+    .broker-rail {
+      display: flex;
+      gap: 10px;
+      width: max-content;
+      animation: brokerSlide 34s linear infinite;
+    }
+    .broker-rail + .broker-rail { margin-top: 10px; animation-duration: 42s; animation-direction: reverse; }
+    .broker-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 154px;
+      padding: 13px 15px;
+      border: 1px solid rgba(176,221,206,.1);
+      border-radius: 13px;
+      color: #d8e7e2;
+      background: rgba(255,255,255,.025);
+      font-size: 12px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .broker-logo i { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 8px; color: #061410; background: var(--scroll-accent); font-style: normal; font-size: 10px; font-weight: 950; }
+    @keyframes brokerSlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    .suite-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 10px;
+      margin-top: 46px;
+    }
+    .suite-tab {
+      min-height: 128px;
+      padding: 16px;
+      border: 1px solid rgba(176,221,206,.09);
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(18,29,55,.92), rgba(8,17,34,.96));
+    }
+    .suite-tab b { display: block; color: #eaf7f2; font-size: 13px; }
+    .suite-tab span { display: block; margin-top: 9px; color: #758d86; font-size: 11px; line-height: 1.5; }
+
+    .automation-panel {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: clamp(28px, 5vw, 68px);
+      align-items: center;
+      margin-top: 48px;
+      padding: clamp(28px, 5vw, 54px);
+      border: 1px solid rgba(126,151,255,.18);
+      border-radius: 26px;
+      background: radial-gradient(circle at 0% 0%, rgba(24,217,149,.14), transparent 24rem), radial-gradient(circle at 100% 100%, rgba(255,83,109,.1), transparent 22rem), #0b1428;
+    }
+    .automation-panel h3 { margin: 0; font-size: clamp(31px, 4.5vw, 54px); line-height: 1.02; letter-spacing: -.055em; }
+    .automation-panel p { color: #88a09a; line-height: 1.72; }
+    .automation-list { display: grid; gap: 10px; }
+    .automation-item {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 15px;
+      border: 1px solid rgba(176,221,206,.09);
+      border-radius: 14px;
+      background: rgba(255,255,255,.025);
+    }
+    .automation-item i { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 10px; color: #061410; background: var(--scroll-accent); font-style: normal; font-weight: 950; }
+    .automation-item b { display: block; color: #e7f5f0; font-size: 13px; }
+    .automation-item span { display: block; margin-top: 4px; color: #7e948e; font-size: 12px; line-height: 1.5; }
+
+    .agent-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 13px; margin-top: 48px; }
+    .agent-card {
+      min-height: 255px;
+      padding: 22px;
+      border: 1px solid rgba(176,221,206,.1);
+      border-radius: 18px;
+      background: linear-gradient(155deg, rgba(17,28,52,.96), rgba(8,16,32,.98));
+    }
+    .agent-card small { color: var(--scroll-accent); font-size: 9px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+    .agent-card h3 { margin: 14px 0 10px; font-size: 20px; letter-spacing: -.035em; }
+    .agent-card p { margin: 0; color: #7f9690; font-size: 13px; line-height: 1.65; }
+    .agent-status { display: inline-flex; align-items: center; gap: 7px; margin-top: 22px; padding: 7px 9px; border-radius: 999px; color: #071510; background: var(--scroll-accent); font-size: 9px; font-weight: 950; letter-spacing: .08em; text-transform: uppercase; }
 
     .free-banner {
       display: grid;
@@ -364,6 +473,10 @@
       .feature-grid { grid-template-columns: 1fr; }
       .blog-grid { grid-template-columns: 1fr; }
       .feature-card { min-height: 250px; }
+      .trust-stats { grid-template-columns: repeat(2, 1fr); }
+      .suite-grid { grid-template-columns: repeat(2, 1fr); }
+      .agent-grid { grid-template-columns: 1fr 1fr; }
+      .automation-panel { grid-template-columns: 1fr; }
       .workflow, .privacy-card { grid-template-columns: 1fr; }
     }
 
@@ -385,6 +498,12 @@
       .mock-grid { grid-template-columns: 1fr; }
       .mock-grid .mock-card:last-child { display: none; }
       .section { padding: 78px 0; }
+      .trust-stats { grid-template-columns: repeat(2, 1fr); margin-bottom: 42px; }
+      .broker-cloud { padding: 20px; margin-bottom: 66px; }
+      .broker-cloud-head { display: block; }
+      .broker-cloud-head p { margin-top: 10px; }
+      .suite-grid { grid-template-columns: 1fr 1fr; }
+      .automation-panel, .agent-grid { grid-template-columns: 1fr; }
       .free-banner { grid-template-columns: 1fr; margin-bottom: 78px; text-align: center; }
       .free-price { padding: 0 0 18px; border-right: 0; border-bottom: 1px solid var(--line); }
       .free-points { justify-content: center; }
@@ -407,10 +526,11 @@
     <nav class="nav" aria-label="Primary navigation">
       <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></span><span>TradeReview AI</span></a>
       <div class="nav-links">
+        <a href="#brokers">Supported Brokers</a>
         <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
         <a href="#workflow">How it works</a>
         <a href="#blog">Blog</a>
-        <a href="./privacy.html">Privacy</a>
       </div>
       <div class="nav-actions">
         <a class="button small" href="./app/tradereview-ai.html?release=20260717-premium">Sign in</a>
@@ -452,11 +572,33 @@
       </section>
 
       <section class="tool-strip" aria-label="Included capabilities">
-        <p>One focused workflow</p>
-        <div class="tools"><div class="tool"><i></i> Manual trade log</div><div class="tool"><i></i> CSV import</div><div class="tool"><i></i> Broker sync prep</div><div class="tool"><i></i> R-multiple tracking</div><div class="tool"><i></i> Chart screenshots</div><div class="tool"><i></i> Private sync</div></div>
+        <p>Everything in one place - 6 tools</p>
+        <div class="tools"><div class="tool"><i></i> Automated journaling prep</div><div class="tool"><i></i> Backtesting notes</div><div class="tool"><i></i> Trade replay screenshots</div><div class="tool"><i></i> AI insights</div><div class="tool"><i></i> Strategy tracking</div><div class="tool"><i></i> Broker sync requests</div></div>
       </section>
 
-      <section class="free-banner" aria-label="Free account details">
+      <section class="trust-stats" aria-label="TradeReview product highlights">
+        <div class="trust-stat"><strong>$0</strong><span>Free journal workflow today</span></div>
+        <div class="trust-stat"><strong>12+</strong><span>Beginner AI learning lessons</span></div>
+        <div class="trust-stat"><strong>90d</strong><span>Default broker sync request window</span></div>
+        <div class="trust-stat"><strong>24/7</strong><span>AI review workspace in your account</span></div>
+      </section>
+
+      <section class="broker-cloud" id="brokers" aria-label="Supported brokers and import workflows">
+        <div class="broker-cloud-head">
+          <h3>Auto-syncs next. CSV works today.</h3>
+          <p>TradeReview is being built around secure broker connections, CSV import, and direct provider paths for brokers that are not available in the first connection portal.</p>
+        </div>
+        <div class="broker-rail" aria-hidden="true">
+          <span class="broker-logo"><i>IB</i>Interactive Brokers</span><span class="broker-logo"><i>RH</i>Robinhood</span><span class="broker-logo"><i>OA</i>OANDA</span><span class="broker-logo"><i>TS</i>TradeStation</span><span class="broker-logo"><i>NT</i>NinjaTrader</span><span class="broker-logo"><i>MT5</i>MetaTrader 5</span><span class="broker-logo"><i>TD</i>Tradovate</span><span class="broker-logo"><i>WB</i>Webull</span>
+          <span class="broker-logo"><i>IB</i>Interactive Brokers</span><span class="broker-logo"><i>RH</i>Robinhood</span><span class="broker-logo"><i>OA</i>OANDA</span><span class="broker-logo"><i>TS</i>TradeStation</span><span class="broker-logo"><i>NT</i>NinjaTrader</span><span class="broker-logo"><i>MT5</i>MetaTrader 5</span><span class="broker-logo"><i>TD</i>Tradovate</span><span class="broker-logo"><i>WB</i>Webull</span>
+        </div>
+        <div class="broker-rail" aria-hidden="true">
+          <span class="broker-logo"><i>AP</i>Alpaca</span><span class="broker-logo"><i>FT</i>FTMO</span><span class="broker-logo"><i>APX</i>Apex</span><span class="broker-logo"><i>TS</i>TopStep</span><span class="broker-logo"><i>SC</i>Schwab</span><span class="broker-logo"><i>ET</i>E*TRADE</span><span class="broker-logo"><i>CSV</i>CSV Import</span><span class="broker-logo"><i>API</i>Direct API</span>
+          <span class="broker-logo"><i>AP</i>Alpaca</span><span class="broker-logo"><i>FT</i>FTMO</span><span class="broker-logo"><i>APX</i>Apex</span><span class="broker-logo"><i>TS</i>TopStep</span><span class="broker-logo"><i>SC</i>Schwab</span><span class="broker-logo"><i>ET</i>E*TRADE</span><span class="broker-logo"><i>CSV</i>CSV Import</span><span class="broker-logo"><i>API</i>Direct API</span>
+        </div>
+      </section>
+
+      <section class="free-banner" id="pricing" aria-label="Free account details">
         <div class="free-price"><span>Current price</span><strong>$0</strong></div>
         <div class="free-copy"><h3>Your trading journal should not cost money. It should be free.</h3><p>TradeReview’s complete journal workflow costs $0—no credit card form, no trial countdown, and no payment wall between you and a better review habit.</p><div class="free-points"><span>Trade logging</span><span>CSV import</span><span>Performance charts</span><span>Private sync</span><span>Review assistant</span></div></div>
         <a class="button primary" href="./app/tradereview-ai.html?release=20260717-premium">Create free account →</a>
@@ -469,6 +611,36 @@
           <article class="feature-card"><div class="feature-icon">◎</div><h3>Visual trade review</h3><p>Pair exact entry and exit times with chart screenshots, then review execution, invalidation, and emotional decisions together.</p><div class="feature-meta"><span>Entry + exit</span><span>One view</span></div></article>
           <article class="feature-card"><div class="feature-icon">✦</div><h3>Broker-link ready</h3><p>Choose your primary broker, request direct sync, and keep using CSV import while approved broker OAuth/API access is prepared.</p><div class="feature-meta"><span>No broker passwords</span><span>CSV today</span></div></article>
           <article class="feature-card"><div class="feature-icon">AI</div><h3>Learn and trade with AI</h3><p>Use AI to study setups, draft risk-first trade plans, and review your behavior after execution without auto-trading or broker password collection.</p><div class="feature-meta"><span>Learn</span><span>Plan</span></div></article>
+        </div>
+      </section>
+
+      <section class="section" id="ai-agents">
+        <div class="section-head"><div class="section-label">AI trading partner</div><h2>Agents that watch the parts of trading you usually miss.</h2><p class="section-copy">TradeReview AI is not here to place trades for you. It helps you notice habits, risk breaks, tilt, missed preparation, and patterns hiding inside your own journal.</p></div>
+        <div class="suite-grid" aria-label="TradeReview tool hub">
+          <div class="suite-tab"><b>Automated Journal</b><span>Broker request, CSV import, manual add, notes, screenshots, and execution review.</span></div>
+          <div class="suite-tab"><b>Backtesting Notes</b><span>Turn winning and losing examples into setup rules you can test again.</span></div>
+          <div class="suite-tab"><b>Trade Replay</b><span>Rebuild the entry, exit, and context around the screenshot and candle sequence.</span></div>
+          <div class="suite-tab"><b>AI Insights</b><span>Ask questions grounded in your journal, mistakes, setups, and trading behavior.</span></div>
+          <div class="suite-tab"><b>Strategy Tracking</b><span>Track playbooks, risk rules, setup quality, and what conditions actually work.</span></div>
+          <div class="suite-tab"><b>Broker Sync</b><span>Prepare secure SnapTrade, Plaid, OANDA direct API, and CSV backup workflows.</span></div>
+        </div>
+        <div class="agent-grid">
+          <article class="agent-card"><small>Discipline</small><h3>Habit Agent</h3><p>Watches preparation, journaling consistency, review completion, and whether you are skipping your process.</p><span class="agent-status">Agent ready</span></article>
+          <article class="agent-card"><small>Guardrails</small><h3>Risk Agent</h3><p>Tracks planned risk, R-multiple, daily drawdown behavior, oversized trades, and repeat rule breaks.</p><span class="agent-status">Agent ready</span></article>
+          <article class="agent-card"><small>Mindset</small><h3>Tilt Agent</h3><p>Uses journal tone, trade frequency, and mistake tags to flag revenge trading, FOMO, and overconfidence.</p><span class="agent-status">Agent ready</span></article>
+          <article class="agent-card"><small>Your rules</small><h3>Custom Agent</h3><p>Describe your strategy, setup, or warning sign. TradeReview turns it into a checklist you can reuse.</p><span class="agent-status">Agent ready</span></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><div class="section-label">Automated journaling</div><h2>Every fill should become a useful review, not busywork.</h2><p class="section-copy">The goal is simple: connect once where providers allow it, import CSV where they do not, and keep every trade tied to screenshots, fees, notes, setup tags, and review prompts.</p></div>
+        <div class="automation-panel">
+          <div><h3>Powerful, automated trade journaling - built free first.</h3><p>You focus on trading. TradeReview focuses on helping you understand what happened, what repeated, and what should change before the next session.</p><a class="button primary" href="./app/tradereview-ai.html?release=20260717-premium">Start free now</a></div>
+          <div class="automation-list">
+            <div class="automation-item"><i>1</i><div><b>Connect or import</b><span>Use CSV today. Queue secure broker connections for Robinhood, OANDA, Interactive Brokers, futures, stocks, options, and FX workflows.</span></div></div>
+            <div class="automation-item"><i>2</i><div><b>Analyze the trade</b><span>Review stats, risk, symbols, position size, fees, entry, exit, and chart evidence in one place.</span></div></div>
+            <div class="automation-item"><i>3</i><div><b>Build your playbook</b><span>Use AI to turn repeated setups, mistakes, and rules into a cleaner strategy page.</span></div></div>
+          </div>
         </div>
       </section>
 
