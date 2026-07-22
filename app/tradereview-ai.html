@@ -61,17 +61,16 @@
     }
 
     body.app-ready {
-      height: 100vh;
-      overflow: hidden;
+      min-height: 100vh;
+      overflow: auto;
       background: #050817;
     }
 
     body.app-ready .app {
       display: block;
-      position: fixed;
-      inset: 0;
+      position: relative;
       width: 100vw;
-      height: 100vh;
+      min-height: 100vh;
     }
 
     body.app-ready aside {
@@ -83,12 +82,12 @@
     }
 
     body.app-ready main {
-      position: fixed;
-      inset: 0 0 0 250px;
-      width: auto;
-      height: 100vh;
+      position: relative;
+      margin-left: 250px;
+      width: calc(100vw - 250px);
+      min-height: 100vh;
       z-index: 1;
-      overflow-y: auto;
+      overflow: visible;
     }
 
     .auth-card {
@@ -2165,8 +2164,8 @@
     /* Final stable shell: fixed sidebar plus permanent main offset. */
     body:not(.auth-pending):not(.auth-required),
     body.app-ready {
-      height: 100vh !important;
-      overflow: hidden !important;
+      min-height: 100vh !important;
+      overflow: auto !important;
       background: #050817 !important;
     }
 
@@ -2177,7 +2176,7 @@
       inset: auto !important;
       width: 100vw !important;
       min-height: 100vh !important;
-      overflow: hidden !important;
+      overflow: visible !important;
     }
 
     body:not(.auth-pending):not(.auth-required) aside,
@@ -2202,12 +2201,10 @@
       bottom: auto !important;
       left: auto !important;
       width: calc(100vw - 250px) !important;
-      height: 100vh !important;
+      min-height: 100vh !important;
       min-width: 0 !important;
-      min-height: 0 !important;
       margin: 0 0 0 250px !important;
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
+      overflow: visible !important;
       z-index: 1 !important;
     }
 
@@ -3546,98 +3543,26 @@
         window.scrollTo(0, 0);
         root.scrollTop = 0;
         document.body.scrollTop = 0;
-        root.style.height = "100%";
-        root.style.overflow = "hidden";
-        document.body.style.height = "100vh";
-        document.body.style.overflow = "hidden";
         const app = document.querySelector(".app");
         const sidebar = document.querySelector("aside");
         const mainPanel = document.querySelector("main");
-        const compactShell = window.matchMedia("(max-width: 940px)").matches;
-        const sidebarWidth = compactShell ? 86 : 250;
         if (app) {
-          app.style.display = "block";
-          app.style.gridTemplateColumns = "";
-          app.style.position = "relative";
-          app.style.inset = "0";
-          app.style.width = "100vw";
-          app.style.height = "auto";
-          app.style.overflow = "hidden";
+          app.removeAttribute("style");
         }
         if (sidebar) {
-          sidebar.style.position = "fixed";
-          sidebar.style.gridColumn = "";
-          sidebar.style.top = "0";
-          sidebar.style.right = "auto";
-          sidebar.style.bottom = "0";
-          sidebar.style.left = "0";
-          sidebar.style.width = `${sidebarWidth}px`;
-          sidebar.style.height = "100vh";
-          sidebar.style.zIndex = "50";
-          sidebar.style.overflowY = "auto";
-          sidebar.style.overflowX = "hidden";
+          sidebar.removeAttribute("style");
         }
         if (mainPanel) {
           mainPanel.scrollTop = 0;
-          mainPanel.style.position = "relative";
-          mainPanel.style.gridColumn = "";
-          mainPanel.style.top = "auto";
-          mainPanel.style.right = "auto";
-          mainPanel.style.bottom = "auto";
-          mainPanel.style.left = "auto";
-          mainPanel.style.width = `calc(100vw - ${sidebarWidth}px)`;
-          mainPanel.style.height = "100vh";
-          mainPanel.style.minHeight = "0";
-          mainPanel.style.margin = `0 0 0 ${sidebarWidth}px`;
-          mainPanel.style.overflowY = "auto";
-          mainPanel.style.overflowX = "hidden";
-          mainPanel.style.zIndex = "1";
+          mainPanel.removeAttribute("style");
         }
       } else {
-        root.style.height = "";
-        root.style.overflow = "";
-        document.body.style.height = "";
-        document.body.style.overflow = "";
         const app = document.querySelector(".app");
         const sidebar = document.querySelector("aside");
         const mainPanel = document.querySelector("main");
-        if (app) {
-          app.style.display = "";
-          app.style.gridTemplateColumns = "";
-          app.style.position = "";
-          app.style.inset = "";
-          app.style.width = "";
-          app.style.height = "";
-          app.style.overflow = "";
-        }
-        if (sidebar) {
-          sidebar.style.position = "";
-          sidebar.style.gridColumn = "";
-          sidebar.style.top = "";
-          sidebar.style.right = "";
-          sidebar.style.bottom = "";
-          sidebar.style.left = "";
-          sidebar.style.width = "";
-          sidebar.style.height = "";
-          sidebar.style.zIndex = "";
-          sidebar.style.overflowY = "";
-          sidebar.style.overflowX = "";
-        }
-        if (mainPanel) {
-          mainPanel.style.position = "";
-          mainPanel.style.gridColumn = "";
-          mainPanel.style.top = "";
-          mainPanel.style.right = "";
-          mainPanel.style.bottom = "";
-          mainPanel.style.left = "";
-          mainPanel.style.width = "";
-          mainPanel.style.height = "";
-          mainPanel.style.minHeight = "";
-          mainPanel.style.margin = "";
-          mainPanel.style.overflowY = "";
-          mainPanel.style.overflowX = "";
-          mainPanel.style.zIndex = "";
-        }
+        if (app) app.removeAttribute("style");
+        if (sidebar) sidebar.removeAttribute("style");
+        if (mainPanel) mainPanel.removeAttribute("style");
       }
     }
 
