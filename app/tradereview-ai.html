@@ -34,6 +34,11 @@
       background: #edf2ef;
     }
 
+    html,
+    body {
+      min-height: 100%;
+    }
+
     .auth-gate {
       display: none;
       min-height: 100vh;
@@ -53,6 +58,19 @@
     .auth-pending .app,
     .auth-required .app {
       display: none;
+    }
+
+    body:not(.auth-pending):not(.auth-required) {
+      height: 100vh;
+      overflow: hidden;
+      background: #050817;
+    }
+
+    body:not(.auth-pending):not(.auth-required) .app {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
     }
 
     .auth-card {
@@ -1382,7 +1400,7 @@
     .app > aside { z-index: 2; }
     @keyframes workspaceAurora { from { transform: translate3d(-5%, -4%, 0) scale(.86); } to { transform: translate3d(13%, 11%, 0) scale(1.14); } }
 
-    .section.active { display: block; min-height: calc(100vh - 76px); animation: viewReveal .4s ease both; }
+    .section.active { display: block; min-height: 0; animation: viewReveal .4s ease both; }
     #import.section.active { display: flex; }
     .section.active > .topbar { margin-top: 0; }
     .section.active > .topbar { animation: titleReveal .5s cubic-bezier(.2,.8,.2,1) both; }
