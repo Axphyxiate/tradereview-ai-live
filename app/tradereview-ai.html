@@ -3525,18 +3525,44 @@
         document.body.style.height = "100vh";
         document.body.style.overflow = "hidden";
         const app = document.querySelector(".app");
+        const sidebar = document.querySelector("aside");
         const mainPanel = document.querySelector("main");
+        const compactShell = window.matchMedia("(max-width: 940px)").matches;
+        const sidebarWidth = compactShell ? 86 : 250;
         if (app) {
+          app.style.display = "block";
           app.style.position = "fixed";
           app.style.inset = "0";
           app.style.width = "100vw";
           app.style.height = "100vh";
           app.style.overflow = "hidden";
         }
+        if (sidebar) {
+          sidebar.style.position = "fixed";
+          sidebar.style.top = "0";
+          sidebar.style.right = "auto";
+          sidebar.style.bottom = "0";
+          sidebar.style.left = "0";
+          sidebar.style.width = `${sidebarWidth}px`;
+          sidebar.style.height = "100vh";
+          sidebar.style.zIndex = "20";
+          sidebar.style.overflowY = "auto";
+          sidebar.style.overflowX = "hidden";
+        }
         if (mainPanel) {
           mainPanel.scrollTop = 0;
+          mainPanel.style.position = "fixed";
+          mainPanel.style.top = "0";
+          mainPanel.style.right = "0";
+          mainPanel.style.bottom = "0";
+          mainPanel.style.left = `${sidebarWidth}px`;
+          mainPanel.style.width = "auto";
           mainPanel.style.height = "100vh";
+          mainPanel.style.minHeight = "0";
+          mainPanel.style.margin = "0";
           mainPanel.style.overflowY = "auto";
+          mainPanel.style.overflowX = "hidden";
+          mainPanel.style.zIndex = "1";
         }
       } else {
         root.style.height = "";
@@ -3544,17 +3570,41 @@
         document.body.style.height = "";
         document.body.style.overflow = "";
         const app = document.querySelector(".app");
+        const sidebar = document.querySelector("aside");
         const mainPanel = document.querySelector("main");
         if (app) {
+          app.style.display = "";
           app.style.position = "";
           app.style.inset = "";
           app.style.width = "";
           app.style.height = "";
           app.style.overflow = "";
         }
+        if (sidebar) {
+          sidebar.style.position = "";
+          sidebar.style.top = "";
+          sidebar.style.right = "";
+          sidebar.style.bottom = "";
+          sidebar.style.left = "";
+          sidebar.style.width = "";
+          sidebar.style.height = "";
+          sidebar.style.zIndex = "";
+          sidebar.style.overflowY = "";
+          sidebar.style.overflowX = "";
+        }
         if (mainPanel) {
+          mainPanel.style.position = "";
+          mainPanel.style.top = "";
+          mainPanel.style.right = "";
+          mainPanel.style.bottom = "";
+          mainPanel.style.left = "";
+          mainPanel.style.width = "";
           mainPanel.style.height = "";
+          mainPanel.style.minHeight = "";
+          mainPanel.style.margin = "";
           mainPanel.style.overflowY = "";
+          mainPanel.style.overflowX = "";
+          mainPanel.style.zIndex = "";
         }
       }
     }
