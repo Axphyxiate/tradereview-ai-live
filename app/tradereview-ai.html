@@ -1234,7 +1234,7 @@
     .account-panel strong { color: #dceae6; }
     .account-panel span { color: #6f8580; }
 
-    main { position: relative; z-index: 1; padding: clamp(22px, 3vw, 38px); background: radial-gradient(circle at 96% 4%, rgba(155,124,255,.13), transparent 30rem), radial-gradient(circle at 4% 56%, rgba(95,134,255,.1), transparent 34rem), radial-gradient(circle at 82% 92%, rgba(242,197,109,.055), transparent 24rem); }
+    main { position: relative; z-index: 1; min-height: 100vh; padding: clamp(22px, 3vw, 38px); background: radial-gradient(circle at 96% 4%, rgba(155,124,255,.13), transparent 30rem), radial-gradient(circle at 4% 56%, rgba(95,134,255,.1), transparent 34rem), radial-gradient(circle at 82% 92%, rgba(242,197,109,.055), transparent 24rem); }
     h1 { letter-spacing: -.045em; }
     .subtitle { color: #829892; line-height: 1.55; }
     .page-kicker { margin-bottom: 10px; }
@@ -1359,7 +1359,7 @@
     .assistant-form button { width: 42px; min-height: 42px; padding: 0; border-radius: 11px; }
 
     /* Dynamic workspace color and motion */
-    .app { position: relative; isolation: isolate; overflow: hidden; background: #050817; }
+    .app { position: relative; isolation: isolate; min-height: 100vh; overflow: visible; background: #050817; }
     .app::before,
     .app::after {
       content: "";
@@ -4719,7 +4719,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       const targetView = document.getElementById(view) ? view : "dashboard";
       document.querySelectorAll(".section").forEach(section => section.classList.toggle("active", section.id === targetView));
       document.querySelectorAll("nav button").forEach(button => button.classList.toggle("active", button.dataset.view === targetView));
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      requestAnimationFrame(() => window.scrollTo(0, 0));
     }
 
     function requestedViewFromUrl() {
