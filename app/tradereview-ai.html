@@ -1977,9 +1977,39 @@
     .billing-list { display: grid; gap: 9px; margin: 16px 0; padding: 0; list-style: none; color: #aab8d0; font-size: 12px; line-height: 1.45; }
     .billing-list li::before { content: "✓ "; color: #86efac; font-weight: 950; }
     .checkout-note { margin-top: 12px; color: #94a3b8; font-size: 12px; line-height: 1.55; }
+    .settings-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
+    .settings-tabs button { min-height: 38px; padding: 0 13px; border-radius: 999px; color: #91a7bf; font-size: 12px; font-weight: 850; }
+    .settings-tabs button.active { color: #061410; background: #86efac; border-color: transparent; }
+    .settings-pane { display: none; }
+    .settings-pane.active { display: block; }
+    .settings-stack { display: grid; gap: 16px; }
+    .settings-status { min-height: 22px; color: #8ea4bd; font-size: 12px; line-height: 1.5; }
+    .settings-status.good { color: #86efac; }
+    .settings-status.warn { color: #f2d394; }
+    .appearance-preview {
+      padding: 18px;
+      border: 1px solid rgba(148,163,184,.13);
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(14,25,52,.92), rgba(7,13,30,.96));
+    }
+    .appearance-preview h3 { margin: 0 0 8px; color: #f8fbff; }
+    .appearance-preview p { margin: 0; color: #9fb0ca; line-height: 1.6; }
+    .settings-plan-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid rgba(148,163,184,.13);
+      border-radius: 14px;
+      background: rgba(255,255,255,.025);
+    }
+    .settings-plan-row strong { color: #f8fbff; }
+    .settings-plan-row span { color: #94a3b8; font-size: 12px; }
     @media (max-width: 860px) {
       .ai-command-hero, .ai-split, .ai-learning-grid, .learning-ocean, .resource-grid, .trade-lab-grid, .agent-lab-grid, .billing-grid { grid-template-columns: 1fr; }
       .ai-question-box { grid-template-columns: 1fr; }
+      .settings-plan-row { grid-template-columns: 1fr; }
     }
 
     /* First-login trader profile */
@@ -2320,6 +2350,7 @@
             <div class="panel-header"><h2>Mistake Patterns</h2></div>
             <div class="panel-body bars" id="mistakeBars"></div>
           </div>
+        </div>
         </div>
       </section>
 
@@ -2769,10 +2800,163 @@
         <div class="topbar">
           <div>
             <h1>Settings</h1>
-            <p class="subtitle">Your trader profile is stored with your private journal and will guide broker-sync priorities and the future mobile experience.</p>
+            <p class="subtitle">Manage your account, subscription, billing, appearance, security, broker connections, risk rules, and mobile app settings.</p>
           </div>
         </div>
 
+        <div class="settings-tabs" aria-label="Settings sections">
+          <button class="active" type="button" data-settings-tab="account">Account</button>
+          <button type="button" data-settings-tab="appearance">Appearance & font</button>
+          <button type="button" data-settings-tab="subscription">Subscription</button>
+          <button type="button" data-settings-tab="billing">Billing</button>
+          <button type="button" data-settings-tab="security">Security</button>
+          <button type="button" data-settings-tab="trading">Trading & integrations</button>
+        </div>
+
+        <div class="settings-pane active" id="settingsAccountPane">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-header"><h2>Account Settings</h2><button class="primary" id="saveAccountSettings" type="button">Save account</button></div>
+              <div class="panel-body">
+                <div class="form-grid">
+                  <label>Display name
+                    <input id="accountDisplayName" placeholder="Your name">
+                  </label>
+                  <label>Email address
+                    <input id="accountEmailSetting" type="email" placeholder="you@example.com">
+                  </label>
+                  <label>Phone number
+                    <input id="accountPhoneSetting" type="tel" placeholder="+1 555 555 5555">
+                  </label>
+                  <label>New password
+                    <input id="accountNewPassword" type="password" autocomplete="new-password" placeholder="Leave blank unless changing">
+                  </label>
+                </div>
+                <p class="footer-note">Email and password changes use secure Supabase account management. Phone number is saved to your private TradeReview profile until SMS verification is connected.</p>
+                <div class="settings-status" id="accountSettingsStatus"></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-header"><h2>Account Overview</h2></div>
+              <div class="panel-body review-list">
+                <div class="review-item"><span>Signed in as</span><strong id="settingsSignedInEmail">—</strong></div>
+                <div class="review-item"><span>Current plan</span><strong id="settingsCurrentPlan">Free</strong></div>
+                <div class="review-item"><span>Account sync</span><strong>Private cloud journal</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-pane" id="settingsAppearancePane">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-header"><h2>Font & Appearance</h2><button class="primary" id="saveAppearanceSettings" type="button">Save appearance</button></div>
+              <div class="panel-body">
+                <div class="form-grid">
+                  <label>Font size
+                    <select id="appearanceFontScale">
+                      <option value="comfortable">Comfortable</option>
+                      <option value="compact">Compact</option>
+                      <option value="large">Large</option>
+                    </select>
+                  </label>
+                  <label>Theme
+                    <select id="appearanceTheme">
+                      <option value="premium-dark">Premium dark</option>
+                      <option value="midnight">Midnight blue</option>
+                      <option value="high-contrast">High contrast</option>
+                    </select>
+                  </label>
+                  <label>Accent color
+                    <select id="appearanceAccent">
+                      <option value="green">Profit green</option>
+                      <option value="blue">Electric blue</option>
+                      <option value="purple">Premium purple</option>
+                      <option value="red">Risk red</option>
+                    </select>
+                  </label>
+                  <label>Dashboard density
+                    <select id="appearanceDensity">
+                      <option value="normal">Normal</option>
+                      <option value="compact">Compact</option>
+                      <option value="spacious">Spacious</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="appearance-preview"><h3>Preview</h3><p id="appearancePreviewText">Your dashboard, journal, AI coach, billing, and broker screens will use this display style.</p></div>
+                <div class="settings-status" id="appearanceSettingsStatus"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-pane" id="settingsSubscriptionPane">
+          <div class="panel">
+            <div class="panel-header"><h2>Subscription Manager</h2><button class="primary" data-view-button="billing" type="button">Open plans</button></div>
+            <div class="panel-body settings-stack">
+              <div class="settings-plan-row"><div><strong>Free</strong><br><span>Manual journal, CSV import, basic dashboard, Learn with AI basics.</span></div><button type="button" data-plan="Free">Switch to Free</button></div>
+              <div class="settings-plan-row"><div><strong>Starter — $9.99/mo</strong><br><span>More accounts, expanded AI credits, weekly summaries, replay notes.</span></div><button type="button" data-plan="Starter $9.99">Upgrade / Downgrade</button></div>
+              <div class="settings-plan-row"><div><strong>Pro — $29.99/mo</strong><br><span>Broker sync requests, AI Coach, agents, advanced reports.</span></div><button class="primary" type="button" data-plan="Pro $29.99">Upgrade / Downgrade</button></div>
+              <div class="settings-plan-row"><div><strong>Elite — $49.99/mo</strong><br><span>Higher AI limits, priority support, unlimited strategy tracking.</span></div><button type="button" data-plan="Elite $49.99">Upgrade / Downgrade</button></div>
+              <p class="footer-note">Users should be able to upgrade, downgrade, or cancel anytime. The real self-serve subscription portal will be connected through Stripe Billing or PayPal subscriptions.</p>
+              <div class="settings-status" id="subscriptionSettingsStatus"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-pane" id="settingsBillingPane">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-header"><h2>Billing Settings</h2><button class="primary" id="saveBillingSettings" type="button">Save billing</button></div>
+              <div class="panel-body">
+                <div class="form-grid">
+                  <label>Billing email
+                    <input id="billingEmailSetting" type="email" placeholder="billing@example.com">
+                  </label>
+                  <label>Billing cycle
+                    <select id="billingCycleSetting">
+                      <option value="monthly">Monthly</option>
+                      <option value="annual">Annual - save later</option>
+                    </select>
+                  </label>
+                  <label>Business / company name
+                    <input id="billingCompanySetting" placeholder="Optional">
+                  </label>
+                  <label>Tax ID / VAT
+                    <input id="billingTaxSetting" placeholder="Optional">
+                  </label>
+                </div>
+                <p class="footer-note">Payment method, invoices, receipts, failed-payment updates, cancellation, and plan changes should open a secure Stripe Customer Portal when connected.</p>
+                <div class="settings-status" id="billingSettingsStatus"></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-header"><h2>Payment Method</h2></div>
+              <div class="panel-body">
+                <p class="checkout-note">No card is stored in this static app. Connect Stripe Checkout/Customer Portal so users can add, update, or remove payment methods securely.</p>
+                <button class="primary" id="openCustomerPortal" type="button">Open secure billing portal</button>
+                <div class="settings-status" id="customerPortalStatus"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-pane" id="settingsSecurityPane">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-header"><h2>Security & Privacy</h2></div>
+              <div class="panel-body settings-stack">
+                <div class="settings-plan-row"><div><strong>Password</strong><br><span>Change your password from Account Settings.</span></div><button type="button" data-settings-tab="account">Change password</button></div>
+                <div class="settings-plan-row"><div><strong>Sign out everywhere</strong><br><span>For now this signs out this browser. Full all-device session revocation requires backend admin support.</span></div><button id="securitySignOut" type="button">Sign out</button></div>
+                <div class="settings-plan-row"><div><strong>Data export</strong><br><span>Download a copy of trades, journals, profile, settings, and broker request metadata.</span></div><button id="exportAccountData" type="button">Export data</button></div>
+                <div class="settings-plan-row"><div><strong>Delete account</strong><br><span>Requires a secure backend workflow so journal rows, auth account, and billing subscription are handled safely.</span></div><button id="requestAccountDeletion" type="button">Request deletion</button></div>
+                <div class="settings-status" id="securitySettingsStatus"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-pane" id="settingsTradingPane">
         <div class="grid">
           <div class="panel">
             <div class="panel-header"><h2>Trader Profile</h2><button id="editProfile" type="button">Edit profile</button></div>
@@ -2985,7 +3169,18 @@
         accountSize: 500,
         riskPerTrade: 25,
         optionMultiplier: 100,
-        riskWarningR: 1
+        riskWarningR: 1,
+        displayName: "",
+        phone: "",
+        fontScale: "comfortable",
+        theme: "premium-dark",
+        accent: "green",
+        density: "normal",
+        currentPlan: "Free",
+        billingCycle: "monthly",
+        billingEmail: "",
+        billingCompany: "",
+        billingTaxId: ""
       };
     }
 
@@ -4358,6 +4553,20 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       document.querySelector("#riskPerTrade").value = state.settings.riskPerTrade;
       document.querySelector("#optionMultiplier").value = state.settings.optionMultiplier;
       document.querySelector("#riskWarningR").value = state.settings.riskWarningR;
+      document.querySelector("#accountDisplayName").value = state.settings.displayName || "";
+      document.querySelector("#accountEmailSetting").value = currentUser?.email || state.settings.billingEmail || "";
+      document.querySelector("#accountPhoneSetting").value = state.settings.phone || "";
+      document.querySelector("#appearanceFontScale").value = state.settings.fontScale || "comfortable";
+      document.querySelector("#appearanceTheme").value = state.settings.theme || "premium-dark";
+      document.querySelector("#appearanceAccent").value = state.settings.accent || "green";
+      document.querySelector("#appearanceDensity").value = state.settings.density || "normal";
+      document.querySelector("#billingEmailSetting").value = state.settings.billingEmail || currentUser?.email || "";
+      document.querySelector("#billingCycleSetting").value = state.settings.billingCycle || "monthly";
+      document.querySelector("#billingCompanySetting").value = state.settings.billingCompany || "";
+      document.querySelector("#billingTaxSetting").value = state.settings.billingTaxId || "";
+      document.querySelector("#settingsSignedInEmail").textContent = currentUser?.email || "Not signed in";
+      document.querySelector("#settingsCurrentPlan").textContent = state.settings.currentPlan || "Free";
+      applyAppearanceSettings();
     }
 
     function saveSettingsFromForm() {
@@ -4367,6 +4576,87 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       state.settings.riskWarningR = num(document.querySelector("#riskWarningR").value) || 1;
       saveState();
       render();
+    }
+
+    function setSettingsStatus(id, message, type = "good") {
+      const target = document.querySelector(`#${id}`);
+      if (!target) return;
+      target.textContent = message;
+      target.className = `settings-status ${type}`;
+    }
+
+    function switchSettingsTab(tab) {
+      const nextTab = tab || "account";
+      document.querySelectorAll(".settings-tabs [data-settings-tab]").forEach(button => {
+        button.classList.toggle("active", button.dataset.settingsTab === nextTab);
+      });
+      document.querySelectorAll(".settings-pane").forEach(pane => {
+        pane.classList.toggle("active", pane.id === `settings${nextTab.charAt(0).toUpperCase()}${nextTab.slice(1)}Pane`);
+      });
+    }
+
+    function applyAppearanceSettings() {
+      const scale = state.settings.fontScale || "comfortable";
+      const theme = state.settings.theme || "premium-dark";
+      const accent = state.settings.accent || "green";
+      document.documentElement.style.fontSize = scale === "large" ? "17px" : scale === "compact" ? "14px" : "";
+      const accentMap = {
+        green: "#18d995",
+        blue: "#5f86ff",
+        purple: "#9b7cff",
+        red: "#ff536d"
+      };
+      document.documentElement.style.setProperty("--green", accentMap[accent] || accentMap.green);
+      if (theme === "midnight") document.body.style.background = "#071127";
+      else if (theme === "high-contrast") document.body.style.background = "#000";
+      else document.body.style.background = "";
+      document.body.dataset.theme = theme;
+      document.body.dataset.accent = accent;
+      const preview = document.querySelector("#appearancePreviewText");
+      if (preview) preview.textContent = `Preview: ${scale} font, ${theme.replace("-", " ")} theme, ${accent} accent, ${state.settings.density || "normal"} density.`;
+    }
+
+    async function saveAccountSettings() {
+      state.settings.displayName = document.querySelector("#accountDisplayName").value.trim();
+      state.settings.phone = document.querySelector("#accountPhoneSetting").value.trim();
+      const newEmail = document.querySelector("#accountEmailSetting").value.trim();
+      const newPassword = document.querySelector("#accountNewPassword").value;
+      const updates = {};
+      if (currentUser && newEmail && newEmail !== currentUser.email) updates.email = newEmail;
+      if (newPassword) updates.password = newPassword;
+      try {
+        if (Object.keys(updates).length) {
+          const { error } = await cloudClient.auth.updateUser(updates);
+          if (error) throw error;
+          document.querySelector("#accountNewPassword").value = "";
+          setSettingsStatus("accountSettingsStatus", updates.email ? "Account saved. Check the new email inbox if Supabase asks for confirmation." : "Password updated securely.");
+        } else {
+          setSettingsStatus("accountSettingsStatus", "Account settings saved.");
+        }
+        saveState();
+        render();
+      } catch (error) {
+        setSettingsStatus("accountSettingsStatus", friendlyAuthError(error), "warn");
+      }
+    }
+
+    function saveAppearanceSettings() {
+      state.settings.fontScale = document.querySelector("#appearanceFontScale").value;
+      state.settings.theme = document.querySelector("#appearanceTheme").value;
+      state.settings.accent = document.querySelector("#appearanceAccent").value;
+      state.settings.density = document.querySelector("#appearanceDensity").value;
+      applyAppearanceSettings();
+      saveState();
+      setSettingsStatus("appearanceSettingsStatus", "Appearance settings saved.");
+    }
+
+    function saveBillingSettings() {
+      state.settings.billingEmail = document.querySelector("#billingEmailSetting").value.trim();
+      state.settings.billingCycle = document.querySelector("#billingCycleSetting").value;
+      state.settings.billingCompany = document.querySelector("#billingCompanySetting").value.trim();
+      state.settings.billingTaxId = document.querySelector("#billingTaxSetting").value.trim();
+      saveState();
+      setSettingsStatus("billingSettingsStatus", "Billing profile saved. Payment method updates will open the secure billing portal once connected.");
     }
 
     function isStandaloneApp() {
@@ -4497,8 +4787,12 @@ Save this agent to the database and run it against new journal/trade events auto
 
     function chooseBillingPlan(plan) {
       const target = document.querySelector("#checkoutMessage");
-      if (!target) return;
-      target.innerHTML = `<strong>${plan} selected.</strong> Next step: connect Stripe Checkout or PayPal so customers can safely enter payment details on a secure payment page. TradeReview should never store raw card numbers directly.`;
+      state.settings.currentPlan = plan || "Free";
+      saveState();
+      if (target) target.innerHTML = `<strong>${plan} selected.</strong> Next step: connect Stripe Checkout or PayPal so customers can safely enter payment details on a secure payment page. TradeReview should never store raw card numbers directly.`;
+      setSettingsStatus("subscriptionSettingsStatus", `${plan} selected. Upgrade, downgrade, or cancel-anytime flows will use Stripe/PayPal customer portal when connected.`);
+      const currentPlan = document.querySelector("#settingsCurrentPlan");
+      if (currentPlan) currentPlan.textContent = state.settings.currentPlan;
     }
 
     document.querySelectorAll("[data-view], [data-view-button]").forEach(button => {
@@ -4527,6 +4821,20 @@ Save this agent to the database and run it against new journal/trade events auto
     document.querySelector("#buildCustomAgent")?.addEventListener("click", () => renderAgentPlan());
     document.querySelectorAll("[data-plan]").forEach(button => {
       button.addEventListener("click", () => chooseBillingPlan(button.dataset.plan));
+    });
+    document.querySelectorAll("[data-settings-tab]").forEach(button => {
+      button.addEventListener("click", () => switchSettingsTab(button.dataset.settingsTab));
+    });
+    document.querySelector("#saveAccountSettings")?.addEventListener("click", saveAccountSettings);
+    document.querySelector("#saveAppearanceSettings")?.addEventListener("click", saveAppearanceSettings);
+    document.querySelector("#saveBillingSettings")?.addEventListener("click", saveBillingSettings);
+    document.querySelector("#openCustomerPortal")?.addEventListener("click", () => {
+      setSettingsStatus("customerPortalStatus", "Secure billing portal is ready for Stripe/PayPal connection. After setup, this button will open the hosted customer portal.", "warn");
+    });
+    document.querySelector("#securitySignOut")?.addEventListener("click", () => document.querySelector("#logout")?.click());
+    document.querySelector("#exportAccountData")?.addEventListener("click", () => document.querySelector("#exportJson")?.click());
+    document.querySelector("#requestAccountDeletion")?.addEventListener("click", () => {
+      setSettingsStatus("securitySettingsStatus", "Account deletion request noted. A real deletion flow should confirm identity, cancel billing, delete journal rows, then remove the auth user.", "warn");
     });
     document.querySelectorAll("[data-lesson-topic]").forEach(button => {
       button.addEventListener("click", () => {
