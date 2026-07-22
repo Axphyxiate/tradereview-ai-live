@@ -1,4 +1,4 @@
-const CACHE_NAME = "tradereview-ai-mobile-v2";
+const CACHE_NAME = "tradereview-ai-mobile-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -7,7 +7,6 @@ const APP_SHELL = [
   "./icons/icon-512.png",
   "./manifest.webmanifest",
   "./privacy.html",
-  "./app/tradereview-ai.html",
   "./app/supabase-config.js?v=20260716-3",
   "./app/vendor/supabase.js",
   "./blog/"
@@ -34,6 +33,12 @@ self.addEventListener("fetch", event => {
   if (request.method !== "GET") return;
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
+  const isAppHtml = url.pathname.endsWith("/app/tradereview-ai.html");
+
+  if (isAppHtml) {
+    event.respondWith(fetch(request, { cache: "reload" }));
+    return;
+  }
 
   event.respondWith(
     fetch(request)

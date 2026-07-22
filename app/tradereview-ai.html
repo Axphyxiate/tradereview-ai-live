@@ -5593,6 +5593,7 @@ Save this agent to the database and run it against new journal/trade events auto
     function registerMobileAppShell() {
       if (!("serviceWorker" in navigator)) return;
       const workerUrl = new URL("../service-worker.js", window.location.href);
+      workerUrl.searchParams.set("v", "20260722-layout-cache");
       navigator.serviceWorker.register(workerUrl.href).catch(error => {
         console.warn("Mobile app shell registration failed", error);
       });
