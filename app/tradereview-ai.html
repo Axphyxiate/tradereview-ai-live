@@ -1450,24 +1450,45 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 16px;
       align-items: center;
-      padding: 16px;
-      border: 1px solid rgba(157,174,232,.13);
-      border-radius: 13px;
-      background: linear-gradient(135deg, rgba(95,134,255,.12), rgba(24,217,149,.055));
+      padding: 18px;
+      border: 1px solid rgba(74,222,128,.18);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 13% 18%, rgba(34,197,94,.22), transparent 28%),
+        radial-gradient(circle at 88% 12%, rgba(239,68,68,.18), transparent 28%),
+        linear-gradient(135deg, rgba(7,13,25,.96), rgba(18,25,43,.92));
+      box-shadow: 0 18px 55px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.08);
+    }
+    .broker-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(74,222,128,.13) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(248,113,113,.08) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(90deg, rgba(0,0,0,.7), transparent 78%);
+      opacity: .55;
     }
     .broker-hero::after {
       content: "";
       position: absolute;
       inset: auto -14% -76% 40%;
       height: 130%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
       transform: rotate(-18deg);
+      animation: brokerSweep 6s ease-in-out infinite;
     }
-    .broker-hero h3 { margin: 0 0 6px; color: #edf4ff; font-size: 18px; letter-spacing: -.015em; }
-    .broker-hero p { margin: 0; color: #8ea0bd; font-size: 12px; line-height: 1.55; }
+    @keyframes brokerSweep {
+      0%, 100% { transform: translateX(-16%) rotate(-18deg); opacity: .35; }
+      50% { transform: translateX(14%) rotate(-18deg); opacity: .75; }
+    }
+    .broker-hero > div, .broker-status { position: relative; z-index: 1; }
+    .broker-kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 8px; color: #86efac; font-size: 10px; font-weight: 950; text-transform: uppercase; letter-spacing: .12em; }
+    .broker-kicker::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: #22c55e; box-shadow: 0 0 18px rgba(34,197,94,.9); }
+    .broker-hero h3 { margin: 0 0 7px; color: #f8fbff; font-size: 22px; letter-spacing: -.03em; }
+    .broker-hero p { margin: 0; max-width: 660px; color: #a8b6d1; font-size: 13px; line-height: 1.6; }
     .broker-status {
-      position: relative;
-      z-index: 1;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -1484,7 +1505,35 @@
     .broker-status.ready { color: #55e5a5; background: rgba(24,217,149,.09); }
     .broker-status.requested { color: #8fb1ff; background: rgba(95,134,255,.1); }
     .broker-status i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 14px currentColor; }
-    .broker-controls { display: grid; gap: 13px; }
+    .broker-flow {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .broker-flow-step {
+      position: relative;
+      overflow: hidden;
+      min-height: 82px;
+      padding: 12px;
+      border: 1px solid rgba(148,163,184,.12);
+      border-radius: 14px;
+      background: rgba(2,6,23,.42);
+      backdrop-filter: blur(10px);
+    }
+    .broker-flow-step span { display: inline-flex; align-items: center; justify-content: center; width: 23px; height: 23px; border-radius: 999px; margin-bottom: 9px; color: #061018; background: linear-gradient(135deg, #86efac, #f87171); font-size: 11px; font-weight: 1000; }
+    .broker-flow-step strong { display: block; color: #eef5ff; font-size: 12px; margin-bottom: 4px; }
+    .broker-flow-step small { display: block; color: #8292ad; font-size: 11px; line-height: 1.45; }
+    .broker-controls {
+      display: grid;
+      gap: 14px;
+      padding: 14px;
+      border: 1px solid rgba(148,163,184,.12);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(15,23,42,.58), rgba(2,6,23,.22));
+    }
     .sync-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
     .sync-option {
       display: flex;
@@ -1492,13 +1541,15 @@
       gap: 9px;
       min-height: 43px;
       padding: 9px 10px;
-      border: 1px solid rgba(157,174,232,.11);
-      border-radius: 10px;
+      border: 1px solid rgba(157,174,232,.13);
+      border-radius: 13px;
       color: #bac6dd;
-      background: rgba(255,255,255,.025);
+      background: linear-gradient(135deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
       font-size: 12px;
       font-weight: 760;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease;
     }
+    .sync-option:hover { transform: translateY(-1px); border-color: rgba(74,222,128,.28); background: rgba(34,197,94,.055); }
     .sync-option input { width: 16px; height: 16px; min-height: 0; accent-color: #6c91ff; }
     .connection-actions { display: flex; flex-wrap: wrap; gap: 10px; }
     .connection-note {
@@ -1524,9 +1575,31 @@
     }
     .broker-provider-note strong { color: #b9c8ff; }
     .broker-provider-note code { color: #dce6ff; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .broker-live-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .broker-live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 9px;
+      border: 1px solid rgba(148,163,184,.13);
+      border-radius: 999px;
+      color: #c9d7ee;
+      background: rgba(255,255,255,.035);
+      font-size: 11px;
+      font-weight: 850;
+    }
+    .broker-live-pill.up i { background: #22c55e; }
+    .broker-live-pill.down i { background: #ef4444; }
+    .broker-live-pill i { width: 7px; height: 18px; border-radius: 999px; box-shadow: 0 0 14px currentColor; animation: brokerPulse 2.8s ease-in-out infinite; }
+    @keyframes brokerPulse { 0%, 100% { transform: scaleY(.72); opacity: .7; } 50% { transform: scaleY(1.18); opacity: 1; } }
     @media (max-width: 620px) {
       .broker-hero { grid-template-columns: 1fr; }
       .broker-status { justify-self: start; white-space: normal; }
+      .broker-flow { grid-template-columns: 1fr; }
       .sync-options { grid-template-columns: 1fr; }
     }
     .mobile-app-card {
@@ -1810,6 +1883,8 @@
             <label class="onboarding-option"><input type="radio" name="broker" value="NinjaTrader / Tradovate"><span class="onboarding-option-body"><strong>NinjaTrader / Tradovate</strong><small>Futures-focused execution.</small></span></label>
             <label class="onboarding-option"><input type="radio" name="broker" value="TradeStation"><span class="onboarding-option-body"><strong>TradeStation</strong><small>Active trading and automation.</small></span></label>
             <label class="onboarding-option"><input type="radio" name="broker" value="Fidelity / E*TRADE"><span class="onboarding-option-body"><strong>Fidelity / E*TRADE</strong><small>Stocks and listed options.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="broker" value="OANDA"><span class="onboarding-option-body"><strong>OANDA</strong><small>Forex and CFD workflows queued for direct API sync.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="broker" value="MetaTrader / Forex.com"><span class="onboarding-option-body"><strong>MetaTrader / Forex.com</strong><small>FX trade review, CSV import, and direct sync roadmap.</small></span></label>
             <label class="onboarding-option"><input type="radio" name="broker" value="Other"><span class="onboarding-option-body"><strong>Another broker</strong><small>We’ll still support CSV and manual logging.</small></span></label>
           </div>
         </div>
@@ -2113,8 +2188,14 @@
             <div class="panel-body broker-linking">
               <div class="broker-hero">
                 <div>
+                  <span class="broker-kicker">Secure broker bridge</span>
                   <h3 id="brokerConnectionTitle">Choose your broker</h3>
                   <p id="brokerConnectionCopy">Prepare your account for direct trade sync. Live broker sync will use a secure connection provider or broker-approved API access, never broker passwords saved in this app.</p>
+                  <div class="broker-flow" aria-label="Broker connection steps">
+                    <div class="broker-flow-step"><span>1</span><strong>Choose broker</strong><small>Pick stocks, options, futures, or FX workflows.</small></div>
+                    <div class="broker-flow-step"><span>2</span><strong>Secure portal</strong><small>Connect through provider OAuth/API, never saved broker passwords.</small></div>
+                    <div class="broker-flow-step"><span>3</span><strong>Auto journal</strong><small>Bring fills, fees, symbols, screenshots, and notes together.</small></div>
+                  </div>
                 </div>
                 <span class="broker-status" id="brokerConnectionStatus"><i></i> Not linked</span>
               </div>
@@ -2129,6 +2210,8 @@
                     <option>NinjaTrader / Tradovate</option>
                     <option>TradeStation</option>
                     <option>Fidelity / E*TRADE</option>
+                    <option>OANDA</option>
+                    <option>MetaTrader / Forex.com</option>
                     <option>Other</option>
                   </select>
                 </label>
@@ -2149,6 +2232,11 @@
                 <div class="broker-provider-note" id="brokerProviderNote">
                   <strong>Secure sync plan</strong>
                   <span>Best first provider: <code>SnapTrade</code> for trading-account connections. Backup path: <code>Plaid Investments</code> for holdings and investment transactions where execution-level fills are not available.</span>
+                  <div class="broker-live-strip" aria-label="Supported connection paths">
+                    <span class="broker-live-pill up"><i></i> SnapTrade portal</span>
+                    <span class="broker-live-pill down"><i></i> OANDA direct API queued</span>
+                    <span class="broker-live-pill up"><i></i> CSV works today</span>
+                  </div>
                 </div>
                 <div class="connection-actions">
                   <button class="primary" id="requestBrokerAccess" type="button">Prepare secure broker sync</button>
@@ -3182,7 +3270,9 @@
         roadmap.textContent = "Requested";
         roadmap.classList.remove("live");
         document.querySelector("#brokerConnectionTitle").textContent = `${providerLabel} link requested`;
-        document.querySelector("#brokerConnectionCopy").textContent = "Your broker preference and sync scope are saved. When provider keys are connected on the backend, this account will be ready for the secure connection flow.";
+        document.querySelector("#brokerConnectionCopy").textContent = connection.providerKind === "direct_oanda_api"
+          ? "Your OANDA/FX request is saved. OANDA is not available in the current SnapTrade institution picker, so TradeReview will prepare a direct OANDA API path while CSV import stays available."
+          : "Your broker preference and sync scope are saved. When provider keys are connected on the backend, this account will be ready for the secure connection flow.";
       } else if (connection.status === "ready") {
         status.classList.add("ready");
         status.innerHTML = "<i></i> Ready";
@@ -3195,7 +3285,9 @@
         roadmap.textContent = "Planned";
         roadmap.classList.remove("live");
         document.querySelector("#brokerConnectionTitle").textContent = provider ? `Prepare ${provider} sync` : "Choose your broker";
-        document.querySelector("#brokerConnectionCopy").textContent = "Prepare your account for direct trade sync. Live broker sync will use a secure connection provider or broker-approved API access, never broker passwords saved in this app.";
+        document.querySelector("#brokerConnectionCopy").textContent = provider === "OANDA"
+          ? "OANDA is queued as a forex/CFD direct API connection. If it does not appear in SnapTrade's portal, use OANDA CSV export for now while the direct integration is prepared."
+          : "Prepare your account for direct trade sync. Live broker sync will use a secure connection provider or broker-approved API access, never broker passwords saved in this app.";
       }
 
       const when = connection.requestedAt ? ` Requested ${new Date(connection.requestedAt).toLocaleDateString()}.` : "";
@@ -3204,6 +3296,7 @@
 
     function brokerProviderKind(provider) {
       if (!provider) return "planned";
+      if (/OANDA|MetaTrader|Forex\.com/i.test(provider)) return "direct_oanda_api";
       if (provider === "Interactive Brokers") return "direct_broker_api";
       if (/Fidelity|E\*TRADE|Schwab|Robinhood|Webull|TradeStation|NinjaTrader|Tradovate/i.test(provider)) return "snaptrade";
       return "planned";
