@@ -1860,7 +1860,18 @@
     .ai-card h3 { position: relative; z-index: 1; margin: 0 0 8px; color: #eef5ff; font-size: 18px; }
     .ai-card p, .ai-card li { position: relative; z-index: 1; color: #9fb0ca; font-size: 12px; line-height: 1.55; }
     .ai-card ul { margin: 12px 0 0; padding-left: 18px; }
+    .ai-learning-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .ai-lesson-card {
+      padding: 14px;
+      border: 1px solid rgba(148,163,184,.12);
+      border-radius: 16px;
+      background: rgba(255,255,255,.035);
+    }
+    .ai-lesson-card span { display: inline-flex; margin-bottom: 9px; padding: 5px 8px; border-radius: 999px; color: #061018; background: #86efac; font-size: 10px; font-weight: 950; text-transform: uppercase; letter-spacing: .07em; }
+    .ai-lesson-card h4 { margin: 0 0 6px; color: #eff6ff; font-size: 14px; }
+    .ai-lesson-card p { margin: 0; color: #96a7c0; font-size: 12px; line-height: 1.5; }
     .ai-builder { display: grid; gap: 12px; }
+    .ai-builder textarea { min-height: 96px; resize: vertical; }
     .ai-output {
       min-height: 130px;
       padding: 13px;
@@ -1874,7 +1885,7 @@
     }
     .ai-disclaimer { padding: 11px 12px; border-radius: 13px; color: #f2d394; background: rgba(242,197,109,.07); border: 1px solid rgba(242,197,109,.16); font-size: 11px; line-height: 1.5; }
     @media (max-width: 860px) {
-      .ai-command-hero, .ai-split { grid-template-columns: 1fr; }
+      .ai-command-hero, .ai-split, .ai-learning-grid { grid-template-columns: 1fr; }
     }
 
     /* First-login trader profile */
@@ -2375,8 +2386,8 @@
         <div class="topbar">
           <div>
             <div class="page-kicker"><span class="live-dot"></span> Learn with AI · Trade with AI</div>
-            <h1>Build skill first. Build the trade second.</h1>
-            <p class="subtitle">Use AI to study setups, prepare a risk-aware trade plan, and review your decisions after the trade. TradeReview does not place trades or promise outcomes; it helps you think clearly before and after execution.</p>
+            <h1>Learn the basics. Then build smarter trade plans.</h1>
+            <p class="subtitle">Learn with AI teaches the foundation: candles, support/resistance, trend, risk, psychology, journaling, and setups. Trade with AI is the advanced workspace where your journal history and your own strategy prompt become a structured trade plan.</p>
           </div>
           <div class="actions">
             <button data-view-button="journal">Review Journal</button>
@@ -2388,13 +2399,13 @@
           <div class="ai-command-hero">
             <div class="ai-command-copy">
               <span class="ai-command-kicker">AI trading workspace</span>
-              <h2>Learn the pattern. Plan the risk. Review the behavior.</h2>
-              <p>Ask the coach to explain a setup, create a pre-trade checklist, or turn your latest journal mistakes into a lesson. Then use Trade with AI to draft a plan that includes invalidation, position risk, and what must happen before you act.</p>
+              <h2>From trading basics to strategy-aware planning.</h2>
+              <p>Start with core lessons if you are new. When you are ready, use Trade with AI to explain your strategy, read your journal patterns, and generate a risk-first plan with entry logic, invalidation, management, and review prompts.</p>
               <div class="ai-mode-pills">
-                <span><i></i> Setup lessons</span>
-                <span><i></i> Risk-first trade plans</span>
-                <span><i></i> Post-trade review prompts</span>
-                <span><i></i> Broker-sync context</span>
+                <span><i></i> Trading basics</span>
+                <span><i></i> Strategy prompts</span>
+                <span><i></i> Journal-aware plans</span>
+                <span><i></i> Risk-first review</span>
               </div>
             </div>
             <div class="ai-orbit-card" aria-label="AI workflow animation">
@@ -2411,26 +2422,60 @@
           <div class="ai-split">
             <div class="ai-card">
               <h3>Learn with AI</h3>
-              <p>Personal lessons based on your market, broker, experience, and mistake patterns.</p>
+              <p>Beginner-friendly lessons covering the information a trader needs before risking money.</p>
               <ul>
-                <li>Explain setups like VWAP, ORB, reversals, breakouts, and FX session structure.</li>
-                <li>Create a short daily lesson from your journal and losing trades.</li>
-                <li>Turn “why did I lose?” into one rule you can practice tomorrow.</li>
+                <li>Market structure, candles, trend, liquidity, support/resistance, and volatility.</li>
+                <li>Risk management, R-multiple, position sizing, stop loss, and expectancy.</li>
+                <li>Psychology, patience, overtrading, revenge trades, and journal discipline.</li>
               </ul>
             </div>
             <div class="ai-card">
               <h3>Trade with AI</h3>
-              <p>AI-assisted planning before execution, with risk guardrails and no auto-trading.</p>
+              <p>Advanced planning using your strategy notes, journal history, and current risk settings.</p>
               <ul>
-                <li>Draft entry trigger, invalidation, stop logic, target logic, and max risk.</li>
-                <li>Ask “should I skip?” based on your rules, not emotion.</li>
-                <li>After the trade, compare your execution against the plan.</li>
+                <li>Paste your strategy rules and ask for a checklist, not a random signal.</li>
+                <li>Use journal mistakes to flag when you should skip or reduce size.</li>
+                <li>Turn the plan into a post-trade review after execution.</li>
               </ul>
             </div>
           </div>
 
           <div class="panel">
-            <div class="panel-header"><h2>AI Trade Plan Builder</h2><button class="primary" id="generateAiPlan" type="button">Generate plan</button></div>
+            <div class="panel-header"><h2>Learn with AI: Trading Basics Path</h2><button class="primary" id="generateAiLesson" type="button">Generate lesson</button></div>
+            <div class="panel-body ai-builder">
+              <div class="ai-learning-grid">
+                <div class="ai-lesson-card"><span>01</span><h4>Market structure</h4><p>Trend, range, higher highs/lows, support, resistance, liquidity zones, and why context matters.</p></div>
+                <div class="ai-lesson-card"><span>02</span><h4>Risk and sizing</h4><p>Planned R, stop distance, position size, max loss, expectancy, and why survival comes before profit.</p></div>
+                <div class="ai-lesson-card"><span>03</span><h4>Execution psychology</h4><p>FOMO, revenge trading, hesitation, overconfidence, and how journal rules stop emotional loops.</p></div>
+                <div class="ai-lesson-card"><span>04</span><h4>Setup playbooks</h4><p>ORB, VWAP, pullbacks, breakouts, reversals, trend continuation, and FX session timing.</p></div>
+                <div class="ai-lesson-card"><span>05</span><h4>Trade management</h4><p>Invalidation, target logic, scaling, partials, break-even mistakes, and planned exits.</p></div>
+                <div class="ai-lesson-card"><span>06</span><h4>Review process</h4><p>How to review winners and losers, compare outcome vs decision quality, and write tomorrow's rule.</p></div>
+              </div>
+              <div class="form-grid">
+                <label>What do you want to learn?
+                  <select id="aiLessonTopic">
+                    <option>Trading basics from zero</option>
+                    <option>Support, resistance, and market structure</option>
+                    <option>Risk management and R-multiple</option>
+                    <option>How to build a setup playbook</option>
+                    <option>Trading psychology and discipline</option>
+                    <option>Forex session basics</option>
+                  </select>
+                </label>
+                <label>Your level
+                  <select id="aiLessonLevel">
+                    <option>Beginner: explain simply</option>
+                    <option>Intermediate: include examples</option>
+                    <option>Advanced: make it tactical</option>
+                  </select>
+                </label>
+              </div>
+              <div class="ai-output" id="aiLessonOutput">Pick a topic and click Generate lesson to create a structured beginner-friendly trading lesson.</div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header"><h2>Trade with AI: Strategy Prompt Workspace</h2><button class="primary" id="generateAiPlan" type="button">Generate plan</button></div>
             <div class="panel-body ai-builder">
               <div class="form-grid">
                 <label>Market context
@@ -2460,8 +2505,11 @@
                     <option>Build tomorrow's rule</option>
                   </select>
                 </label>
+                <label class="wide">Your strategy or custom prompt
+                  <textarea id="aiStrategyPrompt" placeholder="Example: I trade EUR/USD during London session. I wait for liquidity sweep, reclaim, and confirmation candle. I risk 0.5R if trend is unclear. Help me build a checklist and tell me when to skip."></textarea>
+                </label>
               </div>
-              <div class="ai-output" id="aiPlanOutput">Click Generate plan to create an AI-style lesson and trade checklist from your profile. This is educational planning support, not a trade signal.</div>
+              <div class="ai-output" id="aiPlanOutput">Paste your strategy or explain what you need, then click Generate plan. The output will use your profile, journal patterns, risk settings, and prompt to create a structured plan.</div>
               <div class="ai-disclaimer">Important: AI coaching is for journaling, education, and planning. It is not financial advice, does not guarantee results, and does not place trades for you.</div>
             </div>
           </div>
@@ -3677,12 +3725,71 @@
       return document.querySelector(`input[name="${name}"]:checked`)?.value || "";
     }
 
+    function journalPatternSummary() {
+      const trades = state.trades || [];
+      if (!trades.length) return "No trades imported yet, so use the prompt and risk settings first. After journaling, AI can use mistake/setup patterns.";
+      const mistakes = {};
+      const setups = {};
+      trades.forEach(trade => {
+        const mistake = trade.mistake || "No mistake tagged";
+        const setup = trade.setup || "No setup tagged";
+        mistakes[mistake] = (mistakes[mistake] || 0) + 1;
+        setups[setup] = (setups[setup] || 0) + 1;
+      });
+      const topMistake = Object.entries(mistakes).sort((a,b) => b[1] - a[1])[0];
+      const topSetup = Object.entries(setups).sort((a,b) => b[1] - a[1])[0];
+      const overRisk = trades.filter(trade => riskUsedR(trade) > state.settings.riskWarningR).length;
+      return `${trades.length} trade${trades.length === 1 ? "" : "s"} reviewed. Most common setup: ${topSetup?.[0] || "not tagged"}. Most common mistake: ${topMistake?.[0] || "not tagged"}. Over-risk trades: ${overRisk}.`;
+    }
+
+    function generateAiLesson() {
+      const profile = { ...defaultProfile(), ...(state.profile || {}) };
+      const topic = document.querySelector("#aiLessonTopic")?.value || "Trading basics from zero";
+      const level = document.querySelector("#aiLessonLevel")?.value || "Beginner: explain simply";
+      const market = profile.market || "your main market";
+      const broker = profile.broker || "your broker";
+      const output = `Learn with AI lesson
+
+Topic: ${topic}
+Level: ${level}
+Market context: ${market}
+Broker/workflow: ${broker}
+
+1. Core idea
+Trading is not guessing direction. It is building a repeatable decision process: context, setup, trigger, invalidation, risk, management, and review.
+
+2. What to learn first
+- Market structure: is price trending, ranging, breaking out, or reversing?
+- Key levels: where did buyers/sellers previously react?
+- Candle behavior: who controlled the last few candles, and where did rejection happen?
+- Risk: where is the idea wrong, and how much can you lose if it is wrong?
+- Journal: after the trade, did you follow the plan or react emotionally?
+
+3. Simple example
+If price is trending up and pulls back into support/VWAP, the lesson is not "buy because it is green." The lesson is: wait for confirmation, define the invalidation level, check the reward-to-risk, then decide if the trade still fits your rules.
+
+4. Practice drill
+Before your next session, screenshot one chart and mark:
+- trend or range
+- support/resistance
+- possible trigger
+- invalidation
+- max risk
+- reason to skip
+
+5. Rule for today
+If I cannot explain the setup and invalidation in one sentence, I do not take the trade.`;
+      const target = document.querySelector("#aiLessonOutput");
+      if (target) target.textContent = output;
+    }
+
     function generateAiTradePlan() {
       const profile = { ...defaultProfile(), ...(state.profile || {}) };
       const context = document.querySelector("#aiMarketContext")?.value || "Opening range / first hour";
       const setup = document.querySelector("#aiSetupFocus")?.value.trim() || profile.market || "your main setup";
       const riskMode = document.querySelector("#aiRiskMode")?.value || "Conservative: wait for confirmation";
       const helpMode = document.querySelector("#aiHelpMode")?.value || "Pre-trade checklist";
+      const userPrompt = document.querySelector("#aiStrategyPrompt")?.value.trim() || "No custom strategy pasted yet. Use the default risk-first checklist.";
       const trades = state.trades || [];
       const latestMistake = trades.map(trade => trade.mistake).filter(Boolean).slice(-1)[0] || "forcing a trade before the setup is fully confirmed";
       const maxRisk = plannedRisk();
@@ -3696,23 +3803,28 @@ Trader context
 - Market: ${market}
 - Broker/workflow: ${broker}
 - Max planned risk: ${money.format(maxRisk)} per trade
+- Journal context: ${journalPatternSummary()}
+
+User strategy / prompt
+${userPrompt}
 
 Learn with AI
 Study: ${setup}
 Context: ${context}
-Lesson: define the trigger before price gets there. A valid setup needs location, confirmation, invalidation, and room to target. If one of those is missing, the lesson is to wait, not to predict.
+Lesson: define the trigger before price gets there. A valid setup needs location, confirmation, invalidation, risk limit, and room to target. If one of those is missing, the lesson is to wait, not to predict.
 
 Trade with AI plan
 1. Bias: write the market condition in one sentence before entry.
-2. Trigger: enter only if ${setup} confirms with price action, volume, or candle structure you can explain.
-3. Invalidation: know exactly where the idea is wrong before clicking.
-4. Risk: keep planned loss at or below ${money.format(maxRisk)}. If the stop requires more, reduce size or skip.
-5. Management: decide partials, target, and exit rule before entry.
-6. Skip rule: if the trade is driven by FOMO, revenge, or "I need one more trade," do not take it.
+2. Strategy match: compare the chart to your pasted rules. If your own rule is missing, skip or reduce size.
+3. Trigger: enter only if ${setup} confirms with price action, volume, candle structure, or session behavior you can explain.
+4. Invalidation: know exactly where the idea is wrong before clicking.
+5. Risk: keep planned loss at or below ${money.format(maxRisk)}. If the stop requires more, reduce size or skip.
+6. Management: decide partials, target, trail/exit rule, and max hold condition before entry.
+7. Skip rule: if the trade is driven by FOMO, revenge, boredom, or "I need one more trade," do not take it.
 
 Behavior review
 Recent pattern to watch: ${latestMistake}.
-Tomorrow's rule: I will only take ${setup} when the trigger, stop, and target are written before entry.`;
+Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and reason to skip are written before entry.`;
       const target = document.querySelector("#aiPlanOutput");
       if (target) target.textContent = output;
     }
@@ -3852,6 +3964,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, and target ar
     document.querySelectorAll("[data-view], [data-view-button]").forEach(button => {
       button.addEventListener("click", () => switchView(button.dataset.view || button.dataset.viewButton));
     });
+    document.querySelector("#generateAiLesson").addEventListener("click", generateAiLesson);
     document.querySelector("#generateAiPlan").addEventListener("click", generateAiTradePlan);
 
     document.querySelectorAll("#accountSize, #riskPerTrade, #optionMultiplier, #riskWarningR").forEach(input => {
