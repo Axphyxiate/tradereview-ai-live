@@ -244,17 +244,24 @@
 
     .app {
       min-height: 100vh;
-      display: grid;
-      grid-template-columns: 240px minmax(0, 1fr);
+      display: block;
+      position: relative;
+      min-height: 100vh;
     }
 
     aside {
       border-right: 1px solid var(--line);
       background: #fbfcfb;
       padding: 22px 14px;
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      bottom: 0;
+      width: 250px;
       height: 100vh;
+      z-index: 50;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .brand {
@@ -302,6 +309,8 @@
     main {
       padding: 28px;
       min-width: 0;
+      margin-left: 250px;
+      width: calc(100vw - 250px);
     }
 
     .topbar {
@@ -826,26 +835,16 @@
 
     @media (max-width: 940px) {
       .app {
-        grid-template-columns: 1fr;
-      }
-
-      body.app-ready aside {
-        width: 86px;
-      }
-
-      body.app-ready main {
-        left: 86px;
+        display: block;
       }
 
       aside {
-        height: auto;
-        position: relative;
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
+        width: 86px;
+        padding: 16px 9px;
       }
 
       nav {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: 1fr;
       }
 
       nav button {
@@ -866,13 +865,20 @@
         flex-direction: column;
       }
 
+      main {
+        margin-left: 86px;
+        width: calc(100vw - 86px);
+      }
+
       .actions {
         justify-content: flex-start;
       }
 
       .account-panel {
-        position: static;
-        margin-top: 12px;
+        position: absolute;
+        right: 8px;
+        bottom: 12px;
+        left: 8px;
       }
     }
 
@@ -2156,7 +2162,7 @@
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
     }
 
-    /* Final stable shell: real grid columns, not overlay. */
+    /* Final stable shell: fixed sidebar plus permanent main offset. */
     body:not(.auth-pending):not(.auth-required),
     body.app-ready {
       height: 100vh !important;
@@ -2166,52 +2172,55 @@
 
     body:not(.auth-pending):not(.auth-required) .app,
     body.app-ready .app {
-      display: grid !important;
-      grid-template-columns: 250px minmax(0, 1fr) !important;
-      position: fixed !important;
-      inset: 0 !important;
+      display: block !important;
+      position: relative !important;
+      inset: auto !important;
       width: 100vw !important;
-      height: 100vh !important;
+      min-height: 100vh !important;
       overflow: hidden !important;
     }
 
     body:not(.auth-pending):not(.auth-required) aside,
     body.app-ready aside {
-      grid-column: 1 !important;
-      position: relative !important;
-      top: auto !important;
+      position: fixed !important;
+      top: 0 !important;
       right: auto !important;
-      bottom: auto !important;
-      left: auto !important;
-      width: auto !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 250px !important;
       height: 100vh !important;
-      z-index: 2 !important;
+      z-index: 50 !important;
       overflow-y: auto !important;
       overflow-x: hidden !important;
     }
 
     body:not(.auth-pending):not(.auth-required) main,
     body.app-ready main {
-      grid-column: 2 !important;
       position: relative !important;
       top: auto !important;
       right: auto !important;
       bottom: auto !important;
       left: auto !important;
-      width: auto !important;
+      width: calc(100vw - 250px) !important;
       height: 100vh !important;
       min-width: 0 !important;
       min-height: 0 !important;
-      margin: 0 !important;
+      margin: 0 0 0 250px !important;
       overflow-y: auto !important;
       overflow-x: hidden !important;
       z-index: 1 !important;
     }
 
     @media (max-width: 940px) {
-      body:not(.auth-pending):not(.auth-required) .app,
-      body.app-ready .app {
-        grid-template-columns: 86px minmax(0, 1fr) !important;
+      body:not(.auth-pending):not(.auth-required) aside,
+      body.app-ready aside {
+        width: 86px !important;
+      }
+
+      body:not(.auth-pending):not(.auth-required) main,
+      body.app-ready main {
+        width: calc(100vw - 86px) !important;
+        margin-left: 86px !important;
       }
     }
 
@@ -3547,39 +3556,39 @@
         const compactShell = window.matchMedia("(max-width: 940px)").matches;
         const sidebarWidth = compactShell ? 86 : 250;
         if (app) {
-          app.style.display = "grid";
-          app.style.gridTemplateColumns = `${sidebarWidth}px minmax(0, 1fr)`;
-          app.style.position = "fixed";
+          app.style.display = "block";
+          app.style.gridTemplateColumns = "";
+          app.style.position = "relative";
           app.style.inset = "0";
           app.style.width = "100vw";
-          app.style.height = "100vh";
+          app.style.height = "auto";
           app.style.overflow = "hidden";
         }
         if (sidebar) {
-          sidebar.style.position = "relative";
-          sidebar.style.gridColumn = "1";
-          sidebar.style.top = "auto";
+          sidebar.style.position = "fixed";
+          sidebar.style.gridColumn = "";
+          sidebar.style.top = "0";
           sidebar.style.right = "auto";
-          sidebar.style.bottom = "auto";
-          sidebar.style.left = "auto";
-          sidebar.style.width = "auto";
+          sidebar.style.bottom = "0";
+          sidebar.style.left = "0";
+          sidebar.style.width = `${sidebarWidth}px`;
           sidebar.style.height = "100vh";
-          sidebar.style.zIndex = "2";
+          sidebar.style.zIndex = "50";
           sidebar.style.overflowY = "auto";
           sidebar.style.overflowX = "hidden";
         }
         if (mainPanel) {
           mainPanel.scrollTop = 0;
           mainPanel.style.position = "relative";
-          mainPanel.style.gridColumn = "2";
+          mainPanel.style.gridColumn = "";
           mainPanel.style.top = "auto";
           mainPanel.style.right = "auto";
           mainPanel.style.bottom = "auto";
           mainPanel.style.left = "auto";
-          mainPanel.style.width = "auto";
+          mainPanel.style.width = `calc(100vw - ${sidebarWidth}px)`;
           mainPanel.style.height = "100vh";
           mainPanel.style.minHeight = "0";
-          mainPanel.style.margin = "0";
+          mainPanel.style.margin = `0 0 0 ${sidebarWidth}px`;
           mainPanel.style.overflowY = "auto";
           mainPanel.style.overflowX = "hidden";
           mainPanel.style.zIndex = "1";
