@@ -1862,14 +1862,71 @@
     .ai-card ul { margin: 12px 0 0; padding-left: 18px; }
     .ai-learning-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
     .ai-lesson-card {
+      width: 100%;
+      text-align: left;
       padding: 14px;
       border: 1px solid rgba(148,163,184,.12);
       border-radius: 16px;
       background: rgba(255,255,255,.035);
+      cursor: pointer;
+      transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
+    }
+    .ai-lesson-card:hover, .ai-lesson-card.active {
+      transform: translateY(-2px);
+      border-color: rgba(134,239,172,.34);
+      background: rgba(34,197,94,.075);
+      box-shadow: 0 16px 38px rgba(0,0,0,.18);
     }
     .ai-lesson-card span { display: inline-flex; margin-bottom: 9px; padding: 5px 8px; border-radius: 999px; color: #061018; background: #86efac; font-size: 10px; font-weight: 950; text-transform: uppercase; letter-spacing: .07em; }
     .ai-lesson-card h4 { margin: 0 0 6px; color: #eff6ff; font-size: 14px; }
     .ai-lesson-card p { margin: 0; color: #96a7c0; font-size: 12px; line-height: 1.5; }
+    .tutorial-stage {
+      position: relative;
+      overflow: hidden;
+      min-height: 280px;
+      border: 1px solid rgba(148,163,184,.12);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(34,197,94,.18), transparent 28%),
+        radial-gradient(circle at 85% 20%, rgba(95,134,255,.18), transparent 30%),
+        linear-gradient(135deg, rgba(2,6,23,.82), rgba(15,23,42,.64));
+    }
+    .tutorial-frame {
+      position: absolute;
+      inset: 18px;
+      display: grid;
+      grid-template-columns: 170px minmax(0, 1fr);
+      gap: 14px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      background: rgba(2,6,23,.66);
+      opacity: 0;
+      transform: translateY(18px) scale(.985);
+      animation: tutorialCycle 24s ease-in-out infinite;
+    }
+    .tutorial-frame:nth-child(2) { animation-delay: 4s; }
+    .tutorial-frame:nth-child(3) { animation-delay: 8s; }
+    .tutorial-frame:nth-child(4) { animation-delay: 12s; }
+    .tutorial-frame:nth-child(5) { animation-delay: 16s; }
+    .tutorial-frame:nth-child(6) { animation-delay: 20s; }
+    @keyframes tutorialCycle {
+      0%, 13% { opacity: 0; transform: translateY(18px) scale(.985); }
+      16%, 29% { opacity: 1; transform: none; }
+      32%, 100% { opacity: 0; transform: translateY(-14px) scale(.99); }
+    }
+    .tutorial-menu { display: grid; gap: 8px; align-content: start; padding: 12px; border-radius: 13px; background: rgba(255,255,255,.035); }
+    .tutorial-menu span { height: 10px; border-radius: 999px; background: rgba(148,163,184,.18); }
+    .tutorial-menu span.active { background: linear-gradient(90deg, #86efac, #8fb1ff); box-shadow: 0 0 18px rgba(134,239,172,.28); }
+    .tutorial-screen { display: grid; gap: 10px; align-content: start; padding: 14px; border-radius: 13px; background: rgba(15,23,42,.62); }
+    .tutorial-screen h4 { margin: 0; color: #f8fbff; font-size: 18px; }
+    .tutorial-screen p { margin: 0; color: #a8b6d1; font-size: 12px; line-height: 1.55; }
+    .tutorial-bars { display: grid; gap: 7px; margin-top: 4px; }
+    .tutorial-bars i { display: block; height: 9px; border-radius: 999px; background: rgba(148,163,184,.18); }
+    .tutorial-bars i:nth-child(1) { width: 88%; background: rgba(34,197,94,.34); }
+    .tutorial-bars i:nth-child(2) { width: 62%; background: rgba(95,134,255,.34); }
+    .tutorial-bars i:nth-child(3) { width: 74%; background: rgba(248,113,113,.26); }
+    .tutorial-actions { display: flex; flex-wrap: wrap; gap: 10px; }
     .ai-builder { display: grid; gap: 12px; }
     .ai-builder textarea { min-height: 96px; resize: vertical; }
     .ai-output {
@@ -2443,23 +2500,35 @@
           <div class="panel">
             <div class="panel-header"><h2>Learn with AI: Trading Basics Path</h2><button class="primary" id="generateAiLesson" type="button">Generate lesson</button></div>
             <div class="panel-body ai-builder">
-              <div class="ai-learning-grid">
-                <div class="ai-lesson-card"><span>01</span><h4>Market structure</h4><p>Trend, range, higher highs/lows, support, resistance, liquidity zones, and why context matters.</p></div>
-                <div class="ai-lesson-card"><span>02</span><h4>Risk and sizing</h4><p>Planned R, stop distance, position size, max loss, expectancy, and why survival comes before profit.</p></div>
-                <div class="ai-lesson-card"><span>03</span><h4>Execution psychology</h4><p>FOMO, revenge trading, hesitation, overconfidence, and how journal rules stop emotional loops.</p></div>
-                <div class="ai-lesson-card"><span>04</span><h4>Setup playbooks</h4><p>ORB, VWAP, pullbacks, breakouts, reversals, trend continuation, and FX session timing.</p></div>
-                <div class="ai-lesson-card"><span>05</span><h4>Trade management</h4><p>Invalidation, target logic, scaling, partials, break-even mistakes, and planned exits.</p></div>
-                <div class="ai-lesson-card"><span>06</span><h4>Review process</h4><p>How to review winners and losers, compare outcome vs decision quality, and write tomorrow's rule.</p></div>
+              <div class="ai-learning-grid" id="aiLessonGrid">
+                <button class="ai-lesson-card" type="button" data-lesson-topic="What is trading?"><span>01</span><h4>What is trading?</h4><p>Buying and selling assets, timeframes, speculation, investing vs trading, and why risk matters.</p></button>
+                <button class="ai-lesson-card" type="button" data-lesson-topic="What are stocks?"><span>02</span><h4>What are stocks?</h4><p>Shares, companies, long/short basics, stock price movement, volume, and market sessions.</p></button>
+                <button class="ai-lesson-card" type="button" data-lesson-topic="What are options?"><span>03</span><h4>What are options?</h4><p>Contracts, strike price, expiration, premium, intrinsic/extrinsic value, and why options are risky.</p></button>
+                <button class="ai-lesson-card" type="button" data-lesson-topic="What is a call option?"><span>04</span><h4>Call options</h4><p>Calls, bullish exposure, leverage, breakeven, premium risk, and when calls lose value.</p></button>
+                <button class="ai-lesson-card" type="button" data-lesson-topic="What is a put option?"><span>05</span><h4>Put options</h4><p>Puts, bearish exposure, hedging, breakeven, premium risk, and when puts lose value.</p></button>
+                <button class="ai-lesson-card" type="button" data-lesson-topic="Options Greeks basics"><span>06</span><h4>Greeks basics</h4><p>Delta, gamma, theta, vega, implied volatility, and why options move differently than stocks.</p></button>
+                <button class="ai-lesson-card" type="button" data-lesson-topic="Order types"><span>07</span><h4>Order types</h4><p>Market, limit, stop, stop-limit, bracket orders, slippage, and why entries need control.</p></button>
+                <button class="ai-lesson-card" type="button" data-lesson-topic="Chart basics"><span>08</span><h4>Chart basics</h4><p>Candles, wicks, support/resistance, trend, volume, VWAP, and reading price action.</p></button>
+                <button class="ai-lesson-card" type="button" data-lesson-topic="Risk management"><span>09</span><h4>Risk management</h4><p>Position sizing, stop loss, R-multiple, max daily loss, and why survival comes first.</p></button>
+                <button class="ai-lesson-card" type="button" data-lesson-topic="Trading psychology"><span>10</span><h4>Psychology</h4><p>FOMO, revenge trading, fear, overconfidence, discipline, and emotional control.</p></button>
+                <button class="ai-lesson-card" type="button" data-lesson-topic="Building a strategy"><span>11</span><h4>Build a strategy</h4><p>Setup, trigger, invalidation, target, risk rules, playbooks, and when to skip.</p></button>
+                <button class="ai-lesson-card" type="button" data-lesson-topic="Journaling and review"><span>12</span><h4>Journal review</h4><p>Tracking trades, screenshots, mistakes, decision quality, and turning lessons into rules.</p></button>
               </div>
               <div class="form-grid">
                 <label>What do you want to learn?
                   <select id="aiLessonTopic">
-                    <option>Trading basics from zero</option>
-                    <option>Support, resistance, and market structure</option>
-                    <option>Risk management and R-multiple</option>
-                    <option>How to build a setup playbook</option>
-                    <option>Trading psychology and discipline</option>
-                    <option>Forex session basics</option>
+                    <option>What is trading?</option>
+                    <option>What are stocks?</option>
+                    <option>What are options?</option>
+                    <option>What is a call option?</option>
+                    <option>What is a put option?</option>
+                    <option>Options Greeks basics</option>
+                    <option>Order types</option>
+                    <option>Chart basics</option>
+                    <option>Risk management</option>
+                    <option>Trading psychology</option>
+                    <option>Building a strategy</option>
+                    <option>Journaling and review</option>
                   </select>
                 </label>
                 <label>Your level
@@ -2470,7 +2539,45 @@
                   </select>
                 </label>
               </div>
-              <div class="ai-output" id="aiLessonOutput">Pick a topic and click Generate lesson to create a structured beginner-friendly trading lesson.</div>
+              <div class="ai-output" id="aiLessonOutput">Click any lesson tile, or choose a topic and click Generate lesson. The explanation will appear here so beginners can learn the basics before planning trades.</div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header"><h2>Basic Tutorial Video</h2><button id="restartTutorial" type="button">Replay walkthrough</button></div>
+            <div class="panel-body ai-builder">
+              <div class="tutorial-stage" id="tutorialStage" aria-label="Animated tutorial showing how to use TradeReview AI">
+                <div class="tutorial-frame">
+                  <div class="tutorial-menu"><span class="active"></span><span></span><span></span><span></span><span></span></div>
+                  <div class="tutorial-screen"><h4>1. Create your free account</h4><p>Sign in with Google or email. Your journal saves privately across devices.</p><div class="tutorial-bars"><i></i><i></i><i></i></div></div>
+                </div>
+                <div class="tutorial-frame">
+                  <div class="tutorial-menu"><span></span><span class="active"></span><span></span><span></span><span></span></div>
+                  <div class="tutorial-screen"><h4>2. Add trades</h4><p>Import CSV or add trades manually with symbol, entry/exit time, P/L, setup, mistake, and screenshots.</p><div class="tutorial-bars"><i></i><i></i><i></i></div></div>
+                </div>
+                <div class="tutorial-frame">
+                  <div class="tutorial-menu"><span></span><span></span><span class="active"></span><span></span><span></span></div>
+                  <div class="tutorial-screen"><h4>3. Review performance</h4><p>Check P/L, R-multiple, win rate, over-risk trades, setup performance, and mistake patterns.</p><div class="tutorial-bars"><i></i><i></i><i></i></div></div>
+                </div>
+                <div class="tutorial-frame">
+                  <div class="tutorial-menu"><span></span><span></span><span></span><span class="active"></span><span></span></div>
+                  <div class="tutorial-screen"><h4>4. Journal the day</h4><p>Write mindset, rule grade, recap, tomorrow's rule, and attach chart screenshots for entry/exit review.</p><div class="tutorial-bars"><i></i><i></i><i></i></div></div>
+                </div>
+                <div class="tutorial-frame">
+                  <div class="tutorial-menu"><span></span><span></span><span></span><span></span><span class="active"></span></div>
+                  <div class="tutorial-screen"><h4>5. Use AI Coach</h4><p>Learn basics, paste your strategy, generate a risk-first plan, and use your journal mistakes as guardrails.</p><div class="tutorial-bars"><i></i><i></i><i></i></div></div>
+                </div>
+                <div class="tutorial-frame">
+                  <div class="tutorial-menu"><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span></div>
+                  <div class="tutorial-screen"><h4>6. Keep improving</h4><p>Every trade becomes evidence. Every journal entry becomes a lesson. Every plan starts with risk.</p><div class="tutorial-bars"><i></i><i></i><i></i></div></div>
+                </div>
+              </div>
+              <div class="tutorial-actions">
+                <button class="primary" data-view-button="import" type="button">Try adding a trade</button>
+                <button data-view-button="journal" type="button">Open journal</button>
+                <button data-view-button="aiCommand" type="button">Open AI Coach</button>
+              </div>
+              <div class="ai-disclaimer">This is a lightweight in-app tutorial animation. Later we can replace it with a recorded MP4 walkthrough using the same script.</div>
             </div>
           </div>
 
@@ -3748,7 +3855,223 @@
       const level = document.querySelector("#aiLessonLevel")?.value || "Beginner: explain simply";
       const market = profile.market || "your main market";
       const broker = profile.broker || "your broker";
-      const output = `Learn with AI lesson
+      const lessons = {
+        "What is trading?": `What is trading?
+
+Trading means buying and selling financial assets to try to profit from price movement. A trader may hold for minutes, hours, days, or weeks. This is different from long-term investing, where someone may hold for years.
+
+Key ideas:
+- You can be right on direction and still lose if risk is too large.
+- You need a plan before entry: why enter, where wrong, where exit.
+- Good trading is not one lucky win; it is repeated decision quality.
+- Beginners should learn risk before chasing profit.
+
+Basic example:
+If you buy a stock at $100 and sell at $105, you made $5 per share before fees. If it drops to $97 and you sell, you lost $3 per share.
+
+Rule:
+Never enter a trade without knowing your max loss first.`,
+        "What are stocks?": `What are stocks?
+
+A stock is a share of ownership in a company. If you buy Apple stock, you own a tiny piece of Apple. Stock prices move because buyers and sellers disagree about future value, news, earnings, interest rates, market sentiment, and supply/demand.
+
+Important terms:
+- Share: one unit of stock ownership.
+- Long: buying because you want price to rise.
+- Short: selling borrowed shares because you want price to fall.
+- Volume: how many shares traded.
+- Market cap: company value based on share price × shares outstanding.
+
+Beginner rule:
+Do not buy only because a stock is popular. Learn trend, levels, risk, and your exit first.`,
+        "What are options?": `What are options?
+
+An option is a contract based on an underlying asset, usually a stock or ETF. It gives the buyer a right, not an obligation, related to buying or selling the underlying at a certain strike price before expiration.
+
+Core terms:
+- Call: benefits if price goes up.
+- Put: benefits if price goes down.
+- Strike price: the contract's reference price.
+- Expiration: the date the contract ends.
+- Premium: the price paid for the option.
+- Contract size: usually controls 100 shares.
+
+Why options are risky:
+Options can lose value fast from time decay, volatility changes, and wrong direction. You can lose the full premium paid.
+
+Beginner rule:
+Understand calls, puts, expiration, and risk before trading options.`,
+        "What is a call option?": `What is a call option?
+
+A call option gives the buyer the right to buy the underlying at a strike price before expiration. Traders often buy calls when they expect price to rise.
+
+Example:
+SPY is at $500. You buy a $505 call. You want SPY to move upward enough that the option premium increases.
+
+What can help a call:
+- Underlying price rises.
+- Move happens quickly.
+- Implied volatility rises.
+
+What can hurt a call:
+- Price falls or chops sideways.
+- Time passes.
+- Implied volatility drops.
+
+Risk:
+If you buy a call, the most you can lose is usually the premium paid. But that can be 100% of the option cost.`,
+        "What is a put option?": `What is a put option?
+
+A put option gives the buyer the right to sell the underlying at a strike price before expiration. Traders often buy puts when they expect price to fall.
+
+Example:
+QQQ is at $450. You buy a $445 put. You want QQQ to drop enough that the option premium increases.
+
+What can help a put:
+- Underlying price falls.
+- Move happens quickly.
+- Implied volatility rises.
+
+What can hurt a put:
+- Price rises or chops sideways.
+- Time passes.
+- Implied volatility drops.
+
+Risk:
+If you buy a put, the most you can lose is usually the premium paid. Plan that loss before entry.`,
+        "Options Greeks basics": `Options Greeks basics
+
+Greeks explain why options move.
+
+Delta:
+How much the option may move when the stock moves $1. A 0.50 delta call may move about $0.50 if the stock rises $1.
+
+Gamma:
+How fast delta changes. High gamma can make options move very fast near expiration.
+
+Theta:
+Time decay. Options lose value as expiration approaches, especially if price does not move.
+
+Vega:
+Sensitivity to implied volatility. If volatility drops, options can lose value even if direction is right.
+
+Beginner rule:
+Options are not just direction. Time and volatility matter too.`,
+        "Order types": `Order types
+
+Market order:
+Buys/sells immediately at the best available price. Fast, but can slip.
+
+Limit order:
+Only fills at your chosen price or better. More control, but may not fill.
+
+Stop order:
+Triggers when price reaches a level. Often used as a stop loss.
+
+Stop-limit:
+Triggers a limit order after a stop price. More control, but may fail to exit.
+
+Bracket order:
+Entry with attached stop loss and target.
+
+Beginner rule:
+Use orders to control risk. Do not rely on hope as an exit plan.`,
+        "Chart basics": `Chart basics
+
+Charts show price movement over time.
+
+Candles:
+Each candle shows open, high, low, close for a time period.
+
+Wicks:
+Show rejection or price exploration beyond the candle body.
+
+Support:
+Area where buyers previously stepped in.
+
+Resistance:
+Area where sellers previously stepped in.
+
+Trend:
+Uptrend: higher highs and higher lows. Downtrend: lower highs and lower lows.
+
+VWAP:
+Average price weighted by volume, often used by intraday traders.
+
+Beginner rule:
+Always identify trend, key levels, and invalidation before entry.`,
+        "Risk management": `Risk management
+
+Risk management keeps you alive long enough to improve.
+
+Important terms:
+- Stop loss: where you exit if wrong.
+- Position size: how much you buy/sell.
+- Planned R: your planned risk amount.
+- R-multiple: profit/loss compared to risk.
+- Max daily loss: the point where you stop trading for the day.
+
+Example:
+If your planned risk is $25 and you lose $25, that is -1R. If you make $50, that is +2R.
+
+Beginner rule:
+Your first job is not to make money. Your first job is to avoid one bad trade destroying many good ones.`,
+        "Trading psychology": `Trading psychology
+
+Most traders do not only fight the market. They fight themselves.
+
+Common problems:
+- FOMO: entering because you fear missing the move.
+- Revenge trading: trying to win back a loss immediately.
+- Overconfidence: sizing too big after wins.
+- Hesitation: missing valid trades because of fear.
+- Rule breaking: changing the plan mid-trade.
+
+Fix:
+Use a written checklist, planned risk, and journal review.
+
+Beginner rule:
+If your emotion is louder than your plan, pause.`,
+        "Building a strategy": `Building a strategy
+
+A strategy is a repeatable rule set. It should tell you when to trade, when not to trade, where risk is, and how to review.
+
+Strategy parts:
+- Market condition: trend, range, volatility, session.
+- Setup: pattern you are waiting for.
+- Trigger: exact reason to enter.
+- Invalidation: where the idea is wrong.
+- Target: where profit is reasonable.
+- Risk rule: max loss and size.
+- Skip rule: when not to trade.
+
+Example:
+"I trade VWAP reclaim only after a liquidity sweep, confirmation candle, and stop below the reclaim candle."
+
+Beginner rule:
+If the strategy cannot be written clearly, it cannot be followed clearly.`,
+        "Journaling and review": `Journaling and review
+
+The journal turns trades into feedback.
+
+Track:
+- Date and time.
+- Symbol.
+- Setup.
+- Entry/exit reason.
+- Planned risk and actual risk.
+- Screenshot before and after.
+- Mistake tag.
+- Mindset.
+- Tomorrow's rule.
+
+Why it matters:
+A winner can still be a bad trade if you broke rules. A loser can still be a good trade if you followed a valid plan.
+
+Beginner rule:
+Review decision quality, not just P/L.`
+      };
+      const output = lessons[topic] || `Learn with AI lesson
 
 Topic: ${topic}
 Level: ${level}
@@ -3781,6 +4104,9 @@ Before your next session, screenshot one chart and mark:
 If I cannot explain the setup and invalidation in one sentence, I do not take the trade.`;
       const target = document.querySelector("#aiLessonOutput");
       if (target) target.textContent = output;
+      document.querySelectorAll("[data-lesson-topic]").forEach(card => {
+        card.classList.toggle("active", card.dataset.lessonTopic === topic);
+      });
     }
 
     function generateAiTradePlan() {
@@ -3963,6 +4289,22 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
 
     document.querySelectorAll("[data-view], [data-view-button]").forEach(button => {
       button.addEventListener("click", () => switchView(button.dataset.view || button.dataset.viewButton));
+    });
+    document.querySelectorAll("[data-lesson-topic]").forEach(button => {
+      button.addEventListener("click", () => {
+        const lessonSelect = document.querySelector("#aiLessonTopic");
+        if (lessonSelect) lessonSelect.value = button.dataset.lessonTopic;
+        generateAiLesson();
+      });
+    });
+    document.querySelector("#restartTutorial")?.addEventListener("click", () => {
+      document.querySelectorAll("#tutorialStage .tutorial-frame").forEach(frame => {
+        frame.style.animation = "none";
+      });
+      void document.querySelector("#tutorialStage")?.offsetWidth;
+      document.querySelectorAll("#tutorialStage .tutorial-frame").forEach(frame => {
+        frame.style.animation = "";
+      });
     });
     document.querySelector("#generateAiLesson").addEventListener("click", generateAiLesson);
     document.querySelector("#generateAiPlan").addEventListener("click", generateAiTradePlan);
