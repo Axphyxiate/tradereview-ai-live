@@ -1553,6 +1553,8 @@
     .sync-option input { width: 16px; height: 16px; min-height: 0; accent-color: #6c91ff; }
     .connection-actions { display: flex; flex-wrap: wrap; gap: 10px; }
     .connection-note {
+      position: relative;
+      overflow: hidden;
       padding: 12px 13px;
       border: 1px solid rgba(242,197,109,.16);
       border-radius: 11px;
@@ -1561,6 +1563,97 @@
       font-size: 12px;
       line-height: 1.5;
     }
+    .connection-note.connecting {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      border-color: rgba(74,222,128,.26);
+      background:
+        radial-gradient(circle at 12% 50%, rgba(34,197,94,.18), transparent 30%),
+        radial-gradient(circle at 88% 40%, rgba(239,68,68,.13), transparent 32%),
+        rgba(8,13,24,.72);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 16px 35px rgba(0,0,0,.18);
+    }
+    .connection-note.connecting::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.12), transparent);
+      transform: translateX(-120%);
+      animation: connectScan 1.9s ease-in-out infinite;
+    }
+    @keyframes connectScan {
+      0% { transform: translateX(-120%); }
+      55%, 100% { transform: translateX(120%); }
+    }
+    .connection-orb {
+      position: relative;
+      z-index: 1;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: conic-gradient(from 0deg, #22c55e, #86efac, #ef4444, #22c55e);
+      animation: orbSpin 1.15s linear infinite;
+      box-shadow: 0 0 28px rgba(34,197,94,.34);
+    }
+    .connection-orb::after {
+      content: "";
+      position: absolute;
+      inset: 6px;
+      border-radius: 50%;
+      background: #08101e;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+    @keyframes orbSpin { to { transform: rotate(360deg); } }
+    .connection-console { position: relative; z-index: 1; display: grid; gap: 8px; min-width: 0; }
+    .connection-console strong { color: #eafff2; font-size: 13px; }
+    .connection-console span { color: #aab8cf; }
+    .connection-meter {
+      position: relative;
+      overflow: hidden;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(148,163,184,.16);
+    }
+    .connection-meter i {
+      display: block;
+      width: 46%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #22c55e, #f87171, #22c55e);
+      animation: meterMove 1.45s ease-in-out infinite;
+    }
+    @keyframes meterMove {
+      0% { transform: translateX(-80%); }
+      50% { transform: translateX(105%); }
+      100% { transform: translateX(240%); }
+    }
+    .connection-stages { display: flex; flex-wrap: wrap; gap: 7px; }
+    .connection-stages em {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 7px;
+      border-radius: 999px;
+      color: #cad7eb;
+      background: rgba(255,255,255,.055);
+      font-style: normal;
+      font-size: 10px;
+      font-weight: 850;
+    }
+    .connection-stages em::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 12px rgba(34,197,94,.9);
+      animation: stageBlink 1.2s ease-in-out infinite;
+    }
+    .connection-stages em:nth-child(2)::before { animation-delay: .25s; }
+    .connection-stages em:nth-child(3)::before { animation-delay: .5s; background: #f87171; box-shadow: 0 0 12px rgba(248,113,113,.85); }
+    @keyframes stageBlink { 0%, 100% { opacity: .35; transform: scale(.78); } 50% { opacity: 1; transform: scale(1.08); } }
     .connection-note strong { color: #f2d394; }
     .broker-provider-note {
       display: grid;
@@ -2469,30 +2562,56 @@
     async function syncBrokerConnectionMetadata(connection) {
       if (!cloudSyncReady || !currentUser || !connection?.provider || connection.status !== "requested") return { ok: false, error: "Sign in before connecting a broker." };
       const note = document.querySelector("#brokerConnectionNote");
-      if (note) note.innerHTML = `<strong>Saving broker request:</strong> Syncing ${escapeHtml(connection.provider)} to your private journal...`;
+      setBrokerConnectionLoading(connection, "Saving broker request", `Syncing ${connection.provider} preference and import scope to your private journal.`);
       const result = await syncCloudState();
       if (note && result.ok) {
+        note.classList.remove("connecting");
         note.innerHTML = `<strong>Broker sync request saved:</strong> ${escapeHtml(connection.provider)} is saved with your journal. Opening the secure broker portal next...`;
       } else if (note) {
+        note.classList.remove("connecting");
         note.innerHTML = `<strong>Could not save broker request:</strong> ${escapeHtml(result.error || "Cloud sync did not complete.")}`;
       }
       return result;
     }
 
+    function setBrokerConnectionLoading(connection, title, detail) {
+      const note = document.querySelector("#brokerConnectionNote");
+      if (!note) return;
+      const provider = escapeHtml(connection?.provider || "broker");
+      note.classList.add("connecting");
+      note.innerHTML = `
+        <div class="connection-orb" aria-hidden="true"></div>
+        <div class="connection-console">
+          <strong>${escapeHtml(title)} · ${provider}</strong>
+          <span>${escapeHtml(detail)}</span>
+          <div class="connection-meter" aria-hidden="true"><i></i></div>
+          <div class="connection-stages" aria-label="Connection progress">
+            <em>Encrypting request</em>
+            <em>Checking provider path</em>
+            <em>Preparing sync</em>
+          </div>
+        </div>`;
+    }
+
     async function openBrokerConnectionPortal(connection) {
       const note = document.querySelector("#brokerConnectionNote");
       if (!cloudSyncReady || !currentUser) {
+        note?.classList.remove("connecting");
         if (note) note.innerHTML = "<strong>Sign in required:</strong> Create or sign in to your free account before linking a broker.";
         return;
       }
       if (connection?.providerKind !== "snaptrade") {
+        setBrokerConnectionLoading(connection, "Preparing direct API path", `${connection.provider} is being queued outside the SnapTrade institution list. CSV import stays available while direct sync is prepared.`);
+        await new Promise(resolve => setTimeout(resolve, 900));
+        note?.classList.remove("connecting");
         if (note) note.innerHTML = `<strong>${escapeHtml(connection?.provider || "This broker")} is queued:</strong> Direct provider linking is being prepared for this broker. CSV import still works today.`;
         return;
       }
-      if (note) note.innerHTML = `<strong>Opening secure broker portal:</strong> Creating a private SnapTrade connection link for ${escapeHtml(connection.provider)}...`;
+      setBrokerConnectionLoading(connection, "Opening secure portal", `Creating a private SnapTrade connection link for ${connection.provider}.`);
       const { data, error } = await cloudClient.functions.invoke("snaptrade-link", { body: { provider: connection.provider } });
       if (error || !data?.redirectURI) {
         const message = error?.message || data?.error || "The broker portal is not deployed or configured yet.";
+        note?.classList.remove("connecting");
         if (note) note.innerHTML = `<strong>Broker portal not ready:</strong> ${escapeHtml(message)}`;
         return;
       }
@@ -2503,6 +2622,7 @@
       };
       saveState();
       renderBrokerConnection();
+      note?.classList.remove("connecting");
       if (note) note.innerHTML = `<strong>Secure portal ready:</strong> Redirecting to SnapTrade so you can connect ${escapeHtml(connection.provider)}.`;
       window.location.href = data.redirectURI;
     }
