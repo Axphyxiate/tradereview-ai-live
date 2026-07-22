@@ -2351,7 +2351,6 @@
             <div class="panel-body bars" id="mistakeBars"></div>
           </div>
         </div>
-        </div>
       </section>
 
       <section id="import" class="section">
@@ -2437,6 +2436,7 @@
             <div style="height:12px"></div>
             <button class="primary" id="addManualTrade">Add Trade</button>
           </div>
+        </div>
         </div>
       </section>
 
@@ -4716,8 +4716,10 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
     }
 
     function switchView(view) {
-      document.querySelectorAll(".section").forEach(section => section.classList.toggle("active", section.id === view));
-      document.querySelectorAll("nav button").forEach(button => button.classList.toggle("active", button.dataset.view === view));
+      const targetView = document.getElementById(view) ? view : "dashboard";
+      document.querySelectorAll(".section").forEach(section => section.classList.toggle("active", section.id === targetView));
+      document.querySelectorAll("nav button").forEach(button => button.classList.toggle("active", button.dataset.view === targetView));
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function requestedViewFromUrl() {
