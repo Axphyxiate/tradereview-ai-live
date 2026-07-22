@@ -60,17 +60,35 @@
       display: none;
     }
 
-    body:not(.auth-pending):not(.auth-required) {
+    body.app-ready {
       height: 100vh;
       overflow: hidden;
       background: #050817;
     }
 
-    body:not(.auth-pending):not(.auth-required) .app {
+    body.app-ready .app {
+      display: block;
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100vh;
+    }
+
+    body.app-ready aside {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: 250px;
+      height: 100vh;
+      z-index: 5;
+    }
+
+    body.app-ready main {
+      position: fixed;
+      inset: 0 0 0 250px;
+      width: auto;
+      height: 100vh;
+      z-index: 1;
+      overflow-y: auto;
     }
 
     .auth-card {
@@ -809,6 +827,14 @@
     @media (max-width: 940px) {
       .app {
         grid-template-columns: 1fr;
+      }
+
+      body.app-ready aside {
+        width: 86px;
+      }
+
+      body.app-ready main {
+        left: 86px;
       }
 
       aside {
@@ -3426,12 +3452,59 @@
       setAuthStatus("");
     }
 
+    function setAppViewportLocked(locked) {
+      document.body.classList.toggle("app-ready", locked);
+      const root = document.documentElement;
+      if (locked) {
+        window.scrollTo(0, 0);
+        root.scrollTop = 0;
+        document.body.scrollTop = 0;
+        root.style.height = "100%";
+        root.style.overflow = "hidden";
+        document.body.style.height = "100vh";
+        document.body.style.overflow = "hidden";
+        const app = document.querySelector(".app");
+        const mainPanel = document.querySelector("main");
+        if (app) {
+          app.style.position = "fixed";
+          app.style.inset = "0";
+          app.style.width = "100vw";
+          app.style.height = "100vh";
+          app.style.overflow = "hidden";
+        }
+        if (mainPanel) {
+          mainPanel.scrollTop = 0;
+          mainPanel.style.height = "100vh";
+          mainPanel.style.overflowY = "auto";
+        }
+      } else {
+        root.style.height = "";
+        root.style.overflow = "";
+        document.body.style.height = "";
+        document.body.style.overflow = "";
+        const app = document.querySelector(".app");
+        const mainPanel = document.querySelector("main");
+        if (app) {
+          app.style.position = "";
+          app.style.inset = "";
+          app.style.width = "";
+          app.style.height = "";
+          app.style.overflow = "";
+        }
+        if (mainPanel) {
+          mainPanel.style.height = "";
+          mainPanel.style.overflowY = "";
+        }
+      }
+    }
+
     function showAuth(message = "Sign in or create a free account to continue.", isError = false) {
       cloudSyncReady = false;
       currentUser = null;
+      setAppViewportLocked(false);
       document.body.classList.remove("onboarding-active");
       document.querySelector("#onboarding").setAttribute("aria-hidden", "true");
-      document.body.classList.remove("auth-pending");
+      document.body.classList.remove("auth-pending", "app-ready");
       document.body.classList.add("auth-required");
       setAuthMode("signin");
       setAuthStatus(message, isError);
@@ -3482,9 +3555,10 @@
         currentUser = user;
         cloudSyncReady = true;
         document.querySelector("#accountEmail").textContent = user.email || "Signed in";
+        document.body.classList.remove("auth-pending", "auth-required");
+        setAppViewportLocked(true);
         render();
         switchView(requestedViewFromUrl() || "dashboard");
-        document.body.classList.remove("auth-pending", "auth-required");
         showOnboardingIfNeeded();
 
       } catch (error) {
@@ -4739,6 +4813,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
 
     function switchView(view) {
       const targetView = document.getElementById(view) ? view : "dashboard";
+      setAppViewportLocked(true);
       document.querySelectorAll(".section").forEach(section => {
         const isActive = section.id === targetView;
         section.classList.toggle("active", isActive);
@@ -4749,6 +4824,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       requestAnimationFrame(() => {
         const mainPanel = document.querySelector("main");
         if (mainPanel) mainPanel.scrollTop = 0;
+        if (document.scrollingElement) document.scrollingElement.scrollTop = 0;
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
         window.scrollTo(0, 0);
@@ -5313,7 +5389,9 @@ Save this agent to the database and run it against new journal/trade events auto
       setTimeout(() => {
         if (event === "PASSWORD_RECOVERY") {
           currentUser = session?.user || null;
+          setAppViewportLocked(false);
           document.body.classList.remove("auth-pending");
+          document.body.classList.remove("app-ready");
           document.body.classList.add("auth-required");
           setAuthMode("recovery");
           setAuthStatus("Choose a new password with at least 8 characters.");
