@@ -2155,6 +2155,67 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
     }
+
+    /* Hard app shell guard: once auth is gone, content must never slide under the sidebar. */
+    body:not(.auth-pending):not(.auth-required),
+    body.app-ready {
+      height: 100vh !important;
+      overflow: hidden !important;
+      background: #050817 !important;
+    }
+
+    body:not(.auth-pending):not(.auth-required) .app,
+    body.app-ready .app {
+      display: block !important;
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      min-height: 100vh !important;
+      overflow: hidden !important;
+    }
+
+    body:not(.auth-pending):not(.auth-required) aside,
+    body.app-ready aside {
+      position: fixed !important;
+      top: 0 !important;
+      right: auto !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 250px !important;
+      height: 100vh !important;
+      z-index: 20 !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+    }
+
+    body:not(.auth-pending):not(.auth-required) main,
+    body.app-ready main {
+      position: fixed !important;
+      top: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      left: 250px !important;
+      width: auto !important;
+      height: 100vh !important;
+      min-height: 0 !important;
+      margin: 0 !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      z-index: 1 !important;
+    }
+
+    @media (max-width: 940px) {
+      body:not(.auth-pending):not(.auth-required) aside,
+      body.app-ready aside {
+        width: 86px !important;
+      }
+
+      body:not(.auth-pending):not(.auth-required) main,
+      body.app-ready main {
+        left: 86px !important;
+      }
+    }
   </style>
 </head>
 <body class="auth-pending">
