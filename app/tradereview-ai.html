@@ -2214,6 +2214,25 @@
         grid-template-columns: 86px minmax(0, 1fr) !important;
       }
     }
+
+    /* Last-resort content offset: if an old shell/cache places main at x=0, keep page content clear of the nav. */
+    body:not(.auth-pending):not(.auth-required) .section.active,
+    body.app-ready .section.active {
+      padding-left: 0 !important;
+      transform: translateX(0) !important;
+    }
+
+    body:not(.app-ready):not(.auth-pending):not(.auth-required) .section.active {
+      margin-left: 250px !important;
+      width: calc(100vw - 250px) !important;
+    }
+
+    @media (max-width: 940px) {
+      body:not(.app-ready):not(.auth-pending):not(.auth-required) .section.active {
+        margin-left: 86px !important;
+        width: calc(100vw - 86px) !important;
+      }
+    }
   </style>
 </head>
 <body class="auth-pending">
