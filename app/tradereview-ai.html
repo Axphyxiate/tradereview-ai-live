@@ -1221,6 +1221,8 @@
       border-color: rgba(174, 218, 204, .1);
       background: linear-gradient(180deg, rgba(10, 19, 40, .99), rgba(6, 11, 27, .99));
       padding: 22px 15px;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
 
     .brand { color: #f2fbf8; padding-bottom: 26px; }
@@ -1234,7 +1236,7 @@
     .account-panel strong { color: #dceae6; }
     .account-panel span { color: #6f8580; }
 
-    main { position: relative; z-index: 1; min-height: 100vh; padding: clamp(22px, 3vw, 38px); background: radial-gradient(circle at 96% 4%, rgba(155,124,255,.13), transparent 30rem), radial-gradient(circle at 4% 56%, rgba(95,134,255,.1), transparent 34rem), radial-gradient(circle at 82% 92%, rgba(242,197,109,.055), transparent 24rem); }
+    main { position: relative; z-index: 1; height: 100vh; min-height: 0; min-width: 0; overflow-y: auto; overscroll-behavior: contain; scroll-behavior: auto; padding: clamp(22px, 3vw, 38px); background: radial-gradient(circle at 96% 4%, rgba(155,124,255,.13), transparent 30rem), radial-gradient(circle at 4% 56%, rgba(95,134,255,.1), transparent 34rem), radial-gradient(circle at 82% 92%, rgba(242,197,109,.055), transparent 24rem); }
     h1 { letter-spacing: -.045em; }
     .subtitle { color: #829892; line-height: 1.55; }
     .page-kicker { margin-bottom: 10px; }
@@ -1359,7 +1361,7 @@
     .assistant-form button { width: 42px; min-height: 42px; padding: 0; border-radius: 11px; }
 
     /* Dynamic workspace color and motion */
-    .app { position: relative; isolation: isolate; min-height: 100vh; overflow: visible; background: #050817; }
+    .app { position: relative; isolation: isolate; height: 100vh; min-height: 100vh; overflow: hidden; background: #050817; }
     .app::before,
     .app::after {
       content: "";
@@ -1380,7 +1382,9 @@
     .app > aside { z-index: 2; }
     @keyframes workspaceAurora { from { transform: translate3d(-5%, -4%, 0) scale(.86); } to { transform: translate3d(13%, 11%, 0) scale(1.14); } }
 
-    .section.active { animation: viewReveal .4s ease both; }
+    .section.active { display: block; min-height: calc(100vh - 76px); animation: viewReveal .4s ease both; }
+    #import.section.active { display: flex; }
+    .section.active > .topbar { margin-top: 0; }
     .section.active > .topbar { animation: titleReveal .5s cubic-bezier(.2,.8,.2,1) both; }
     .section.active .panel { animation: panelReveal .5s cubic-bezier(.2,.8,.2,1) both; transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
     .section.active .panel:hover { transform: translateY(-3px); border-color: rgba(121, 150, 255, .27); box-shadow: 0 28px 70px rgba(0,0,0,.32), 0 0 0 1px rgba(117,145,255,.035); }
@@ -4717,9 +4721,20 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
 
     function switchView(view) {
       const targetView = document.getElementById(view) ? view : "dashboard";
-      document.querySelectorAll(".section").forEach(section => section.classList.toggle("active", section.id === targetView));
+      document.querySelectorAll(".section").forEach(section => {
+        const isActive = section.id === targetView;
+        section.classList.toggle("active", isActive);
+        section.hidden = !isActive;
+        section.style.display = isActive ? (section.id === "import" ? "flex" : "block") : "none";
+      });
       document.querySelectorAll("nav button").forEach(button => button.classList.toggle("active", button.dataset.view === targetView));
-      requestAnimationFrame(() => window.scrollTo(0, 0));
+      requestAnimationFrame(() => {
+        const mainPanel = document.querySelector("main");
+        if (mainPanel) mainPanel.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+        window.scrollTo(0, 0);
+      });
     }
 
     function requestedViewFromUrl() {
