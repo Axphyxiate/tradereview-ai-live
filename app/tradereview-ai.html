@@ -1941,8 +1941,45 @@
       font-size: 12px;
     }
     .ai-disclaimer { padding: 11px 12px; border-radius: 13px; color: #f2d394; background: rgba(242,197,109,.07); border: 1px solid rgba(242,197,109,.16); font-size: 11px; line-height: 1.5; }
+    .ai-mode-button { width: 100%; text-align: left; cursor: pointer; }
+    .ai-mode-button:hover { border-color: rgba(134,239,172,.32); transform: translateY(-3px); }
+    .ai-mode-button.active { border-color: rgba(134,239,172,.45); box-shadow: 0 18px 60px rgba(95,134,255,.16); }
+    .ai-pane { display: none; }
+    .ai-pane.active { display: grid; gap: 18px; }
+    .ai-mode-nav { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 0; }
+    .ai-mode-nav button.active { border-color: rgba(134,239,172,.42); color: #061410; background: #86efac; }
+    .learning-ocean { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    .learning-module { padding: 18px; border: 1px solid rgba(148,163,184,.13); border-radius: 18px; background: linear-gradient(150deg, rgba(14,25,52,.94), rgba(7,13,30,.98)); }
+    .learning-module span { color: #86efac; font-size: 10px; font-weight: 950; letter-spacing: .1em; text-transform: uppercase; }
+    .learning-module h4 { margin: 10px 0 8px; color: #f3f8ff; font-size: 16px; }
+    .learning-module p { margin: 0; color: #9fb0ca; font-size: 12px; line-height: 1.55; }
+    .resource-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .resource-card { padding: 16px; border: 1px solid rgba(148,163,184,.13); border-radius: 16px; background: rgba(255,255,255,.025); }
+    .resource-card b { display: block; color: #eff6ff; margin-bottom: 6px; }
+    .resource-card p { margin: 0 0 12px; color: #94a3b8; font-size: 12px; line-height: 1.55; }
+    .resource-card a { color: #86efac; font-weight: 850; font-size: 12px; text-decoration: none; }
+    .ai-question-box { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+    .ai-question-box input { min-height: 46px; }
+    .trade-lab-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 16px; }
+    .strategy-chip-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .strategy-chip-grid button { min-height: 34px; padding: 0 11px; border-radius: 999px; font-size: 11px; }
+    .agent-lab-grid, .billing-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .agent-lab-card, .billing-card { position: relative; min-height: 260px; padding: 20px; border: 1px solid rgba(148,163,184,.13); border-radius: 19px; background: linear-gradient(155deg, rgba(17,28,52,.97), rgba(8,16,32,.99)); overflow: hidden; }
+    .agent-lab-card::before, .billing-card::before { content: ""; position: absolute; inset: auto -25% -55% 45%; height: 100%; background: rgba(134,239,172,.08); transform: rotate(-18deg); }
+    .agent-lab-card > *, .billing-card > * { position: relative; z-index: 1; }
+    .agent-lab-card small, .billing-card small { color: #86efac; font-size: 10px; font-weight: 950; letter-spacing: .1em; text-transform: uppercase; }
+    .agent-lab-card h3, .billing-card h3 { margin: 12px 0 8px; color: #f8fbff; font-size: 20px; letter-spacing: -.03em; }
+    .agent-lab-card p, .billing-card p { color: #9fb0ca; font-size: 12px; line-height: 1.6; }
+    .agent-lab-card textarea { min-height: 92px; }
+    .billing-card.popular { border-color: rgba(134,239,172,.46); box-shadow: 0 22px 70px rgba(134,239,172,.12); }
+    .billing-price { margin: 14px 0; color: #f8fbff; font-size: 38px; font-weight: 950; letter-spacing: -.06em; }
+    .billing-price span { color: #94a3b8; font-size: 13px; font-weight: 700; letter-spacing: 0; }
+    .billing-list { display: grid; gap: 9px; margin: 16px 0; padding: 0; list-style: none; color: #aab8d0; font-size: 12px; line-height: 1.45; }
+    .billing-list li::before { content: "✓ "; color: #86efac; font-weight: 950; }
+    .checkout-note { margin-top: 12px; color: #94a3b8; font-size: 12px; line-height: 1.55; }
     @media (max-width: 860px) {
-      .ai-command-hero, .ai-split, .ai-learning-grid { grid-template-columns: 1fr; }
+      .ai-command-hero, .ai-split, .ai-learning-grid, .learning-ocean, .resource-grid, .trade-lab-grid, .agent-lab-grid, .billing-grid { grid-template-columns: 1fr; }
+      .ai-question-box { grid-template-columns: 1fr; }
     }
 
     /* First-login trader profile */
@@ -2210,6 +2247,8 @@
         <button data-view="journal" title="Journal">✎ Journal</button>
         <button data-view="tradeReview" title="Trade review">◉ Review</button>
         <button data-view="aiCommand" title="Learn and trade with AI">✦ AI Coach</button>
+        <button data-view="agents" title="AI agents">◇ Agents</button>
+        <button data-view="billing" title="Plans and billing">$ Billing</button>
         <button data-view="settings" title="Settings">⚙ Settings</button>
       </nav>
       <div class="account-panel">
@@ -2464,6 +2503,10 @@
                 <span><i></i> Journal-aware plans</span>
                 <span><i></i> Risk-first review</span>
               </div>
+              <div class="ai-mode-nav" aria-label="AI workspace modes">
+                <button class="active" type="button" data-ai-mode="learn">Open Learn with AI</button>
+                <button type="button" data-ai-mode="trade">Open Trade with AI</button>
+              </div>
             </div>
             <div class="ai-orbit-card" aria-label="AI workflow animation">
               <div class="ai-orbit">
@@ -2477,7 +2520,7 @@
           </div>
 
           <div class="ai-split">
-            <div class="ai-card">
+            <button class="ai-card ai-mode-button active" type="button" data-ai-mode="learn">
               <h3>Learn with AI</h3>
               <p>Beginner-friendly lessons covering the information a trader needs before risking money.</p>
               <ul>
@@ -2485,8 +2528,8 @@
                 <li>Risk management, R-multiple, position sizing, stop loss, and expectancy.</li>
                 <li>Psychology, patience, overtrading, revenge trades, and journal discipline.</li>
               </ul>
-            </div>
-            <div class="ai-card">
+            </button>
+            <button class="ai-card ai-mode-button" type="button" data-ai-mode="trade">
               <h3>Trade with AI</h3>
               <p>Advanced planning using your strategy notes, journal history, and current risk settings.</p>
               <ul>
@@ -2494,9 +2537,10 @@
                 <li>Use journal mistakes to flag when you should skip or reduce size.</li>
                 <li>Turn the plan into a post-trade review after execution.</li>
               </ul>
-            </div>
+            </button>
           </div>
 
+          <div class="ai-pane active" id="learnAiPane">
           <div class="panel">
             <div class="panel-header"><h2>Learn with AI: Trading Basics Path</h2><button class="primary" id="generateAiLesson" type="button">Generate lesson</button></div>
             <div class="panel-body ai-builder">
@@ -2544,6 +2588,32 @@
           </div>
 
           <div class="panel">
+            <div class="panel-header"><h2>Learn with AI: Full Trading Library</h2><button id="askAiLessonQuestion" class="primary" type="button">Ask AI</button></div>
+            <div class="panel-body ai-builder">
+              <div class="learning-ocean">
+                <div class="learning-module"><span>Foundation</span><h4>Markets 101</h4><p>Stocks, options, forex, futures, ETFs, indexes, brokers, exchanges, liquidity, order books, spreads, and sessions.</p></div>
+                <div class="learning-module"><span>Price action</span><h4>Charts & candles</h4><p>Candles, wicks, bodies, volume, trend, ranges, breakouts, pullbacks, VWAP, support, resistance, and failed moves.</p></div>
+                <div class="learning-module"><span>Options</span><h4>Calls, puts & Greeks</h4><p>Strike, expiration, premium, intrinsic/extrinsic value, delta, gamma, theta, vega, IV crush, spreads, and assignment risk.</p></div>
+                <div class="learning-module"><span>Risk</span><h4>Position sizing</h4><p>R-multiple, stop loss, max daily loss, expectancy, win rate vs reward/risk, drawdown control, and survival rules.</p></div>
+                <div class="learning-module"><span>Strategy</span><h4>Playbooks</h4><p>Setup, context, trigger, invalidation, target, management, skip rules, screenshots, tags, and post-trade grading.</p></div>
+                <div class="learning-module"><span>Psychology</span><h4>Mindset</h4><p>FOMO, revenge trading, boredom trades, hesitation, overconfidence, discipline, patience, and routine building.</p></div>
+                <div class="learning-module"><span>Data</span><h4>Reports</h4><p>Read your win rate, profit factor, average R, setup performance, time-of-day stats, mistake tags, and broker fees.</p></div>
+                <div class="learning-module"><span>Workflow</span><h4>Daily review</h4><p>Pre-market plan, trade execution, screenshot capture, journal recap, tomorrow's rule, weekly review, and AI coach prompts.</p></div>
+              </div>
+              <div class="ai-question-box">
+                <input id="aiLearnQuestion" placeholder="Ask anything: What is IV crush? How do I size options risk? What is a good journal routine?">
+                <button class="primary" id="askAiLessonQuestionInline" type="button">Answer</button>
+              </div>
+              <div class="resource-grid">
+                <div class="resource-card"><b>Blog-style lessons</b><p>Short written guides can be added here for every topic, like a trading university inside TradeReview.</p><a href="../blog/" target="_blank" rel="noopener">Open blog library →</a></div>
+                <div class="resource-card"><b>YouTube-style video lessons</b><p>Embed beginner videos, platform walkthroughs, and strategy explainers here when your channel is ready.</p><a href="https://www.youtube.com/results?search_query=trading+risk+management+for+beginners" target="_blank" rel="noopener">Search learning videos →</a></div>
+                <div class="resource-card"><b>Ask from your journal</b><p>Ask AI to explain patterns from your own trades, mistakes, risk usage, setups, and screenshots.</p><a href="#trade-ai" data-ai-mode="trade">Open Trade with AI →</a></div>
+              </div>
+              <div class="ai-output" id="aiQuestionOutput">Ask a learning question and the answer will appear here with a simple explanation, example, practice drill, and risk warning.</div>
+            </div>
+          </div>
+
+          <div class="panel">
             <div class="panel-header"><h2>Basic Tutorial Video</h2><button id="restartTutorial" type="button">Replay walkthrough</button></div>
             <div class="panel-body ai-builder">
               <div class="tutorial-stage" id="tutorialStage" aria-label="Animated tutorial showing how to use TradeReview AI">
@@ -2580,10 +2650,32 @@
               <div class="ai-disclaimer">This is a lightweight in-app tutorial animation. Later we can replace it with a recorded MP4 walkthrough using the same script.</div>
             </div>
           </div>
+          </div>
 
+          <div class="ai-pane" id="tradeAiPane">
           <div class="panel">
             <div class="panel-header"><h2>Trade with AI: Strategy Prompt Workspace</h2><button class="primary" id="generateAiPlan" type="button">Generate plan</button></div>
             <div class="panel-body ai-builder">
+              <div class="trade-lab-grid">
+                <div class="panel" id="trade-ai">
+                  <div class="panel-header"><h2>Strategy command center</h2></div>
+                  <div class="panel-body ai-builder">
+                    <p class="form-hint">This is not an auto-trader. It helps turn your strategy into checklists, skip rules, risk limits, and review prompts.</p>
+                    <div class="strategy-chip-grid">
+                      <button type="button" data-strategy-prompt="Build a pre-trade checklist for my setup. Include market context, trigger, invalidation, stop, target, risk size, and skip rules.">Checklist</button>
+                      <button type="button" data-strategy-prompt="Review my recent journal mistakes and create guardrails to prevent overtrading, revenge trading, and oversized positions.">Mistake guardrails</button>
+                      <button type="button" data-strategy-prompt="Help me convert my trading idea into a playbook with setup, entry trigger, invalidation, target, management, and review tags.">Playbook builder</button>
+                      <button type="button" data-strategy-prompt="Create a post-trade review template that grades decision quality separately from P/L.">Post-trade review</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel">
+                  <div class="panel-header"><h2>Journal-aware inputs</h2></div>
+                  <div class="panel-body">
+                    <p class="footer-note">Trade with AI can use your saved profile, broker preference, risk settings, latest mistakes, setup tags, and journal notes to create a better plan. When broker sync is live, imported fills will make this stronger.</p>
+                  </div>
+                </div>
+              </div>
               <div class="form-grid">
                 <label>Market context
                   <select id="aiMarketContext">
@@ -2619,6 +2711,56 @@
               <div class="ai-output" id="aiPlanOutput">Paste your strategy or explain what you need, then click Generate plan. The output will use your profile, journal patterns, risk settings, and prompt to create a structured plan.</div>
               <div class="ai-disclaimer">Important: AI coaching is for journaling, education, and planning. It is not financial advice, does not guarantee results, and does not place trades for you.</div>
             </div>
+          </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="agents" class="section">
+        <div class="topbar">
+          <div>
+            <div class="page-kicker"><span class="live-dot"></span> AI Agents</div>
+            <h1>Build agents that watch your trading habits.</h1>
+            <p class="subtitle">Agents are inside the actual app now, not only on the homepage. They help monitor discipline, risk, mindset, broker sync, and your custom rules.</p>
+          </div>
+          <div class="actions">
+            <button data-view-button="journal">Review Journal</button>
+            <button class="primary" data-view-button="aiCommand">Open AI Coach</button>
+          </div>
+        </div>
+        <div class="agent-lab-grid">
+          <article class="agent-lab-card"><small>Discipline</small><h3>Habit Agent</h3><p>Watches pre-market prep, post-trade journaling, missed reviews, and whether your routine is slipping.</p><button class="primary" type="button" data-agent-template="Habit Agent: Watch my journal consistency, pre-market prep, post-trade review, and missed routines. Nudge me when I skip the process.">Activate Habit Agent</button></article>
+          <article class="agent-lab-card"><small>Guardrails</small><h3>Risk Agent</h3><p>Tracks R-multiple, oversized trades, daily drawdown behavior, repeated losses, and when you should reduce size.</p><button class="primary" type="button" data-agent-template="Risk Agent: Watch my position size, daily max loss, R-multiple, consecutive losses, and rule breaks. Warn me before I over-risk.">Activate Risk Agent</button></article>
+          <article class="agent-lab-card"><small>Mindset</small><h3>Tilt Agent</h3><p>Reads journal tone and mistake tags to detect FOMO, revenge trading, frustration, hesitation, and overconfidence.</p><button class="primary" type="button" data-agent-template="Tilt Agent: Watch my journal tone, trading frequency, mistake tags, and emotional patterns. Help me catch FOMO and revenge trading.">Activate Tilt Agent</button></article>
+          <article class="agent-lab-card"><small>Your rules</small><h3>Custom Agent</h3><p>Describe the exact behavior, setup, broker issue, or trading rule you want TradeReview to monitor.</p><textarea id="customAgentPrompt" placeholder="Example: Watch for when I take trades outside my London session EUR/USD setup or when I enter before confirmation."></textarea><button class="primary" id="buildCustomAgent" type="button">Build Custom Agent</button></article>
+        </div>
+        <div style="height:18px"></div>
+        <div class="panel">
+          <div class="panel-header"><h2>Agent Output</h2></div>
+          <div class="panel-body"><div class="ai-output" id="agentOutput">Choose an agent or write a custom one. The setup plan will appear here and can be saved later when agent automation is connected to the backend.</div></div>
+        </div>
+      </section>
+
+      <section id="billing" class="section">
+        <div class="topbar">
+          <div>
+            <div class="page-kicker"><span class="live-dot"></span> Plans & billing</div>
+            <h1>Free to start. Paid plans stay cheaper.</h1>
+            <p class="subtitle">The billing screen is now inside the app. Real payment collection should be handled by Stripe Checkout or PayPal later, not by storing card numbers in TradeReview.</p>
+          </div>
+        </div>
+        <div class="billing-grid">
+          <article class="billing-card"><small>Free</small><h3>Free</h3><div class="billing-price">$0 <span>/mo</span></div><ul class="billing-list"><li>Manual journal</li><li>CSV import</li><li>Basic dashboard</li><li>Learn with AI basics</li></ul><button type="button" data-plan="Free">Current / Start Free</button></article>
+          <article class="billing-card"><small>Starter</small><h3>Starter</h3><div class="billing-price">$9.99 <span>/mo</span></div><ul class="billing-list"><li>More accounts</li><li>More AI review credits</li><li>Weekly summaries</li><li>Replay notes</li></ul><button type="button" data-plan="Starter $9.99">Choose Starter</button></article>
+          <article class="billing-card popular"><small>Most popular</small><h3>Pro</h3><div class="billing-price">$29.99 <span>/mo</span></div><ul class="billing-list"><li>Broker sync requests</li><li>AI Coach strategy prompts</li><li>Risk, habit, mindset agents</li><li>Advanced reports</li></ul><button class="primary" type="button" data-plan="Pro $29.99">Unlock Pro</button></article>
+          <article class="billing-card"><small>Elite</small><h3>Elite</h3><div class="billing-price">$49.99 <span>/mo</span></div><ul class="billing-list"><li>Higher AI limits</li><li>Priority broker support</li><li>Unlimited strategy tracking</li><li>Priority support</li></ul><button type="button" data-plan="Elite $49.99">Unlock Elite</button></article>
+        </div>
+        <div style="height:18px"></div>
+        <div class="panel">
+          <div class="panel-header"><h2>Payment information</h2></div>
+          <div class="panel-body">
+            <p class="checkout-note" id="checkoutMessage">Choose a plan above. Next step is connecting Stripe Checkout/PayPal so customers can safely enter payment details on a secure payment page.</p>
+            <div class="ai-disclaimer">Do not collect raw card numbers inside this static app. Use Stripe Checkout, Stripe Billing, PayPal, or another PCI-compliant provider.</div>
           </div>
         </div>
       </section>
@@ -3124,6 +3266,7 @@
         cloudSyncReady = true;
         document.querySelector("#accountEmail").textContent = user.email || "Signed in";
         render();
+        switchView(requestedViewFromUrl() || "dashboard");
         document.body.classList.remove("auth-pending", "auth-required");
         showOnboardingIfNeeded();
 
@@ -4287,8 +4430,103 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       document.querySelectorAll("nav button").forEach(button => button.classList.toggle("active", button.dataset.view === view));
     }
 
+    function requestedViewFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const requested = params.get("view") || window.location.hash.replace("#", "");
+      return ["dashboard", "import", "journal", "tradeReview", "aiCommand", "agents", "billing", "settings"].includes(requested) ? requested : "";
+    }
+
+    function setAiMode(mode) {
+      const nextMode = mode === "trade" ? "trade" : "learn";
+      document.querySelector("#learnAiPane")?.classList.toggle("active", nextMode === "learn");
+      document.querySelector("#tradeAiPane")?.classList.toggle("active", nextMode === "trade");
+      document.querySelectorAll("[data-ai-mode]").forEach(button => {
+        button.classList.toggle("active", button.dataset.aiMode === nextMode);
+      });
+    }
+
+    function answerAiLearningQuestion() {
+      const question = document.querySelector("#aiLearnQuestion")?.value.trim() || "How do I learn trading without getting overwhelmed?";
+      const output = `Question
+${question}
+
+Simple answer
+Start with one market, one setup, and one risk rule. Trading education becomes confusing when you try to learn stocks, options, forex, indicators, psychology, and broker tools all at once. Learn in layers: market basics, chart reading, risk, strategy, psychology, journaling, then broker automation.
+
+Example
+If you ask about options, do not start with complex spreads. First understand: call, put, strike, expiration, premium, breakeven, theta decay, and why the option can lose value even when the stock moves your way.
+
+Practice drill
+Pick one topic from the library, read the lesson, then write:
+- what it means
+- one chart example
+- one risk mistake to avoid
+- one question you still have
+
+Risk warning
+Education should come before size. If you cannot explain the trade idea, invalidation, and maximum loss in one sentence, the right answer is usually to wait.`;
+      const target = document.querySelector("#aiQuestionOutput");
+      if (target) target.textContent = output;
+    }
+
+    function renderAgentPlan(prompt) {
+      const text = prompt || document.querySelector("#customAgentPrompt")?.value.trim() || "Watch my trading rules and warn me when I drift from my process.";
+      const target = document.querySelector("#agentOutput");
+      if (!target) return;
+      target.textContent = `Agent setup drafted
+
+Mission
+${text}
+
+What this agent should watch
+- Your saved risk settings and max R per trade
+- Recent mistakes from journal entries
+- Setup tags that repeat before losses
+- Missed journal reviews or skipped preparation
+- Emotional language such as rushed, FOMO, revenge, bored, tilted, or overconfident
+
+How it should respond
+1. Give a short warning before the next trade plan.
+2. Ask one question that slows the decision down.
+3. Suggest a risk reduction or skip rule when behavior repeats.
+4. Add the issue to the post-trade review.
+
+Next backend step
+Save this agent to the database and run it against new journal/trade events automatically.`;
+    }
+
+    function chooseBillingPlan(plan) {
+      const target = document.querySelector("#checkoutMessage");
+      if (!target) return;
+      target.innerHTML = `<strong>${plan} selected.</strong> Next step: connect Stripe Checkout or PayPal so customers can safely enter payment details on a secure payment page. TradeReview should never store raw card numbers directly.`;
+    }
+
     document.querySelectorAll("[data-view], [data-view-button]").forEach(button => {
       button.addEventListener("click", () => switchView(button.dataset.view || button.dataset.viewButton));
+    });
+    document.querySelectorAll("[data-ai-mode]").forEach(button => {
+      button.addEventListener("click", event => {
+        event.preventDefault();
+        switchView("aiCommand");
+        setAiMode(button.dataset.aiMode);
+      });
+    });
+    document.querySelectorAll("[data-strategy-prompt]").forEach(button => {
+      button.addEventListener("click", () => {
+        const prompt = document.querySelector("#aiStrategyPrompt");
+        if (prompt) prompt.value = button.dataset.strategyPrompt;
+        setAiMode("trade");
+      });
+    });
+    document.querySelectorAll("#askAiLessonQuestion, #askAiLessonQuestionInline").forEach(button => {
+      button?.addEventListener("click", answerAiLearningQuestion);
+    });
+    document.querySelectorAll("[data-agent-template]").forEach(button => {
+      button.addEventListener("click", () => renderAgentPlan(button.dataset.agentTemplate));
+    });
+    document.querySelector("#buildCustomAgent")?.addEventListener("click", () => renderAgentPlan());
+    document.querySelectorAll("[data-plan]").forEach(button => {
+      button.addEventListener("click", () => chooseBillingPlan(button.dataset.plan));
     });
     document.querySelectorAll("[data-lesson-topic]").forEach(button => {
       button.addEventListener("click", () => {
@@ -4771,6 +5009,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
     }
 
     render();
+    switchView(requestedViewFromUrl() || "dashboard");
     registerMobileAppShell();
     initializeAuth();
   </script>
