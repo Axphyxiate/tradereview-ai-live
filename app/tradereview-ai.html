@@ -2625,7 +2625,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="tradingview-capture-v10">
+  <div class="app" data-build="tradingview-backend-v11">
     <aside>
       <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
       <nav aria-label="Main navigation">
@@ -4132,7 +4132,7 @@
       };
     }
 
-    function requestTradingViewCapture(tradeId) {
+    async function requestTradingViewCapture(tradeId) {
       const trade = state.trades.find(item => item.id === tradeId);
       if (!trade) return;
       const missing = [];
@@ -4143,10 +4143,57 @@
         alert(`Add ${missing.join(", ")} first so TradeReview knows what to capture from TradingView.`);
         return;
       }
+      const requestedAt = new Date().toISOString();
+      const payload = tradingViewCapturePayload(trade);
+      trade.tradingViewCapture = {
+        ...payload,
+        requestedAt,
+        backendReady: false,
+        status: "queued_local"
+      };
+      saveState();
+      render();
+
+      if (!currentUser || !cloudSyncReady) {
+        trade.tradingViewCapture = {
+          ...trade.tradingViewCapture,
+          status: "queued_local",
+          message: "Saved locally. Sign in so TradeReview can queue this capture on the backend."
+        };
+        saveState();
+        render();
+        return;
+      }
+
+      let data = null;
+      let error = null;
+      try {
+        const response = await cloudClient.functions.invoke("tradingview-capture", { body: payload });
+        data = response.data;
+        error = response.error;
+      } catch (functionError) {
+        error = functionError;
+      }
+
+      if (error || data?.error || !data?.jobId) {
+        trade.tradingViewCapture = {
+          ...trade.tradingViewCapture,
+          status: "backend_not_ready",
+          error: error?.message || data?.error || "TradingView capture function is not deployed yet.",
+          message: "Saved locally, but backend queue is not ready yet."
+        };
+        saveState();
+        render();
+        return;
+      }
+
       trade.tradingViewCapture = {
         ...tradingViewCapturePayload(trade),
-        requestedAt: new Date().toISOString(),
-        backendReady: false
+        requestedAt,
+        backendReady: true,
+        status: data.status || "queued",
+        jobId: data.jobId,
+        message: data.message || "TradingView capture job queued."
       };
       saveState();
       render();
@@ -4167,7 +4214,7 @@
     function tradingViewCaptureCard(trade, compact = false) {
       const request = trade.tradingViewCapture;
       const status = request
-        ? `Queued ${new Date(request.requestedAt || Date.now()).toLocaleString()} · waiting for capture backend`
+        ? `${request.jobId ? `Job ${request.jobId.slice(0, 8)} · ` : ""}${request.message || `Queued ${new Date(request.requestedAt || Date.now()).toLocaleString()} · waiting for capture backend`}`
         : "Ready to request once ticker, entry time, and exit time are set.";
       return `<div class="tv-capture-card ${compact ? "compact" : ""}">
         <div class="tv-capture-kicker">TradingView auto capture</div>
