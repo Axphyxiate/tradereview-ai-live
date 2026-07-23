@@ -2262,6 +2262,111 @@
         --app-page-padding: 18px;
       }
     }
+
+    @media (max-width: 700px) {
+      body {
+        --app-sidebar-width: 0px;
+        --app-mobile-nav-height: 132px;
+        --app-page-padding: 16px;
+      }
+
+      body:not(.auth-pending),
+      body.app-ready {
+        height: 100dvh !important;
+        overflow: hidden !important;
+      }
+
+      body:not(.auth-pending) .app,
+      body.app-ready .app {
+        width: 100vw !important;
+        height: 100dvh !important;
+        overflow: hidden !important;
+      }
+
+      body:not(.auth-pending) aside,
+      body.app-ready aside {
+        top: 0 !important;
+        right: 0 !important;
+        bottom: auto !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: var(--app-mobile-nav-height) !important;
+        padding: 12px 12px 10px !important;
+        border-right: 0 !important;
+        border-bottom: 1px solid rgba(174, 218, 204, .12) !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+      }
+
+      body:not(.auth-pending) aside .brand,
+      body.app-ready aside .brand {
+        margin-bottom: 10px !important;
+      }
+
+      body:not(.auth-pending) aside .brand span,
+      body.app-ready aside .brand span {
+        display: inline !important;
+        font-size: 16px !important;
+        white-space: nowrap !important;
+      }
+
+      body:not(.auth-pending) nav,
+      body.app-ready nav {
+        display: flex !important;
+        grid-template-columns: none !important;
+        gap: 8px !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        padding-bottom: 4px !important;
+        scroll-snap-type: x proximity;
+      }
+
+      body:not(.auth-pending) nav button,
+      body.app-ready nav button {
+        flex: 0 0 auto !important;
+        min-width: max-content !important;
+        height: 42px !important;
+        justify-content: center !important;
+        padding: 0 14px !important;
+        white-space: nowrap !important;
+        scroll-snap-align: start;
+      }
+
+      body:not(.auth-pending) .account-panel,
+      body.app-ready .account-panel {
+        display: none !important;
+      }
+
+      body:not(.auth-pending) main,
+      body.app-ready main {
+        top: var(--app-mobile-nav-height) !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: calc(100dvh - var(--app-mobile-nav-height)) !important;
+      }
+
+      body:not(.auth-pending) .section,
+      body.app-ready .section {
+        top: var(--app-mobile-nav-height) !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: calc(100dvh - var(--app-mobile-nav-height)) !important;
+        padding: var(--app-page-padding) !important;
+      }
+
+      body:not(.auth-pending) .topbar h1,
+      body.app-ready .topbar h1 {
+        font-size: clamp(34px, 12vw, 54px) !important;
+        line-height: .96 !important;
+        letter-spacing: -0.06em !important;
+      }
+
+      body:not(.auth-pending) .topbar p,
+      body.app-ready .topbar p {
+        font-size: 15px !important;
+        line-height: 1.45 !important;
+      }
+    }
   </style>
 </head>
 <body class="auth-pending">
@@ -2423,7 +2528,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="sidebar-click-clear-sections-v7">
+  <div class="app" data-build="mobile-shell-v8">
     <aside>
       <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
       <nav aria-label="Main navigation">
@@ -3568,13 +3673,17 @@
       const authGate = document.querySelector(".auth-gate");
       const sidebar = document.querySelector("aside");
       const mainPanel = document.querySelector("main");
-      const sidebarWidth = window.matchMedia("(max-width: 940px)").matches ? 86 : 250;
-      const pagePadding = window.matchMedia("(max-width: 940px)").matches ? 18 : Math.max(22, Math.min(window.innerWidth * 0.03, 38));
+      const isPhone = window.matchMedia("(max-width: 700px)").matches;
+      const isTablet = window.matchMedia("(max-width: 940px)").matches;
+      const sidebarWidth = isPhone ? 0 : (isTablet ? 86 : 250);
+      const mobileNavHeight = 132;
+      const pagePadding = isPhone ? 16 : (isTablet ? 18 : Math.max(22, Math.min(window.innerWidth * 0.03, 38)));
       const important = "important";
 
       document.body.style.setProperty("--app-sidebar-width", `${sidebarWidth}px`, important);
+      document.body.style.setProperty("--app-mobile-nav-height", `${mobileNavHeight}px`, important);
       document.body.style.setProperty("--app-page-padding", `${pagePadding}px`, important);
-      document.body.style.setProperty("height", "100vh", important);
+      document.body.style.setProperty("height", isPhone ? "100dvh" : "100vh", important);
       document.body.style.setProperty("overflow", "hidden", important);
 
       if (authGate && !document.body.classList.contains("auth-pending")) {
@@ -3588,7 +3697,7 @@
         app.style.setProperty("position", "fixed", important);
         app.style.setProperty("inset", "0", important);
         app.style.setProperty("width", "100vw", important);
-        app.style.setProperty("height", "100vh", important);
+        app.style.setProperty("height", isPhone ? "100dvh" : "100vh", important);
         app.style.setProperty("min-height", "0", important);
         app.style.setProperty("overflow", "hidden", important);
       }
@@ -3596,24 +3705,24 @@
       if (sidebar) {
         sidebar.style.setProperty("position", "fixed", important);
         sidebar.style.setProperty("top", "0", important);
-        sidebar.style.setProperty("right", "auto", important);
-        sidebar.style.setProperty("bottom", "0", important);
+        sidebar.style.setProperty("right", isPhone ? "0" : "auto", important);
+        sidebar.style.setProperty("bottom", isPhone ? "auto" : "0", important);
         sidebar.style.setProperty("left", "0", important);
-        sidebar.style.setProperty("width", `${sidebarWidth}px`, important);
-        sidebar.style.setProperty("height", "100vh", important);
+        sidebar.style.setProperty("width", isPhone ? "100vw" : `${sidebarWidth}px`, important);
+        sidebar.style.setProperty("height", isPhone ? `${mobileNavHeight}px` : "100vh", important);
         sidebar.style.setProperty("z-index", "20", important);
-        sidebar.style.setProperty("overflow-y", "auto", important);
-        sidebar.style.setProperty("overflow-x", "hidden", important);
+        sidebar.style.setProperty("overflow-y", isPhone ? "hidden" : "auto", important);
+        sidebar.style.setProperty("overflow-x", isPhone ? "auto" : "hidden", important);
       }
 
       if (mainPanel) {
         mainPanel.style.setProperty("position", "fixed", important);
-        mainPanel.style.setProperty("top", "0", important);
+        mainPanel.style.setProperty("top", isPhone ? `${mobileNavHeight}px` : "0", important);
         mainPanel.style.setProperty("right", "0", important);
         mainPanel.style.setProperty("bottom", "0", important);
         mainPanel.style.setProperty("left", "0", important);
         mainPanel.style.setProperty("width", "100vw", important);
-        mainPanel.style.setProperty("height", "100vh", important);
+        mainPanel.style.setProperty("height", isPhone ? `calc(100dvh - ${mobileNavHeight}px)` : "100vh", important);
         mainPanel.style.setProperty("min-width", "0", important);
         mainPanel.style.setProperty("min-height", "0", important);
         mainPanel.style.setProperty("margin", "0", important);
@@ -3627,12 +3736,12 @@
       document.querySelectorAll(".section").forEach(section => {
         section.style.setProperty("box-sizing", "border-box", important);
         section.style.setProperty("position", "fixed", important);
-        section.style.setProperty("top", "0", important);
+        section.style.setProperty("top", isPhone ? `${mobileNavHeight}px` : "0", important);
         section.style.setProperty("right", "0", important);
         section.style.setProperty("bottom", "0", important);
-        section.style.setProperty("left", `${sidebarWidth}px`, important);
-        section.style.setProperty("width", `calc(100vw - ${sidebarWidth}px)`, important);
-        section.style.setProperty("height", "100vh", important);
+        section.style.setProperty("left", isPhone ? "0" : `${sidebarWidth}px`, important);
+        section.style.setProperty("width", isPhone ? "100vw" : `calc(100vw - ${sidebarWidth}px)`, important);
+        section.style.setProperty("height", isPhone ? `calc(100dvh - ${mobileNavHeight}px)` : "100vh", important);
         section.style.setProperty("min-height", "0", important);
         section.style.setProperty("margin", "0", important);
         section.style.setProperty("padding", `${pagePadding}px`, important);
