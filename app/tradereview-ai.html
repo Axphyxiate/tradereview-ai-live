@@ -281,6 +281,7 @@
       padding: 0 8px 20px;
       font-weight: 800;
       font-size: 19px;
+      text-decoration: none;
     }
 
     .mark {
@@ -1722,17 +1723,47 @@
       pointer-events: none;
       overflow: hidden;
     }
+    .market-beasts::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(115deg, rgba(24,217,149,.26), transparent 39%),
+        linear-gradient(245deg, rgba(255,83,109,.28), transparent 42%);
+      opacity: .72;
+    }
     .market-beast {
       position: absolute;
-      width: min(27vw, 330px);
-      height: min(27vw, 330px);
-      min-width: 180px;
-      min-height: 180px;
-      opacity: .34;
-      filter: drop-shadow(0 0 28px currentColor) drop-shadow(0 0 70px currentColor);
+      width: min(34vw, 430px);
+      height: min(34vw, 430px);
+      min-width: 240px;
+      min-height: 240px;
+      opacity: .58;
+      filter: drop-shadow(0 0 24px currentColor) drop-shadow(0 0 90px currentColor);
     }
-    .market-beast.bull { right: 4%; top: 0; color: #30e99a; animation: bullCharge 6.4s ease-in-out infinite; }
-    .market-beast.bear { right: 22%; bottom: -10%; color: #ff536d; animation: bearLunge 7.2s ease-in-out infinite reverse; }
+    .market-beast.bull { right: 1%; top: -5%; color: #30e99a; animation: bullCharge 5.6s ease-in-out infinite; }
+    .market-beast.bear { right: 22%; bottom: -13%; color: #ff536d; animation: bearLunge 6.2s ease-in-out infinite reverse; }
+    .beast-label {
+      position: absolute;
+      z-index: 2;
+      font-size: clamp(20px, 3.4vw, 46px);
+      font-weight: 1000;
+      letter-spacing: .16em;
+      text-shadow: 0 4px 22px rgba(0,0,0,.9);
+      opacity: .9;
+    }
+    .bull-label {
+      right: 6%;
+      top: 16%;
+      color: #86efac;
+      transform: rotate(-7deg);
+    }
+    .bear-label {
+      right: 31%;
+      bottom: 13%;
+      color: #ff8aa0;
+      transform: rotate(7deg);
+    }
     .market-candle-rain {
       position: absolute;
       inset: 0;
@@ -1758,29 +1789,37 @@
     .market-candle-rain i:nth-child(4) { left: 67%; animation-delay: -5.2s; height: 28px; }
     .market-candle-rain i:nth-child(5) { left: 83%; animation-delay: -3.3s; height: 47px; }
     @keyframes gridDrift { to { background-position: 44px 44px; } }
-    @keyframes bullCharge { 0%, 100% { transform: translateX(0) translateY(0) rotate(-4deg) scale(1); } 50% { transform: translateX(-28px) translateY(16px) rotate(3deg) scale(1.08); } }
-    @keyframes bearLunge { 0%, 100% { transform: translateX(0) translateY(0) rotate(5deg) scale(.96); } 50% { transform: translateX(22px) translateY(-18px) rotate(-3deg) scale(1.05); } }
+    @keyframes bullCharge { 0%, 100% { transform: translateX(0) translateY(0) rotate(-7deg) scale(1); } 50% { transform: translateX(-38px) translateY(18px) rotate(4deg) scale(1.12); } }
+    @keyframes bearLunge { 0%, 100% { transform: translateX(0) translateY(0) rotate(8deg) scale(.98); } 50% { transform: translateX(30px) translateY(-22px) rotate(-5deg) scale(1.1); } }
     @keyframes candleFloat { from { transform: translateY(0) scaleY(.8); opacity: 0; } 15% { opacity: .65; } to { transform: translateY(-520px) scaleY(1.18); opacity: 0; } }
 
-    .cursor-orb {
-      position: fixed;
-      z-index: 80;
-      left: 0;
-      top: 0;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      pointer-events: none;
-      opacity: 0;
-      transform: translate3d(-50%, -50%, 0);
-      background:
-        radial-gradient(circle, rgba(134,239,172,.20), transparent 38%),
-        radial-gradient(circle, rgba(127,176,255,.16), transparent 62%);
-      mix-blend-mode: screen;
-      filter: blur(4px);
-      transition: opacity .2s ease;
+    .dashboard-hero,
+    .panel,
+    .stat,
+    .hero-mini-card,
+    .ai-card,
+    .pricing-card,
+    nav button {
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease, filter .18s ease;
     }
-    body.app-ready .cursor-orb { opacity: .8; }
+    .dashboard-hero:hover,
+    .panel:hover,
+    .stat:hover,
+    .hero-mini-card:hover,
+    .ai-card:hover,
+    .pricing-card:hover,
+    nav button:hover {
+      border-color: rgba(134,239,172,.34);
+      box-shadow: 0 0 0 1px rgba(134,239,172,.08), 0 18px 60px rgba(24,217,149,.10), 0 0 44px rgba(95,134,255,.08);
+      filter: saturate(1.08);
+    }
+    .panel:hover,
+    .stat:hover,
+    .hero-mini-card:hover,
+    .ai-card:hover,
+    .pricing-card:hover {
+      transform: translateY(-2px);
+    }
 
     .review-pulse {
       display: grid;
@@ -2843,9 +2882,9 @@
     </div>
   </section>
 
-  <div class="app" data-build="dashboard-cursor-home-v19">
+  <div class="app" data-build="bull-bear-home-glow-v21">
     <aside>
-      <button class="brand" type="button" data-view-button="dashboard" aria-label="Open TradeReview AI home"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></button>
+      <a class="brand" href="../" aria-label="Open TradeReview AI main page"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></a>
       <nav aria-label="Main navigation">
         <button class="active" data-view="dashboard" title="Dashboard">⌂ Dashboard</button>
         <button data-view="import" title="Add a trade">＋ Add Trade</button>
@@ -2870,7 +2909,9 @@
           <canvas class="hero-webgl" id="heroWebgl" aria-hidden="true"></canvas>
           <div class="market-candle-rain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
           <div class="market-beasts" aria-hidden="true">
+            <div class="beast-label bull-label">BULL</div>
             <svg class="market-beast bull" viewBox="0 0 220 220" role="img"><path d="M52 128c20-47 51-72 95-75 15-1 26 2 34 8-17 3-29 11-37 24 20 4 34 18 43 42-22-12-43-16-64-12-24 5-44 19-60 43-5 8-14 10-22 5-8-5-10-14-6-22 5-7 10-12 17-13Z" fill="currentColor"/><path d="M43 131c-12-19-20-34-25-47 18 4 32 14 42 28m110-50c9-15 20-27 35-35-2 22-9 40-22 54" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/></svg>
+            <div class="beast-label bear-label">BEAR</div>
             <svg class="market-beast bear" viewBox="0 0 220 220" role="img"><path d="M35 92c25-28 61-39 109-34 26 3 43 13 51 29-20-5-37-1-50 11 21 9 34 27 39 54-18-17-40-27-66-30-29-3-55 5-80 24-8 6-18 4-24-4-5-8-4-18 4-24 6-5 12-9 17-26Z" fill="currentColor"/><path d="M52 74c-9-16-22-27-39-33 1 22 8 39 22 52m105-33c12-14 27-22 46-23-6 21-17 37-34 48" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/></svg>
           </div>
           <div>
@@ -3681,8 +3722,6 @@
       </section>
     </main>
   </div>
-  <div class="cursor-orb" id="cursorOrb" aria-hidden="true"></div>
-
   <button class="help-launcher" id="helpLauncher" type="button" aria-controls="helpPanel" aria-expanded="false">
     <span class="help-launcher-icon">?</span>
     <span class="help-launcher-label">How can I help?</span>
@@ -5762,7 +5801,6 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       loadSettingsForm();
       setManualDefaults();
       initDashboardMotion();
-      initCursorOrb();
     }
 
     function switchView(view) {
