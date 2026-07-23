@@ -100,7 +100,8 @@
       backdrop-filter: blur(18px);
     }
 
-    .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: -.025em; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: -.025em; transition: transform .2s ease, filter .2s ease, color .2s ease; transform-origin: left center; }
+    .brand:hover { transform: translateY(-1px) scale(1.035); filter: drop-shadow(0 14px 28px rgba(24,217,149,.16)); }
     .brand-mark {
       position: relative;
       width: 40px;
@@ -119,7 +120,8 @@
     .brand-mark svg { position: relative; z-index: 1; width: 29px; height: 29px; filter: drop-shadow(0 6px 12px rgba(0,0,0,.28)); }
     .brand-mark::after { content: ""; position: absolute; inset: auto -35% -70% 20%; height: 100%; background: rgba(255,255,255,.17); transform: rotate(-22deg); }
     .nav-links { display: flex; align-items: center; gap: 26px; color: #91a69f; font-size: 13px; font-weight: 700; }
-    .nav-links a:hover { color: #dff1ea; }
+    .nav-links a { display: inline-block; transition: transform .18s ease, color .18s ease, text-shadow .18s ease; transform-origin: center; }
+    .nav-links a:hover { color: #dff1ea; transform: translateY(-1px) scale(1.08); text-shadow: 0 10px 26px rgba(24,217,149,.18); }
     .nav-actions { display: flex; align-items: center; gap: 9px; }
 
     .button {
@@ -138,7 +140,7 @@
       transition: transform .16s ease, border-color .16s ease, background .4s ease, box-shadow .4s ease;
     }
 
-    .button:hover { transform: translateY(-2px); border-color: rgba(91,230,170,.42); background: rgba(255,255,255,.08); }
+    .button:hover { transform: translateY(-2px) scale(1.035); border-color: rgba(91,230,170,.42); background: rgba(255,255,255,.08); }
     .button.primary { border: 0; color: #061410; background: linear-gradient(135deg, color-mix(in srgb, var(--scroll-accent) 78%, white), var(--scroll-accent)); box-shadow: 0 14px 34px color-mix(in srgb, var(--scroll-accent) 20%, transparent); }
     .button.small { min-height: 40px; padding: 0 15px; }
 
@@ -1056,23 +1058,31 @@
     let marketCandles = [];
     let lastMarketFrame = 0;
     const candleSpacing = 27;
+    let marketTrend = 0.12;
+    let marketMomentum = 0;
 
     function nextMarketCandle(open, x) {
-      const drift = (Math.random() - .47) * 8.5;
-      const close = open + drift;
-      const wick = 2 + Math.random() * 7;
+      marketTrend = Math.max(-.55, Math.min(.55, marketTrend * .985 + (Math.random() - .48) * .08));
+      marketMomentum = Math.max(-1.15, Math.min(1.15, marketMomentum * .82 + marketTrend + (Math.random() - .5) * .75));
+      const body = Math.max(-3.2, Math.min(3.2, marketMomentum));
+      const close = open + body;
+      const wick = 1.4 + Math.random() * 3.6;
+      const upperWick = wick * (.65 + Math.random() * .55);
+      const lowerWick = wick * (.65 + Math.random() * .55);
       return {
         x,
         open,
         close,
-        high: Math.max(open, close) + wick,
-        low: Math.min(open, close) - wick * (.7 + Math.random() * .5)
+        high: Math.max(open, close) + upperWick,
+        low: Math.min(open, close) - lowerWick
       };
     }
 
     function seedMarketCandles() {
       marketCandles = [];
       let price = 100;
+      marketTrend = .12;
+      marketMomentum = 0;
       const count = Math.ceil(marketWidth / candleSpacing) + 5;
       for (let index = 0; index < count; index += 1) {
         const candle = nextMarketCandle(price, index * candleSpacing - candleSpacing * 2);
