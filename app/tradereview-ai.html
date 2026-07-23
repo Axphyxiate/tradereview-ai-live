@@ -1345,6 +1345,132 @@
       background: #0a1530;
     }
 
+    .symbol-combobox {
+      position: relative;
+    }
+    .symbol-combobox input {
+      width: 100%;
+      padding-right: 48px;
+    }
+    .symbol-picker-trigger {
+      position: absolute;
+      right: 9px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      min-height: 34px;
+      padding: 0;
+      border-radius: 10px;
+      border: 1px solid rgba(127,176,255,.20);
+      background: rgba(127,176,255,.08);
+      color: #dce8ff;
+      font-size: 17px;
+      line-height: 1;
+    }
+    .symbol-picker-trigger:hover { background: rgba(127,176,255,.16); color: #ffffff; }
+    .symbol-picker-menu {
+      position: absolute;
+      z-index: 75;
+      left: 0;
+      right: 0;
+      top: calc(100% + 10px);
+      display: none;
+      max-height: 390px;
+      overflow: hidden;
+      border: 1px solid rgba(127,176,255,.22);
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(12, 24, 46, .98), rgba(6, 13, 28, .98)), #07101f;
+      box-shadow: 0 24px 80px rgba(0,0,0,.48), 0 0 0 1px rgba(255,255,255,.035) inset;
+    }
+    .symbol-combobox.open .symbol-picker-menu { display: block; }
+    .symbol-picker-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 12px 8px;
+      border-bottom: 1px solid rgba(127,176,255,.10);
+    }
+    .symbol-picker-title {
+      color: #f5fbff;
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .symbol-picker-close {
+      min-height: 28px;
+      padding: 0 9px;
+      border-radius: 9px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      color: #aebed8;
+    }
+    .symbol-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 10px 12px;
+      overflow-x: auto;
+      border-bottom: 1px solid rgba(127,176,255,.10);
+    }
+    .symbol-tabs button {
+      flex: 0 0 auto;
+      min-height: 28px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(127,176,255,.13);
+      background: rgba(255,255,255,.045);
+      color: #aebed8;
+      font-size: 11px;
+      font-weight: 850;
+    }
+    .symbol-tabs button.active {
+      background: #f6f7fb;
+      color: #10131b;
+      border-color: #f6f7fb;
+    }
+    .symbol-result-list {
+      max-height: 278px;
+      overflow-y: auto;
+      padding: 6px;
+    }
+    .symbol-row {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 44px minmax(94px, .6fr) 1fr auto;
+      align-items: center;
+      gap: 10px;
+      min-height: 56px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #e9f2ff;
+      text-align: left;
+    }
+    .symbol-row:hover,
+    .symbol-row.active {
+      background: rgba(127,176,255,.12);
+      border-color: rgba(127,176,255,.24);
+      transform: none;
+    }
+    .symbol-avatar {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(134,239,172,.12);
+      color: #bff7d6;
+      font-weight: 950;
+      font-size: 13px;
+    }
+    .symbol-code { color: #ffffff; font-weight: 950; letter-spacing: -.01em; }
+    .symbol-name { color: #b4c0d8; font-size: 13px; }
+    .symbol-market { color: #7f8da7; font-size: 11px; font-weight: 850; text-transform: uppercase; white-space: nowrap; }
+    .symbol-empty { padding: 18px; color: #94a5c0; font-weight: 750; }
+
     button { border-color: var(--line); border-radius: 10px; background: #111d38; color: #edf2ff; transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease; }
     button:hover { filter: none; border-color: rgba(120, 151, 255, .38); transform: translateY(-1px); }
     button.primary { border-color: transparent; background: linear-gradient(135deg, #5f86ff, #8d68ee); color: #fff; font-weight: 850; box-shadow: 0 13px 30px rgba(91, 113, 238, .24); }
@@ -2871,7 +2997,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="dashboard-chart-calm-v30">
+  <div class="app" data-build="symbol-search-v31">
     <aside>
       <a class="brand" href="../" aria-label="Open TradeReview AI main page"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></a>
       <nav aria-label="Main navigation">
@@ -3024,10 +3150,18 @@
                 <input id="manualExitTime" type="time">
               </label>
               <label>Symbol
-                <input id="manualSymbol" list="tickerUniverse" placeholder="SPY 612C">
+                <div class="symbol-combobox" data-symbol-picker="manualSymbol">
+                  <input id="manualSymbol" autocomplete="off" placeholder="SPY 612C">
+                  <button type="button" class="symbol-picker-trigger" aria-label="Open symbol search">⌕</button>
+                  <div class="symbol-picker-menu" role="listbox" aria-label="Symbol search"></div>
+                </div>
               </label>
               <label>TradingView ticker
-                <input id="manualChartTicker" list="tickerUniverse" placeholder="NASDAQ:QQQ">
+                <div class="symbol-combobox" data-symbol-picker="manualChartTicker">
+                  <input id="manualChartTicker" autocomplete="off" placeholder="NASDAQ:QQQ">
+                  <button type="button" class="symbol-picker-trigger" aria-label="Open TradingView symbol search">⌕</button>
+                  <div class="symbol-picker-menu" role="listbox" aria-label="TradingView symbol search"></div>
+                </div>
               </label>
               <label>Side
                 <select id="manualSide">
@@ -3057,32 +3191,6 @@
                 <input id="manualMistake" placeholder="Too big">
               </label>
             </div>
-            <datalist id="tickerUniverse">
-              <option value="NASDAQ:QQQ">QQQ · Nasdaq 100 ETF</option>
-              <option value="AMEX:SPY">SPY · S&P 500 ETF</option>
-              <option value="AMEX:IWM">IWM · Russell 2000 ETF</option>
-              <option value="NASDAQ:TSLA">TSLA · Tesla</option>
-              <option value="NASDAQ:NVDA">NVDA · Nvidia</option>
-              <option value="NASDAQ:AAPL">AAPL · Apple</option>
-              <option value="NASDAQ:AMD">AMD · Advanced Micro Devices</option>
-              <option value="NASDAQ:META">META · Meta</option>
-              <option value="NASDAQ:MSFT">MSFT · Microsoft</option>
-              <option value="NASDAQ:GOOGL">GOOGL · Alphabet</option>
-              <option value="FX:EURUSD">EUR/USD · Forex</option>
-              <option value="FX:GBPUSD">GBP/USD · Forex</option>
-              <option value="FX:USDJPY">USD/JPY · Forex</option>
-              <option value="FX:XAUUSD">Gold Spot · Forex/CFD</option>
-              <option value="OANDA:XAUUSD">Gold · OANDA</option>
-              <option value="OANDA:EURUSD">EUR/USD · OANDA</option>
-              <option value="CME_MINI:ES1!">ES futures · E-mini S&P</option>
-              <option value="CME_MINI:NQ1!">NQ futures · E-mini Nasdaq</option>
-              <option value="COMEX:GC1!">Gold futures</option>
-              <option value="NYMEX:CL1!">Crude oil futures</option>
-              <option value="BINANCE:BTCUSDT">Bitcoin · Binance</option>
-              <option value="BINANCE:ETHUSDT">Ethereum · Binance</option>
-              <option value="COINBASE:BTCUSD">Bitcoin · Coinbase</option>
-              <option value="COINBASE:ETHUSD">Ethereum · Coinbase</option>
-            </datalist>
             <div style="height:12px"></div>
             <button class="primary" id="addManualTrade">Add Trade</button>
           </div>
@@ -3817,6 +3925,41 @@
       setup: ["setup", "strategy", "playbook"],
       mistake: ["mistake", "error", "rule broken"]
     };
+
+    const tickerUniverse = [
+      { symbol: "NASDAQ:QQQ", display: "QQQ", name: "Nasdaq 100 ETF", type: "funds", venue: "NASDAQ" },
+      { symbol: "AMEX:SPY", display: "SPY", name: "SPDR S&P 500 ETF Trust", type: "funds", venue: "NYSE Arca" },
+      { symbol: "AMEX:IWM", display: "IWM", name: "Russell 2000 ETF", type: "funds", venue: "NYSE Arca" },
+      { symbol: "AMEX:DIA", display: "DIA", name: "Dow Jones Industrial Average ETF", type: "funds", venue: "NYSE Arca" },
+      { symbol: "NASDAQ:TSLA", display: "TSLA", name: "Tesla", type: "stocks", venue: "NASDAQ" },
+      { symbol: "NASDAQ:NVDA", display: "NVDA", name: "Nvidia", type: "stocks", venue: "NASDAQ" },
+      { symbol: "NASDAQ:AAPL", display: "AAPL", name: "Apple", type: "stocks", venue: "NASDAQ" },
+      { symbol: "NASDAQ:AMD", display: "AMD", name: "Advanced Micro Devices", type: "stocks", venue: "NASDAQ" },
+      { symbol: "NASDAQ:META", display: "META", name: "Meta Platforms", type: "stocks", venue: "NASDAQ" },
+      { symbol: "NASDAQ:MSFT", display: "MSFT", name: "Microsoft", type: "stocks", venue: "NASDAQ" },
+      { symbol: "NASDAQ:GOOGL", display: "GOOGL", name: "Alphabet", type: "stocks", venue: "NASDAQ" },
+      { symbol: "NYSE:PLTR", display: "PLTR", name: "Palantir", type: "stocks", venue: "NYSE" },
+      { symbol: "NYSE:BA", display: "BA", name: "Boeing", type: "stocks", venue: "NYSE" },
+      { symbol: "FX:EURUSD", display: "EUR/USD", name: "Euro / U.S. Dollar", type: "forex", venue: "FX" },
+      { symbol: "FX:GBPUSD", display: "GBP/USD", name: "British Pound / U.S. Dollar", type: "forex", venue: "FX" },
+      { symbol: "FX:USDJPY", display: "USD/JPY", name: "U.S. Dollar / Japanese Yen", type: "forex", venue: "FX" },
+      { symbol: "FX:XAUUSD", display: "XAU/USD", name: "Gold Spot", type: "forex", venue: "FX" },
+      { symbol: "OANDA:XAUUSD", display: "XAU/USD", name: "Gold · OANDA", type: "forex", venue: "OANDA" },
+      { symbol: "OANDA:EURUSD", display: "EUR/USD", name: "Euro / U.S. Dollar · OANDA", type: "forex", venue: "OANDA" },
+      { symbol: "OANDA:GBPUSD", display: "GBP/USD", name: "British Pound / U.S. Dollar · OANDA", type: "forex", venue: "OANDA" },
+      { symbol: "CME_MINI:ES1!", display: "ES1!", name: "E-mini S&P 500 futures", type: "futures", venue: "CME" },
+      { symbol: "CME_MINI:NQ1!", display: "NQ1!", name: "E-mini Nasdaq futures", type: "futures", venue: "CME" },
+      { symbol: "COMEX:GC1!", display: "GC1!", name: "Gold futures", type: "futures", venue: "COMEX" },
+      { symbol: "NYMEX:CL1!", display: "CL1!", name: "Crude oil futures", type: "futures", venue: "NYMEX" },
+      { symbol: "BINANCE:BTCUSDT", display: "BTC/USDT", name: "Bitcoin / Tether", type: "crypto", venue: "Binance" },
+      { symbol: "BINANCE:ETHUSDT", display: "ETH/USDT", name: "Ethereum / Tether", type: "crypto", venue: "Binance" },
+      { symbol: "COINBASE:BTCUSD", display: "BTC/USD", name: "Bitcoin / U.S. Dollar", type: "crypto", venue: "Coinbase" },
+      { symbol: "COINBASE:ETHUSD", display: "ETH/USD", name: "Ethereum / U.S. Dollar", type: "crypto", venue: "Coinbase" },
+      { symbol: "TVC:SPX", display: "SPX", name: "S&P 500 Index", type: "indices", venue: "TVC" },
+      { symbol: "NASDAQ:NDX", display: "NDX", name: "Nasdaq 100 Index", type: "indices", venue: "NASDAQ" },
+      { symbol: "SPY 0DTE CALL", display: "SPY Call", name: "SPY options contract journal label", type: "options", venue: "Options" },
+      { symbol: "QQQ 0DTE PUT", display: "QQQ Put", name: "QQQ options contract journal label", type: "options", venue: "Options" }
+    ];
 
     function defaultSettings() {
       return {
@@ -6099,6 +6242,114 @@ Save this agent to the database and run it against new journal/trade events auto
       if (currentPlan) currentPlan.textContent = state.settings.currentPlan;
     }
 
+    function initSymbolPickers() {
+      const tabs = [
+        ["all", "All"],
+        ["stocks", "Stocks"],
+        ["funds", "Funds"],
+        ["futures", "Futures"],
+        ["forex", "Forex"],
+        ["crypto", "Crypto"],
+        ["indices", "Indices"],
+        ["options", "Options"]
+      ];
+
+      function closeAll(except = null) {
+        document.querySelectorAll(".symbol-combobox.open").forEach(box => {
+          if (box !== except) box.classList.remove("open");
+        });
+      }
+
+      function renderPicker(box, activeType = box.dataset.activeType || "all") {
+        const input = box.querySelector("input");
+        const menu = box.querySelector(".symbol-picker-menu");
+        const query = (input.value || "").trim().toLowerCase();
+        box.dataset.activeType = activeType;
+        const matches = tickerUniverse
+          .filter(item => activeType === "all" || item.type === activeType)
+          .filter(item => {
+            const haystack = `${item.symbol} ${item.display} ${item.name} ${item.venue} ${item.type}`.toLowerCase();
+            return !query || haystack.includes(query);
+          })
+          .slice(0, 26);
+        const tabHtml = tabs.map(([type, label]) => `<button type="button" class="${type === activeType ? "active" : ""}" data-symbol-type="${type}">${label}</button>`).join("");
+        const rows = matches.length
+          ? matches.map(item => `<button type="button" class="symbol-row" data-symbol-value="${escapeHtml(item.symbol)}" data-symbol-display="${escapeHtml(item.display)}">
+              <span class="symbol-avatar">${escapeHtml(item.display.replace(/[^A-Z0-9]/gi, "").slice(0, 1) || "?")}</span>
+              <span class="symbol-code">${escapeHtml(item.symbol)}</span>
+              <span class="symbol-name">${escapeHtml(item.name)}</span>
+              <span class="symbol-market">${escapeHtml(item.type)} · ${escapeHtml(item.venue)}</span>
+            </button>`).join("")
+          : `<div class="symbol-empty">No match yet. You can still type any TradingView symbol manually.</div>`;
+        menu.innerHTML = `
+          <div class="symbol-picker-head">
+            <div class="symbol-picker-title">Symbol search</div>
+            <button type="button" class="symbol-picker-close">Close</button>
+          </div>
+          <div class="symbol-tabs">${tabHtml}</div>
+          <div class="symbol-result-list">${rows}</div>
+        `;
+      }
+
+      document.querySelectorAll(".symbol-combobox").forEach(box => {
+        if (box.dataset.pickerReady) return;
+        box.dataset.pickerReady = "true";
+        const input = box.querySelector("input");
+        const trigger = box.querySelector(".symbol-picker-trigger");
+        const menu = box.querySelector(".symbol-picker-menu");
+
+        const open = () => {
+          closeAll(box);
+          renderPicker(box);
+          box.classList.add("open");
+        };
+
+        input.addEventListener("focus", open);
+        input.addEventListener("input", () => {
+          renderPicker(box);
+          box.classList.add("open");
+        });
+        trigger.addEventListener("click", event => {
+          event.preventDefault();
+          box.classList.toggle("open");
+          if (box.classList.contains("open")) {
+            renderPicker(box);
+            input.focus();
+          }
+        });
+        menu.addEventListener("mousedown", event => event.preventDefault());
+        menu.addEventListener("click", event => {
+          const tab = event.target.closest("[data-symbol-type]");
+          if (tab) {
+            renderPicker(box, tab.dataset.symbolType);
+            return;
+          }
+          if (event.target.closest(".symbol-picker-close")) {
+            box.classList.remove("open");
+            return;
+          }
+          const row = event.target.closest("[data-symbol-value]");
+          if (!row) return;
+          const value = row.dataset.symbolValue;
+          const display = row.dataset.symbolDisplay;
+          input.value = box.dataset.symbolPicker === "manualSymbol" ? display : value;
+          if (box.dataset.symbolPicker === "manualSymbol") {
+            const chartInput = document.querySelector("#manualChartTicker");
+            if (chartInput && !chartInput.value.trim()) chartInput.value = value;
+          }
+          box.classList.remove("open");
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+      });
+
+      document.addEventListener("click", event => {
+        if (!event.target.closest(".symbol-combobox")) closeAll();
+      });
+      document.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeAll();
+      });
+    }
+
     document.querySelectorAll("[data-view], [data-view-button]").forEach(button => {
       button.addEventListener("click", () => switchView(button.dataset.view || button.dataset.viewButton));
     });
@@ -6638,6 +6889,7 @@ Save this agent to the database and run it against new journal/trade events auto
       }
     }
 
+    initSymbolPickers();
     render();
     switchView(requestedViewFromUrl() || "dashboard");
     registerMobileAppShell();
@@ -6645,3 +6897,4 @@ Save this agent to the database and run it against new journal/trade events auto
   </script>
 </body>
 </html>
+
