@@ -2625,7 +2625,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="tradingview-backend-v11">
+  <div class="app" data-build="tradingview-session-message-v12">
     <aside>
       <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
       <nav aria-label="Main navigation">
@@ -4169,7 +4169,7 @@
         trade.tradingViewCapture = {
           ...trade.tradingViewCapture,
           status: "queued_local",
-          message: "Saved locally. Sign in so TradeReview can queue this capture on the backend."
+          message: "Saved locally. TradeReview could not find an active Supabase session in this browser tab, so the backend job was not queued."
         };
         saveState();
         render();
