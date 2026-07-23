@@ -2174,16 +2174,19 @@
     }
 
     /* Final stable shell: fixed sidebar; main fills viewport but content is padded clear of the sidebar. */
-    body:not(.auth-pending):not(.auth-required),
-    body.app-ready {
+    body {
       --app-sidebar-width: 250px;
       --app-page-padding: clamp(22px, 3vw, 38px);
+    }
+
+    body:not(.auth-pending),
+    body.app-ready {
       height: 100vh !important;
       overflow: hidden !important;
       background: #050817 !important;
     }
 
-    body:not(.auth-pending):not(.auth-required) .app,
+    body:not(.auth-pending) .app,
     body.app-ready .app {
       display: block !important;
       position: fixed !important;
@@ -2194,7 +2197,7 @@
       overflow: hidden !important;
     }
 
-    body:not(.auth-pending):not(.auth-required) aside,
+    body:not(.auth-pending) aside,
     body.app-ready aside {
       position: fixed !important;
       top: 0 !important;
@@ -2208,7 +2211,7 @@
       overflow-x: hidden !important;
     }
 
-    body:not(.auth-pending):not(.auth-required) main,
+    body:not(.auth-pending) main,
     body.app-ready main {
       position: fixed !important;
       top: 0 !important;
@@ -2227,7 +2230,7 @@
       transform: none !important;
     }
 
-    body:not(.auth-pending):not(.auth-required) main > .section,
+    body:not(.auth-pending) main > .section,
     body.app-ready main > .section {
       box-sizing: border-box !important;
       width: 100% !important;
@@ -2238,8 +2241,7 @@
     }
 
     @media (max-width: 940px) {
-      body:not(.auth-pending):not(.auth-required),
-      body.app-ready {
+      body {
         --app-sidebar-width: 86px;
         --app-page-padding: 18px;
       }
@@ -2405,7 +2407,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="section-safe-sidebar-v2">
+  <div class="app" data-build="auth-safe-section-sidebar-v3">
     <aside>
       <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
       <nav aria-label="Main navigation">
@@ -5170,7 +5172,7 @@ Save this agent to the database and run it against new journal/trade events auto
       updateMobileInstallState();
     });
     window.addEventListener("resize", () => {
-      if (!document.body.classList.contains("auth-required") && !document.body.classList.contains("auth-pending")) {
+      if (!document.body.classList.contains("auth-pending")) {
         forceAppShellLayout();
         resetAppScroll();
       }
