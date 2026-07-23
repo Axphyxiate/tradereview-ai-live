@@ -159,7 +159,7 @@
       z-index: -2;
       width: 100%;
       height: 100%;
-      opacity: .48;
+      opacity: .16;
       pointer-events: none;
     }
 
@@ -242,7 +242,7 @@
       transform: perspective(1200px) rotateX(1.6deg);
     }
 
-    .product-frame::after { content: ""; position: absolute; z-index: -1; inset: 18% 8% -13%; background: linear-gradient(90deg, rgba(24,217,149,.2), rgba(79,140,255,.18), rgba(255,83,109,.12)); filter: blur(55px); }
+    .product-frame::after { content: ""; position: absolute; z-index: -1; inset: 18% 8% -13%; background: linear-gradient(90deg, rgba(24,217,149,.15), rgba(79,140,255,.12), rgba(255,83,109,.10)); filter: blur(55px); }
     .app-window { overflow: hidden; border: 1px solid rgba(152,158,244,.13); border-radius: 18px; background: #080f20; }
     .window-top { height: 48px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border-bottom: 1px solid var(--line); color: #687e77; font-size: 10px; }
     .window-dots { display: flex; gap: 6px; }
@@ -779,7 +779,7 @@
             <div class="mock-app">
               <div class="mock-side">
                 <div class="mock-brand"><span>TR</span> TradeReview</div>
-                <div class="mock-nav"><div class="active">⌂ &nbsp; Dashboard</div><div>＋ &nbsp; Add trade</div><div>✎ &nbsp; Journal</div><div>◉ &nbsp; Review</div><div>⚙ &nbsp; Settings</div></div>
+                <div class="mock-nav"><div class="active">⌂ &nbsp; Dashboard</div><div>＋ &nbsp; Add trade</div><div>✎ &nbsp; Journal</div><div>◉ &nbsp; Review</div><div>✦ &nbsp; AI Coach</div><div>⚙ &nbsp; Settings</div></div>
               </div>
               <div class="mock-main">
                 <div class="mock-title"><div><small>Performance workspace</small><h2>Review the decision, not only the result.</h2></div><a class="button primary">Add trade</a></div>
@@ -795,8 +795,8 @@
       </section>
 
       <section class="tool-strip" aria-label="Included capabilities">
-        <p>Everything in one place - 6 tools</p>
-        <div class="tools"><div class="tool"><i></i> Automated journaling prep</div><div class="tool"><i></i> Backtesting notes</div><div class="tool"><i></i> Trade replay screenshots</div><div class="tool"><i></i> AI insights</div><div class="tool"><i></i> Strategy tracking</div><div class="tool"><i></i> Broker sync requests</div></div>
+        <p>Everything in one place - 7 tools</p>
+        <div class="tools"><div class="tool"><i></i> Automated journaling prep</div><div class="tool"><i></i> Backtesting notes</div><div class="tool"><i></i> Trade replay screenshots</div><div class="tool"><i></i> AI Coach</div><div class="tool"><i></i> AI insights</div><div class="tool"><i></i> Strategy tracking</div><div class="tool"><i></i> Broker sync requests</div></div>
       </section>
 
       <section class="trust-stats" aria-label="TradeReview product highlights">
@@ -1113,7 +1113,7 @@
       }
 
       if (!reduceMotion) {
-        marketCandles.forEach(candle => { candle.x -= .48 * elapsed; });
+        marketCandles.forEach(candle => { candle.x -= .16 * elapsed; });
         while (marketCandles.length && marketCandles[0].x < -candleSpacing) {
           marketCandles.shift();
           const last = marketCandles[marketCandles.length - 1];
@@ -1184,15 +1184,16 @@
           vec2 uv = gl_FragCoord.xy / resolution.xy;
           vec2 p = (uv - 0.5) * vec2(resolution.x / resolution.y, 1.0);
           vec2 m = (pointer - 0.5) * vec2(resolution.x / resolution.y, 1.0);
-          float wave = sin((p.x + time * .08) * 9.0) * cos((p.y - time * .06) * 8.0);
-          float pulse = 0.5 + 0.5 * sin(length(p - m) * 18.0 - time * 1.9);
-          vec3 green = vec3(0.06, 0.92, 0.58);
-          vec3 blue = vec3(0.28, 0.46, 1.0);
-          vec3 red = vec3(1.0, 0.18, 0.32);
-          vec3 color = mix(green, red, smoothstep(-0.25, 0.35, wave));
-          color = mix(color, blue, .22 + pulse * .18);
-          float vignette = smoothstep(1.2, 0.05, length(p));
-          float alpha = vignette * (.08 + pulse * .08);
+          float trend = sin((p.x * 8.0) + (p.y * 3.0) + time * .22);
+          float grid = smoothstep(.97, 1.0, abs(sin((uv.x + time * .006) * 42.0))) * .08;
+          float focus = smoothstep(.65, 0.0, length(p - m));
+          vec3 green = vec3(0.04, 0.82, 0.48);
+          vec3 blue = vec3(0.16, 0.28, 0.58);
+          vec3 red = vec3(0.90, 0.14, 0.24);
+          vec3 color = mix(green, red, smoothstep(-0.55, 0.55, trend));
+          color = mix(color, blue, .46);
+          float vignette = smoothstep(1.35, 0.08, length(p));
+          float alpha = vignette * (.035 + focus * .035 + grid);
           gl_FragColor = vec4(color, alpha);
         }`;
       const compile = (type, source) => {
@@ -1244,9 +1245,9 @@
     document.querySelectorAll(".feature-card, .price-card, .blog-card, .broker-logo, .product-frame").forEach(card => {
       card.addEventListener("pointermove", event => {
         const rect = card.getBoundingClientRect();
-        const x = ((event.clientX - rect.left) / rect.width - .5) * 10;
-        const y = ((event.clientY - rect.top) / rect.height - .5) * -10;
-        card.style.transform = `perspective(900px) rotateY(${x}deg) rotateX(${y}deg) translateY(-3px)`;
+        const x = ((event.clientX - rect.left) / rect.width - .5) * 3.5;
+        const y = ((event.clientY - rect.top) / rect.height - .5) * -3.5;
+        card.style.transform = `perspective(1100px) rotateY(${x}deg) rotateX(${y}deg) translateY(-1px)`;
       }, { passive: true });
       card.addEventListener("pointerleave", () => {
         card.style.transform = "";
