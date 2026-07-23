@@ -659,16 +659,37 @@
     .chart-link.exit { border-color: rgba(255, 83, 109, .28); color: #ff7588; }
 
     .tv-capture-card {
+      position: relative;
       display: grid;
-      gap: 10px;
-      padding: 12px;
+      gap: 12px;
+      padding: 14px;
       border: 1px solid rgba(127, 176, 255, .18);
-      border-radius: 16px;
+      border-radius: 20px;
       background:
         radial-gradient(circle at 12% 12%, rgba(24, 217, 149, .13), transparent 24px),
         radial-gradient(circle at 88% 30%, rgba(255, 83, 109, .12), transparent 34px),
         linear-gradient(145deg, rgba(13, 26, 55, .94), rgba(7, 13, 30, .98));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+      box-shadow: 0 22px 70px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.05);
+      overflow: hidden;
+    }
+
+    .tv-capture-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(127,176,255,.055) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(127,176,255,.04) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at 60% 32%, #000, transparent 72%);
+      opacity: .65;
+      pointer-events: none;
+      animation: tvCaptureGrid 14s linear infinite;
+    }
+
+    .tv-capture-card > * {
+      position: relative;
+      z-index: 1;
     }
 
     .tv-capture-card.compact {
@@ -711,19 +732,73 @@
     }
 
     .tv-capture-flow {
+      position: relative;
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 7px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      padding: 8px 0 4px;
+    }
+
+    .tv-capture-flow::before {
+      content: "";
+      position: absolute;
+      left: 10%;
+      right: 10%;
+      top: 50%;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(24,217,149,.18), rgba(127,176,255,.34), rgba(255,83,109,.20));
+      transform: translateY(-50%);
+    }
+
+    .tv-capture-flow::after {
+      content: "";
+      position: absolute;
+      left: 10%;
+      top: 50%;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #86efac;
+      box-shadow: 0 0 20px rgba(134,239,172,.9);
+      transform: translate(-50%, -50%);
+      animation: capturePacket 3.8s ease-in-out infinite;
     }
 
     .tv-capture-step {
-      padding: 8px;
-      border: 1px solid rgba(174,218,204,.1);
-      border-radius: 12px;
-      background: rgba(255,255,255,.025);
+      position: relative;
+      min-height: 82px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 4px;
+      padding: 10px 8px;
+      border: 1px solid rgba(174,218,204,.12);
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
       color: #b8c8dd;
       font-size: 10px;
       text-align: center;
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+      animation: captureStepPulse 3.8s ease-in-out infinite;
+    }
+
+    .tv-capture-step:nth-child(2) { animation-delay: .55s; }
+    .tv-capture-step:nth-child(3) { animation-delay: 1.1s; }
+    .tv-capture-step:nth-child(4) { animation-delay: 1.65s; }
+
+    .tv-capture-step::before {
+      content: attr(data-icon);
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 12px;
+      background: rgba(127,176,255,.12);
+      color: #f6fbff;
+      font-size: 15px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
     }
 
     .tv-capture-step strong {
@@ -749,8 +824,35 @@
     }
 
     .tv-capture-status.waiting {
-      background: rgba(242,197,109,.08);
-      color: #f5d892;
+      border: 1px solid rgba(127,176,255,.18);
+      background: linear-gradient(135deg, rgba(127,176,255,.10), rgba(24,217,149,.055));
+      color: #dbe8ff;
+    }
+
+    .tv-capture-status strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #f6fbff;
+      font-size: 12px;
+    }
+
+    .tv-capture-status small {
+      display: block;
+      color: #98abc8;
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    @keyframes tvCaptureGrid { to { background-position: 34px 34px; } }
+    @keyframes capturePacket {
+      0%, 8% { left: 10%; background: #86efac; }
+      30% { left: 37%; background: #7fb0ff; }
+      58% { left: 63%; background: #b99bff; }
+      86%, 100% { left: 90%; background: #ff7b8e; }
+    }
+    @keyframes captureStepPulse {
+      0%, 100% { border-color: rgba(174,218,204,.12); box-shadow: none; transform: translateY(0); }
+      42% { border-color: rgba(127,176,255,.32); box-shadow: 0 14px 34px rgba(95,134,255,.13); transform: translateY(-2px); }
     }
 
     .time-note {
@@ -3139,7 +3241,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="command-hero-v35">
+  <div class="app" data-build="capture-pipeline-v36">
     <aside>
       <a class="brand" href="../" aria-label="Open TradeReview AI main page"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></a>
       <nav aria-label="Main navigation">
@@ -4792,7 +4894,7 @@
           ...trade.tradingViewCapture,
           status: "backend_not_ready",
           error: error?.message || data?.error || "TradingView capture function is not deployed yet.",
-          message: "Signed in. Saved locally, but the TradingView capture backend is not ready yet."
+          message: "Capture request saved. The automation worker still needs to be connected before TradeReview can generate TradingView screenshots and replay videos."
         };
         saveState();
         render();
@@ -4823,7 +4925,48 @@
       });
     }
 
+    function tradingViewCaptureCardV2(trade, compact = false) {
+      const request = trade.tradingViewCapture;
+      const statusTitle = request?.jobId
+        ? `Job ${request.jobId.slice(0, 8)} queued`
+        : request?.status === "backend_not_ready"
+          ? "Automation worker not connected yet"
+          : request
+            ? "Capture request saved"
+            : "";
+      const statusDetail = request?.message || `Queued ${new Date(request?.requestedAt || Date.now()).toLocaleString()} - waiting for capture backend`;
+      const status = request
+        ? `<strong>${escapeHtml(statusTitle)}</strong><small>${escapeHtml(statusDetail)}</small>`
+        : "Ready to request once ticker, entry time, and exit time are set.";
+      const reconnectAction = request?.reconnectRequired
+        ? `<button class="primary" type="button" data-reconnect-auth="true">Reconnect account</button>`
+        : "";
+      return `<div class="tv-capture-card ${compact ? "compact" : ""}">
+        <div class="tv-capture-kicker">TradingView capture pipeline</div>
+        <h3 class="tv-capture-title">Auto-build entry, exit, and replay media for ${escapeHtml(chartTicker(trade) || trade.symbol || "ticker")}</h3>
+        <div class="tv-capture-meta">
+          <span>Entry: ${escapeHtml(marketTimeLabel(trade, "entryTime"))}</span>
+          <span>Exit: ${escapeHtml(marketTimeLabel(trade, "exitTime"))}</span>
+          <span>Replay window: ${escapeHtml(tradeDurationLabel(trade))}</span>
+        </div>
+        <div class="tv-capture-flow">
+          <div class="tv-capture-step" data-icon="📈"><strong>1</strong>Entry image</div>
+          <div class="tv-capture-step" data-icon="📉"><strong>2</strong>Exit image</div>
+          <div class="tv-capture-step" data-icon="▶"><strong>3</strong>Replay video</div>
+          <div class="tv-capture-step" data-icon="✓"><strong>4</strong>Attach to journal</div>
+        </div>
+        <div class="tv-capture-actions">
+          <button class="primary" type="button" data-tv-capture="${trade.id}">${request ? "Refresh request" : "Request auto capture"}</button>
+          ${reconnectAction}
+          <a class="chart-link" href="${tradingViewUrl(trade)}" target="_blank" rel="noopener">Open chart</a>
+          <button type="button" data-copy-tv-capture="${trade.id}">Copy backend request</button>
+        </div>
+        <div class="tv-capture-status ${request ? "waiting" : ""}">${request ? status : escapeHtml(status)}</div>
+      </div>`;
+    }
+
     function tradingViewCaptureCard(trade, compact = false) {
+      return tradingViewCaptureCardV2(trade, compact);
       const request = trade.tradingViewCapture;
       const status = request
         ? `${request.jobId ? `Job ${request.jobId.slice(0, 8)} · ` : ""}${request.message || `Queued ${new Date(request.requestedAt || Date.now()).toLocaleString()} · waiting for capture backend`}`
