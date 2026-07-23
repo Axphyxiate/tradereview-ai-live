@@ -2233,11 +2233,20 @@
     body:not(.auth-pending) .section,
     body.app-ready .section {
       box-sizing: border-box !important;
-      width: 100% !important;
-      min-height: 100vh !important;
+      position: fixed !important;
+      top: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      min-height: 0 !important;
       margin: 0 !important;
       padding: var(--app-page-padding) var(--app-page-padding) var(--app-page-padding) calc(var(--app-sidebar-width) + var(--app-page-padding)) !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
       transform: none !important;
+      z-index: 1 !important;
     }
 
     @media (max-width: 940px) {
@@ -2407,7 +2416,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="dom-safe-section-sidebar-v4">
+  <div class="app" data-build="fixed-section-viewport-v5">
     <aside>
       <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
       <nav aria-label="Main navigation">
@@ -3603,11 +3612,20 @@
 
       document.querySelectorAll(".section").forEach(section => {
         section.style.setProperty("box-sizing", "border-box", important);
-        section.style.setProperty("width", "100%", important);
-        section.style.setProperty("min-height", "100vh", important);
+        section.style.setProperty("position", "fixed", important);
+        section.style.setProperty("top", "0", important);
+        section.style.setProperty("right", "0", important);
+        section.style.setProperty("bottom", "0", important);
+        section.style.setProperty("left", "0", important);
+        section.style.setProperty("width", "100vw", important);
+        section.style.setProperty("height", "100vh", important);
+        section.style.setProperty("min-height", "0", important);
         section.style.setProperty("margin", "0", important);
         section.style.setProperty("padding", `${pagePadding}px ${pagePadding}px ${pagePadding}px ${sidebarWidth + pagePadding}px`, important);
+        section.style.setProperty("overflow-y", "auto", important);
+        section.style.setProperty("overflow-x", "hidden", important);
         section.style.setProperty("transform", "none", important);
+        section.style.setProperty("z-index", "1", important);
       });
     }
 
