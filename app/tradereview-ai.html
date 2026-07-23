@@ -2997,7 +2997,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="symbol-search-v31">
+  <div class="app" data-build="real-scroll-chart-v32">
     <aside>
       <a class="brand" href="../" aria-label="Open TradeReview AI main page"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></a>
       <nav aria-label="Main navigation">
@@ -5925,24 +5925,35 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       let trend = .18;
       let momentum = 0;
       let candleIndex = 0;
+      let volatility = 1.05;
+      let regime = -0.22;
       const spacing = 18;
 
       const nextCandle = (open, x) => {
         candleIndex += 1;
-        const phase = Math.sin(candleIndex / 7.5) * .42 + Math.sin(candleIndex / 18) * .34;
-        const directionalImpulse = candleIndex % 22 === 0 ? bias * (1.15 + Math.random() * .9) : 0;
-        const impulse = candleIndex % 36 === 0 ? (Math.random() > .5 ? 1.15 : -1.15) : 0;
-        trend = Math.max(-.9, Math.min(.9, trend * .93 + phase * .045 + bias * .22 + (Math.random() - .5) * .045));
-        momentum = Math.max(-2.7, Math.min(2.7, momentum * .64 + trend + bias * .68 + (Math.random() - .5) * .72 + impulse + directionalImpulse));
-        const body = Math.abs(momentum) < .45 ? momentum * 1.8 : momentum;
+        if (candleIndex % 28 === 0) {
+          regime = (Math.random() - .5) * 1.2;
+          volatility = .75 + Math.random() * 1.55;
+        }
+        const chop = Math.sin(candleIndex / 5.4) * .38 + Math.sin(candleIndex / 13.7) * .55;
+        const scrollPressure = Math.max(-2.8, Math.min(2.8, bias));
+        const impulse = candleIndex % 37 === 0 ? (Math.random() > .55 ? 2.6 : -2.6) * volatility : 0;
+        const directionalImpulse = candleIndex % 9 === 0 ? scrollPressure * (1.0 + Math.random() * 1.25) : 0;
+        trend = Math.max(-2.1, Math.min(2.1, trend * .88 + regime * .16 + chop * .10 + scrollPressure * .44 + (Math.random() - .5) * .16));
+        momentum = Math.max(-7.8, Math.min(7.8, momentum * .40 + trend + scrollPressure * 1.5 + (Math.random() - .5) * 2.0 * volatility + impulse + directionalImpulse));
+        let body = momentum;
+        if (Math.random() < .22) body *= .25;
+        if (Math.random() < .12) body *= 1.85;
+        if (Math.abs(body) < .38) body = (body < 0 ? -1 : 1) * (.38 + Math.random() * .38);
         const close = open + body;
-        const wick = 1.3 + Math.random() * 3.4;
+        const wick = (1.1 + Math.random() * 3.8) * volatility;
+        const rejection = Math.random() < .18 ? 2.4 + Math.random() * 4.8 : 1;
         return {
           x,
           open,
           close,
-          high: Math.max(open, close) + wick * (.65 + Math.random() * .55),
-          low: Math.min(open, close) - wick * (.65 + Math.random() * .55)
+          high: Math.max(open, close) + wick * (.45 + Math.random() * .9) * (body < 0 ? rejection : 1),
+          low: Math.min(open, close) - wick * (.45 + Math.random() * .9) * (body > 0 ? rejection : 1)
         };
       };
 
@@ -5951,6 +5962,8 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
         trend = .18;
         momentum = 0;
         candleIndex = 0;
+        volatility = 1.05;
+        regime = -0.22;
         let price = 112;
         const count = Math.ceil(width / spacing) + 8;
         for (let index = 0; index < count; index += 1) {
@@ -5975,14 +5988,14 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
         const y = mainPanel.scrollTop || 0;
         const delta = y - lastScroll;
         lastScroll = y;
-        if (Math.abs(delta) > 1) biasTarget = delta > 0 ? -1 : 1;
+        if (Math.abs(delta) > 1) biasTarget = delta > 0 ? -2.4 : 2.4;
       }, { passive: true });
 
       const draw = timestamp => {
         const elapsed = lastFrame ? Math.min((timestamp - lastFrame) / 16.67, 2.5) : 1;
         lastFrame = timestamp;
-        bias += (biasTarget - bias) * .06;
-        biasTarget *= .992;
+        bias += (biasTarget - bias) * .12;
+        biasTarget *= .975;
         if (Math.abs(biasTarget) < .03) biasTarget = 0;
 
         ctx.clearRect(0, 0, width, height);

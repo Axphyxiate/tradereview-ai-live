@@ -1043,7 +1043,7 @@
       const scrollDelta = window.scrollY - lastScrollY;
       lastScrollY = window.scrollY;
       if (Math.abs(scrollDelta) > 1) {
-        scrollBiasTarget = scrollDelta > 0 ? -1 : 1;
+        scrollBiasTarget = scrollDelta > 0 ? -2.4 : 2.4;
       }
       const redMix = (1 - Math.cos(progress * Math.PI * 4)) / 2;
       currentAccent = mixColor(themeGreen, themeRed, redMix);
@@ -1068,19 +1068,30 @@
     let marketTrend = 0.18;
     let marketMomentum = 0;
     let marketCandleIndex = 0;
+    let marketVolatility = 1.05;
+    let marketRegime = -0.22;
 
     function nextMarketCandle(open, x) {
       marketCandleIndex += 1;
-      const phase = Math.sin(marketCandleIndex / 7.5) * .42 + Math.sin(marketCandleIndex / 18) * .36;
-      const directionalImpulse = marketCandleIndex % 19 === 0 ? scrollTradeBias * (2.1 + Math.random() * 1.8) : 0;
-      const impulse = marketCandleIndex % 31 === 0 ? (Math.random() > .5 ? 2.4 : -2.4) : 0;
-      marketTrend = Math.max(-1.35, Math.min(1.35, marketTrend * .91 + phase * .08 + scrollTradeBias * .34 + (Math.random() - .5) * .07));
-      marketMomentum = Math.max(-5.8, Math.min(5.8, marketMomentum * .58 + marketTrend + scrollTradeBias * 1.15 + (Math.random() - .5) * 1.4 + impulse + directionalImpulse));
-      const body = Math.abs(marketMomentum) < .45 ? marketMomentum * 1.8 : marketMomentum;
+      if (marketCandleIndex % 28 === 0) {
+        marketRegime = (Math.random() - .5) * 1.2;
+        marketVolatility = .75 + Math.random() * 1.55;
+      }
+      const chop = Math.sin(marketCandleIndex / 5.4) * .38 + Math.sin(marketCandleIndex / 13.7) * .55;
+      const scrollPressure = Math.max(-2.8, Math.min(2.8, scrollTradeBias));
+      const impulse = marketCandleIndex % 37 === 0 ? (Math.random() > .55 ? 2.8 : -2.8) * marketVolatility : 0;
+      const directionalImpulse = marketCandleIndex % 9 === 0 ? scrollPressure * (1.1 + Math.random() * 1.4) : 0;
+      marketTrend = Math.max(-2.2, Math.min(2.2, marketTrend * .88 + marketRegime * .16 + chop * .10 + scrollPressure * .42 + (Math.random() - .5) * .18));
+      marketMomentum = Math.max(-8.5, Math.min(8.5, marketMomentum * .38 + marketTrend + scrollPressure * 1.55 + (Math.random() - .5) * 2.25 * marketVolatility + impulse + directionalImpulse));
+      let body = marketMomentum;
+      if (Math.random() < .22) body *= .25;
+      if (Math.random() < .12) body *= 1.9;
+      if (Math.abs(body) < .42) body = (body < 0 ? -1 : 1) * (.42 + Math.random() * .45);
       const close = open + body;
-      const wick = 2.2 + Math.random() * 6.2;
-      const upperWick = wick * (.65 + Math.random() * .55);
-      const lowerWick = wick * (.65 + Math.random() * .55);
+      const wick = (1.2 + Math.random() * 4.2) * marketVolatility;
+      const rejection = Math.random() < .18 ? 2.7 + Math.random() * 5.5 : 1;
+      const upperWick = wick * (.45 + Math.random() * .9) * (body < 0 ? rejection : 1);
+      const lowerWick = wick * (.45 + Math.random() * .9) * (body > 0 ? rejection : 1);
       return {
         x,
         open,
@@ -1096,7 +1107,9 @@
       marketTrend = .18;
       marketMomentum = 0;
       marketCandleIndex = 0;
-      const count = Math.ceil(marketWidth / candleSpacing) + 5;
+      marketVolatility = 1.05;
+      marketRegime = -0.22;
+      const count = Math.ceil(marketWidth / candleSpacing) + 8;
       for (let index = 0; index < count; index += 1) {
         const candle = nextMarketCandle(price, index * candleSpacing - candleSpacing * 2);
         marketCandles.push(candle);
@@ -1119,8 +1132,8 @@
       const elapsed = lastMarketFrame ? Math.min((timestamp - lastMarketFrame) / 16.67, 2.5) : 1;
       lastMarketFrame = timestamp;
       marketContext.clearRect(0, 0, marketWidth, marketHeight);
-      scrollTradeBias += (scrollBiasTarget - scrollTradeBias) * 0.055;
-      scrollBiasTarget *= 0.992;
+      scrollTradeBias += (scrollBiasTarget - scrollTradeBias) * 0.12;
+      scrollBiasTarget *= 0.975;
       if (Math.abs(scrollBiasTarget) < 0.03) scrollBiasTarget = 0;
 
       marketContext.fillStyle = "rgba(255,255,255,.018)";
@@ -1176,8 +1189,8 @@
 
       marketCandles.forEach((candle, index) => {
         const rising = candle.close >= candle.open;
-        const greenAlpha = scrollTradeBias > 0 ? .95 : .72;
-        const redAlpha = scrollTradeBias < 0 ? .96 : .74;
+        const greenAlpha = scrollTradeBias > 0 ? .98 : .68;
+        const redAlpha = scrollTradeBias < 0 ? .98 : .68;
         const color = rising ? `rgba(8, 153, 129, ${greenAlpha})` : `rgba(242, 54, 69, ${redAlpha})`;
         const bodyTop = priceY(Math.max(candle.open, candle.close));
         const bodyBottom = priceY(Math.min(candle.open, candle.close));
