@@ -1427,6 +1427,39 @@
     .chart-legend-app span { display: inline-flex; align-items: center; gap: 5px; }
     .chart-legend-app i { width: 7px; height: 7px; border-radius: 2px; background: var(--green); }
     .chart-legend-app span:last-child i { background: var(--red); }
+    .chart-controls-app {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      border: 1px solid rgba(127,176,255,.14);
+      border-radius: 999px;
+      background: rgba(6,16,31,.58);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+    }
+    .chart-controls-app button {
+      min-height: 30px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 0;
+      background: transparent;
+      color: #8fa39e;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+    .chart-controls-app button.active {
+      background: linear-gradient(135deg, rgba(24,217,149,.92), rgba(127,176,255,.82));
+      color: #041116;
+      box-shadow: 0 10px 26px rgba(24,217,149,.16);
+    }
+    .performance-meta {
+      color: #8fa39e;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
     .equity-chart { min-height: 250px; overflow: hidden; }
     .equity-chart svg { display: block; width: 100%; height: 250px; }
     .equity-grid { stroke: rgba(174,218,204,.075); stroke-width: 1; }
@@ -1638,8 +1671,19 @@
       z-index: 0;
       width: 100%;
       height: 100%;
-      opacity: .22;
+      opacity: .06;
       pointer-events: none;
+    }
+    .hero-market-chart {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      opacity: .58;
+      pointer-events: none;
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
     }
     .welcome-line {
       display: inline-flex;
@@ -1716,61 +1760,7 @@
     .hero-mini-card span { color: #91a4c4; font-size: 10px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
     .hero-mini-card strong { display: block; margin-top: 6px; color: #f8fbff; font-size: 18px; letter-spacing: -.03em; }
     @keyframes miniMeter { from { transform: scaleX(.35); opacity: .65; } to { transform: scaleX(1); opacity: 1; } }
-    .market-beasts {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .market-beasts::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(115deg, rgba(24,217,149,.10), transparent 40%),
-        linear-gradient(245deg, rgba(255,83,109,.10), transparent 44%);
-      opacity: .48;
-    }
-    .market-beast {
-      position: absolute;
-      width: min(25vw, 330px);
-      height: min(25vw, 330px);
-      min-width: 185px;
-      min-height: 185px;
-      opacity: .22;
-      filter: drop-shadow(0 0 18px currentColor) drop-shadow(0 0 46px currentColor);
-    }
-    .market-beast.bull { right: 5%; top: 4%; color: #30e99a; animation: bullCharge 12s ease-in-out infinite; }
-    .market-beast.bear { right: 20%; bottom: -8%; color: #ff536d; animation: bearLunge 13s ease-in-out infinite reverse; }
-    .market-candle-rain {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      overflow: hidden;
-      pointer-events: none;
-      opacity: .22;
-    }
-    .market-candle-rain i {
-      position: absolute;
-      bottom: -60px;
-      width: 7px;
-      height: 42px;
-      border-radius: 999px;
-      background: linear-gradient(#86efac, #18d995);
-      box-shadow: 0 0 18px rgba(24,217,149,.32);
-      animation: candleFloat 7s linear infinite;
-    }
-    .market-candle-rain i:nth-child(even) { background: linear-gradient(#ff7b8e, #ff536d); box-shadow: 0 0 18px rgba(255,83,109,.28); }
-    .market-candle-rain i:nth-child(1) { left: 12%; animation-delay: -1s; height: 34px; }
-    .market-candle-rain i:nth-child(2) { left: 29%; animation-delay: -4s; }
-    .market-candle-rain i:nth-child(3) { left: 48%; animation-delay: -2.4s; height: 52px; }
-    .market-candle-rain i:nth-child(4) { left: 67%; animation-delay: -5.2s; height: 28px; }
-    .market-candle-rain i:nth-child(5) { left: 83%; animation-delay: -3.3s; height: 47px; }
     @keyframes gridDrift { to { background-position: 44px 44px; } }
-    @keyframes bullCharge { 0%, 100% { transform: translateX(0) translateY(0) rotate(-5deg) scale(1); } 50% { transform: translateX(-14px) translateY(8px) rotate(1deg) scale(1.035); } }
-    @keyframes bearLunge { 0%, 100% { transform: translateX(0) translateY(0) rotate(5deg) scale(.98); } 50% { transform: translateX(12px) translateY(-8px) rotate(-1deg) scale(1.03); } }
-    @keyframes candleFloat { from { transform: translateY(0) scaleY(.8); opacity: 0; } 15% { opacity: .65; } to { transform: translateY(-520px) scaleY(1.18); opacity: 0; } }
 
     .dashboard-hero,
     .panel,
@@ -2861,7 +2851,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="calm-premium-dashboard-v24">
+  <div class="app" data-build="dashboard-chart-scroll-v29">
     <aside>
       <a class="brand" href="../" aria-label="Open TradeReview AI main page"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></a>
       <nav aria-label="Main navigation">
@@ -2886,11 +2876,7 @@
       <section id="dashboard" class="section active">
         <div class="topbar dashboard-hero" id="dashboardHero">
           <canvas class="hero-webgl" id="heroWebgl" aria-hidden="true"></canvas>
-          <div class="market-candle-rain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-          <div class="market-beasts" aria-hidden="true">
-            <svg class="market-beast bull" viewBox="0 0 220 220" role="img"><path d="M52 128c20-47 51-72 95-75 15-1 26 2 34 8-17 3-29 11-37 24 20 4 34 18 43 42-22-12-43-16-64-12-24 5-44 19-60 43-5 8-14 10-22 5-8-5-10-14-6-22 5-7 10-12 17-13Z" fill="currentColor"/><path d="M43 131c-12-19-20-34-25-47 18 4 32 14 42 28m110-50c9-15 20-27 35-35-2 22-9 40-22 54" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/></svg>
-            <svg class="market-beast bear" viewBox="0 0 220 220" role="img"><path d="M35 92c25-28 61-39 109-34 26 3 43 13 51 29-20-5-37-1-50 11 21 9 34 27 39 54-18-17-40-27-66-30-29-3-55 5-80 24-8 6-18 4-24-4-5-8-4-18 4-24 6-5 12-9 17-26Z" fill="currentColor"/><path d="M52 74c-9-16-22-27-39-33 1 22 8 39 22 52m105-33c12-14 27-22 46-23-6 21-17 37-34 48" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/></svg>
-          </div>
+          <canvas class="hero-market-chart" id="heroMarketChart" aria-hidden="true"></canvas>
           <div>
             <div class="welcome-line" id="welcomeLine">Welcome back</div>
             <div class="page-kicker"><span class="live-dot"></span> Performance workspace</div>
@@ -2931,8 +2917,16 @@
         <div class="panel performance-overview">
           <div class="panel-header">
             <h2>Performance Curve</h2>
+            <div class="chart-controls-app" aria-label="Performance range">
+              <button class="active" type="button" data-performance-range="1d">1D</button>
+              <button type="button" data-performance-range="1w">1W</button>
+              <button type="button" data-performance-range="1m">1M</button>
+              <button type="button" data-performance-range="3m">3M</button>
+              <button type="button" data-performance-range="6m">6M</button>
+            </div>
             <div class="chart-legend-app"><span><i></i> Winning trade</span><span><i></i> Losing trade</span></div>
           </div>
+          <div class="performance-meta" id="performanceRangeMeta">1 day portfolio growth</div>
           <div class="equity-chart" id="performanceChart"></div>
         </div>
 
@@ -3010,10 +3004,10 @@
                 <input id="manualExitTime" type="time">
               </label>
               <label>Symbol
-                <input id="manualSymbol" placeholder="SPY 612C">
+                <input id="manualSymbol" list="tickerUniverse" placeholder="SPY 612C">
               </label>
               <label>TradingView ticker
-                <input id="manualChartTicker" placeholder="SPY">
+                <input id="manualChartTicker" list="tickerUniverse" placeholder="NASDAQ:QQQ">
               </label>
               <label>Side
                 <select id="manualSide">
@@ -3043,6 +3037,32 @@
                 <input id="manualMistake" placeholder="Too big">
               </label>
             </div>
+            <datalist id="tickerUniverse">
+              <option value="NASDAQ:QQQ">QQQ · Nasdaq 100 ETF</option>
+              <option value="AMEX:SPY">SPY · S&P 500 ETF</option>
+              <option value="AMEX:IWM">IWM · Russell 2000 ETF</option>
+              <option value="NASDAQ:TSLA">TSLA · Tesla</option>
+              <option value="NASDAQ:NVDA">NVDA · Nvidia</option>
+              <option value="NASDAQ:AAPL">AAPL · Apple</option>
+              <option value="NASDAQ:AMD">AMD · Advanced Micro Devices</option>
+              <option value="NASDAQ:META">META · Meta</option>
+              <option value="NASDAQ:MSFT">MSFT · Microsoft</option>
+              <option value="NASDAQ:GOOGL">GOOGL · Alphabet</option>
+              <option value="FX:EURUSD">EUR/USD · Forex</option>
+              <option value="FX:GBPUSD">GBP/USD · Forex</option>
+              <option value="FX:USDJPY">USD/JPY · Forex</option>
+              <option value="FX:XAUUSD">Gold Spot · Forex/CFD</option>
+              <option value="OANDA:XAUUSD">Gold · OANDA</option>
+              <option value="OANDA:EURUSD">EUR/USD · OANDA</option>
+              <option value="CME_MINI:ES1!">ES futures · E-mini S&P</option>
+              <option value="CME_MINI:NQ1!">NQ futures · E-mini Nasdaq</option>
+              <option value="COMEX:GC1!">Gold futures</option>
+              <option value="NYMEX:CL1!">Crude oil futures</option>
+              <option value="BINANCE:BTCUSDT">Bitcoin · Binance</option>
+              <option value="BINANCE:ETHUSDT">Ethereum · Binance</option>
+              <option value="COINBASE:BTCUSD">Bitcoin · Coinbase</option>
+              <option value="COINBASE:ETHUSD">Ethereum · Coinbase</option>
+            </datalist>
             <div style="height:12px"></div>
             <button class="primary" id="addManualTrade">Add Trade</button>
           </div>
@@ -3758,6 +3778,7 @@
     let authMode = "signin";
     let onboardingStep = 0;
     let deferredInstallPrompt = null;
+    let performanceRange = "1d";
 
     const columns = {
       date: ["date", "time", "exec time", "execution time", "filled time"],
@@ -4599,14 +4620,37 @@
 
     function renderPerformanceChart() {
       const wrap = document.querySelector("#performanceChart");
+      const meta = document.querySelector("#performanceRangeMeta");
       if (!state.trades.length) {
         wrap.innerHTML = '<div class="chart-empty"><div><strong>Your performance chart starts with the first trade.</strong><br><small>Import a CSV or load demo data to see wins, losses, and the cumulative curve.</small></div></div>';
+        if (meta) meta.textContent = "Portfolio growth will appear after your first trade";
         return;
       }
 
-      const trades = [...state.trades]
-        .sort((a, b) => `${a.date} ${a.entryTime || ""}`.localeCompare(`${b.date} ${b.entryTime || ""}`))
-        .slice(-30);
+      const rangeMap = {
+        "1d": { days: 1, label: "1 day portfolio growth" },
+        "1w": { days: 7, label: "1 week portfolio growth" },
+        "1m": { days: 30, label: "1 month portfolio growth" },
+        "3m": { days: 90, label: "3 month portfolio growth" },
+        "6m": { days: 180, label: "6 month portfolio growth" }
+      };
+      const selectedRange = rangeMap[performanceRange] || rangeMap["1d"];
+      document.querySelectorAll("[data-performance-range]").forEach(button => {
+        button.classList.toggle("active", button.dataset.performanceRange === performanceRange);
+      });
+      const sortedTrades = [...state.trades]
+        .sort((a, b) => `${a.date} ${a.entryTime || ""}`.localeCompare(`${b.date} ${b.entryTime || ""}`));
+      const latestTime = Math.max(...sortedTrades.map(trade => new Date(`${trade.date}T${trade.entryTime || "16:00"}`).getTime()).filter(Number.isFinite));
+      const cutoff = latestTime - (selectedRange.days - 1) * 24 * 60 * 60 * 1000;
+      let trades = sortedTrades.filter(trade => {
+        const tradeTime = new Date(`${trade.date}T${trade.entryTime || "16:00"}`).getTime();
+        return Number.isFinite(tradeTime) && tradeTime >= cutoff;
+      });
+      if (!trades.length) trades = sortedTrades.slice(-1);
+      if (meta) {
+        const net = trades.reduce((sum, trade) => sum + trade.pnl, 0);
+        meta.textContent = `${selectedRange.label} · ${trades.length} trade${trades.length === 1 ? "" : "s"} · ${money.format(net)} net`;
+      }
       const cumulative = [0];
       trades.forEach(trade => cumulative.push(cumulative[cumulative.length - 1] + trade.pnl));
       const width = 1000;
@@ -5673,11 +5717,10 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       const mainPanel = document.querySelector("main");
       mainPanel?.addEventListener("scroll", () => {
         const y = mainPanel.scrollTop || 0;
-        hero.querySelectorAll(".market-beast").forEach((item, index) => {
-          item.style.marginTop = `${Math.min(80, y * (index ? .035 : .025))}px`;
-        });
+        hero.dataset.lastScrollTop = String(y);
       }, { passive: true });
       initHeroWebgl();
+      initDashboardChart();
     }
 
     function initCursorOrb() {
@@ -5699,6 +5742,167 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
         requestAnimationFrame(tick);
       };
       tick();
+    }
+
+    function initDashboardChart() {
+      const canvas = document.querySelector("#heroMarketChart");
+      const hero = document.querySelector("#dashboardHero");
+      if (!canvas || !hero || canvas.dataset.chartReady) return;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      canvas.dataset.chartReady = "true";
+      const mainPanel = document.querySelector("main");
+      let width = 0;
+      let height = 0;
+      let candles = [];
+      let lastFrame = 0;
+      let lastScroll = mainPanel?.scrollTop || 0;
+      let biasTarget = 0;
+      let bias = 0;
+      let trend = .18;
+      let momentum = 0;
+      let candleIndex = 0;
+      const spacing = 21;
+
+      const nextCandle = (open, x) => {
+        candleIndex += 1;
+        const phase = Math.sin(candleIndex / 7.5) * .42 + Math.sin(candleIndex / 18) * .34;
+        const directionalImpulse = candleIndex % 18 === 0 ? bias * (2.2 + Math.random() * 1.6) : 0;
+        const impulse = candleIndex % 33 === 0 ? (Math.random() > .5 ? 2.2 : -2.2) : 0;
+        trend = Math.max(-1.35, Math.min(1.35, trend * .91 + phase * .08 + bias * .38 + (Math.random() - .5) * .07));
+        momentum = Math.max(-5.6, Math.min(5.6, momentum * .58 + trend + bias * 1.22 + (Math.random() - .5) * 1.35 + impulse + directionalImpulse));
+        const body = Math.abs(momentum) < .45 ? momentum * 1.8 : momentum;
+        const close = open + body;
+        const wick = 2.1 + Math.random() * 5.7;
+        return {
+          x,
+          open,
+          close,
+          high: Math.max(open, close) + wick * (.65 + Math.random() * .55),
+          low: Math.min(open, close) - wick * (.65 + Math.random() * .55)
+        };
+      };
+
+      const seed = () => {
+        candles = [];
+        trend = .18;
+        momentum = 0;
+        candleIndex = 0;
+        let price = 112;
+        const count = Math.ceil(width / spacing) + 8;
+        for (let index = 0; index < count; index += 1) {
+          const candle = nextCandle(price, index * spacing - spacing * 3);
+          candles.push(candle);
+          price = candle.close;
+        }
+      };
+
+      const resize = () => {
+        const rect = canvas.getBoundingClientRect();
+        const scale = Math.min(window.devicePixelRatio || 1, 2);
+        width = Math.max(rect.width, 320);
+        height = Math.max(rect.height, 240);
+        canvas.width = Math.round(width * scale);
+        canvas.height = Math.round(height * scale);
+        ctx.setTransform(scale, 0, 0, scale, 0, 0);
+        seed();
+      };
+
+      mainPanel?.addEventListener("scroll", () => {
+        const y = mainPanel.scrollTop || 0;
+        const delta = y - lastScroll;
+        lastScroll = y;
+        if (Math.abs(delta) > 1) biasTarget = delta > 0 ? -1 : 1;
+      }, { passive: true });
+
+      const draw = timestamp => {
+        const elapsed = lastFrame ? Math.min((timestamp - lastFrame) / 16.67, 2.5) : 1;
+        lastFrame = timestamp;
+        bias += (biasTarget - bias) * .06;
+        biasTarget *= .992;
+        if (Math.abs(biasTarget) < .03) biasTarget = 0;
+
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = "rgba(255,255,255,.018)";
+        ctx.fillRect(0, 0, width, height);
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgba(214,224,235,.10)";
+        for (let y = 34; y < height; y += 34) {
+          ctx.beginPath();
+          ctx.moveTo(0, y + .5);
+          ctx.lineTo(width, y + .5);
+          ctx.stroke();
+        }
+        ctx.strokeStyle = "rgba(214,224,235,.065)";
+        for (let x = 0; x < width; x += 62) {
+          ctx.beginPath();
+          ctx.moveTo(x + .5, 0);
+          ctx.lineTo(x + .5, height);
+          ctx.stroke();
+        }
+
+        candles.forEach(candle => { candle.x -= .23 * elapsed; });
+        while (candles.length && candles[0].x < -spacing) {
+          candles.shift();
+          const last = candles[candles.length - 1];
+          candles.push(nextCandle(last.close, last.x + spacing));
+        }
+
+        const lowest = Math.min(...candles.map(candle => candle.low));
+        const highest = Math.max(...candles.map(candle => candle.high));
+        const range = Math.max(highest - lowest, 1);
+        const priceY = price => 22 + ((highest - price) / range) * (height - 50);
+
+        const resistanceY = priceY(lowest + range * .70);
+        ctx.strokeStyle = "rgba(242,54,69,.56)";
+        ctx.lineWidth = 1.3;
+        ctx.beginPath();
+        ctx.moveTo(0, resistanceY);
+        ctx.lineTo(width, resistanceY);
+        ctx.stroke();
+
+        const markerX = width * .77;
+        ctx.setLineDash([4, 7]);
+        ctx.strokeStyle = "rgba(174,186,202,.22)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(markerX, 0);
+        ctx.lineTo(markerX, height);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        candles.forEach(candle => {
+          const rising = candle.close >= candle.open;
+          const greenAlpha = bias > 0 ? .95 : .72;
+          const redAlpha = bias < 0 ? .96 : .74;
+          const color = rising ? `rgba(8,153,129,${greenAlpha})` : `rgba(242,54,69,${redAlpha})`;
+          const top = priceY(Math.max(candle.open, candle.close));
+          const bottom = priceY(Math.min(candle.open, candle.close));
+          ctx.strokeStyle = color;
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          ctx.moveTo(candle.x, priceY(candle.high));
+          ctx.lineTo(candle.x, priceY(candle.low));
+          ctx.stroke();
+          ctx.fillRect(candle.x - 5.5, top, 11, Math.max(bottom - top, 4));
+        });
+
+        const latest = candles[candles.length - 2];
+        if (latest) {
+          ctx.setLineDash([1, 4]);
+          ctx.strokeStyle = "rgba(8,153,129,.46)";
+          ctx.beginPath();
+          ctx.moveTo(0, priceY(latest.close));
+          ctx.lineTo(width, priceY(latest.close));
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+        requestAnimationFrame(draw);
+      };
+
+      resize();
+      window.addEventListener("resize", resize, { passive: true });
+      requestAnimationFrame(draw);
     }
 
     function initHeroWebgl() {
@@ -5873,6 +6077,12 @@ Save this agent to the database and run it against new journal/trade events auto
 
     document.querySelectorAll("[data-view], [data-view-button]").forEach(button => {
       button.addEventListener("click", () => switchView(button.dataset.view || button.dataset.viewButton));
+    });
+    document.querySelectorAll("[data-performance-range]").forEach(button => {
+      button.addEventListener("click", () => {
+        performanceRange = button.dataset.performanceRange || "1d";
+        renderPerformanceChart();
+      });
     });
     document.querySelectorAll("[data-ai-mode]").forEach(button => {
       button.addEventListener("click", event => {
