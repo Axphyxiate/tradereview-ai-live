@@ -1381,7 +1381,19 @@
       overflow-x: hidden;
     }
 
-    .brand { color: #f2fbf8; padding-bottom: 26px; }
+    .brand {
+      width: 100%;
+      min-height: 48px;
+      border: 0;
+      background: transparent;
+      color: #f2fbf8;
+      padding: 0 8px 26px;
+      cursor: pointer;
+      text-align: left;
+      font: inherit;
+      transition: transform .18s ease, color .18s ease, filter .18s ease;
+    }
+    .brand:hover { color: #86efac; transform: translateX(2px); filter: drop-shadow(0 0 18px rgba(134,239,172,.16)); }
     .brand .mark { width: 38px; height: 38px; }
     nav { gap: 6px; }
     nav button { min-height: 45px; border-radius: 11px; color: #809690; }
@@ -1576,6 +1588,137 @@
       text-transform: uppercase;
     }
     .trader-context::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #69c7ff; box-shadow: 0 0 12px rgba(105,199,255,.75); }
+
+    .dashboard-hero {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 18px;
+      padding: clamp(22px, 4vw, 38px);
+      border: 1px solid rgba(127, 176, 255, .16);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 18% 18%, rgba(24,217,149,.22), transparent 28%),
+        radial-gradient(circle at 84% 24%, rgba(255,83,109,.18), transparent 26%),
+        linear-gradient(135deg, rgba(14,26,58,.96), rgba(7,12,28,.98) 58%, rgba(20,14,35,.95));
+      box-shadow: 0 32px 100px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.07);
+      isolation: isolate;
+      transform-style: preserve-3d;
+      --cursor-x: 50%;
+      --cursor-y: 35%;
+    }
+    .dashboard-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(134,239,172,.10) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(127,176,255,.08) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(circle at 35% 20%, #000, transparent 72%);
+      opacity: .8;
+      animation: gridDrift 18s linear infinite;
+      pointer-events: none;
+    }
+    .dashboard-hero > * { position: relative; z-index: 2; }
+    .dashboard-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(134,239,172,.22), transparent 18rem);
+      opacity: .7;
+      mix-blend-mode: screen;
+      pointer-events: none;
+      transition: opacity .2s ease;
+    }
+    .hero-webgl {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      opacity: .5;
+      pointer-events: none;
+    }
+    .welcome-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 10px;
+      color: #86efac;
+      font-size: 12px;
+      font-weight: 950;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .welcome-line::before { content: ""; width: 9px; height: 9px; border-radius: 999px; background: #86efac; box-shadow: 0 0 22px rgba(134,239,172,.75); }
+    .hero-headline { max-width: 980px; font-size: clamp(44px, 7vw, 86px); line-height: .9; }
+    .hero-extra {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border: 1px solid rgba(174,218,204,.13);
+      border-radius: 999px;
+      background: rgba(255,255,255,.045);
+      color: #c8d8f2;
+      font-size: 12px;
+      font-weight: 800;
+      backdrop-filter: blur(12px);
+    }
+    .hero-chip b { color: #f8fbff; }
+    .market-beasts {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .market-beast {
+      position: absolute;
+      width: min(27vw, 330px);
+      height: min(27vw, 330px);
+      min-width: 180px;
+      min-height: 180px;
+      opacity: .16;
+      filter: drop-shadow(0 0 38px currentColor);
+    }
+    .market-beast.bull { right: 8%; top: 6%; color: #30e99a; animation: bullCharge 8s ease-in-out infinite; }
+    .market-beast.bear { right: 26%; bottom: -14%; color: #ff536d; animation: bearLunge 9s ease-in-out infinite reverse; }
+    .market-candle-rain {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+      opacity: .55;
+    }
+    .market-candle-rain i {
+      position: absolute;
+      bottom: -60px;
+      width: 7px;
+      height: 42px;
+      border-radius: 999px;
+      background: linear-gradient(#86efac, #18d995);
+      box-shadow: 0 0 18px rgba(24,217,149,.32);
+      animation: candleFloat 7s linear infinite;
+    }
+    .market-candle-rain i:nth-child(even) { background: linear-gradient(#ff7b8e, #ff536d); box-shadow: 0 0 18px rgba(255,83,109,.28); }
+    .market-candle-rain i:nth-child(1) { left: 12%; animation-delay: -1s; height: 34px; }
+    .market-candle-rain i:nth-child(2) { left: 29%; animation-delay: -4s; }
+    .market-candle-rain i:nth-child(3) { left: 48%; animation-delay: -2.4s; height: 52px; }
+    .market-candle-rain i:nth-child(4) { left: 67%; animation-delay: -5.2s; height: 28px; }
+    .market-candle-rain i:nth-child(5) { left: 83%; animation-delay: -3.3s; height: 47px; }
+    @keyframes gridDrift { to { background-position: 44px 44px; } }
+    @keyframes bullCharge { 0%, 100% { transform: translateX(0) translateY(0) rotate(-4deg) scale(1); } 50% { transform: translateX(-28px) translateY(16px) rotate(3deg) scale(1.08); } }
+    @keyframes bearLunge { 0%, 100% { transform: translateX(0) translateY(0) rotate(5deg) scale(.96); } 50% { transform: translateX(22px) translateY(-18px) rotate(-3deg) scale(1.05); } }
+    @keyframes candleFloat { from { transform: translateY(0) scaleY(.8); opacity: 0; } 15% { opacity: .65; } to { transform: translateY(-520px) scaleY(1.18); opacity: 0; } }
 
     .review-pulse {
       display: grid;
@@ -2608,9 +2751,9 @@
     </div>
   </section>
 
-  <div class="app" data-build="auth-gate-visible-v16">
+  <div class="app" data-build="webgl-bull-bear-v17">
     <aside>
-      <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
+      <button class="brand" type="button" data-view-button="dashboard" aria-label="Open TradeReview AI home"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></button>
       <nav aria-label="Main navigation">
         <button class="active" data-view="dashboard" title="Dashboard">⌂ Dashboard</button>
         <button data-view="import" title="Add a trade">＋ Add Trade</button>
@@ -2631,12 +2774,24 @@
 
     <main>
       <section id="dashboard" class="section active">
-        <div class="topbar">
+        <div class="topbar dashboard-hero" id="dashboardHero">
+          <canvas class="hero-webgl" id="heroWebgl" aria-hidden="true"></canvas>
+          <div class="market-candle-rain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="market-beasts" aria-hidden="true">
+            <svg class="market-beast bull" viewBox="0 0 220 220" role="img"><path d="M52 128c20-47 51-72 95-75 15-1 26 2 34 8-17 3-29 11-37 24 20 4 34 18 43 42-22-12-43-16-64-12-24 5-44 19-60 43-5 8-14 10-22 5-8-5-10-14-6-22 5-7 10-12 17-13Z" fill="currentColor"/><path d="M43 131c-12-19-20-34-25-47 18 4 32 14 42 28m110-50c9-15 20-27 35-35-2 22-9 40-22 54" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/></svg>
+            <svg class="market-beast bear" viewBox="0 0 220 220" role="img"><path d="M35 92c25-28 61-39 109-34 26 3 43 13 51 29-20-5-37-1-50 11 21 9 34 27 39 54-18-17-40-27-66-30-29-3-55 5-80 24-8 6-18 4-24-4-5-8-4-18 4-24 6-5 12-9 17-26Z" fill="currentColor"/><path d="M52 74c-9-16-22-27-39-33 1 22 8 39 22 52m105-33c12-14 27-22 46-23-6 21-17 37-34 48" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/></svg>
+          </div>
           <div>
+            <div class="welcome-line" id="welcomeLine">Welcome back</div>
             <div class="page-kicker"><span class="live-dot"></span> Performance workspace</div>
-            <h1>Review today before tomorrow trades you.</h1>
+            <h1 class="hero-headline" id="dashboardHeadline">Review today before tomorrow trades you.</h1>
             <p class="subtitle">Turn executions into evidence. Capture the trade, review the decision, and let your dashboard expose the habits shaping your results.</p>
             <div class="trader-context" id="traderContext">Your free review workspace</div>
+            <div class="hero-extra" id="heroExtra">
+              <span class="hero-chip">Bull/bear mode <b>live</b></span>
+              <span class="hero-chip">AI review <b>ready</b></span>
+              <span class="hero-chip">Risk pulse <b>tracking</b></span>
+            </div>
           </div>
           <div class="actions">
             <button class="primary" data-view-button="import">Add Trade</button>
@@ -4711,6 +4866,41 @@
       return state.profile?.[name] || "Not selected";
     }
 
+    function userFirstName() {
+      const displayName = state.settings?.displayName?.trim();
+      const metaName = currentUser?.user_metadata?.full_name || currentUser?.user_metadata?.name || "";
+      const emailName = currentUser?.email ? currentUser.email.split("@")[0] : "";
+      const source = displayName || metaName || emailName || "Trader";
+      return source
+        .replace(/[._-]+/g, " ")
+        .trim()
+        .split(/\s+/)[0]
+        .replace(/^\w/, letter => letter.toUpperCase()) || "Trader";
+    }
+
+    function renderDashboardHero() {
+      const firstName = userFirstName();
+      const summary = stats();
+      const profile = { ...defaultProfile(), ...(state.profile || {}) };
+      const market = profile.market || "your market";
+      const broker = profile.broker || "your broker";
+      const welcome = document.querySelector("#welcomeLine");
+      const headline = document.querySelector("#dashboardHeadline");
+      const extra = document.querySelector("#heroExtra");
+      if (welcome) welcome.textContent = `Welcome back, ${firstName}`;
+      if (headline) headline.textContent = summary.trades
+        ? `${firstName}, your edge is taking shape.`
+        : `${firstName}, build your first clean trading review.`;
+      if (extra) {
+        extra.innerHTML = `
+          <span class="hero-chip">Market focus <b>${escapeHtml(market)}</b></span>
+          <span class="hero-chip">Broker path <b>${escapeHtml(broker)}</b></span>
+          <span class="hero-chip">Trades tracked <b>${summary.trades}</b></span>
+          <span class="hero-chip">Total R <b>${escapeHtml(formatR(summary.totalR))}</b></span>
+        `;
+      }
+    }
+
     function renderProfileContext() {
       const profile = { ...defaultProfile(), ...(state.profile || {}) };
       const context = [profile.market, profile.broker].filter(Boolean).join(" · ") || "Your free review workspace";
@@ -4722,6 +4912,7 @@
         <div class="profile-summary-row"><span>Primary broker</span><strong>${escapeHtml(profileValue("broker"))}</strong></div>
         <div class="profile-summary-row"><span>Main market</span><strong>${escapeHtml(profileValue("market"))}</strong></div>
         <p class="footer-note">These answers stay with your private journal and help prioritize future broker connections. They do not connect an account by themselves.</p>`;
+      renderDashboardHero();
     }
 
     function brokerConnection() {
@@ -5338,6 +5529,95 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       updateMobileInstallState();
     }
 
+    function initDashboardMotion() {
+      const hero = document.querySelector("#dashboardHero");
+      if (!hero || hero.dataset.motionReady) return;
+      hero.dataset.motionReady = "true";
+      hero.addEventListener("pointermove", event => {
+        const rect = hero.getBoundingClientRect();
+        const x = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+        const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+        hero.style.setProperty("--cursor-x", `${(x * 100).toFixed(1)}%`);
+        hero.style.setProperty("--cursor-y", `${(y * 100).toFixed(1)}%`);
+        hero.style.transform = `perspective(1200px) rotateX(${(0.5 - y) * 4}deg) rotateY(${(x - 0.5) * 5}deg) translateZ(0)`;
+      });
+      hero.addEventListener("pointerleave", () => {
+        hero.style.setProperty("--cursor-x", "50%");
+        hero.style.setProperty("--cursor-y", "35%");
+        hero.style.transform = "";
+      });
+      const mainPanel = document.querySelector("main");
+      mainPanel?.addEventListener("scroll", () => {
+        const y = mainPanel.scrollTop || 0;
+        hero.querySelectorAll(".market-beast").forEach((item, index) => {
+          item.style.marginTop = `${Math.min(80, y * (index ? .035 : .025))}px`;
+        });
+      }, { passive: true });
+      initHeroWebgl();
+    }
+
+    function initHeroWebgl() {
+      const canvas = document.querySelector("#heroWebgl");
+      if (!canvas || canvas.dataset.webglReady) return;
+      const gl = canvas.getContext("webgl", { antialias: true, alpha: true });
+      if (!gl) return;
+      canvas.dataset.webglReady = "true";
+      const vertexSource = "attribute vec2 position; void main(){ gl_Position = vec4(position, 0.0, 1.0); }";
+      const fragmentSource = `
+        precision mediump float;
+        uniform vec2 resolution;
+        uniform float time;
+        void main() {
+          vec2 uv = gl_FragCoord.xy / resolution.xy;
+          vec2 p = uv - 0.5;
+          float wave = sin(p.x * 9.0 + time * 1.2) * cos(p.y * 7.0 - time * .9);
+          float ring = sin(length(p) * 28.0 - time * 2.3);
+          vec3 bull = vec3(0.10, 0.95, 0.58);
+          vec3 bear = vec3(1.00, 0.20, 0.33);
+          vec3 blue = vec3(0.38, 0.54, 1.00);
+          vec3 color = mix(bear, bull, smoothstep(-0.35, 0.35, wave));
+          color = mix(color, blue, 0.25 + 0.17 * ring);
+          float alpha = smoothstep(0.68, 0.0, length(p)) * (0.16 + 0.10 * wave);
+          gl_FragColor = vec4(color, alpha);
+        }`;
+      const compile = (type, source) => {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        return shader;
+      };
+      const program = gl.createProgram();
+      gl.attachShader(program, compile(gl.VERTEX_SHADER, vertexSource));
+      gl.attachShader(program, compile(gl.FRAGMENT_SHADER, fragmentSource));
+      gl.linkProgram(program);
+      gl.useProgram(program);
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+      const position = gl.getAttribLocation(program, "position");
+      gl.enableVertexAttribArray(position);
+      gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+      const resolution = gl.getUniformLocation(program, "resolution");
+      const time = gl.getUniformLocation(program, "time");
+      const resize = () => {
+        const rect = canvas.getBoundingClientRect();
+        const scale = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.max(1, Math.floor(rect.width * scale));
+        canvas.height = Math.max(1, Math.floor(rect.height * scale));
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      };
+      resize();
+      window.addEventListener("resize", resize, { passive: true });
+      const start = performance.now();
+      const draw = () => {
+        gl.uniform2f(resolution, canvas.width, canvas.height);
+        gl.uniform1f(time, (performance.now() - start) / 1000);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        requestAnimationFrame(draw);
+      };
+      draw();
+    }
+
     function render() {
       renderStats();
       renderPerformanceChart();
@@ -5352,6 +5632,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       updateMobileInstallState();
       loadSettingsForm();
       setManualDefaults();
+      initDashboardMotion();
     }
 
     function switchView(view) {
