@@ -14,23 +14,23 @@
   <style>
     :root {
       color-scheme: dark;
-      --bg: #08142b;
-      --panel: #101f3d;
-      --panel-2: #182a4b;
-      --text: #eef8f4;
-      --muted: #a6bdb7;
-      --line: rgba(210, 238, 229, .18);
+      --bg: #060b1b;
+      --panel: #0d1830;
+      --panel-2: #111f3d;
+      --text: #edf7f4;
+      --muted: #93a5bd;
+      --line: rgba(168, 185, 236, .14);
       --green: #18d995;
       --green-2: #0fbf7f;
-      --cyan: #5bd9ee;
-      --blue: #4f8cff;
-      --violet: #9382ff;
-      --amber: #ffbd69;
+      --cyan: #59d9f0;
+      --blue: #5f86ff;
+      --violet: #9b7cff;
+      --amber: #f2c56d;
       --red: #ff536d;
       --shadow: 0 32px 90px rgba(0,0,0,.3);
-      --scroll-accent: #18d995;
-      --scroll-opposite: #ff536d;
-      --scroll-soft: rgba(24, 217, 149, .1);
+      --scroll-accent: #7195ff;
+      --scroll-opposite: #9b7cff;
+      --scroll-soft: rgba(95, 134, 255, .1);
     }
 
     * { box-sizing: border-box; }
@@ -41,11 +41,10 @@
       color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background:
-        radial-gradient(circle at 8% 4%, rgba(88, 166, 255, .33), transparent 34rem),
-        radial-gradient(circle at 90% 8%, rgba(155, 124, 255, .3), transparent 34rem),
-        radial-gradient(circle at 48% 50%, rgba(24, 217, 149, .13), transparent 46rem),
-        radial-gradient(circle at 86% 88%, rgba(255, 189, 105, .16), transparent 34rem),
-        linear-gradient(180deg, #0a1834 0%, #101f3e 36%, #0b172f 68%, #07111f 100%);
+        radial-gradient(circle at 12% 0%, rgba(95, 134, 255, .2), transparent 34rem),
+        radial-gradient(circle at 92% 12%, rgba(155, 124, 255, .18), transparent 35rem),
+        radial-gradient(circle at 55% 94%, rgba(89, 217, 240, .08), transparent 38rem),
+        linear-gradient(180deg, #070d20 0%, #0b1429 38%, #080f20 72%, #050817 100%);
     }
 
     a { color: inherit; text-decoration: none; }
@@ -57,9 +56,9 @@
       inset: 0;
       pointer-events: none;
       background:
-        radial-gradient(circle at 8% 16%, color-mix(in srgb, var(--scroll-accent) 17%, transparent), transparent 34rem),
-        radial-gradient(circle at 94% 74%, color-mix(in srgb, var(--scroll-opposite) 15%, transparent), transparent 32rem),
-        linear-gradient(125deg, rgba(79, 140, 255, .07), rgba(147, 130, 255, .085) 52%, rgba(255, 189, 105, .055));
+        radial-gradient(circle at 8% 16%, rgba(95,134,255,.12), transparent 34rem),
+        radial-gradient(circle at 94% 74%, rgba(155,124,255,.11), transparent 32rem),
+        linear-gradient(125deg, rgba(95,134,255,.055), rgba(155,124,255,.065) 52%, rgba(89,217,240,.035));
       transition: background .35s ease;
     }
     .scroll-aura::before,
@@ -75,8 +74,8 @@
       opacity: .28;
       animation: auroraDrift 16s ease-in-out infinite alternate;
     }
-    .scroll-aura::before { top: 5%; left: 14%; background: linear-gradient(135deg, var(--violet), var(--green)); }
-    .scroll-aura::after { right: 0%; bottom: 0%; background: linear-gradient(135deg, var(--blue), var(--amber)); animation-delay: -7s; animation-direction: alternate-reverse; }
+    .scroll-aura::before { top: 5%; left: 14%; background: linear-gradient(135deg, rgba(95,134,255,.72), rgba(155,124,255,.42)); }
+    .scroll-aura::after { right: 0%; bottom: 0%; background: linear-gradient(135deg, rgba(95,134,255,.55), rgba(89,217,240,.22)); animation-delay: -7s; animation-direction: alternate-reverse; }
     @keyframes auroraDrift { from { transform: translate3d(-6%, -4%, 0) scale(.86); } to { transform: translate3d(12%, 10%, 0) scale(1.12); } }
     .shell { position: relative; z-index: 1; width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
 
@@ -94,14 +93,14 @@
       position: absolute;
       z-index: -1;
       inset: 12px -18px;
-      border: 1px solid rgba(210,238,229,.09);
+      border: 1px solid rgba(168,185,236,.11);
       border-radius: 22px;
-      background: rgba(8, 18, 38, .45);
+      background: rgba(8, 16, 34, .72);
       backdrop-filter: blur(18px);
     }
 
     .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: -.025em; transition: transform .2s ease, filter .2s ease, color .2s ease; transform-origin: left center; }
-    .brand:hover { transform: translateY(-1px) scale(1.035); filter: drop-shadow(0 14px 28px rgba(24,217,149,.16)); }
+    .brand:hover { transform: translateY(-1px) scale(1.035); filter: drop-shadow(0 14px 28px rgba(95,134,255,.18)); }
     .brand-mark {
       position: relative;
       width: 40px;
@@ -119,9 +118,9 @@
 
     .brand-mark svg { position: relative; z-index: 1; width: 29px; height: 29px; filter: drop-shadow(0 6px 12px rgba(0,0,0,.28)); }
     .brand-mark::after { content: ""; position: absolute; inset: auto -35% -70% 20%; height: 100%; background: rgba(255,255,255,.17); transform: rotate(-22deg); }
-    .nav-links { display: flex; align-items: center; gap: 26px; color: #91a69f; font-size: 13px; font-weight: 700; }
+    .nav-links { display: flex; align-items: center; gap: 26px; color: #93a5bd; font-size: 13px; font-weight: 700; }
     .nav-links a { display: inline-block; transition: transform .18s ease, color .18s ease, text-shadow .18s ease; transform-origin: center; }
-    .nav-links a:hover { color: #dff1ea; transform: translateY(-1px) scale(1.08); text-shadow: 0 10px 26px rgba(24,217,149,.18); }
+    .nav-links a:hover { color: #cbd8ff; transform: translateY(-1px) scale(1.08); text-shadow: 0 10px 26px rgba(95,134,255,.22); }
     .nav-actions { display: flex; align-items: center; gap: 9px; }
 
     .button {
@@ -133,15 +132,15 @@
       padding: 0 18px;
       border: 1px solid var(--line);
       border-radius: 12px;
-      color: #dcebe6;
+      color: #dce7ff;
       background: rgba(255,255,255,.055);
       font-size: 13px;
       font-weight: 830;
       transition: transform .16s ease, border-color .16s ease, background .4s ease, box-shadow .4s ease;
     }
 
-    .button:hover { transform: translateY(-2px) scale(1.035); border-color: rgba(91,230,170,.42); background: rgba(255,255,255,.08); }
-    .button.primary { border: 0; color: #061410; background: linear-gradient(135deg, color-mix(in srgb, var(--scroll-accent) 78%, white), var(--scroll-accent)); box-shadow: 0 14px 34px color-mix(in srgb, var(--scroll-accent) 20%, transparent); }
+    .button:hover { transform: translateY(-2px) scale(1.035); border-color: rgba(113,149,255,.48); background: rgba(255,255,255,.08); }
+    .button.primary { border: 0; color: #f7fbff; background: linear-gradient(135deg, #5f86ff, #9b7cff); box-shadow: 0 14px 34px rgba(95,134,255,.24); }
     .button.small { min-height: 40px; padding: 0 15px; }
 
     .hero {
@@ -990,8 +989,8 @@
     const marketCanvas = document.querySelector("#marketCanvas");
     const marketContext = marketCanvas.getContext("2d");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const themeGreen = [24, 217, 149];
-    const themeRed = [255, 83, 109];
+    const themeGreen = [113, 149, 255];
+    const themeRed = [155, 124, 255];
     let currentAccent = themeGreen;
     let scrollUpdateQueued = false;
     const appUrl = "./app/tradereview-ai.html";
