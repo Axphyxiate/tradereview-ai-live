@@ -2230,8 +2230,8 @@
       transform: none !important;
     }
 
-    body:not(.auth-pending) main > .section,
-    body.app-ready main > .section {
+    body:not(.auth-pending) .section,
+    body.app-ready .section {
       box-sizing: border-box !important;
       width: 100% !important;
       min-height: 100vh !important;
@@ -2407,7 +2407,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="auth-safe-section-sidebar-v3">
+  <div class="app" data-build="dom-safe-section-sidebar-v4">
     <aside>
       <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
       <nav aria-label="Main navigation">
@@ -3601,7 +3601,7 @@
         mainPanel.style.setProperty("z-index", "1", important);
       }
 
-      document.querySelectorAll("main > .section").forEach(section => {
+      document.querySelectorAll(".section").forEach(section => {
         section.style.setProperty("box-sizing", "border-box", important);
         section.style.setProperty("width", "100%", important);
         section.style.setProperty("min-height", "100vh", important);
