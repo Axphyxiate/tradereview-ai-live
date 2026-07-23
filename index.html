@@ -173,7 +173,7 @@
       width: calc(100vw - 18px);
       height: 560px;
       transform: translateX(-50%);
-      opacity: .48;
+      opacity: .64;
       pointer-events: none;
       -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 15%, #000 74%, transparent 100%);
       mask-image: linear-gradient(to bottom, transparent 0%, #000 15%, #000 74%, transparent 100%);
@@ -964,8 +964,8 @@
 
   <button class="help-button" id="helpButton" type="button" aria-expanded="false"><span class="help-icon">?</span><span>How can I help?</span></button>
   <section class="help-card" id="helpCard" aria-label="TradeReview help" aria-hidden="true">
-    <div class="help-head"><div><strong>TradeReview support</strong><span>Instant guidance or email Alex directly</span></div><button class="help-close" id="helpClose" type="button" aria-label="Close help">×</button></div>
-    <div class="help-messages" id="helpMessages"><div class="message">Hi — I can answer product questions instantly, or help you email Alex at support. What do you need?</div></div>
+    <div class="help-head"><div><strong>TradeReview support</strong><span>Instant guidance or email customer service</span></div><button class="help-close" id="helpClose" type="button" aria-label="Close help">×</button></div>
+    <div class="help-messages" id="helpMessages"><div class="message">Hi — I can answer product questions instantly, or help you email a customer service agent. What do you need?</div></div>
     <div class="help-actions"><button id="instantGuide" type="button">Instant guide</button><button id="talkToAgent" type="button">Talk to an agent</button></div>
     <form class="agent-email-form" id="agentEmailForm">
       <select id="supportReason" aria-label="Support reason">
@@ -977,11 +977,11 @@
         <option>Other question</option>
       </select>
       <input id="supportFromEmail" type="email" placeholder="Your email" aria-label="Your email">
-      <textarea id="supportMessage" placeholder="Tell Alex what you need help with..." aria-label="Support message"></textarea>
-      <button type="submit">Send email to Alex</button>
-      <p class="agent-email-note">This opens your email app and sends to alexhopkins652@gmail.com. Do not include passwords, login links, or private trading data.</p>
+      <textarea id="supportMessage" placeholder="Tell customer service what you need help with..." aria-label="Support message"></textarea>
+      <button type="submit">Send email to customer service agent</button>
+      <p class="agent-email-note">This opens your email app and sends to TradeReview customer service. Do not include passwords, login links, or private trading data.</p>
     </form>
-    <a class="agent-link" id="agentLink" href="mailto:alexhopkins652@gmail.com?subject=TradeReview%20AI%20support%20request&body=Hi%20Alex%2C%0A%0AI%20need%20help%20with%3A%0A%0A" hidden>Email Alex at support →</a>
+    <a class="agent-link" id="agentLink" href="mailto:alexhopkins652@gmail.com?subject=TradeReview%20AI%20support%20request&body=Hi%20TradeReview%20customer%20service%2C%0A%0AI%20need%20help%20with%3A%0A%0A" hidden>Email customer service →</a>
     <form class="help-form" id="helpForm"><input id="helpInput" placeholder="Ask a question…" autocomplete="off" aria-label="Ask a question"><button type="submit" aria-label="Send">↑</button></form>
   </section>
 
@@ -1057,16 +1057,20 @@
     let marketHeight = 0;
     let marketCandles = [];
     let lastMarketFrame = 0;
-    const candleSpacing = 27;
-    let marketTrend = 0.12;
+    const candleSpacing = 20;
+    let marketTrend = 0.18;
     let marketMomentum = 0;
+    let marketCandleIndex = 0;
 
     function nextMarketCandle(open, x) {
-      marketTrend = Math.max(-.55, Math.min(.55, marketTrend * .985 + (Math.random() - .48) * .08));
-      marketMomentum = Math.max(-1.15, Math.min(1.15, marketMomentum * .82 + marketTrend + (Math.random() - .5) * .75));
-      const body = Math.max(-3.2, Math.min(3.2, marketMomentum));
+      marketCandleIndex += 1;
+      const phase = Math.sin(marketCandleIndex / 7.5) * .42 + Math.sin(marketCandleIndex / 18) * .36;
+      const impulse = marketCandleIndex % 31 === 0 ? (Math.random() > .5 ? 3.6 : -3.6) : 0;
+      marketTrend = Math.max(-.9, Math.min(.9, marketTrend * .94 + phase * .10 + (Math.random() - .5) * .10));
+      marketMomentum = Math.max(-4.6, Math.min(4.6, marketMomentum * .64 + marketTrend + (Math.random() - .5) * 2.15 + impulse));
+      const body = Math.abs(marketMomentum) < .45 ? marketMomentum * 1.8 : marketMomentum;
       const close = open + body;
-      const wick = 1.4 + Math.random() * 3.6;
+      const wick = 2.2 + Math.random() * 6.2;
       const upperWick = wick * (.65 + Math.random() * .55);
       const lowerWick = wick * (.65 + Math.random() * .55);
       return {
@@ -1080,9 +1084,10 @@
 
     function seedMarketCandles() {
       marketCandles = [];
-      let price = 100;
-      marketTrend = .12;
+      let price = 112;
+      marketTrend = .18;
       marketMomentum = 0;
+      marketCandleIndex = 0;
       const count = Math.ceil(marketWidth / candleSpacing) + 5;
       for (let index = 0; index < count; index += 1) {
         const candle = nextMarketCandle(price, index * candleSpacing - candleSpacing * 2);
@@ -1107,15 +1112,19 @@
       lastMarketFrame = timestamp;
       marketContext.clearRect(0, 0, marketWidth, marketHeight);
 
+      marketContext.fillStyle = "rgba(255,255,255,.018)";
+      marketContext.fillRect(0, 0, marketWidth, marketHeight);
+
       marketContext.lineWidth = 1;
-      marketContext.strokeStyle = "rgba(153, 184, 174, .09)";
-      for (let y = 70; y < marketHeight; y += 70) {
+      marketContext.strokeStyle = "rgba(214, 224, 235, .11)";
+      for (let y = 42; y < marketHeight; y += 42) {
         marketContext.beginPath();
         marketContext.moveTo(0, y + .5);
         marketContext.lineTo(marketWidth, y + .5);
         marketContext.stroke();
       }
-      for (let x = 0; x < marketWidth; x += 110) {
+      marketContext.strokeStyle = "rgba(214, 224, 235, .075)";
+      for (let x = 0; x < marketWidth; x += 64) {
         marketContext.beginPath();
         marketContext.moveTo(x + .5, 0);
         marketContext.lineTo(x + .5, marketHeight);
@@ -1123,7 +1132,7 @@
       }
 
       if (!reduceMotion) {
-        marketCandles.forEach(candle => { candle.x -= .16 * elapsed; });
+        marketCandles.forEach(candle => { candle.x -= .22 * elapsed; });
         while (marketCandles.length && marketCandles[0].x < -candleSpacing) {
           marketCandles.shift();
           const last = marketCandles[marketCandles.length - 1];
@@ -1134,11 +1143,29 @@
       const lowest = Math.min(...marketCandles.map(candle => candle.low));
       const highest = Math.max(...marketCandles.map(candle => candle.high));
       const range = Math.max(highest - lowest, 1);
-      const priceY = price => 36 + ((highest - price) / range) * (marketHeight - 95);
+      const priceY = price => 28 + ((highest - price) / range) * (marketHeight - 72);
+
+      const resistanceY = priceY(lowest + range * .70);
+      marketContext.strokeStyle = "rgba(255, 53, 74, .70)";
+      marketContext.lineWidth = 1.4;
+      marketContext.beginPath();
+      marketContext.moveTo(0, resistanceY);
+      marketContext.lineTo(marketWidth, resistanceY);
+      marketContext.stroke();
+
+      const markerX = marketWidth * .76;
+      marketContext.setLineDash([4, 7]);
+      marketContext.strokeStyle = "rgba(174, 186, 202, .28)";
+      marketContext.lineWidth = 1;
+      marketContext.beginPath();
+      marketContext.moveTo(markerX, 0);
+      marketContext.lineTo(markerX, marketHeight);
+      marketContext.stroke();
+      marketContext.setLineDash([]);
 
       marketCandles.forEach((candle, index) => {
         const rising = candle.close >= candle.open;
-        const color = rising ? "rgba(24, 217, 149, .62)" : "rgba(255, 83, 109, .62)";
+        const color = rising ? "rgba(8, 153, 129, .82)" : "rgba(242, 54, 69, .84)";
         const bodyTop = priceY(Math.max(candle.open, candle.close));
         const bodyBottom = priceY(Math.min(candle.open, candle.close));
         marketContext.strokeStyle = color;
@@ -1147,12 +1174,12 @@
         marketContext.moveTo(candle.x, priceY(candle.high));
         marketContext.lineTo(candle.x, priceY(candle.low));
         marketContext.stroke();
-        marketContext.fillRect(candle.x - 5, bodyTop, 10, Math.max(bodyBottom - bodyTop, 3));
+        marketContext.fillRect(candle.x - 6, bodyTop, 12, Math.max(bodyBottom - bodyTop, 4));
 
         if (index === marketCandles.length - 2) {
           marketContext.save();
-          marketContext.globalAlpha = .22;
-          marketContext.fillStyle = rgba(currentAccent, .5);
+          marketContext.globalAlpha = .16;
+          marketContext.fillStyle = rising ? "rgba(8,153,129,.45)" : "rgba(242,54,69,.45)";
           marketContext.beginPath();
           marketContext.arc(candle.x, priceY(candle.close), 17, 0, Math.PI * 2);
           marketContext.fill();
@@ -1162,8 +1189,8 @@
 
       const latest = marketCandles[marketCandles.length - 2];
       if (latest) {
-        marketContext.setLineDash([8, 8]);
-        marketContext.strokeStyle = rgba(currentAccent, .34);
+        marketContext.setLineDash([1, 4]);
+        marketContext.strokeStyle = "rgba(8, 153, 129, .54)";
         marketContext.beginPath();
         marketContext.moveTo(0, priceY(latest.close));
         marketContext.lineTo(marketWidth, priceY(latest.close));
@@ -1278,7 +1305,7 @@
     const answer = question => {
       const query = question.toLowerCase();
       if (/free|price|cost|card/.test(query)) return "Creating a TradeReview account is free and does not require a credit card.";
-      if (/agent|human|person|support/.test(query)) return "Choose Talk to an agent below to email Alex directly at alexhopkins652@gmail.com. Do not include passwords, login links, or private trade data.";
+      if (/agent|human|person|support/.test(query)) return "Choose Talk to an agent below to email a TradeReview customer service agent. Do not include passwords, login links, or private trade data.";
       if (/private|privacy|secure|data/.test(query)) return "Your journal uses secure sign-in and row-level database rules so each account can access only its own saved journal data.";
       if (/google|gmail|sign|account|login/.test(query)) return "Open the journal and choose Continue with Google, or create an account with email and password.";
       if (/import|csv|broker|trade/.test(query)) return "You can add trades manually or import a CSV. TradeReview understands common fields including date, symbol, P/L, entry and exit times, setup, and mistake.";
@@ -1302,7 +1329,7 @@
       document.querySelector("#helpInput").focus();
     });
     document.querySelector("#talkToAgent").addEventListener("click", () => {
-      addMessage("Choose a reason, add your email and message, then Send email. It will go to Alex at alexhopkins652@gmail.com.");
+      addMessage("Choose a reason, add your email and message, then Send email. It will go to a TradeReview customer service agent.");
       agentEmailForm.classList.add("open");
       agentLink.hidden = true;
       document.querySelector("#supportFromEmail").focus();
