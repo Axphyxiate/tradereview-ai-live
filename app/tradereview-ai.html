@@ -657,6 +657,101 @@
     .chart-link.entry { border-color: rgba(24, 217, 149, .24); color: #55e5a5; }
     .chart-link.exit { border-color: rgba(255, 83, 109, .28); color: #ff7588; }
 
+    .tv-capture-card {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(127, 176, 255, .18);
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(24, 217, 149, .13), transparent 24px),
+        radial-gradient(circle at 88% 30%, rgba(255, 83, 109, .12), transparent 34px),
+        linear-gradient(145deg, rgba(13, 26, 55, .94), rgba(7, 13, 30, .98));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .tv-capture-card.compact {
+      min-width: 210px;
+    }
+
+    .tv-capture-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #86efac;
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .tv-capture-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #86efac;
+      box-shadow: 0 0 18px rgba(134,239,172,.7);
+    }
+
+    .tv-capture-title {
+      margin: 0;
+      color: #edf8f4;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .tv-capture-meta {
+      display: grid;
+      gap: 5px;
+      color: #90a6c3;
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .tv-capture-flow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .tv-capture-step {
+      padding: 8px;
+      border: 1px solid rgba(174,218,204,.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,.025);
+      color: #b8c8dd;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .tv-capture-step strong {
+      display: block;
+      margin-bottom: 2px;
+      color: #f8fbff;
+      font-size: 11px;
+    }
+
+    .tv-capture-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tv-capture-status {
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(134,239,172,.08);
+      color: #bcefd0;
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .tv-capture-status.waiting {
+      background: rgba(242,197,109,.08);
+      color: #f5d892;
+    }
+
     .time-note {
       color: var(--muted);
       font-size: 12px;
@@ -2530,7 +2625,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="mobile-bottom-nav-v9">
+  <div class="app" data-build="tradingview-capture-v10">
     <aside>
       <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
       <nav aria-label="Main navigation">
@@ -4001,6 +4096,101 @@
       return `${trade.date || todayKey()} ${time}`;
     }
 
+    function minutesFromTime(time) {
+      const match = String(time || "").match(/^(\d{1,2}):(\d{2})/);
+      if (!match) return null;
+      return Number(match[1]) * 60 + Number(match[2]);
+    }
+
+    function tradeDurationLabel(trade) {
+      const start = minutesFromTime(trade.entryTime);
+      const end = minutesFromTime(trade.exitTime);
+      if (start === null || end === null) return "entry and exit time needed";
+      const minutes = Math.max(0, end - start);
+      if (minutes < 60) return `${minutes} min replay`;
+      const hours = Math.floor(minutes / 60);
+      const rest = minutes % 60;
+      return `${hours}h ${rest}m replay`;
+    }
+
+    function tradingViewCapturePayload(trade) {
+      return {
+        tradeId: trade.id,
+        source: "TradingView",
+        status: "queued",
+        ticker: chartTicker(trade),
+        interval: "1",
+        date: trade.date || todayKey(),
+        entryTime: trade.entryTime || "",
+        exitTime: trade.exitTime || "",
+        entryLabel: captureLabel(trade, "entryScreenshot"),
+        exitLabel: captureLabel(trade, "exitScreenshot"),
+        replayWindow: `${marketTimeLabel(trade, "entryTime")} → ${marketTimeLabel(trade, "exitTime")}`,
+        requestedOutputs: ["entry_screenshot", "exit_screenshot", "trade_replay_video"],
+        tradingViewUrl: tradingViewUrl(trade),
+        implementationNote: "Backend worker should open an authorized chart session or TradingView Advanced Charts instance, jump to the requested symbol/time range, capture entry/exit images, record the replay window, then save media URLs back to this trade."
+      };
+    }
+
+    function requestTradingViewCapture(tradeId) {
+      const trade = state.trades.find(item => item.id === tradeId);
+      if (!trade) return;
+      const missing = [];
+      if (!chartTicker(trade)) missing.push("ticker");
+      if (!trade.entryTime) missing.push("entry time");
+      if (!trade.exitTime) missing.push("exit time");
+      if (missing.length) {
+        alert(`Add ${missing.join(", ")} first so TradeReview knows what to capture from TradingView.`);
+        return;
+      }
+      trade.tradingViewCapture = {
+        ...tradingViewCapturePayload(trade),
+        requestedAt: new Date().toISOString(),
+        backendReady: false
+      };
+      saveState();
+      render();
+    }
+
+    function copyTradingViewCapturePayload(tradeId, button) {
+      const trade = state.trades.find(item => item.id === tradeId);
+      if (!trade) return;
+      const payload = JSON.stringify(trade.tradingViewCapture || tradingViewCapturePayload(trade), null, 2);
+      navigator.clipboard?.writeText(payload).then(() => {
+        button.textContent = "Copied";
+        setTimeout(() => { button.textContent = "Copy backend request"; }, 1400);
+      }).catch(() => {
+        prompt("Copy this TradingView capture request:", payload);
+      });
+    }
+
+    function tradingViewCaptureCard(trade, compact = false) {
+      const request = trade.tradingViewCapture;
+      const status = request
+        ? `Queued ${new Date(request.requestedAt || Date.now()).toLocaleString()} · waiting for capture backend`
+        : "Ready to request once ticker, entry time, and exit time are set.";
+      return `<div class="tv-capture-card ${compact ? "compact" : ""}">
+        <div class="tv-capture-kicker">TradingView auto capture</div>
+        <h3 class="tv-capture-title">Entry, exit, and replay video from ${escapeHtml(chartTicker(trade) || trade.symbol || "ticker")}</h3>
+        <div class="tv-capture-meta">
+          <span>Entry: ${escapeHtml(marketTimeLabel(trade, "entryTime"))}</span>
+          <span>Exit: ${escapeHtml(marketTimeLabel(trade, "exitTime"))}</span>
+          <span>Duration: ${escapeHtml(tradeDurationLabel(trade))}</span>
+        </div>
+        <div class="tv-capture-flow">
+          <div class="tv-capture-step"><strong>1</strong>Entry image</div>
+          <div class="tv-capture-step"><strong>2</strong>Exit image</div>
+          <div class="tv-capture-step"><strong>3</strong>Replay video</div>
+        </div>
+        <div class="tv-capture-actions">
+          <button class="primary" type="button" data-tv-capture="${trade.id}">${request ? "Refresh request" : "Request auto capture"}</button>
+          <a class="chart-link" href="${tradingViewUrl(trade)}" target="_blank" rel="noopener">Open chart</a>
+          <button type="button" data-copy-tv-capture="${trade.id}">Copy backend request</button>
+        </div>
+        <div class="tv-capture-status ${request ? "waiting" : ""}">${escapeHtml(status)}</div>
+      </div>`;
+    }
+
     function captureLabel(trade, field) {
       const side = field === "entryScreenshot" ? "Entry" : "Exit";
       const timeField = field === "entryScreenshot" ? "entryTime" : "exitTime";
@@ -4289,6 +4479,7 @@
       document.querySelectorAll("[data-copy-shot-label]").forEach(button => {
         button.addEventListener("click", () => copyShotLabel(button));
       });
+      bindTradingViewCaptureButtons(tradeWrap);
       bindReviewButtons();
     }
 
@@ -4326,6 +4517,7 @@
         <a class="chart-link entry" href="${url}" target="_blank" rel="noopener">Open entry chart</a>
         <a class="chart-link exit" href="${url}" target="_blank" rel="noopener">Open exit chart</a>
         <div class="time-note">Entry: ${escapeHtml(marketTimeLabel(trade, "entryTime"))}<br>Exit: ${escapeHtml(marketTimeLabel(trade, "exitTime"))}</div>
+        ${tradingViewCaptureCard(trade, true)}
       </div>`;
     }
 
@@ -4360,6 +4552,15 @@
         setTimeout(() => { button.textContent = "Copy time"; }, 1200);
       }).catch(() => {
         prompt("Copy this TradingView capture label:", text);
+      });
+    }
+
+    function bindTradingViewCaptureButtons(root = document) {
+      root.querySelectorAll("[data-tv-capture]").forEach(button => {
+        button.addEventListener("click", () => requestTradingViewCapture(button.dataset.tvCapture));
+      });
+      root.querySelectorAll("[data-copy-tv-capture]").forEach(button => {
+        button.addEventListener("click", () => copyTradingViewCapturePayload(button.dataset.copyTvCapture, button));
       });
     }
 
@@ -4411,6 +4612,7 @@
         <div class="visual-stack">
           ${visualPanel(trade, "entryScreenshot", "Entry Point", "entryTime")}
           ${visualPanel(trade, "exitScreenshot", "Exit Point", "exitTime")}
+          ${tradingViewCaptureCard(trade)}
         </div>
         <div class="visual-stack">
           <div class="panel">
@@ -4444,6 +4646,7 @@
         trade.note = event.target.value.trim();
         saveState();
       });
+      bindTradingViewCaptureButtons(body);
     }
 
     function profileValue(name) {
