@@ -1743,27 +1743,6 @@
     }
     .market-beast.bull { right: 1%; top: -5%; color: #30e99a; animation: bullCharge 5.6s ease-in-out infinite; }
     .market-beast.bear { right: 22%; bottom: -13%; color: #ff536d; animation: bearLunge 6.2s ease-in-out infinite reverse; }
-    .beast-label {
-      position: absolute;
-      z-index: 2;
-      font-size: clamp(20px, 3.4vw, 46px);
-      font-weight: 1000;
-      letter-spacing: .16em;
-      text-shadow: 0 4px 22px rgba(0,0,0,.9);
-      opacity: .9;
-    }
-    .bull-label {
-      right: 6%;
-      top: 16%;
-      color: #86efac;
-      transform: rotate(-7deg);
-    }
-    .bear-label {
-      right: 31%;
-      bottom: 13%;
-      color: #ff8aa0;
-      transform: rotate(7deg);
-    }
     .market-candle-rain {
       position: absolute;
       inset: 0;
@@ -2882,7 +2861,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="bull-bear-home-glow-v21">
+  <div class="app" data-build="landing-webgl-logos-v22">
     <aside>
       <a class="brand" href="../" aria-label="Open TradeReview AI main page"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></a>
       <nav aria-label="Main navigation">
@@ -2909,9 +2888,7 @@
           <canvas class="hero-webgl" id="heroWebgl" aria-hidden="true"></canvas>
           <div class="market-candle-rain" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
           <div class="market-beasts" aria-hidden="true">
-            <div class="beast-label bull-label">BULL</div>
             <svg class="market-beast bull" viewBox="0 0 220 220" role="img"><path d="M52 128c20-47 51-72 95-75 15-1 26 2 34 8-17 3-29 11-37 24 20 4 34 18 43 42-22-12-43-16-64-12-24 5-44 19-60 43-5 8-14 10-22 5-8-5-10-14-6-22 5-7 10-12 17-13Z" fill="currentColor"/><path d="M43 131c-12-19-20-34-25-47 18 4 32 14 42 28m110-50c9-15 20-27 35-35-2 22-9 40-22 54" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/></svg>
-            <div class="beast-label bear-label">BEAR</div>
             <svg class="market-beast bear" viewBox="0 0 220 220" role="img"><path d="M35 92c25-28 61-39 109-34 26 3 43 13 51 29-20-5-37-1-50 11 21 9 34 27 39 54-18-17-40-27-66-30-29-3-55 5-80 24-8 6-18 4-24-4-5-8-4-18 4-24 6-5 12-9 17-26Z" fill="currentColor"/><path d="M52 74c-9-16-22-27-39-33 1 22 8 39 22 52m105-33c12-14 27-22 46-23-6 21-17 37-34 48" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/></svg>
           </div>
           <div>

@@ -151,7 +151,17 @@
       text-align: center;
     }
 
-    .hero > *:not(.market-canvas) { position: relative; z-index: 2; }
+    .hero > *:not(.market-canvas):not(.landing-webgl) { position: relative; z-index: 2; }
+
+    .landing-webgl {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      width: 100%;
+      height: 100%;
+      opacity: .48;
+      pointer-events: none;
+    }
 
     .market-canvas {
       position: absolute;
@@ -200,6 +210,24 @@
     .lead { max-width: 720px; margin: 27px 0 0; color: var(--muted); font-size: clamp(17px, 2vw, 20px); line-height: 1.68; }
     .hero-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 11px; margin-top: 34px; }
     .microcopy { margin-top: 15px; color: #617972; font-size: 11px; }
+    .logged-in-welcome {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      width: min(760px, 100%);
+      margin-top: 24px;
+      padding: 16px 18px;
+      border: 1px solid rgba(134,239,172,.22);
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(24,217,149,.12), rgba(95,134,255,.08));
+      box-shadow: 0 22px 70px rgba(0,0,0,.22), 0 0 36px rgba(24,217,149,.08);
+      text-align: left;
+      backdrop-filter: blur(16px);
+    }
+    body.user-logged-in .logged-in-welcome { display: flex; }
+    .logged-in-welcome strong { display: block; color: #f8fffb; font-size: 18px; }
+    .logged-in-welcome span { display: block; margin-top: 4px; color: #94aaa3; font-size: 12px; overflow-wrap: anywhere; }
 
     .product-frame {
       position: relative;
@@ -319,7 +347,37 @@
       font-weight: 850;
       white-space: nowrap;
     }
-    .broker-logo i { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 8px; color: #061410; background: var(--scroll-accent); font-style: normal; font-size: 10px; font-weight: 950; }
+    .broker-logo .broker-mark {
+      width: 42px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: #061410;
+      background: #f8fbff;
+      font-style: normal;
+      font-size: 10px;
+      font-weight: 1000;
+      letter-spacing: -.04em;
+      box-shadow: inset 0 -8px 18px rgba(0,0,0,.08), 0 8px 22px rgba(0,0,0,.18);
+    }
+    .broker-logo .broker-word { font-weight: 950; letter-spacing: -.03em; }
+    .logo-ib .broker-mark { color: #fff; background: conic-gradient(from 90deg, #e31b23, #f8fbff, #1d4ed8, #e31b23); }
+    .logo-robinhood .broker-mark { color: #fff; background: #00c805; }
+    .logo-oanda .broker-mark { color: #fff; background: #e31b23; }
+    .logo-tradestation .broker-mark { color: #fff; background: linear-gradient(135deg, #005baa, #00aeef); }
+    .logo-ninja .broker-mark { color: #fff; background: #111827; }
+    .logo-mt5 .broker-mark { color: #fff; background: linear-gradient(135deg, #0f766e, #38bdf8); }
+    .logo-tradovate .broker-mark { color: #fff; background: #0f766e; }
+    .logo-webull .broker-mark { color: #fff; background: #2563eb; }
+    .logo-alpaca .broker-mark { color: #061410; background: #bef264; }
+    .logo-ftmo .broker-mark { color: #fff; background: #111827; }
+    .logo-apex .broker-mark { color: #fff; background: #7c3aed; }
+    .logo-topstep .broker-mark { color: #fff; background: #0ea5e9; }
+    .logo-schwab .broker-mark { color: #fff; background: #005cb9; }
+    .logo-etrade .broker-mark { color: #fff; background: #663399; }
+    .logo-csv .broker-mark { color: #061410; background: #86efac; }
+    .logo-api .broker-mark { color: #061410; background: #f2c56d; }
     @keyframes brokerSlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
     .suite-grid {
@@ -587,6 +645,36 @@
     .help-actions button:hover { border-color: color-mix(in srgb, var(--scroll-accent) 34%, transparent); color: var(--scroll-accent); }
     .agent-link { display: block; margin: 0 11px 10px; padding: 10px 12px; border: 1px solid color-mix(in srgb, var(--scroll-accent) 25%, transparent); border-radius: 9px; color: #071510; background: var(--scroll-accent); text-align: center; font-size: 11px; font-weight: 900; }
     .agent-link[hidden] { display: none; }
+    .agent-email-form {
+      display: none;
+      gap: 9px;
+      padding: 0 11px 11px;
+    }
+    .agent-email-form.open { display: grid; }
+    .agent-email-form select,
+    .agent-email-form input,
+    .agent-email-form textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #0b181c;
+      color: #e8f4ef;
+      padding: 10px 12px;
+      font: inherit;
+      font-size: 12px;
+      outline: 0;
+    }
+    .agent-email-form textarea { min-height: 88px; resize: vertical; }
+    .agent-email-form button {
+      min-height: 38px;
+      border: 0;
+      border-radius: 10px;
+      color: #071510;
+      background: linear-gradient(135deg, #55dca0, #7fb0ff);
+      font-weight: 950;
+      cursor: pointer;
+    }
+    .agent-email-note { margin: 0; color: #7f9690; font-size: 10px; line-height: 1.45; }
     .help-form { display: flex; gap: 8px; padding: 11px; border-top: 1px solid var(--line); }
     .help-form input { width: 100%; min-height: 42px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px; outline: 0; color: #e8f4ef; background: #0b181c; }
     .help-form button { width: 43px; border: 0; border-radius: 10px; color: #071510; background: #55dca0; font-weight: 900; }
@@ -663,20 +751,25 @@
         <a href="#blog">Blog</a>
       </div>
       <div class="nav-actions">
-        <a class="button small" href="./app/tradereview-ai.html?release=20260717-premium">Sign in</a>
-        <a class="button primary small" href="./app/tradereview-ai.html?release=20260717-premium">Start free →</a>
+        <a class="button small" id="navLoginLink" href="./app/tradereview-ai.html?release=20260717-premium">Sign in</a>
+        <a class="button primary small" id="navPrimaryLink" href="./app/tradereview-ai.html?release=20260717-premium">Start free →</a>
       </div>
     </nav>
 
     <main id="top">
       <section class="hero">
+        <canvas class="landing-webgl" id="landingWebgl" aria-hidden="true"></canvas>
         <canvas class="market-canvas" id="marketCanvas" aria-hidden="true"></canvas>
         <div class="eyebrow"><span class="dot"></span> Free account · No credit card required</div>
-        <h1><span class="gradient">Trade less on impulse. Review more on evidence.</span></h1>
+        <h1><span class="gradient" id="landingHeadline">Trade less on impulse. Review more on evidence.</span></h1>
         <p class="lead">A private performance workspace that turns executions, risk, screenshots, and daily notes into a review process you can actually repeat.</p>
         <div class="hero-actions">
-          <a class="button primary" href="./app/tradereview-ai.html?release=20260717-premium">Start your free journal →</a>
+          <a class="button primary" id="heroPrimaryLink" href="./app/tradereview-ai.html?release=20260717-premium">Start your free journal →</a>
           <a class="button" href="#features">Explore the workspace</a>
+        </div>
+        <div class="logged-in-welcome" id="loggedInWelcome">
+          <div><strong id="welcomeUserLine">Welcome back</strong><span id="welcomeUserEmail">Your dashboard is ready.</span></div>
+          <a class="button primary small" href="./app/tradereview-ai.html?view=dashboard">Open dashboard →</a>
         </div>
         <div class="microcopy">$0 to start · Full journal workflow · Private cloud sync</div>
 
@@ -719,12 +812,12 @@
           <p>TradeReview is being built around secure broker connections, CSV import, and direct provider paths for brokers that are not available in the first connection portal.</p>
         </div>
         <div class="broker-rail" aria-hidden="true">
-          <span class="broker-logo"><i>IB</i>Interactive Brokers</span><span class="broker-logo"><i>RH</i>Robinhood</span><span class="broker-logo"><i>OA</i>OANDA</span><span class="broker-logo"><i>TS</i>TradeStation</span><span class="broker-logo"><i>NT</i>NinjaTrader</span><span class="broker-logo"><i>MT5</i>MetaTrader 5</span><span class="broker-logo"><i>TD</i>Tradovate</span><span class="broker-logo"><i>WB</i>Webull</span>
-          <span class="broker-logo"><i>IB</i>Interactive Brokers</span><span class="broker-logo"><i>RH</i>Robinhood</span><span class="broker-logo"><i>OA</i>OANDA</span><span class="broker-logo"><i>TS</i>TradeStation</span><span class="broker-logo"><i>NT</i>NinjaTrader</span><span class="broker-logo"><i>MT5</i>MetaTrader 5</span><span class="broker-logo"><i>TD</i>Tradovate</span><span class="broker-logo"><i>WB</i>Webull</span>
+          <span class="broker-logo logo-ib"><span class="broker-mark">IBKR</span><span class="broker-word">Interactive Brokers</span></span><span class="broker-logo logo-robinhood"><span class="broker-mark">RH</span><span class="broker-word">Robinhood</span></span><span class="broker-logo logo-oanda"><span class="broker-mark">O</span><span class="broker-word">OANDA</span></span><span class="broker-logo logo-tradestation"><span class="broker-mark">TS</span><span class="broker-word">TradeStation</span></span><span class="broker-logo logo-ninja"><span class="broker-mark">N</span><span class="broker-word">NinjaTrader</span></span><span class="broker-logo logo-mt5"><span class="broker-mark">MT5</span><span class="broker-word">MetaTrader 5</span></span><span class="broker-logo logo-tradovate"><span class="broker-mark">TD</span><span class="broker-word">Tradovate</span></span><span class="broker-logo logo-webull"><span class="broker-mark">WB</span><span class="broker-word">Webull</span></span>
+          <span class="broker-logo logo-ib"><span class="broker-mark">IBKR</span><span class="broker-word">Interactive Brokers</span></span><span class="broker-logo logo-robinhood"><span class="broker-mark">RH</span><span class="broker-word">Robinhood</span></span><span class="broker-logo logo-oanda"><span class="broker-mark">O</span><span class="broker-word">OANDA</span></span><span class="broker-logo logo-tradestation"><span class="broker-mark">TS</span><span class="broker-word">TradeStation</span></span><span class="broker-logo logo-ninja"><span class="broker-mark">N</span><span class="broker-word">NinjaTrader</span></span><span class="broker-logo logo-mt5"><span class="broker-mark">MT5</span><span class="broker-word">MetaTrader 5</span></span><span class="broker-logo logo-tradovate"><span class="broker-mark">TD</span><span class="broker-word">Tradovate</span></span><span class="broker-logo logo-webull"><span class="broker-mark">WB</span><span class="broker-word">Webull</span></span>
         </div>
         <div class="broker-rail" aria-hidden="true">
-          <span class="broker-logo"><i>AP</i>Alpaca</span><span class="broker-logo"><i>FT</i>FTMO</span><span class="broker-logo"><i>APX</i>Apex</span><span class="broker-logo"><i>TS</i>TopStep</span><span class="broker-logo"><i>SC</i>Schwab</span><span class="broker-logo"><i>ET</i>E*TRADE</span><span class="broker-logo"><i>CSV</i>CSV Import</span><span class="broker-logo"><i>API</i>Direct API</span>
-          <span class="broker-logo"><i>AP</i>Alpaca</span><span class="broker-logo"><i>FT</i>FTMO</span><span class="broker-logo"><i>APX</i>Apex</span><span class="broker-logo"><i>TS</i>TopStep</span><span class="broker-logo"><i>SC</i>Schwab</span><span class="broker-logo"><i>ET</i>E*TRADE</span><span class="broker-logo"><i>CSV</i>CSV Import</span><span class="broker-logo"><i>API</i>Direct API</span>
+          <span class="broker-logo logo-alpaca"><span class="broker-mark">A</span><span class="broker-word">Alpaca</span></span><span class="broker-logo logo-ftmo"><span class="broker-mark">FTMO</span><span class="broker-word">FTMO</span></span><span class="broker-logo logo-apex"><span class="broker-mark">APX</span><span class="broker-word">Apex</span></span><span class="broker-logo logo-topstep"><span class="broker-mark">TOP</span><span class="broker-word">TopStep</span></span><span class="broker-logo logo-schwab"><span class="broker-mark">CS</span><span class="broker-word">Schwab</span></span><span class="broker-logo logo-etrade"><span class="broker-mark">E*</span><span class="broker-word">E*TRADE</span></span><span class="broker-logo logo-csv"><span class="broker-mark">CSV</span><span class="broker-word">CSV Import</span></span><span class="broker-logo logo-api"><span class="broker-mark">API</span><span class="broker-word">Direct API</span></span>
+          <span class="broker-logo logo-alpaca"><span class="broker-mark">A</span><span class="broker-word">Alpaca</span></span><span class="broker-logo logo-ftmo"><span class="broker-mark">FTMO</span><span class="broker-word">FTMO</span></span><span class="broker-logo logo-apex"><span class="broker-mark">APX</span><span class="broker-word">Apex</span></span><span class="broker-logo logo-topstep"><span class="broker-mark">TOP</span><span class="broker-word">TopStep</span></span><span class="broker-logo logo-schwab"><span class="broker-mark">CS</span><span class="broker-word">Schwab</span></span><span class="broker-logo logo-etrade"><span class="broker-mark">E*</span><span class="broker-word">E*TRADE</span></span><span class="broker-logo logo-csv"><span class="broker-mark">CSV</span><span class="broker-word">CSV Import</span></span><span class="broker-logo logo-api"><span class="broker-mark">API</span><span class="broker-word">Direct API</span></span>
         </div>
       </section>
 
@@ -869,10 +962,24 @@
 
   <button class="help-button" id="helpButton" type="button" aria-expanded="false"><span class="help-icon">?</span><span>How can I help?</span></button>
   <section class="help-card" id="helpCard" aria-label="TradeReview help" aria-hidden="true">
-    <div class="help-head"><div><strong>TradeReview support</strong><span>Instant guidance or a human support request</span></div><button class="help-close" id="helpClose" type="button" aria-label="Close help">×</button></div>
-    <div class="help-messages" id="helpMessages"><div class="message">Hi — I can answer product questions instantly, or help you send a support request to a person. What do you need?</div></div>
+    <div class="help-head"><div><strong>TradeReview support</strong><span>Instant guidance or email Alex directly</span></div><button class="help-close" id="helpClose" type="button" aria-label="Close help">×</button></div>
+    <div class="help-messages" id="helpMessages"><div class="message">Hi — I can answer product questions instantly, or help you email Alex at support. What do you need?</div></div>
     <div class="help-actions"><button id="instantGuide" type="button">Instant guide</button><button id="talkToAgent" type="button">Talk to an agent</button></div>
-    <a class="agent-link" id="agentLink" href="https://github.com/Axphyxiate/tradereview-ai-live/issues/new?title=TradeReview%20support%20request&amp;body=Please%20describe%20what%20you%20need%20help%20with.%20Do%20not%20include%20passwords%2C%20login%20links%2C%20or%20private%20trade%20data." target="_blank" rel="noopener" hidden>Open human support request →</a>
+    <form class="agent-email-form" id="agentEmailForm">
+      <select id="supportReason" aria-label="Support reason">
+        <option>Account issue</option>
+        <option>Billing</option>
+        <option>Broker sync</option>
+        <option>Bug report</option>
+        <option>Feature request</option>
+        <option>Other question</option>
+      </select>
+      <input id="supportFromEmail" type="email" placeholder="Your email" aria-label="Your email">
+      <textarea id="supportMessage" placeholder="Tell Alex what you need help with..." aria-label="Support message"></textarea>
+      <button type="submit">Send email to Alex</button>
+      <p class="agent-email-note">This opens your email app and sends to alexhopkins652@gmail.com. Do not include passwords, login links, or private trading data.</p>
+    </form>
+    <a class="agent-link" id="agentLink" href="mailto:alexhopkins652@gmail.com?subject=TradeReview%20AI%20support%20request&body=Hi%20Alex%2C%0A%0AI%20need%20help%20with%3A%0A%0A" hidden>Email Alex at support →</a>
     <form class="help-form" id="helpForm"><input id="helpInput" placeholder="Ask a question…" autocomplete="off" aria-label="Ask a question"><button type="submit" aria-label="Send">↑</button></form>
   </section>
 
@@ -885,6 +992,41 @@
     const themeRed = [255, 83, 109];
     let currentAccent = themeGreen;
     let scrollUpdateQueued = false;
+    const appUrl = "./app/tradereview-ai.html";
+
+    function landingUserFromStorage() {
+      for (let index = 0; index < localStorage.length; index += 1) {
+        const key = localStorage.key(index);
+        if (!key || !/supabase|auth-token|sb-/.test(key)) continue;
+        try {
+          const value = JSON.parse(localStorage.getItem(key));
+          const user = value?.user || value?.currentSession?.user || value?.session?.user;
+          if (user?.email) return user;
+        } catch (_) {}
+      }
+      return null;
+    }
+
+    function firstNameFromEmail(email = "") {
+      const raw = email.split("@")[0]?.split(/[._-]/)[0] || "trader";
+      return raw ? raw.charAt(0).toUpperCase() + raw.slice(1) : "Trader";
+    }
+
+    function renderLoggedInLanding() {
+      const user = landingUserFromStorage();
+      if (!user) return;
+      const firstName = firstNameFromEmail(user.email);
+      document.body.classList.add("user-logged-in");
+      document.querySelector("#landingHeadline").textContent = `Welcome back, ${firstName}. Your trading command center is ready.`;
+      document.querySelector("#welcomeUserLine").textContent = `Welcome back, ${firstName}`;
+      document.querySelector("#welcomeUserEmail").textContent = `${user.email} · Continue to your private dashboard.`;
+      document.querySelector("#navLoginLink").textContent = "Dashboard";
+      document.querySelector("#navLoginLink").href = `${appUrl}?view=dashboard`;
+      document.querySelector("#navPrimaryLink").textContent = "Open dashboard →";
+      document.querySelector("#navPrimaryLink").href = `${appUrl}?view=dashboard`;
+      document.querySelector("#heroPrimaryLink").textContent = "Open your dashboard →";
+      document.querySelector("#heroPrimaryLink").href = `${appUrl}?view=dashboard`;
+    }
 
     const mixChannel = (from, to, amount) => Math.round(from + (to - from) * amount);
     const mixColor = (from, to, amount) => from.map((value, index) => mixChannel(value, to[index], amount));
@@ -1026,11 +1168,96 @@
     resizeMarketCanvas();
     window.addEventListener("resize", resizeMarketCanvas);
     window.requestAnimationFrame(drawMarket);
+    renderLoggedInLanding();
+
+    function initLandingWebgl() {
+      const canvas = document.querySelector("#landingWebgl");
+      const gl = canvas?.getContext("webgl", { antialias: true, alpha: true });
+      if (!canvas || !gl) return;
+      const vertexSource = "attribute vec2 position; void main(){ gl_Position = vec4(position, 0.0, 1.0); }";
+      const fragmentSource = `
+        precision mediump float;
+        uniform vec2 resolution;
+        uniform float time;
+        uniform vec2 pointer;
+        void main() {
+          vec2 uv = gl_FragCoord.xy / resolution.xy;
+          vec2 p = (uv - 0.5) * vec2(resolution.x / resolution.y, 1.0);
+          vec2 m = (pointer - 0.5) * vec2(resolution.x / resolution.y, 1.0);
+          float wave = sin((p.x + time * .08) * 9.0) * cos((p.y - time * .06) * 8.0);
+          float pulse = 0.5 + 0.5 * sin(length(p - m) * 18.0 - time * 1.9);
+          vec3 green = vec3(0.06, 0.92, 0.58);
+          vec3 blue = vec3(0.28, 0.46, 1.0);
+          vec3 red = vec3(1.0, 0.18, 0.32);
+          vec3 color = mix(green, red, smoothstep(-0.25, 0.35, wave));
+          color = mix(color, blue, .22 + pulse * .18);
+          float vignette = smoothstep(1.2, 0.05, length(p));
+          float alpha = vignette * (.08 + pulse * .08);
+          gl_FragColor = vec4(color, alpha);
+        }`;
+      const compile = (type, source) => {
+        const shader = gl.createShader(type);
+        gl.shaderSource(shader, source);
+        gl.compileShader(shader);
+        return shader;
+      };
+      const program = gl.createProgram();
+      gl.attachShader(program, compile(gl.VERTEX_SHADER, vertexSource));
+      gl.attachShader(program, compile(gl.FRAGMENT_SHADER, fragmentSource));
+      gl.linkProgram(program);
+      gl.useProgram(program);
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+      const position = gl.getAttribLocation(program, "position");
+      gl.enableVertexAttribArray(position);
+      gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+      const resolution = gl.getUniformLocation(program, "resolution");
+      const time = gl.getUniformLocation(program, "time");
+      const pointer = gl.getUniformLocation(program, "pointer");
+      const mouse = { x: .5, y: .42 };
+      window.addEventListener("pointermove", event => {
+        mouse.x = event.clientX / window.innerWidth;
+        mouse.y = 1 - event.clientY / window.innerHeight;
+        document.documentElement.style.setProperty("--pointer-x", `${event.clientX}px`);
+        document.documentElement.style.setProperty("--pointer-y", `${event.clientY}px`);
+      }, { passive: true });
+      const resize = () => {
+        const ratio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.round(window.innerWidth * ratio);
+        canvas.height = Math.round(window.innerHeight * ratio);
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      };
+      resize();
+      window.addEventListener("resize", resize);
+      const draw = now => {
+        gl.uniform2f(resolution, canvas.width, canvas.height);
+        gl.uniform1f(time, now * .001);
+        gl.uniform2f(pointer, mouse.x, mouse.y);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+        if (!reduceMotion) requestAnimationFrame(draw);
+      };
+      requestAnimationFrame(draw);
+    }
+    initLandingWebgl();
+
+    document.querySelectorAll(".feature-card, .price-card, .blog-card, .broker-logo, .product-frame").forEach(card => {
+      card.addEventListener("pointermove", event => {
+        const rect = card.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width - .5) * 10;
+        const y = ((event.clientY - rect.top) / rect.height - .5) * -10;
+        card.style.transform = `perspective(900px) rotateY(${x}deg) rotateX(${y}deg) translateY(-3px)`;
+      }, { passive: true });
+      card.addEventListener("pointerleave", () => {
+        card.style.transform = "";
+      });
+    });
 
     const helpButton = document.querySelector("#helpButton");
     const helpCard = document.querySelector("#helpCard");
     const helpMessages = document.querySelector("#helpMessages");
     const agentLink = document.querySelector("#agentLink");
+    const agentEmailForm = document.querySelector("#agentEmailForm");
     const setHelpOpen = open => {
       helpCard.classList.toggle("open", open);
       helpCard.setAttribute("aria-hidden", String(!open));
@@ -1040,7 +1267,7 @@
     const answer = question => {
       const query = question.toLowerCase();
       if (/free|price|cost|card/.test(query)) return "Creating a TradeReview account is free and does not require a credit card.";
-      if (/agent|human|person|support/.test(query)) return "Choose Talk to an agent below to open a human support request. The request is handled through public GitHub Issues, so never include passwords, login links, or private trade data.";
+      if (/agent|human|person|support/.test(query)) return "Choose Talk to an agent below to email Alex directly at alexhopkins652@gmail.com. Do not include passwords, login links, or private trade data.";
       if (/private|privacy|secure|data/.test(query)) return "Your journal uses secure sign-in and row-level database rules so each account can access only its own saved journal data.";
       if (/google|gmail|sign|account|login/.test(query)) return "Open the journal and choose Continue with Google, or create an account with email and password.";
       if (/import|csv|broker|trade/.test(query)) return "You can add trades manually or import a CSV. TradeReview understands common fields including date, symbol, P/L, entry and exit times, setup, and mistake.";
@@ -1059,12 +1286,24 @@
     document.querySelector("#helpClose").addEventListener("click", () => setHelpOpen(false));
     document.querySelector("#instantGuide").addEventListener("click", () => {
       agentLink.hidden = true;
+      agentEmailForm.classList.remove("open");
       addMessage("Ask me about the free account, importing trades, journal reviews, privacy, or performance statistics.");
       document.querySelector("#helpInput").focus();
     });
     document.querySelector("#talkToAgent").addEventListener("click", () => {
-      addMessage("Human support is available through a GitHub support request. It is not a live chat and the request is public, so do not include passwords, authentication links, or private trading data.");
-      agentLink.hidden = false;
+      addMessage("Choose a reason, add your email and message, then Send email. It will go to Alex at alexhopkins652@gmail.com.");
+      agentEmailForm.classList.add("open");
+      agentLink.hidden = true;
+      document.querySelector("#supportFromEmail").focus();
+    });
+    agentEmailForm.addEventListener("submit", event => {
+      event.preventDefault();
+      const reason = document.querySelector("#supportReason").value;
+      const from = document.querySelector("#supportFromEmail").value.trim();
+      const message = document.querySelector("#supportMessage").value.trim();
+      const subject = encodeURIComponent(`TradeReview AI support: ${reason}`);
+      const body = encodeURIComponent(`Reason: ${reason}\nCustomer email: ${from || "Not provided"}\n\nMessage:\n${message || "Please describe the issue here."}\n\nDo not include passwords, login links, or private trading data.`);
+      window.location.href = `mailto:alexhopkins652@gmail.com?subject=${subject}&body=${body}`;
     });
     document.querySelector("#helpForm").addEventListener("submit", event => {
       event.preventDefault();
