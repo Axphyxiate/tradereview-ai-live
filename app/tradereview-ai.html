@@ -2608,7 +2608,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="auth-session-gate-v13">
+  <div class="app" data-build="capture-reconnect-v14">
     <aside>
       <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
       <nav aria-label="Main navigation">
@@ -4152,11 +4152,11 @@
         trade.tradingViewCapture = {
           ...trade.tradingViewCapture,
           status: "queued_local",
-          message: "Saved locally. TradeReview could not find an active Supabase session in this browser tab, so the backend job was not queued."
+          reconnectRequired: true,
+          message: "Saved locally. Reconnect your secure account session to queue this capture on the backend."
         };
         saveState();
         render();
-        showAuth("Your secure session expired. Sign in again, then click Request auto capture once more.", true);
         return;
       }
 
@@ -4211,6 +4211,9 @@
       const status = request
         ? `${request.jobId ? `Job ${request.jobId.slice(0, 8)} · ` : ""}${request.message || `Queued ${new Date(request.requestedAt || Date.now()).toLocaleString()} · waiting for capture backend`}`
         : "Ready to request once ticker, entry time, and exit time are set.";
+      const reconnectAction = request?.reconnectRequired
+        ? `<button class="primary" type="button" data-reconnect-auth="true">Reconnect account</button>`
+        : "";
       return `<div class="tv-capture-card ${compact ? "compact" : ""}">
         <div class="tv-capture-kicker">TradingView auto capture</div>
         <h3 class="tv-capture-title">Entry, exit, and replay video from ${escapeHtml(chartTicker(trade) || trade.symbol || "ticker")}</h3>
@@ -4226,6 +4229,7 @@
         </div>
         <div class="tv-capture-actions">
           <button class="primary" type="button" data-tv-capture="${trade.id}">${request ? "Refresh request" : "Request auto capture"}</button>
+          ${reconnectAction}
           <a class="chart-link" href="${tradingViewUrl(trade)}" target="_blank" rel="noopener">Open chart</a>
           <button type="button" data-copy-tv-capture="${trade.id}">Copy backend request</button>
         </div>
@@ -4600,6 +4604,9 @@
     function bindTradingViewCaptureButtons(root = document) {
       root.querySelectorAll("[data-tv-capture]").forEach(button => {
         button.addEventListener("click", () => requestTradingViewCapture(button.dataset.tvCapture));
+      });
+      root.querySelectorAll("[data-reconnect-auth]").forEach(button => {
+        button.addEventListener("click", () => showAuth("Reconnect your secure account, then click Request auto capture again.", true));
       });
       root.querySelectorAll("[data-copy-tv-capture]").forEach(button => {
         button.addEventListener("click", () => copyTradingViewCapturePayload(button.dataset.copyTvCapture, button));
