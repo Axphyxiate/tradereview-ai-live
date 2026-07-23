@@ -4154,7 +4154,18 @@
       saveState();
       render();
 
-      if (!currentUser || !cloudSyncReady) {
+      let sessionUser = currentUser;
+      if (!sessionUser) {
+        try {
+          const { data: sessionData } = await cloudClient.auth.getSession();
+          sessionUser = sessionData?.session?.user || null;
+          if (sessionUser) currentUser = sessionUser;
+        } catch {
+          sessionUser = null;
+        }
+      }
+
+      if (!sessionUser) {
         trade.tradingViewCapture = {
           ...trade.tradingViewCapture,
           status: "queued_local",
@@ -4180,7 +4191,7 @@
           ...trade.tradingViewCapture,
           status: "backend_not_ready",
           error: error?.message || data?.error || "TradingView capture function is not deployed yet.",
-          message: "Saved locally, but backend queue is not ready yet."
+          message: "Signed in. Saved locally, but the TradingView capture backend is not ready yet."
         };
         saveState();
         render();
