@@ -2997,7 +2997,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="symbol-tabs-chart-v33">
+  <div class="app" data-build="no-dashboard-chart-v34">
     <aside>
       <a class="brand" href="../" aria-label="Open TradeReview AI main page"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></a>
       <nav aria-label="Main navigation">
@@ -3022,7 +3022,6 @@
       <section id="dashboard" class="section active">
         <div class="topbar dashboard-hero" id="dashboardHero">
           <canvas class="hero-webgl" id="heroWebgl" aria-hidden="true"></canvas>
-          <canvas class="hero-market-chart" id="heroMarketChart" aria-hidden="true"></canvas>
           <div class="hero-copy">
             <div class="welcome-line" id="welcomeLine">Welcome back</div>
             <div class="page-kicker"><span class="live-dot"></span> Performance workspace</div>
@@ -5883,7 +5882,6 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
         hero.dataset.lastScrollTop = String(y);
       }, { passive: true });
       initHeroWebgl();
-      initDashboardChart();
     }
 
     function initCursorOrb() {
@@ -6331,7 +6329,14 @@ Save this agent to the database and run it against new journal/trade events auto
             input.focus();
           }
         });
-        menu.addEventListener("mousedown", event => event.preventDefault());
+        menu.addEventListener("pointerdown", event => {
+          event.preventDefault();
+          event.stopPropagation();
+        }, true);
+        menu.addEventListener("mousedown", event => {
+          event.preventDefault();
+          event.stopPropagation();
+        }, true);
         menu.addEventListener("click", event => {
           event.preventDefault();
           event.stopPropagation();
@@ -6339,7 +6344,6 @@ Save this agent to the database and run it against new journal/trade events auto
           if (tab) {
             renderPicker(box, tab.dataset.symbolType);
             box.classList.add("open");
-            input.focus();
             return;
           }
           if (event.target.closest(".symbol-picker-close")) {
