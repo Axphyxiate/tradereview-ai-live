@@ -4834,6 +4834,31 @@
       };
     }
 
+    function tradingViewCaptureWorkerUrl() {
+      const explicit = window.TRADE_REVIEW_CAPTURE_WORKER_URL || authConfig?.captureWorkerUrl || "";
+      return String(explicit || "").trim().replace(/\/+$/, "");
+    }
+
+    async function invokeTradingViewCaptureWorker(payload) {
+      const workerUrl = tradingViewCaptureWorkerUrl();
+      if (!workerUrl) {
+        return cloudClient.functions.invoke("tradingview-capture", { body: payload });
+      }
+      const response = await fetch(`${workerUrl}/capture`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        return {
+          data,
+          error: new Error(data?.error || data?.message || `Capture worker returned ${response.status}`)
+        };
+      }
+      return { data, error: null };
+    }
+
     async function requestTradingViewCapture(tradeId) {
       const trade = state.trades.find(item => item.id === tradeId);
       if (!trade) return;
@@ -4882,19 +4907,25 @@
       let data = null;
       let error = null;
       try {
-        const response = await cloudClient.functions.invoke("tradingview-capture", { body: payload });
+        const response = await invokeTradingViewCaptureWorker(payload);
         data = response.data;
         error = response.error;
       } catch (functionError) {
         error = functionError;
       }
 
+      const media = data?.media || {};
+      if (media.entryScreenshotUrl) trade.entryScreenshot = media.entryScreenshotUrl;
+      if (media.exitScreenshotUrl) trade.exitScreenshot = media.exitScreenshotUrl;
+
       if (error || data?.error || !data?.jobId) {
         trade.tradingViewCapture = {
           ...trade.tradingViewCapture,
           status: "backend_not_ready",
-          error: error?.message || data?.error || "TradingView capture function is not deployed yet.",
-          message: "Capture request saved. The automation worker still needs to be connected before TradeReview can generate TradingView screenshots and replay videos."
+          error: error?.message || data?.error || "TradingView capture worker is not connected yet.",
+          message: tradingViewCaptureWorkerUrl()
+            ? "Capture request saved, but the automation worker did not return media yet. Check the worker terminal/logs."
+            : "Capture request saved. Add a TradingView capture worker URL so TradeReview can generate screenshots and replay videos automatically."
         };
         saveState();
         render();
@@ -4907,6 +4938,8 @@
         backendReady: true,
         status: data.status || "queued",
         jobId: data.jobId,
+        media,
+        limitations: data.limitations || [],
         message: data.message || "TradingView capture job queued."
       };
       saveState();
@@ -4941,6 +4974,12 @@
       const reconnectAction = request?.reconnectRequired
         ? `<button class="primary" type="button" data-reconnect-auth="true">Reconnect account</button>`
         : "";
+      const media = request?.media || {};
+      const mediaLinks = [
+        media.entryScreenshotUrl ? `<a class="chart-link" href="${escapeHtml(media.entryScreenshotUrl)}" target="_blank" rel="noopener">Open entry image</a>` : "",
+        media.exitScreenshotUrl ? `<a class="chart-link" href="${escapeHtml(media.exitScreenshotUrl)}" target="_blank" rel="noopener">Open exit image</a>` : "",
+        media.replayVideoUrl ? `<a class="chart-link" href="${escapeHtml(media.replayVideoUrl)}" target="_blank" rel="noopener">Open replay video</a>` : ""
+      ].filter(Boolean).join("");
       return `<div class="tv-capture-card ${compact ? "compact" : ""}">
         <div class="tv-capture-kicker">TradingView capture pipeline</div>
         <h3 class="tv-capture-title">Auto-build entry, exit, and replay media for ${escapeHtml(chartTicker(trade) || trade.symbol || "ticker")}</h3>
@@ -4959,6 +4998,7 @@
           <button class="primary" type="button" data-tv-capture="${trade.id}">${request ? "Refresh request" : "Request auto capture"}</button>
           ${reconnectAction}
           <a class="chart-link" href="${tradingViewUrl(trade)}" target="_blank" rel="noopener">Open chart</a>
+          ${mediaLinks}
           <button type="button" data-copy-tv-capture="${trade.id}">Copy backend request</button>
         </div>
         <div class="tv-capture-status ${request ? "waiting" : ""}">${request ? status : escapeHtml(status)}</div>
