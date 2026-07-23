@@ -2173,9 +2173,10 @@
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
     }
 
-    /* Final stable shell: fixed viewport grid; only the main panel scrolls. */
+    /* Final stable shell: fixed sidebar, fixed main panel; only the main panel scrolls. */
     body:not(.auth-pending):not(.auth-required),
     body.app-ready {
+      --app-sidebar-width: 250px;
       height: 100vh !important;
       overflow: hidden !important;
       background: #050817 !important;
@@ -2183,8 +2184,7 @@
 
     body:not(.auth-pending):not(.auth-required) .app,
     body.app-ready .app {
-      display: grid !important;
-      grid-template-columns: 250px minmax(0, 1fr) !important;
+      display: block !important;
       position: fixed !important;
       inset: 0 !important;
       width: 100vw !important;
@@ -2195,30 +2195,26 @@
 
     body:not(.auth-pending):not(.auth-required) aside,
     body.app-ready aside {
-      grid-column: 1 !important;
-      grid-row: 1 !important;
-      position: relative !important;
-      top: auto !important;
+      position: fixed !important;
+      top: 0 !important;
       right: auto !important;
-      bottom: auto !important;
-      left: auto !important;
-      width: auto !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: var(--app-sidebar-width) !important;
       height: 100vh !important;
-      z-index: 2 !important;
+      z-index: 20 !important;
       overflow-y: auto !important;
       overflow-x: hidden !important;
     }
 
     body:not(.auth-pending):not(.auth-required) main,
     body.app-ready main {
-      grid-column: 2 !important;
-      grid-row: 1 !important;
-      position: relative !important;
-      top: auto !important;
-      right: auto !important;
-      bottom: auto !important;
-      left: auto !important;
-      width: auto !important;
+      position: fixed !important;
+      top: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      left: var(--app-sidebar-width) !important;
+      width: calc(100vw - var(--app-sidebar-width)) !important;
       height: 100vh !important;
       min-width: 0 !important;
       min-height: 0 !important;
@@ -2226,12 +2222,13 @@
       overflow-y: auto !important;
       overflow-x: hidden !important;
       z-index: 1 !important;
+      transform: none !important;
     }
 
     @media (max-width: 940px) {
-      body:not(.auth-pending):not(.auth-required) .app,
-      body.app-ready .app {
-        grid-template-columns: 86px minmax(0, 1fr) !important;
+      body:not(.auth-pending):not(.auth-required),
+      body.app-ready {
+        --app-sidebar-width: 86px;
       }
     }
   </style>
