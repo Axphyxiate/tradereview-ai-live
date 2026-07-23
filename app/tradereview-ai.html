@@ -2220,10 +2220,20 @@
       min-width: 0 !important;
       min-height: 0 !important;
       margin: 0 !important;
-      padding: var(--app-page-padding) var(--app-page-padding) var(--app-page-padding) calc(var(--app-sidebar-width) + var(--app-page-padding)) !important;
+      padding: 0 !important;
       overflow-y: auto !important;
       overflow-x: hidden !important;
       z-index: 1 !important;
+      transform: none !important;
+    }
+
+    body:not(.auth-pending):not(.auth-required) main > .section,
+    body.app-ready main > .section {
+      box-sizing: border-box !important;
+      width: 100% !important;
+      min-height: 100vh !important;
+      margin: 0 !important;
+      padding: var(--app-page-padding) var(--app-page-padding) var(--app-page-padding) calc(var(--app-sidebar-width) + var(--app-page-padding)) !important;
       transform: none !important;
     }
 
@@ -2395,7 +2405,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="content-safe-sidebar-v1">
+  <div class="app" data-build="section-safe-sidebar-v2">
     <aside>
       <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
       <nav aria-label="Main navigation">
@@ -3582,12 +3592,21 @@
         mainPanel.style.setProperty("min-width", "0", important);
         mainPanel.style.setProperty("min-height", "0", important);
         mainPanel.style.setProperty("margin", "0", important);
-        mainPanel.style.setProperty("padding", `${pagePadding}px ${pagePadding}px ${pagePadding}px ${sidebarWidth + pagePadding}px`, important);
+        mainPanel.style.setProperty("padding", "0", important);
         mainPanel.style.setProperty("overflow-y", "auto", important);
         mainPanel.style.setProperty("overflow-x", "hidden", important);
         mainPanel.style.setProperty("transform", "none", important);
         mainPanel.style.setProperty("z-index", "1", important);
       }
+
+      document.querySelectorAll("main > .section").forEach(section => {
+        section.style.setProperty("box-sizing", "border-box", important);
+        section.style.setProperty("width", "100%", important);
+        section.style.setProperty("min-height", "100vh", important);
+        section.style.setProperty("margin", "0", important);
+        section.style.setProperty("padding", `${pagePadding}px ${pagePadding}px ${pagePadding}px ${sidebarWidth + pagePadding}px`, important);
+        section.style.setProperty("transform", "none", important);
+      });
     }
 
     function resetAppScroll() {
