@@ -2274,21 +2274,18 @@
       --app-page-padding: clamp(22px, 3vw, 38px);
     }
 
-    body:not(.auth-pending),
     body.app-ready {
       height: 100vh !important;
       overflow: hidden !important;
       background: #050817 !important;
     }
 
-    body:not(.auth-pending) .auth-gate,
     body.app-ready .auth-gate {
       display: none !important;
       visibility: hidden !important;
       pointer-events: none !important;
     }
 
-    body:not(.auth-pending) .app,
     body.app-ready .app {
       display: block !important;
       position: fixed !important;
@@ -2299,7 +2296,6 @@
       overflow: hidden !important;
     }
 
-    body:not(.auth-pending) aside,
     body.app-ready aside {
       position: fixed !important;
       top: 0 !important;
@@ -2313,7 +2309,6 @@
       overflow-x: hidden !important;
     }
 
-    body:not(.auth-pending) main,
     body.app-ready main {
       position: fixed !important;
       top: 0 !important;
@@ -2332,7 +2327,6 @@
       transform: none !important;
     }
 
-    body:not(.auth-pending) .section,
     body.app-ready .section {
       box-sizing: border-box !important;
       position: fixed !important;
@@ -2365,20 +2359,17 @@
         --app-page-padding: 16px;
       }
 
-      body:not(.auth-pending),
       body.app-ready {
         height: 100dvh !important;
         overflow: hidden !important;
       }
 
-      body:not(.auth-pending) .app,
       body.app-ready .app {
         width: 100vw !important;
         height: 100dvh !important;
         overflow: hidden !important;
       }
 
-      body:not(.auth-pending) aside,
       body.app-ready aside {
         top: auto !important;
         right: 0 !important;
@@ -2396,12 +2387,10 @@
         box-shadow: 0 -18px 50px rgba(0,0,0,.35) !important;
       }
 
-      body:not(.auth-pending) aside .brand,
       body.app-ready aside .brand {
         display: none !important;
       }
 
-      body:not(.auth-pending) nav,
       body.app-ready nav {
         display: grid !important;
         grid-template-columns: none !important;
@@ -2413,7 +2402,6 @@
         padding: 0 !important;
       }
 
-      body:not(.auth-pending) nav button,
       body.app-ready nav button {
         width: 100% !important;
         min-width: 0 !important;
@@ -2427,12 +2415,10 @@
         border-radius: 14px !important;
       }
 
-      body:not(.auth-pending) .account-panel,
       body.app-ready .account-panel {
         display: none !important;
       }
 
-      body:not(.auth-pending) main,
       body.app-ready main {
         top: 0 !important;
         bottom: var(--app-mobile-nav-height) !important;
@@ -2441,7 +2427,6 @@
         height: calc(100dvh - var(--app-mobile-nav-height)) !important;
       }
 
-      body:not(.auth-pending) .section,
       body.app-ready .section {
         top: 0 !important;
         bottom: var(--app-mobile-nav-height) !important;
@@ -2451,14 +2436,12 @@
         padding: var(--app-page-padding) !important;
       }
 
-      body:not(.auth-pending) .topbar h1,
       body.app-ready .topbar h1 {
         font-size: clamp(34px, 12vw, 54px) !important;
         line-height: .96 !important;
         letter-spacing: -0.06em !important;
       }
 
-      body:not(.auth-pending) .topbar p,
       body.app-ready .topbar p {
         font-size: 15px !important;
         line-height: 1.45 !important;
@@ -2625,7 +2608,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="tradingview-session-message-v12">
+  <div class="app" data-build="auth-session-gate-v13">
     <aside>
       <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
       <nav aria-label="Main navigation">
@@ -2640,7 +2623,7 @@
       </nav>
       <div class="account-panel">
         <strong>Free account</strong>
-        <span id="accountEmail">Signed in</span>
+        <span id="accountEmail">Not signed in</span>
         <span id="accountProfile">Trader profile</span>
         <button id="signOut" type="button">Sign out</button>
       </div>
@@ -4173,6 +4156,7 @@
         };
         saveState();
         render();
+        showAuth("Your secure session expired. Sign in again, then click Request auto capture once more.", true);
         return;
       }
 
