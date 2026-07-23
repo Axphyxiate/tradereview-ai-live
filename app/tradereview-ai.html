@@ -2608,7 +2608,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="signout-auth-gate-v15">
+  <div class="app" data-build="auth-gate-visible-v16">
     <aside>
       <div class="brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
       <nav aria-label="Main navigation">
@@ -3749,6 +3749,7 @@
     }
 
     function forceAppShellLayout() {
+      if (!document.body.classList.contains("app-ready")) return;
       const app = document.querySelector(".app");
       const authGate = document.querySelector(".auth-gate");
       const sidebar = document.querySelector("aside");
@@ -3766,7 +3767,7 @@
       document.body.style.setProperty("height", isPhone ? "100dvh" : "100vh", important);
       document.body.style.setProperty("overflow", "hidden", important);
 
-      if (authGate && !document.body.classList.contains("auth-pending")) {
+      if (authGate && document.body.classList.contains("app-ready")) {
         authGate.style.setProperty("display", "none", important);
         authGate.style.setProperty("visibility", "hidden", important);
         authGate.style.setProperty("pointer-events", "none", important);
@@ -3852,6 +3853,7 @@
         const app = document.querySelector(".app");
         const sidebar = document.querySelector("aside");
         const mainPanel = document.querySelector("main");
+        document.body.removeAttribute("style");
         if (app) app.removeAttribute("style");
         if (sidebar) sidebar.removeAttribute("style");
         if (mainPanel) mainPanel.removeAttribute("style");
@@ -5574,7 +5576,7 @@ Save this agent to the database and run it against new journal/trade events auto
       updateMobileInstallState();
     });
     window.addEventListener("resize", () => {
-      if (!document.body.classList.contains("auth-pending")) {
+      if (document.body.classList.contains("app-ready")) {
         forceAppShellLayout();
         resetAppScroll();
       }
