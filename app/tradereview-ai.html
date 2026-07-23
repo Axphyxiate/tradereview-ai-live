@@ -1060,6 +1060,36 @@
       font-size: 13px;
     }
 
+    label.field-invalid {
+      color: #ff8ca0;
+    }
+
+    label.field-invalid input,
+    label.field-invalid select,
+    label.field-invalid textarea {
+      border-color: rgba(255,83,109,.8);
+      box-shadow: 0 0 0 3px rgba(255,83,109,.14);
+    }
+
+    label.field-invalid::after {
+      content: attr(data-error);
+      color: #ff8ca0;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .premium-lock-note {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255, 211, 106, .24);
+      border-radius: 12px;
+      background: rgba(255, 211, 106, .08);
+      color: #f8d98a;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
     input, select, textarea {
       width: 100%;
       border: 1px solid var(--line);
@@ -3586,6 +3616,9 @@
               <label class="timing-field">Trade date
                 <input id="manualDate" type="date">
               </label>
+              <label class="timing-field">Exit date
+                <input id="manualExitDate" type="date">
+              </label>
               <label class="timing-field">Entry time
                 <input id="manualEntryTime" type="time">
               </label>
@@ -3982,9 +4015,9 @@
           </div>
         </div>
         <div class="billing-grid">
-          <article class="billing-card"><small>Free</small><h3>Free</h3><div class="billing-price">$0 <span>/mo</span></div><ul class="billing-list"><li>Manual journal</li><li>CSV import</li><li>Basic dashboard</li><li>Learn with AI basics</li></ul><button type="button" data-plan="Free">Current / Start Free</button></article>
-          <article class="billing-card"><small>Starter</small><h3>Starter</h3><div class="billing-price">$9.99 <span>/mo</span></div><ul class="billing-list"><li>More accounts</li><li>More AI review credits</li><li>Weekly summaries</li><li>Replay notes</li></ul><button type="button" data-plan="Starter $9.99">Choose Starter</button></article>
-          <article class="billing-card popular"><small>Most popular</small><h3>Pro</h3><div class="billing-price">$29.99 <span>/mo</span></div><ul class="billing-list"><li>Broker sync requests</li><li>AI Coach strategy prompts</li><li>Risk, habit, mindset agents</li><li>Advanced reports</li></ul><button class="primary" type="button" data-plan="Pro $29.99">Unlock Pro</button></article>
+          <article class="billing-card"><small>Free</small><h3>Free</h3><div class="billing-price">$0 <span>/mo</span></div><ul class="billing-list"><li>Manual journal</li><li>CSV import</li><li>Basic dashboard</li><li>No AI, auto-capture, agents, or broker sync</li></ul><button type="button" data-plan="Free">Current / Start Free</button></article>
+          <article class="billing-card"><small>Starter</small><h3>Starter</h3><div class="billing-price">$9.99 <span>/mo</span></div><ul class="billing-list"><li>Learn with AI</li><li>Trade with AI strategy prompts</li><li>Weekly summaries</li><li>Replay notes</li></ul><button type="button" data-plan="Starter $9.99">Choose Starter</button></article>
+          <article class="billing-card popular"><small>Most popular</small><h3>Pro</h3><div class="billing-price">$29.99 <span>/mo</span></div><ul class="billing-list"><li>Broker sync requests</li><li>TradingView auto capture</li><li>Risk, habit, mindset agents</li><li>Advanced reports</li></ul><button class="primary" type="button" data-plan="Pro $29.99">Unlock Pro</button></article>
           <article class="billing-card"><small>Elite</small><h3>Elite</h3><div class="billing-price">$49.99 <span>/mo</span></div><ul class="billing-list"><li>Higher AI limits</li><li>Priority broker support</li><li>Unlimited strategy tracking</li><li>Priority support</li></ul><button type="button" data-plan="Elite $49.99">Unlock Elite</button></article>
         </div>
         <div style="height:18px"></div>
@@ -4095,9 +4128,9 @@
           <div class="panel">
             <div class="panel-header"><h2>Subscription Manager</h2><button class="primary" data-view-button="billing" type="button">Open plans</button></div>
             <div class="panel-body settings-stack">
-              <div class="settings-plan-row"><div><strong>Free</strong><br><span>Manual journal, CSV import, basic dashboard, Learn with AI basics.</span></div><button type="button" data-plan="Free">Switch to Free</button></div>
-              <div class="settings-plan-row"><div><strong>Starter — $9.99/mo</strong><br><span>More accounts, expanded AI credits, weekly summaries, replay notes.</span></div><button type="button" data-plan="Starter $9.99">Upgrade / Downgrade</button></div>
-              <div class="settings-plan-row"><div><strong>Pro — $29.99/mo</strong><br><span>Broker sync requests, AI Coach, agents, advanced reports.</span></div><button class="primary" type="button" data-plan="Pro $29.99">Upgrade / Downgrade</button></div>
+              <div class="settings-plan-row"><div><strong>Free</strong><br><span>Manual journal, CSV import, and basic dashboard only. AI, agents, auto-capture, and broker sync are locked.</span></div><button type="button" data-plan="Free">Switch to Free</button></div>
+              <div class="settings-plan-row"><div><strong>Starter — $9.99/mo</strong><br><span>Learn with AI, Trade with AI prompts, weekly summaries, and replay notes.</span></div><button type="button" data-plan="Starter $9.99">Upgrade / Downgrade</button></div>
+              <div class="settings-plan-row"><div><strong>Pro — $29.99/mo</strong><br><span>Broker sync requests, TradingView auto capture, AI Coach, agents, and advanced reports.</span></div><button class="primary" type="button" data-plan="Pro $29.99">Upgrade / Downgrade</button></div>
               <div class="settings-plan-row"><div><strong>Elite — $49.99/mo</strong><br><span>Higher AI limits, priority support, unlimited strategy tracking.</span></div><button type="button" data-plan="Elite $49.99">Upgrade / Downgrade</button></div>
               <p class="footer-note">Users should be able to upgrade, downgrade, or cancel anytime. The real self-serve subscription portal will be connected through Stripe Billing or PayPal subscriptions.</p>
               <div class="settings-status" id="subscriptionSettingsStatus"></div>
@@ -4350,9 +4383,11 @@
     let onboardingStep = 0;
     let deferredInstallPrompt = null;
     let performanceRange = "1d";
+    let lastCsvRejectedCount = 0;
 
     const columns = {
-      date: ["date", "time", "exec time", "execution time", "filled time"],
+      date: ["date", "entry date", "trade date", "time", "exec time", "execution time", "filled time"],
+      exitDate: ["exit date", "close date", "sell date"],
       entryTime: ["entry time", "buy time", "open time", "entry"],
       exitTime: ["exit time", "sell time", "close time", "exit"],
       symbol: ["symbol", "underlying", "instrument", "ticker"],
@@ -4861,6 +4896,8 @@
     function normalizeDate(value) {
       if (!value) return todayKey();
       const trimmed = String(value).trim();
+      const iso = trimmed.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      if (iso) return `${iso[1]}-${String(iso[2]).padStart(2, "0")}-${String(iso[3]).padStart(2, "0")}`;
       const parsed = new Date(trimmed);
       if (!Number.isNaN(parsed.getTime())) return parsed.toISOString().slice(0, 10);
       const parts = trimmed.split(/[ /-]/).map(Number);
@@ -4922,9 +4959,10 @@
       if (rows.length < 2) return 0;
       const headers = rows[0].map(item => item.trim());
       const idx = Object.fromEntries(Object.keys(columns).map(key => [key, findColumn(headers, key)]));
-      const imported = rows.slice(1).map(row => ({
+      const drafted = rows.slice(1).map(row => ({
         id: crypto.randomUUID(),
         date: normalizeDate(row[idx.date]),
+        exitDate: idx.exitDate >= 0 && row[idx.exitDate] ? normalizeDate(row[idx.exitDate]) : normalizeDate(row[idx.date]),
         symbol: (row[idx.symbol] || "UNKNOWN").trim().toUpperCase(),
         chartTicker: (row[idx.chartTicker] || "").trim().toUpperCase(),
         entryTime: normalizeTime(row[idx.entryTime]),
@@ -4943,6 +4981,8 @@
         mistake: (row[idx.mistake] || "").trim(),
         note: ""
       })).filter(trade => trade.symbol && trade.symbol !== "UNKNOWN" || trade.pnl !== 0);
+      const imported = drafted.filter(trade => !tradeTimingError(trade));
+      lastCsvRejectedCount = drafted.length - imported.length;
       state.trades.unshift(...imported);
       saveState();
       render();
@@ -4960,9 +5000,116 @@
     function normalizeTime(value) {
       if (!value) return "";
       const trimmed = String(value).trim();
-      const match = trimmed.match(/(\d{1,2}):(\d{2})/);
+      const match = trimmed.match(/^(\d{1,2})(?::(\d{2}))?(?::\d{2})?\s*([ap]\.?m\.?)?$/i);
       if (!match) return trimmed;
-      return `${String(match[1]).padStart(2, "0")}:${match[2]}`;
+      let hour = Number(match[1]);
+      const minute = Number(match[2] || 0);
+      const meridiem = (match[3] || "").toLowerCase().replace(/\./g, "");
+      if (!Number.isFinite(hour) || !Number.isFinite(minute) || minute < 0 || minute > 59) return trimmed;
+      if (meridiem) {
+        if (hour < 1 || hour > 12) return trimmed;
+        if (meridiem === "am") hour = hour === 12 ? 0 : hour;
+        if (meridiem === "pm") hour = hour === 12 ? 12 : hour + 12;
+      } else if (hour > 23) {
+        return trimmed;
+      }
+      return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+    }
+
+    function minutesSinceMidnight(time) {
+      const normalized = normalizeTime(time);
+      const match = normalized.match(/^(\d{2}):(\d{2})$/);
+      if (!match) return null;
+      return Number(match[1]) * 60 + Number(match[2]);
+    }
+
+    function tradeTimingError(trade) {
+      if (!trade.date || !String(trade.date).match(/^\d{4}-\d{2}-\d{2}$/)) return "Use a valid trade date.";
+      const exitDate = trade.exitDate || trade.date;
+      if (!String(exitDate).match(/^\d{4}-\d{2}-\d{2}$/)) return "Use a valid exit date.";
+      if (!trade.entryTime) return "Add an entry time.";
+      if (!trade.exitTime) return "Add an exit time.";
+      const entry = minutesSinceMidnight(trade.entryTime);
+      const exit = minutesSinceMidnight(trade.exitTime);
+      if (entry === null) return "Entry time must be a valid time, like 09:30 or 9:30 AM.";
+      if (exit === null) return "Exit time must be a valid time, like 09:45 or 9:45 AM.";
+      const entryStamp = new Date(`${trade.date}T${String(trade.entryTime).padStart(5, "0")}:00`).getTime();
+      const exitStamp = new Date(`${exitDate}T${String(trade.exitTime).padStart(5, "0")}:00`).getTime();
+      if (!Number.isFinite(entryStamp) || !Number.isFinite(exitStamp)) return "Use valid entry and exit date/time.";
+      if (exitStamp <= entryStamp) return "Exit date/time must be after entry date/time.";
+      return "";
+    }
+
+    function clearFieldErrors(root = document) {
+      root.querySelectorAll("label.field-invalid").forEach(label => {
+        label.classList.remove("field-invalid");
+        delete label.dataset.error;
+      });
+      root.querySelectorAll("[aria-invalid='true']").forEach(input => input.removeAttribute("aria-invalid"));
+    }
+
+    function setFieldError(inputId, message) {
+      const input = document.querySelector(`#${inputId}`);
+      const label = input?.closest("label");
+      if (!input || !label) return;
+      label.classList.add("field-invalid");
+      label.dataset.error = message;
+      input.setAttribute("aria-invalid", "true");
+    }
+
+    function validateManualTradeDraft(trade) {
+      clearFieldErrors(document.querySelector("#manualTradePanel") || document);
+      const errors = [];
+      if (!trade.symbol) {
+        errors.push("Symbol is required.");
+        setFieldError("manualSymbol", "Add a symbol or ticker.");
+      }
+      const timing = tradeTimingError(trade);
+      if (timing) {
+        errors.push(timing);
+        if (!trade.date) setFieldError("manualDate", "Choose the trade date.");
+        if (!trade.exitDate) setFieldError("manualExitDate", "Choose the exit date.");
+        if (!trade.entryTime || minutesSinceMidnight(trade.entryTime) === null) setFieldError("manualEntryTime", "Use a valid entry time.");
+        if (!trade.exitTime || minutesSinceMidnight(trade.exitTime) === null) setFieldError("manualExitTime", "Use a valid exit time.");
+        if (trade.date && trade.exitDate && trade.entryTime && trade.exitTime && minutesSinceMidnight(trade.entryTime) !== null && minutesSinceMidnight(trade.exitTime) !== null) {
+          setFieldError("manualExitDate", "Exit must be after entry.");
+          setFieldError("manualExitTime", "Exit must be after entry.");
+        }
+      }
+      if (trade.qty <= 0) {
+        errors.push("Quantity must be greater than zero.");
+        setFieldError("manualQty", "Quantity must be greater than zero.");
+      }
+      return errors;
+    }
+
+    const planRanks = {
+      free: 0,
+      starter: 1,
+      pro: 2,
+      elite: 3
+    };
+
+    function currentPlanKey() {
+      return String(state.settings?.currentPlan || "Free").toLowerCase().split(/\s+/)[0];
+    }
+
+    function hasPlan(requiredPlan = "starter") {
+      return (planRanks[currentPlanKey()] || 0) >= (planRanks[requiredPlan] || 0);
+    }
+
+    function premiumFeatureMessage(feature, requiredPlan = "Starter") {
+      return `${feature} is a ${requiredPlan}+ feature. Free accounts can use manual journaling, CSV import, the basic dashboard, settings, and billing. Upgrade anytime in Billing.`;
+    }
+
+    function requirePlan(feature, requiredPlan = "starter") {
+      if (hasPlan(requiredPlan)) return true;
+      const label = requiredPlan.charAt(0).toUpperCase() + requiredPlan.slice(1);
+      alert(premiumFeatureMessage(feature, label));
+      switchView("billing", { bypassPlanGate: true });
+      const target = document.querySelector("#checkoutMessage");
+      if (target) target.innerHTML = `<strong>${escapeHtml(feature)} is premium.</strong> ${escapeHtml(premiumFeatureMessage(feature, label))}`;
+      return false;
     }
 
     function chartTicker(trade) {
@@ -4981,7 +5128,8 @@
 
     function marketTimeLabel(trade, field) {
       const time = trade[field] || "time needed";
-      return `${trade.date || todayKey()} ${time}`;
+      const date = field === "exitTime" ? (trade.exitDate || trade.date || todayKey()) : (trade.date || todayKey());
+      return `${date} ${time}`;
     }
 
     function minutesFromTime(time) {
@@ -5009,6 +5157,7 @@
         ticker: chartTicker(trade),
         interval: "1",
         date: trade.date || todayKey(),
+        exitDate: trade.exitDate || trade.date || todayKey(),
         entryTime: trade.entryTime || "",
         exitTime: trade.exitTime || "",
         entryLabel: captureLabel(trade, "entryScreenshot"),
@@ -5046,6 +5195,7 @@
     }
 
     async function requestTradingViewCapture(tradeId) {
+      if (!requirePlan("TradingView auto capture", "pro")) return;
       const trade = state.trades.find(item => item.id === tradeId);
       if (!trade) return;
       const missing = [];
@@ -5054,6 +5204,11 @@
       if (!trade.exitTime) missing.push("exit time");
       if (missing.length) {
         alert(`Add ${missing.join(", ")} first so TradeReview knows what to capture from TradingView.`);
+        return;
+      }
+      const timing = tradeTimingError(trade);
+      if (timing) {
+        alert(timing);
         return;
       }
       const requestedAt = new Date().toISOString();
@@ -5569,7 +5724,17 @@
         input.addEventListener("change", () => {
           const trade = state.trades.find(item => item.id === input.dataset.edit);
           if (trade) {
-            trade[input.dataset.field] = input.type === "number" ? num(input.value) : input.value.trim();
+            const field = input.dataset.field;
+            const previous = trade[field];
+            trade[field] = input.type === "number"
+              ? num(input.value)
+              : (field === "entryTime" || field === "exitTime" ? normalizeTime(input.value) : input.value.trim());
+            if ((field === "entryTime" || field === "exitTime") && tradeTimingError(trade)) {
+              trade[field] = previous;
+              alert(tradeTimingError({ ...trade, [field]: input.value }) || "Exit time must be after entry time.");
+              render();
+              return;
+            }
           }
           saveState();
           render();
@@ -5923,6 +6088,7 @@
     }
 
     function generateAiLesson() {
+      if (!requirePlan("Learn with AI", "starter")) return;
       const profile = { ...defaultProfile(), ...(state.profile || {}) };
       const topic = document.querySelector("#aiLessonTopic")?.value || "Trading basics from zero";
       const level = document.querySelector("#aiLessonLevel")?.value || "Beginner: explain simply";
@@ -6183,6 +6349,7 @@ If I cannot explain the setup and invalidation in one sentence, I do not take th
     }
 
     function generateAiTradePlan() {
+      if (!requirePlan("Trade with AI", "starter")) return;
       const profile = { ...defaultProfile(), ...(state.profile || {}) };
       const context = document.querySelector("#aiMarketContext")?.value || "Opening range / first hour";
       const setup = document.querySelector("#aiSetupFocus")?.value.trim() || profile.market || "your main setup";
@@ -6737,8 +6904,12 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       initDashboardMotion();
     }
 
-    function switchView(view) {
+    function switchView(view, options = {}) {
       const targetView = document.getElementById(view) ? view : "dashboard";
+      if (!options.bypassPlanGate) {
+        if (targetView === "aiCommand" && !requirePlan("Learn with AI and Trade with AI", "starter")) return;
+        if (targetView === "agents" && !requirePlan("AI agents", "pro")) return;
+      }
       setAppViewportLocked(true);
       document.querySelectorAll(".section").forEach(section => {
         const isActive = section.id === targetView;
@@ -6760,6 +6931,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
     }
 
     function setAiMode(mode) {
+      if (!hasPlan("starter")) return;
       const nextMode = mode === "trade" ? "trade" : "learn";
       document.querySelector("#learnAiPane")?.classList.toggle("active", nextMode === "learn");
       document.querySelector("#tradeAiPane")?.classList.toggle("active", nextMode === "trade");
@@ -6769,6 +6941,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
     }
 
     function answerAiLearningQuestion() {
+      if (!requirePlan("Learn with AI questions", "starter")) return;
       const question = document.querySelector("#aiLearnQuestion")?.value.trim() || "How do I learn trading without getting overwhelmed?";
       const output = `Question
 ${question}
@@ -6793,6 +6966,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
     }
 
     function renderAgentPlan(prompt) {
+      if (!requirePlan("AI agents", "pro")) return;
       const text = prompt || document.querySelector("#customAgentPrompt")?.value.trim() || "Watch my trading rules and warn me when I drift from my process.";
       const target = document.querySelector("#agentOutput");
       if (!target) return;
@@ -6959,12 +7133,14 @@ Save this agent to the database and run it against new journal/trade events auto
     document.querySelectorAll("[data-ai-mode]").forEach(button => {
       button.addEventListener("click", event => {
         event.preventDefault();
+        if (!requirePlan("Learn with AI and Trade with AI", "starter")) return;
         switchView("aiCommand");
         setAiMode(button.dataset.aiMode);
       });
     });
     document.querySelectorAll("[data-strategy-prompt]").forEach(button => {
       button.addEventListener("click", () => {
+        if (!requirePlan("Trade with AI strategy prompts", "starter")) return;
         const prompt = document.querySelector("#aiStrategyPrompt");
         if (prompt) prompt.value = button.dataset.strategyPrompt;
         setAiMode("trade");
@@ -6996,6 +7172,7 @@ Save this agent to the database and run it against new journal/trade events auto
     });
     document.querySelectorAll("[data-lesson-topic]").forEach(button => {
       button.addEventListener("click", () => {
+        if (!requirePlan("Learn with AI lesson library", "starter")) return;
         const lessonSelect = document.querySelector("#aiLessonTopic");
         if (lessonSelect) lessonSelect.value = button.dataset.lessonTopic;
         generateAiLesson();
@@ -7015,6 +7192,21 @@ Save this agent to the database and run it against new journal/trade events auto
 
     document.querySelectorAll("#accountSize, #riskPerTrade, #optionMultiplier, #riskWarningR").forEach(input => {
       input.addEventListener("change", saveSettingsFromForm);
+    });
+    document.querySelector("#manualDate")?.addEventListener("change", () => {
+      const entryDate = document.querySelector("#manualDate")?.value;
+      const exitDate = document.querySelector("#manualExitDate");
+      if (exitDate && (!exitDate.value || exitDate.value < entryDate)) exitDate.value = entryDate;
+    });
+    document.querySelectorAll("#manualTradePanel input, #manualTradePanel select").forEach(input => {
+      input.addEventListener("input", () => {
+        const label = input.closest("label.field-invalid");
+        if (label) {
+          label.classList.remove("field-invalid");
+          delete label.dataset.error;
+          input.removeAttribute("aria-invalid");
+        }
+      });
     });
 
     document.querySelector("#onboardingForm").addEventListener("submit", event => event.preventDefault());
@@ -7042,6 +7234,7 @@ Save this agent to the database and run it against new journal/trade events auto
       input.addEventListener("change", () => { saveBrokerConnectionFromForm(); });
     });
     document.querySelector("#requestBrokerAccess").addEventListener("click", async () => {
+      if (!requirePlan("Broker sync requests", "pro")) return;
       if (!document.querySelector("#brokerProvider").value && !state.profile?.broker) {
         alert("Choose a broker first.");
         return;
@@ -7092,8 +7285,10 @@ Save this agent to the database and run it against new journal/trade events auto
 
     function setManualDefaults() {
       const date = document.querySelector("#manualDate");
+      const exitDate = document.querySelector("#manualExitDate");
       const planned = document.querySelector("#manualPlannedRisk");
       if (date && !date.value) date.value = todayKey();
+      if (exitDate && !exitDate.value) exitDate.value = date?.value || todayKey();
       if (planned && !planned.value) planned.placeholder = String(plannedRisk());
     }
 
@@ -7104,17 +7299,16 @@ Save this agent to the database and run it against new journal/trade events auto
       document.querySelector("#manualQty").value = "1";
       document.querySelector("#manualPlannedRisk").value = "";
       document.querySelector("#manualDate").value = todayKey();
+      document.querySelector("#manualExitDate").value = todayKey();
+      clearFieldErrors(document.querySelector("#manualTradePanel") || document);
     }
 
     document.querySelector("#addManualTrade").addEventListener("click", () => {
       const symbol = document.querySelector("#manualSymbol").value.trim().toUpperCase();
-      if (!symbol) {
-        alert("Add a symbol first.");
-        return;
-      }
       const trade = {
         id: crypto.randomUUID(),
         date: normalizeDate(document.querySelector("#manualDate").value),
+        exitDate: normalizeDate(document.querySelector("#manualExitDate").value || document.querySelector("#manualDate").value),
         symbol,
         chartTicker: document.querySelector("#manualChartTicker").value.trim().toUpperCase() || chartTicker({ symbol }),
         entryTime: normalizeTime(document.querySelector("#manualEntryTime").value),
@@ -7133,6 +7327,11 @@ Save this agent to the database and run it against new journal/trade events auto
         exitScreenshot: "",
         note: ""
       };
+      const errors = validateManualTradeDraft(trade);
+      if (errors.length) {
+        alert(errors[0]);
+        return;
+      }
       state.trades.unshift(trade);
       selectedDay = trade.date;
       saveState();
@@ -7146,7 +7345,7 @@ Save this agent to the database and run it against new journal/trade events auto
       if (!file) return;
       file.text().then(text => {
         const count = importCsv(text);
-        alert(`Imported ${count} trades.`);
+        alert(`Imported ${count} trades.${lastCsvRejectedCount ? ` Skipped ${lastCsvRejectedCount} row(s) because entry/exit time was invalid or exit was not after entry.` : ""}`);
         switchView("dashboard");
       });
     });
@@ -7166,7 +7365,7 @@ Save this agent to the database and run it against new journal/trade events auto
       if (!file) return;
       file.text().then(text => {
         const count = importCsv(text);
-        alert(`Imported ${count} trades.`);
+        alert(`Imported ${count} trades.${lastCsvRejectedCount ? ` Skipped ${lastCsvRejectedCount} row(s) because entry/exit time was invalid or exit was not after entry.` : ""}`);
         switchView("dashboard");
       });
     });
