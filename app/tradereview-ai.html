@@ -1653,7 +1653,7 @@
       animation: gridDrift 18s linear infinite;
       pointer-events: none;
     }
-    .dashboard-hero > * { position: relative; z-index: 2; }
+    .dashboard-hero > * { position: relative; z-index: 3; }
     .dashboard-hero::after {
       content: "";
       position: absolute;
@@ -1671,19 +1671,38 @@
       z-index: 0;
       width: 100%;
       height: 100%;
-      opacity: .06;
+      opacity: .035;
       pointer-events: none;
     }
     .hero-market-chart {
       position: absolute;
       inset: 0;
-      z-index: 1;
+      z-index: 0;
       width: 100%;
       height: 100%;
-      opacity: .58;
+      opacity: .34;
       pointer-events: none;
-      -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
-      mask-image: linear-gradient(90deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+      -webkit-mask-image:
+        linear-gradient(90deg, transparent 0%, transparent 20%, rgba(0,0,0,.12) 36%, #000 57%, #000 88%, transparent 100%),
+        linear-gradient(0deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+      mask-image:
+        linear-gradient(90deg, transparent 0%, transparent 20%, rgba(0,0,0,.12) 36%, #000 57%, #000 88%, transparent 100%),
+        linear-gradient(0deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
+      mix-blend-mode: screen;
+    }
+    .dashboard-hero .hero-copy {
+      position: relative;
+      z-index: 4;
+      max-width: min(860px, 58vw);
+      padding: 10px 0 12px;
+    }
+    .dashboard-hero .hero-copy::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      inset: -18px -32px -14px -18px;
+      border-radius: 24px;
+      background: linear-gradient(90deg, rgba(4,10,24,.94), rgba(4,10,24,.76) 58%, rgba(4,10,24,.08));
     }
     .welcome-line {
       display: inline-flex;
@@ -2495,6 +2514,7 @@
       .help-launcher-label { display: none; }
       .help-launcher { padding: 8px; }
       .help-panel { right: 14px; bottom: 72px; }
+      .dashboard-hero .hero-copy { max-width: 100%; }
       .preview-stats { grid-template-columns: 1fr; }
       .chart-legend-app { flex-wrap: wrap; }
       .equity-chart, .equity-chart svg, .chart-empty { min-height: 205px; height: 205px; }
@@ -2851,7 +2871,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="dashboard-chart-scroll-v29">
+  <div class="app" data-build="dashboard-chart-calm-v30">
     <aside>
       <a class="brand" href="../" aria-label="Open TradeReview AI main page"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></a>
       <nav aria-label="Main navigation">
@@ -2877,7 +2897,7 @@
         <div class="topbar dashboard-hero" id="dashboardHero">
           <canvas class="hero-webgl" id="heroWebgl" aria-hidden="true"></canvas>
           <canvas class="hero-market-chart" id="heroMarketChart" aria-hidden="true"></canvas>
-          <div>
+          <div class="hero-copy">
             <div class="welcome-line" id="welcomeLine">Welcome back</div>
             <div class="page-kicker"><span class="live-dot"></span> Performance workspace</div>
             <h1 class="hero-headline" id="dashboardHeadline">Review today before tomorrow trades you.</h1>
@@ -5762,18 +5782,18 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       let trend = .18;
       let momentum = 0;
       let candleIndex = 0;
-      const spacing = 21;
+      const spacing = 18;
 
       const nextCandle = (open, x) => {
         candleIndex += 1;
         const phase = Math.sin(candleIndex / 7.5) * .42 + Math.sin(candleIndex / 18) * .34;
-        const directionalImpulse = candleIndex % 18 === 0 ? bias * (2.2 + Math.random() * 1.6) : 0;
-        const impulse = candleIndex % 33 === 0 ? (Math.random() > .5 ? 2.2 : -2.2) : 0;
-        trend = Math.max(-1.35, Math.min(1.35, trend * .91 + phase * .08 + bias * .38 + (Math.random() - .5) * .07));
-        momentum = Math.max(-5.6, Math.min(5.6, momentum * .58 + trend + bias * 1.22 + (Math.random() - .5) * 1.35 + impulse + directionalImpulse));
+        const directionalImpulse = candleIndex % 22 === 0 ? bias * (1.15 + Math.random() * .9) : 0;
+        const impulse = candleIndex % 36 === 0 ? (Math.random() > .5 ? 1.15 : -1.15) : 0;
+        trend = Math.max(-.9, Math.min(.9, trend * .93 + phase * .045 + bias * .22 + (Math.random() - .5) * .045));
+        momentum = Math.max(-2.7, Math.min(2.7, momentum * .64 + trend + bias * .68 + (Math.random() - .5) * .72 + impulse + directionalImpulse));
         const body = Math.abs(momentum) < .45 ? momentum * 1.8 : momentum;
         const close = open + body;
-        const wick = 2.1 + Math.random() * 5.7;
+        const wick = 1.3 + Math.random() * 3.4;
         return {
           x,
           open,
@@ -5841,7 +5861,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
           ctx.stroke();
         }
 
-        candles.forEach(candle => { candle.x -= .23 * elapsed; });
+        candles.forEach(candle => { candle.x -= .16 * elapsed; });
         while (candles.length && candles[0].x < -spacing) {
           candles.shift();
           const last = candles[candles.length - 1];
@@ -5851,11 +5871,11 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
         const lowest = Math.min(...candles.map(candle => candle.low));
         const highest = Math.max(...candles.map(candle => candle.high));
         const range = Math.max(highest - lowest, 1);
-        const priceY = price => 22 + ((highest - price) / range) * (height - 50);
+        const priceY = price => 34 + ((highest - price) / range) * (height - 78);
 
         const resistanceY = priceY(lowest + range * .70);
-        ctx.strokeStyle = "rgba(242,54,69,.56)";
-        ctx.lineWidth = 1.3;
+        ctx.strokeStyle = "rgba(242,54,69,.24)";
+        ctx.lineWidth = .9;
         ctx.beginPath();
         ctx.moveTo(0, resistanceY);
         ctx.lineTo(width, resistanceY);
@@ -5873,8 +5893,12 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
 
         candles.forEach(candle => {
           const rising = candle.close >= candle.open;
-          const greenAlpha = bias > 0 ? .95 : .72;
-          const redAlpha = bias < 0 ? .96 : .74;
+          const horizontalFade = Math.max(0, Math.min(1, (candle.x - width * .42) / (width * .23)));
+          const edgeFade = Math.max(0, Math.min(1, (width - candle.x) / (width * .16)));
+          const alphaFade = horizontalFade * edgeFade;
+          if (alphaFade <= .02) return;
+          const greenAlpha = (bias > 0 ? .64 : .42) * alphaFade;
+          const redAlpha = (bias < 0 ? .66 : .43) * alphaFade;
           const color = rising ? `rgba(8,153,129,${greenAlpha})` : `rgba(242,54,69,${redAlpha})`;
           const top = priceY(Math.max(candle.open, candle.close));
           const bottom = priceY(Math.min(candle.open, candle.close));
@@ -5884,13 +5908,13 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
           ctx.moveTo(candle.x, priceY(candle.high));
           ctx.lineTo(candle.x, priceY(candle.low));
           ctx.stroke();
-          ctx.fillRect(candle.x - 5.5, top, 11, Math.max(bottom - top, 4));
+          ctx.fillRect(candle.x - 3.6, top, 7.2, Math.max(bottom - top, 2.8));
         });
 
         const latest = candles[candles.length - 2];
         if (latest) {
           ctx.setLineDash([1, 4]);
-          ctx.strokeStyle = "rgba(8,153,129,.46)";
+          ctx.strokeStyle = "rgba(8,153,129,.18)";
           ctx.beginPath();
           ctx.moveTo(0, priceY(latest.close));
           ctx.lineTo(width, priceY(latest.close));
