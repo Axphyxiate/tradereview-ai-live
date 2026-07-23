@@ -3532,7 +3532,60 @@
       setAuthStatus("");
     }
 
+    function forceAppShellLayout() {
+      const app = document.querySelector(".app");
+      const sidebar = document.querySelector("aside");
+      const mainPanel = document.querySelector("main");
+      const sidebarWidth = window.matchMedia("(max-width: 940px)").matches ? 86 : 250;
+      const important = "important";
+
+      document.body.style.setProperty("--app-sidebar-width", `${sidebarWidth}px`, important);
+      document.body.style.setProperty("height", "100vh", important);
+      document.body.style.setProperty("overflow", "hidden", important);
+
+      if (app) {
+        app.style.setProperty("display", "block", important);
+        app.style.setProperty("position", "fixed", important);
+        app.style.setProperty("inset", "0", important);
+        app.style.setProperty("width", "100vw", important);
+        app.style.setProperty("height", "100vh", important);
+        app.style.setProperty("min-height", "0", important);
+        app.style.setProperty("overflow", "hidden", important);
+      }
+
+      if (sidebar) {
+        sidebar.style.setProperty("position", "fixed", important);
+        sidebar.style.setProperty("top", "0", important);
+        sidebar.style.setProperty("right", "auto", important);
+        sidebar.style.setProperty("bottom", "0", important);
+        sidebar.style.setProperty("left", "0", important);
+        sidebar.style.setProperty("width", `${sidebarWidth}px`, important);
+        sidebar.style.setProperty("height", "100vh", important);
+        sidebar.style.setProperty("z-index", "20", important);
+        sidebar.style.setProperty("overflow-y", "auto", important);
+        sidebar.style.setProperty("overflow-x", "hidden", important);
+      }
+
+      if (mainPanel) {
+        mainPanel.style.setProperty("position", "fixed", important);
+        mainPanel.style.setProperty("top", "0", important);
+        mainPanel.style.setProperty("right", "0", important);
+        mainPanel.style.setProperty("bottom", "0", important);
+        mainPanel.style.setProperty("left", `${sidebarWidth}px`, important);
+        mainPanel.style.setProperty("width", `calc(100vw - ${sidebarWidth}px)`, important);
+        mainPanel.style.setProperty("height", "100vh", important);
+        mainPanel.style.setProperty("min-width", "0", important);
+        mainPanel.style.setProperty("min-height", "0", important);
+        mainPanel.style.setProperty("margin", "0", important);
+        mainPanel.style.setProperty("overflow-y", "auto", important);
+        mainPanel.style.setProperty("overflow-x", "hidden", important);
+        mainPanel.style.setProperty("transform", "none", important);
+        mainPanel.style.setProperty("z-index", "1", important);
+      }
+    }
+
     function resetAppScroll() {
+      forceAppShellLayout();
       const root = document.documentElement;
       const mainPanel = document.querySelector("main");
       if (mainPanel) mainPanel.scrollTop = 0;
@@ -3545,18 +3598,7 @@
     function setAppViewportLocked(locked) {
       document.body.classList.toggle("app-ready", locked);
       if (locked) {
-        const app = document.querySelector(".app");
-        const sidebar = document.querySelector("aside");
-        const mainPanel = document.querySelector("main");
-        if (app) {
-          app.removeAttribute("style");
-        }
-        if (sidebar) {
-          sidebar.removeAttribute("style");
-        }
-        if (mainPanel) {
-          mainPanel.removeAttribute("style");
-        }
+        forceAppShellLayout();
         resetAppScroll();
       } else {
         const app = document.querySelector(".app");
@@ -4892,6 +4934,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       });
       document.querySelectorAll("nav button").forEach(button => button.classList.toggle("active", button.dataset.view === targetView));
       requestAnimationFrame(() => {
+        forceAppShellLayout();
         resetAppScroll();
       });
     }
@@ -5100,6 +5143,12 @@ Save this agent to the database and run it against new journal/trade events auto
     window.addEventListener("appinstalled", () => {
       deferredInstallPrompt = null;
       updateMobileInstallState();
+    });
+    window.addEventListener("resize", () => {
+      if (!document.body.classList.contains("auth-required") && !document.body.classList.contains("auth-pending")) {
+        forceAppShellLayout();
+        resetAppScroll();
+      }
     });
 
     function setManualDefaults() {
