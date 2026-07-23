@@ -1598,9 +1598,9 @@
       border: 1px solid rgba(127, 176, 255, .16);
       border-radius: 28px;
       background:
-        radial-gradient(circle at 18% 18%, rgba(24,217,149,.22), transparent 28%),
-        radial-gradient(circle at 84% 24%, rgba(255,83,109,.18), transparent 26%),
-        linear-gradient(135deg, rgba(14,26,58,.96), rgba(7,12,28,.98) 58%, rgba(20,14,35,.95));
+        radial-gradient(circle at 18% 18%, rgba(24,217,149,.10), transparent 30%),
+        radial-gradient(circle at 84% 24%, rgba(255,83,109,.08), transparent 28%),
+        linear-gradient(135deg, rgba(10,22,45,.98), rgba(7,12,28,.99) 58%, rgba(13,18,36,.98));
       box-shadow: 0 32px 100px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.07);
       isolation: isolate;
       transform-style: preserve-3d;
@@ -1612,11 +1612,11 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(90deg, rgba(134,239,172,.10) 1px, transparent 1px),
-        linear-gradient(0deg, rgba(127,176,255,.08) 1px, transparent 1px);
+        linear-gradient(90deg, rgba(134,239,172,.045) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(127,176,255,.045) 1px, transparent 1px);
       background-size: 44px 44px;
       mask-image: radial-gradient(circle at 35% 20%, #000, transparent 72%);
-      opacity: .8;
+      opacity: .38;
       animation: gridDrift 18s linear infinite;
       pointer-events: none;
     }
@@ -1626,8 +1626,8 @@
       position: absolute;
       inset: 0;
       z-index: 1;
-      background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(134,239,172,.16), transparent 18rem);
-      opacity: .52;
+      background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(134,239,172,.075), transparent 18rem);
+      opacity: .34;
       mix-blend-mode: screen;
       pointer-events: none;
       transition: opacity .2s ease;
@@ -1638,7 +1638,7 @@
       z-index: 0;
       width: 100%;
       height: 100%;
-      opacity: .5;
+      opacity: .22;
       pointer-events: none;
     }
     .welcome-line {
@@ -1660,7 +1660,7 @@
       color: #d9e8ff;
       font-weight: 750;
       text-shadow: 0 2px 18px rgba(0,0,0,.82), 0 0 1px #07101f;
-      background: linear-gradient(90deg, rgba(5,10,24,.66), rgba(5,10,24,.28), transparent);
+      background: linear-gradient(90deg, rgba(5,10,24,.76), rgba(5,10,24,.38), transparent);
       border-left: 3px solid rgba(134,239,172,.85);
       border-radius: 14px;
       padding: 10px 14px;
@@ -1728,28 +1728,28 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(115deg, rgba(24,217,149,.26), transparent 39%),
-        linear-gradient(245deg, rgba(255,83,109,.28), transparent 42%);
-      opacity: .72;
+        linear-gradient(115deg, rgba(24,217,149,.10), transparent 40%),
+        linear-gradient(245deg, rgba(255,83,109,.10), transparent 44%);
+      opacity: .48;
     }
     .market-beast {
       position: absolute;
-      width: min(34vw, 430px);
-      height: min(34vw, 430px);
-      min-width: 240px;
-      min-height: 240px;
-      opacity: .58;
-      filter: drop-shadow(0 0 24px currentColor) drop-shadow(0 0 90px currentColor);
+      width: min(25vw, 330px);
+      height: min(25vw, 330px);
+      min-width: 185px;
+      min-height: 185px;
+      opacity: .22;
+      filter: drop-shadow(0 0 18px currentColor) drop-shadow(0 0 46px currentColor);
     }
-    .market-beast.bull { right: 1%; top: -5%; color: #30e99a; animation: bullCharge 5.6s ease-in-out infinite; }
-    .market-beast.bear { right: 22%; bottom: -13%; color: #ff536d; animation: bearLunge 6.2s ease-in-out infinite reverse; }
+    .market-beast.bull { right: 5%; top: 4%; color: #30e99a; animation: bullCharge 12s ease-in-out infinite; }
+    .market-beast.bear { right: 20%; bottom: -8%; color: #ff536d; animation: bearLunge 13s ease-in-out infinite reverse; }
     .market-candle-rain {
       position: absolute;
       inset: 0;
       z-index: 1;
       overflow: hidden;
       pointer-events: none;
-      opacity: .55;
+      opacity: .22;
     }
     .market-candle-rain i {
       position: absolute;
@@ -1768,8 +1768,8 @@
     .market-candle-rain i:nth-child(4) { left: 67%; animation-delay: -5.2s; height: 28px; }
     .market-candle-rain i:nth-child(5) { left: 83%; animation-delay: -3.3s; height: 47px; }
     @keyframes gridDrift { to { background-position: 44px 44px; } }
-    @keyframes bullCharge { 0%, 100% { transform: translateX(0) translateY(0) rotate(-7deg) scale(1); } 50% { transform: translateX(-38px) translateY(18px) rotate(4deg) scale(1.12); } }
-    @keyframes bearLunge { 0%, 100% { transform: translateX(0) translateY(0) rotate(8deg) scale(.98); } 50% { transform: translateX(30px) translateY(-22px) rotate(-5deg) scale(1.1); } }
+    @keyframes bullCharge { 0%, 100% { transform: translateX(0) translateY(0) rotate(-5deg) scale(1); } 50% { transform: translateX(-14px) translateY(8px) rotate(1deg) scale(1.035); } }
+    @keyframes bearLunge { 0%, 100% { transform: translateX(0) translateY(0) rotate(5deg) scale(.98); } 50% { transform: translateX(12px) translateY(-8px) rotate(-1deg) scale(1.03); } }
     @keyframes candleFloat { from { transform: translateY(0) scaleY(.8); opacity: 0; } 15% { opacity: .65; } to { transform: translateY(-520px) scaleY(1.18); opacity: 0; } }
 
     .dashboard-hero,
@@ -2861,7 +2861,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="landing-chart-subtle-v23">
+  <div class="app" data-build="calm-premium-dashboard-v24">
     <aside>
       <a class="brand" href="../" aria-label="Open TradeReview AI main page"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></a>
       <nav aria-label="Main navigation">
@@ -2898,13 +2898,13 @@
             <p class="subtitle">Turn executions into evidence. Capture the trade, review the decision, and let your dashboard expose the habits shaping your results.</p>
             <div class="trader-context" id="traderContext">Your free review workspace</div>
             <div class="hero-extra" id="heroExtra">
-              <span class="hero-chip">Bull/bear mode <b>live</b></span>
+              <span class="hero-chip">Market context <b>live</b></span>
               <span class="hero-chip">AI review <b>ready</b></span>
               <span class="hero-chip">Risk pulse <b>tracking</b></span>
             </div>
             <div class="hero-dashboard-strip" id="heroDashboardStrip">
               <div class="hero-mini-card"><span>Session</span><strong>Pre-market ready</strong></div>
-              <div class="hero-mini-card"><span>Cursor engine</span><strong>Tracking</strong></div>
+              <div class="hero-mini-card"><span>Review engine</span><strong>Tracking</strong></div>
               <div class="hero-mini-card"><span>Home button</span><strong>TradeReview AI</strong></div>
             </div>
           </div>
@@ -5019,7 +5019,7 @@
       if (heroStrip) {
         heroStrip.innerHTML = `
           <div class="hero-mini-card"><span>Today’s mission</span><strong>${summary.trades ? "Protect your edge" : "Log first trade"}</strong></div>
-          <div class="hero-mini-card"><span>Cursor engine</span><strong>Live parallax</strong></div>
+          <div class="hero-mini-card"><span>Review engine</span><strong>Live insights</strong></div>
           <div class="hero-mini-card"><span>Risk radar</span><strong>${summary.riskBreaks ? `${summary.riskBreaks} alerts` : "Clean"}</strong></div>
         `;
       }
