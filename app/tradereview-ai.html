@@ -1786,7 +1786,7 @@
       inset: 0;
       z-index: 1;
       background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(134,239,172,.075), transparent 18rem);
-      opacity: .34;
+      opacity: .24;
       mix-blend-mode: screen;
       pointer-events: none;
       transition: opacity .2s ease;
@@ -1809,10 +1809,10 @@
       opacity: .34;
       pointer-events: none;
       -webkit-mask-image:
-        linear-gradient(90deg, transparent 0%, transparent 20%, rgba(0,0,0,.12) 36%, #000 57%, #000 88%, transparent 100%),
+        linear-gradient(90deg, transparent 0%, transparent 34%, rgba(0,0,0,.10) 48%, #000 68%, #000 90%, transparent 100%),
         linear-gradient(0deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
       mask-image:
-        linear-gradient(90deg, transparent 0%, transparent 20%, rgba(0,0,0,.12) 36%, #000 57%, #000 88%, transparent 100%),
+        linear-gradient(90deg, transparent 0%, transparent 34%, rgba(0,0,0,.10) 48%, #000 68%, #000 90%, transparent 100%),
         linear-gradient(0deg, transparent 0%, #000 18%, #000 82%, transparent 100%);
       mix-blend-mode: screen;
     }
@@ -2997,7 +2997,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="real-scroll-chart-v32">
+  <div class="app" data-build="symbol-tabs-chart-v33">
     <aside>
       <a class="brand" href="../" aria-label="Open TradeReview AI main page"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></a>
       <nav aria-label="Main navigation">
@@ -5927,7 +5927,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       let candleIndex = 0;
       let volatility = 1.05;
       let regime = -0.22;
-      const spacing = 18;
+      const spacing = 9;
 
       const nextCandle = (open, x) => {
         candleIndex += 1;
@@ -5937,17 +5937,17 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
         }
         const chop = Math.sin(candleIndex / 5.4) * .38 + Math.sin(candleIndex / 13.7) * .55;
         const scrollPressure = Math.max(-2.8, Math.min(2.8, bias));
-        const impulse = candleIndex % 37 === 0 ? (Math.random() > .55 ? 2.6 : -2.6) * volatility : 0;
-        const directionalImpulse = candleIndex % 9 === 0 ? scrollPressure * (1.0 + Math.random() * 1.25) : 0;
-        trend = Math.max(-2.1, Math.min(2.1, trend * .88 + regime * .16 + chop * .10 + scrollPressure * .44 + (Math.random() - .5) * .16));
-        momentum = Math.max(-7.8, Math.min(7.8, momentum * .40 + trend + scrollPressure * 1.5 + (Math.random() - .5) * 2.0 * volatility + impulse + directionalImpulse));
+        const impulse = candleIndex % 37 === 0 ? (Math.random() > .55 ? 1.8 : -1.8) * volatility : 0;
+        const directionalImpulse = candleIndex % 10 === 0 ? scrollPressure * (.72 + Math.random() * .9) : 0;
+        trend = Math.max(-1.6, Math.min(1.6, trend * .88 + regime * .13 + chop * .08 + scrollPressure * .32 + (Math.random() - .5) * .13));
+        momentum = Math.max(-4.6, Math.min(4.6, momentum * .42 + trend + scrollPressure * .95 + (Math.random() - .5) * 1.32 * volatility + impulse + directionalImpulse));
         let body = momentum;
         if (Math.random() < .22) body *= .25;
         if (Math.random() < .12) body *= 1.85;
         if (Math.abs(body) < .38) body = (body < 0 ? -1 : 1) * (.38 + Math.random() * .38);
         const close = open + body;
-        const wick = (1.1 + Math.random() * 3.8) * volatility;
-        const rejection = Math.random() < .18 ? 2.4 + Math.random() * 4.8 : 1;
+        const wick = (.72 + Math.random() * 2.45) * volatility;
+        const rejection = Math.random() < .16 ? 1.8 + Math.random() * 3.4 : 1;
         return {
           x,
           open,
@@ -6017,7 +6017,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
           ctx.stroke();
         }
 
-        candles.forEach(candle => { candle.x -= .16 * elapsed; });
+        candles.forEach(candle => { candle.x -= .11 * elapsed; });
         while (candles.length && candles[0].x < -spacing) {
           candles.shift();
           const last = candles[candles.length - 1];
@@ -6049,12 +6049,12 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
 
         candles.forEach(candle => {
           const rising = candle.close >= candle.open;
-          const horizontalFade = Math.max(0, Math.min(1, (candle.x - width * .42) / (width * .23)));
+          const horizontalFade = Math.max(0, Math.min(1, (candle.x - width * .52) / (width * .18)));
           const edgeFade = Math.max(0, Math.min(1, (width - candle.x) / (width * .16)));
           const alphaFade = horizontalFade * edgeFade;
           if (alphaFade <= .02) return;
-          const greenAlpha = (bias > 0 ? .64 : .42) * alphaFade;
-          const redAlpha = (bias < 0 ? .66 : .43) * alphaFade;
+          const greenAlpha = (bias > 0 ? .58 : .34) * alphaFade;
+          const redAlpha = (bias < 0 ? .60 : .35) * alphaFade;
           const color = rising ? `rgba(8,153,129,${greenAlpha})` : `rgba(242,54,69,${redAlpha})`;
           const top = priceY(Math.max(candle.open, candle.close));
           const bottom = priceY(Math.min(candle.open, candle.close));
@@ -6064,7 +6064,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
           ctx.moveTo(candle.x, priceY(candle.high));
           ctx.lineTo(candle.x, priceY(candle.low));
           ctx.stroke();
-          ctx.fillRect(candle.x - 3.6, top, 7.2, Math.max(bottom - top, 2.8));
+          ctx.fillRect(candle.x - 2, top, 4, Math.max(bottom - top, 1.4));
         });
 
         const latest = candles[candles.length - 2];
@@ -6324,6 +6324,7 @@ Save this agent to the database and run it against new journal/trade events auto
         });
         trigger.addEventListener("click", event => {
           event.preventDefault();
+          event.stopPropagation();
           box.classList.toggle("open");
           if (box.classList.contains("open")) {
             renderPicker(box);
@@ -6332,9 +6333,13 @@ Save this agent to the database and run it against new journal/trade events auto
         });
         menu.addEventListener("mousedown", event => event.preventDefault());
         menu.addEventListener("click", event => {
+          event.preventDefault();
+          event.stopPropagation();
           const tab = event.target.closest("[data-symbol-type]");
           if (tab) {
             renderPicker(box, tab.dataset.symbolType);
+            box.classList.add("open");
+            input.focus();
             return;
           }
           if (event.target.closest(".symbol-picker-close")) {
