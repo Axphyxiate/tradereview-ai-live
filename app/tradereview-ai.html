@@ -1625,8 +1625,8 @@
       position: absolute;
       inset: 0;
       z-index: 1;
-      background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(134,239,172,.22), transparent 18rem);
-      opacity: .7;
+      background: radial-gradient(circle at var(--cursor-x) var(--cursor-y), rgba(134,239,172,.16), transparent 18rem);
+      opacity: .52;
       mix-blend-mode: screen;
       pointer-events: none;
       transition: opacity .2s ease;
@@ -1652,7 +1652,19 @@
       text-transform: uppercase;
     }
     .welcome-line::before { content: ""; width: 9px; height: 9px; border-radius: 999px; background: #86efac; box-shadow: 0 0 22px rgba(134,239,172,.75); }
-    .hero-headline { max-width: 980px; font-size: clamp(44px, 7vw, 86px); line-height: .9; }
+    .hero-headline { max-width: 980px; font-size: clamp(44px, 7vw, 86px); line-height: .9; text-shadow: 0 10px 34px rgba(0,0,0,.52); }
+    .dashboard-hero .subtitle {
+      position: relative;
+      max-width: 850px;
+      color: #d9e8ff;
+      font-weight: 750;
+      text-shadow: 0 2px 18px rgba(0,0,0,.82), 0 0 1px #07101f;
+      background: linear-gradient(90deg, rgba(5,10,24,.66), rgba(5,10,24,.28), transparent);
+      border-left: 3px solid rgba(134,239,172,.85);
+      border-radius: 14px;
+      padding: 10px 14px;
+      backdrop-filter: blur(6px);
+    }
     .hero-extra {
       display: flex;
       flex-wrap: wrap;
@@ -1673,6 +1685,36 @@
       backdrop-filter: blur(12px);
     }
     .hero-chip b { color: #f8fbff; }
+    .hero-dashboard-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+      max-width: 760px;
+    }
+    .hero-mini-card {
+      position: relative;
+      overflow: hidden;
+      min-height: 88px;
+      padding: 13px;
+      border: 1px solid rgba(174,218,204,.12);
+      border-radius: 17px;
+      background: linear-gradient(150deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
+      backdrop-filter: blur(14px);
+    }
+    .hero-mini-card::after {
+      content: "";
+      position: absolute;
+      inset: auto 12px 10px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #18d995, #7fb0ff, #ff536d);
+      transform-origin: left;
+      animation: miniMeter 3.4s ease-in-out infinite alternate;
+    }
+    .hero-mini-card span { color: #91a4c4; font-size: 10px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+    .hero-mini-card strong { display: block; margin-top: 6px; color: #f8fbff; font-size: 18px; letter-spacing: -.03em; }
+    @keyframes miniMeter { from { transform: scaleX(.35); opacity: .65; } to { transform: scaleX(1); opacity: 1; } }
     .market-beasts {
       position: absolute;
       inset: 0;
@@ -1686,11 +1728,11 @@
       height: min(27vw, 330px);
       min-width: 180px;
       min-height: 180px;
-      opacity: .16;
-      filter: drop-shadow(0 0 38px currentColor);
+      opacity: .34;
+      filter: drop-shadow(0 0 28px currentColor) drop-shadow(0 0 70px currentColor);
     }
-    .market-beast.bull { right: 8%; top: 6%; color: #30e99a; animation: bullCharge 8s ease-in-out infinite; }
-    .market-beast.bear { right: 26%; bottom: -14%; color: #ff536d; animation: bearLunge 9s ease-in-out infinite reverse; }
+    .market-beast.bull { right: 4%; top: 0; color: #30e99a; animation: bullCharge 6.4s ease-in-out infinite; }
+    .market-beast.bear { right: 22%; bottom: -10%; color: #ff536d; animation: bearLunge 7.2s ease-in-out infinite reverse; }
     .market-candle-rain {
       position: absolute;
       inset: 0;
@@ -1719,6 +1761,26 @@
     @keyframes bullCharge { 0%, 100% { transform: translateX(0) translateY(0) rotate(-4deg) scale(1); } 50% { transform: translateX(-28px) translateY(16px) rotate(3deg) scale(1.08); } }
     @keyframes bearLunge { 0%, 100% { transform: translateX(0) translateY(0) rotate(5deg) scale(.96); } 50% { transform: translateX(22px) translateY(-18px) rotate(-3deg) scale(1.05); } }
     @keyframes candleFloat { from { transform: translateY(0) scaleY(.8); opacity: 0; } 15% { opacity: .65; } to { transform: translateY(-520px) scaleY(1.18); opacity: 0; } }
+
+    .cursor-orb {
+      position: fixed;
+      z-index: 80;
+      left: 0;
+      top: 0;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate3d(-50%, -50%, 0);
+      background:
+        radial-gradient(circle, rgba(134,239,172,.20), transparent 38%),
+        radial-gradient(circle, rgba(127,176,255,.16), transparent 62%);
+      mix-blend-mode: screen;
+      filter: blur(4px);
+      transition: opacity .2s ease;
+    }
+    body.app-ready .cursor-orb { opacity: .8; }
 
     .review-pulse {
       display: grid;
@@ -2289,6 +2351,34 @@
     .settings-status { min-height: 22px; color: #8ea4bd; font-size: 12px; line-height: 1.5; }
     .settings-status.good { color: #86efac; }
     .settings-status.warn { color: #f2d394; }
+    .account-overview-list {
+      gap: 10px;
+    }
+    .account-overview-list .review-item {
+      display: grid;
+      grid-template-columns: minmax(120px, .55fr) minmax(0, 1fr);
+      align-items: center;
+      gap: 12px 18px;
+      border-left-color: #69c7ff;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(95,134,255,.10), rgba(24,217,149,.045));
+      padding: 14px 16px;
+    }
+    .account-overview-list .review-item span {
+      color: #9fb0ca;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .account-overview-list .review-item strong {
+      color: #f8fbff;
+      font-size: 14px;
+      font-weight: 950;
+      line-height: 1.35;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
     .appearance-preview {
       padding: 18px;
       border: 1px solid rgba(148,163,184,.13);
@@ -2313,6 +2403,8 @@
       .ai-command-hero, .ai-split, .ai-learning-grid, .learning-ocean, .resource-grid, .trade-lab-grid, .agent-lab-grid, .billing-grid { grid-template-columns: 1fr; }
       .ai-question-box { grid-template-columns: 1fr; }
       .settings-plan-row { grid-template-columns: 1fr; }
+      .account-overview-list .review-item { grid-template-columns: 1fr; }
+      .account-overview-list .review-item strong { text-align: left; }
     }
 
     /* First-login trader profile */
@@ -2751,7 +2843,7 @@
     </div>
   </section>
 
-  <div class="app" data-build="webgl-bull-bear-v17">
+  <div class="app" data-build="dashboard-cursor-home-v19">
     <aside>
       <button class="brand" type="button" data-view-button="dashboard" aria-label="Open TradeReview AI home"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></button>
       <nav aria-label="Main navigation">
@@ -2765,7 +2857,7 @@
         <button data-view="settings" title="Settings">⚙ Settings</button>
       </nav>
       <div class="account-panel">
-        <strong>Free account</strong>
+        <strong id="accountGreeting">Welcome back</strong>
         <span id="accountEmail">Not signed in</span>
         <span id="accountProfile">Trader profile</span>
         <button id="signOut" type="button">Sign out</button>
@@ -2791,6 +2883,11 @@
               <span class="hero-chip">Bull/bear mode <b>live</b></span>
               <span class="hero-chip">AI review <b>ready</b></span>
               <span class="hero-chip">Risk pulse <b>tracking</b></span>
+            </div>
+            <div class="hero-dashboard-strip" id="heroDashboardStrip">
+              <div class="hero-mini-card"><span>Session</span><strong>Pre-market ready</strong></div>
+              <div class="hero-mini-card"><span>Cursor engine</span><strong>Tracking</strong></div>
+              <div class="hero-mini-card"><span>Home button</span><strong>TradeReview AI</strong></div>
             </div>
           </div>
           <div class="actions">
@@ -3333,7 +3430,7 @@
             </div>
             <div class="panel">
               <div class="panel-header"><h2>Account Overview</h2></div>
-              <div class="panel-body review-list">
+              <div class="panel-body review-list account-overview-list">
                 <div class="review-item"><span>Signed in as</span><strong id="settingsSignedInEmail">—</strong></div>
                 <div class="review-item"><span>Current plan</span><strong id="settingsCurrentPlan">Free</strong></div>
                 <div class="review-item"><span>Account sync</span><strong>Private cloud journal</strong></div>
@@ -3584,6 +3681,7 @@
       </section>
     </main>
   </div>
+  <div class="cursor-orb" id="cursorOrb" aria-hidden="true"></div>
 
   <button class="help-launcher" id="helpLauncher" type="button" aria-controls="helpPanel" aria-expanded="false">
     <span class="help-launcher-icon">?</span>
@@ -4887,7 +4985,10 @@
       const welcome = document.querySelector("#welcomeLine");
       const headline = document.querySelector("#dashboardHeadline");
       const extra = document.querySelector("#heroExtra");
+      const accountGreeting = document.querySelector("#accountGreeting");
+      const heroStrip = document.querySelector("#heroDashboardStrip");
       if (welcome) welcome.textContent = `Welcome back, ${firstName}`;
+      if (accountGreeting) accountGreeting.textContent = `Welcome back, ${firstName}`;
       if (headline) headline.textContent = summary.trades
         ? `${firstName}, your edge is taking shape.`
         : `${firstName}, build your first clean trading review.`;
@@ -4897,6 +4998,13 @@
           <span class="hero-chip">Broker path <b>${escapeHtml(broker)}</b></span>
           <span class="hero-chip">Trades tracked <b>${summary.trades}</b></span>
           <span class="hero-chip">Total R <b>${escapeHtml(formatR(summary.totalR))}</b></span>
+        `;
+      }
+      if (heroStrip) {
+        heroStrip.innerHTML = `
+          <div class="hero-mini-card"><span>Today’s mission</span><strong>${summary.trades ? "Protect your edge" : "Log first trade"}</strong></div>
+          <div class="hero-mini-card"><span>Cursor engine</span><strong>Live parallax</strong></div>
+          <div class="hero-mini-card"><span>Risk radar</span><strong>${summary.riskBreaks ? `${summary.riskBreaks} alerts` : "Clean"}</strong></div>
         `;
       }
     }
@@ -5556,6 +5664,27 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       initHeroWebgl();
     }
 
+    function initCursorOrb() {
+      const orb = document.querySelector("#cursorOrb");
+      if (!orb || orb.dataset.cursorReady) return;
+      orb.dataset.cursorReady = "true";
+      let targetX = window.innerWidth / 2;
+      let targetY = window.innerHeight / 2;
+      let x = targetX;
+      let y = targetY;
+      window.addEventListener("pointermove", event => {
+        targetX = event.clientX;
+        targetY = event.clientY;
+      }, { passive: true });
+      const tick = () => {
+        x += (targetX - x) * 0.16;
+        y += (targetY - y) * 0.16;
+        orb.style.transform = `translate3d(${x - 130}px, ${y - 130}px, 0)`;
+        requestAnimationFrame(tick);
+      };
+      tick();
+    }
+
     function initHeroWebgl() {
       const canvas = document.querySelector("#heroWebgl");
       if (!canvas || canvas.dataset.webglReady) return;
@@ -5633,6 +5762,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       loadSettingsForm();
       setManualDefaults();
       initDashboardMotion();
+      initCursorOrb();
     }
 
     function switchView(view) {
