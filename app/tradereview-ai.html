@@ -957,6 +957,90 @@
       55%, 100% { transform: translateX(250%); }
     }
 
+    .tv-capture-flow {
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 12px;
+    }
+
+    .tv-capture-card.compact .tv-capture-flow {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .tv-capture-card.compact .tv-capture-flow::before {
+      top: 16px;
+      bottom: 16px;
+      left: 26px;
+      right: auto;
+      width: 1px;
+      height: auto;
+      background: linear-gradient(180deg, rgba(24,217,149,.24), rgba(127,176,255,.28), rgba(255,83,109,.20));
+      transform: none;
+    }
+
+    .tv-capture-card.compact .tv-capture-flow::after {
+      left: 26px;
+      top: 16px;
+      width: 10px;
+      height: 10px;
+      animation: capturePacketVertical 3.8s ease-in-out infinite;
+    }
+
+    .tv-capture-step {
+      min-height: 66px;
+      grid-template-columns: auto auto 1fr;
+      place-items: initial;
+      align-content: initial;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 12px;
+      text-align: left;
+      overflow: visible;
+      font-size: 11px;
+      line-height: 1.25;
+    }
+
+    .tv-capture-step:not(:last-child)::after {
+      content: "→";
+      right: -18px;
+      width: 24px;
+      height: 24px;
+    }
+
+    .tv-capture-card.compact .tv-capture-step:not(:last-child)::after {
+      content: "↓";
+      right: auto;
+      left: 18px;
+      top: auto;
+      bottom: -16px;
+      transform: none;
+    }
+
+    .tv-capture-step::before {
+      min-width: 48px;
+      width: auto;
+      height: 34px;
+      padding: 0 8px;
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: .04em;
+    }
+
+    .tv-capture-step .capture-marker {
+      margin-top: 0;
+    }
+
+    .tv-capture-step strong {
+      margin-bottom: 0;
+    }
+
+    @keyframes capturePacketVertical {
+      0%, 8% { top: 16px; background: #86efac; }
+      30% { top: 34%; background: #7fb0ff; }
+      58% { top: 66%; background: #b99bff; }
+      86%, 100% { top: calc(100% - 16px); background: #ff7b8e; }
+    }
+
     .time-note {
       color: var(--muted);
       font-size: 12px;
