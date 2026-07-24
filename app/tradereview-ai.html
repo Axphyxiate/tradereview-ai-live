@@ -1897,6 +1897,20 @@
       letter-spacing: -.02em;
     }
 
+    .auth-logo-lockup {
+      display: block;
+      width: min(520px, 100%);
+      max-height: 142px;
+      object-fit: contain;
+      object-position: left center;
+      margin: 0 0 18px;
+      border-radius: 22px;
+      mix-blend-mode: screen;
+      filter: drop-shadow(0 24px 54px rgba(0, 0, 0, .38)) drop-shadow(0 0 28px rgba(65, 148, 255, .16));
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 96%, transparent 100%);
+      mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 96%, transparent 100%);
+    }
+
     .auth-brand .mark,
     .brand .mark {
       position: relative;
@@ -4089,7 +4103,7 @@
   <section class="auth-gate" id="authGate" aria-labelledby="authTitle">
     <div class="auth-shell">
       <div class="auth-story">
-        <div class="auth-brand"><div class="mark" aria-hidden="true"><img src="../icons/tradereview-mark.png" alt=""></div><span>TradeReview AI</span></div>
+        <img class="auth-logo-lockup" src="../icons/tradereview-lockup.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision.">
         <div class="product-pill"><span class="live-dot"></span> Your performance workspace</div>
         <h1><span>Turn every session into a repeatable edge.</span></h1>
         <p>Journal the trade, measure the risk, and find the behavior behind your results. Your review process finally lives in one focused workspace.</p>
