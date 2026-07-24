@@ -3117,6 +3117,25 @@
     .profile-summary-row strong { color: #e1e8fa; text-align: right; }
     .roadmap-status { display: inline-flex; align-items: center; gap: 6px; margin-left: auto; padding: 5px 8px; border-radius: 999px; color: #8fb1ff; background: rgba(95,134,255,.09); font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
     .roadmap-status.live { color: #55e5a5; background: rgba(24,217,149,.08); }
+    .broker-sync-priority {
+      margin: 0 0 18px;
+      border-color: rgba(52, 211, 153, .38);
+      box-shadow: 0 18px 60px rgba(16,185,129,.09), 0 0 0 1px rgba(96,165,250,.08) inset;
+    }
+    .broker-sync-priority .panel-header h2::after {
+      content: "sync hub";
+      display: inline-flex;
+      margin-left: 10px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      color: #062014;
+      background: linear-gradient(135deg, #8ff8bf, #6ea8ff);
+      font-size: 9px;
+      font-weight: 1000;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      vertical-align: middle;
+    }
     .broker-linking { display: grid; gap: 16px; }
     .broker-hero {
       position: relative;
@@ -4407,6 +4426,57 @@
           </div>
         </div>
 
+        <div class="panel broker-sync-priority" id="quickBrokerSyncPanel">
+          <div class="panel-header">
+            <h2>Broker Sync</h2>
+            <button type="button" data-view-button="billing">Upgrade for sync</button>
+          </div>
+          <div class="panel-body broker-linking">
+            <div class="broker-hero">
+              <div>
+                <span class="broker-kicker">Pro broker automation</span>
+                <h3>Connect once. Let trades flow into your journal.</h3>
+                <p>Choose a broker here, then TradeReview prepares the secure provider connection path. CSV import stays available while live sync is connected.</p>
+              </div>
+              <span class="broker-status" id="quickBrokerSyncStatus"><i></i> Pro feature</span>
+            </div>
+            <div class="broker-controls">
+              <label>Broker to connect
+                <select id="quickBrokerProvider">
+                  <option value="">Select broker</option>
+                  <option>Schwab / thinkorswim</option>
+                  <option>Robinhood</option>
+                  <option>Webull</option>
+                  <option>Interactive Brokers</option>
+                  <option>NinjaTrader / Tradovate</option>
+                  <option>TradeStation</option>
+                  <option>Fidelity / E*TRADE</option>
+                  <option>OANDA</option>
+                  <option>MetaTrader / Forex.com</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label>Sync history
+                <select id="quickBrokerSyncWindow">
+                  <option value="30">Last 30 days</option>
+                  <option value="90" selected>Last 90 days</option>
+                  <option value="365">Last 12 months</option>
+                  <option value="all">All available history</option>
+                </select>
+              </label>
+              <div class="broker-provider-note">
+                <strong>What sync will bring in</strong>
+                <span>Executions/fills, fees, symbols, quantity, trade times, and links back to your journal review.</span>
+              </div>
+              <div class="connection-actions">
+                <button class="primary" id="quickRequestBrokerSync" type="button">Continue broker sync</button>
+                <button id="openBrokerSettings" type="button">Advanced sync settings</button>
+              </div>
+              <div class="connection-note" id="quickBrokerSyncNote"><strong>Pro required:</strong> Broker sync opens secure Stripe checkout first for Free users, then the broker provider portal when backend keys are ready.</div>
+            </div>
+          </div>
+        </div>
+
         <div class="grid">
           <div class="panel import-card">
             <div class="panel-header"><h2>Universal CSV Import</h2></div>
@@ -4447,54 +4517,6 @@
 2026-06-29,10:05,10:11,EURUSD,FX:EURUSD,Forex,Sell,10000,1.0840,1.0824,0.00,16.00,20,12,London session pullback,Followed stop plan
 2026-06-29,13:30,13:52,NQ1!,CME_MINI:NQ1!,Futures,Buy,1,20250.25,20274.25,4.50,475.50,150,95,Opening drive,Scaled out cleanly</pre>
               <p class="footer-note">Column names do not need to match perfectly. TradeReview tries to recognize common broker labels and standard fields, then you can edit or retag trades after import.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel" id="quickBrokerSyncPanel" style="margin-top:18px">
-          <div class="panel-header"><h2>Broker Sync</h2><button type="button" data-view-button="billing">Upgrade for sync</button></div>
-          <div class="panel-body broker-linking">
-            <div class="broker-hero">
-              <div>
-                <span class="broker-kicker">Pro broker automation</span>
-                <h3>Connect once. Let trades flow into your journal.</h3>
-                <p>Broker sync belongs right beside manual add and CSV import. Choose a broker here, then TradeReview prepares the secure provider connection path.</p>
-              </div>
-              <span class="broker-status" id="quickBrokerSyncStatus"><i></i> Pro feature</span>
-            </div>
-            <div class="broker-controls">
-              <label>Broker to connect
-                <select id="quickBrokerProvider">
-                  <option value="">Select broker</option>
-                  <option>Schwab / thinkorswim</option>
-                  <option>Robinhood</option>
-                  <option>Webull</option>
-                  <option>Interactive Brokers</option>
-                  <option>NinjaTrader / Tradovate</option>
-                  <option>TradeStation</option>
-                  <option>Fidelity / E*TRADE</option>
-                  <option>OANDA</option>
-                  <option>MetaTrader / Forex.com</option>
-                  <option>Other</option>
-                </select>
-              </label>
-              <label>Sync history
-                <select id="quickBrokerSyncWindow">
-                  <option value="30">Last 30 days</option>
-                  <option value="90" selected>Last 90 days</option>
-                  <option value="365">Last 12 months</option>
-                  <option value="all">All available history</option>
-                </select>
-              </label>
-              <div class="broker-provider-note">
-                <strong>What sync will bring in</strong>
-                <span>Executions/fills, fees, symbols, quantity, trade times, and links back to your journal review. CSV import still works today while live provider sync is connected.</span>
-              </div>
-              <div class="connection-actions">
-                <button class="primary" id="quickRequestBrokerSync" type="button">Continue broker sync</button>
-                <button id="openBrokerSettings" type="button">Advanced sync settings</button>
-              </div>
-              <div class="connection-note" id="quickBrokerSyncNote"><strong>Pro required:</strong> Broker sync opens secure Stripe checkout first for Free users, then the broker provider portal when backend keys are ready.</div>
             </div>
           </div>
         </div>
