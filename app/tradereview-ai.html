@@ -457,10 +457,15 @@
       order: 1;
       margin: 0 0 18px !important;
       border-color: #9fc9b7;
+      position: relative;
+      z-index: 4;
+      overflow: visible;
     }
 
     #import > .grid {
       order: 2;
+      position: relative;
+      z-index: 1;
     }
 
     .form-hint {
@@ -2065,13 +2070,13 @@
     }
     .symbol-picker-trigger:hover { background: rgba(127,176,255,.16); color: #ffffff; }
     .symbol-picker-menu {
-      position: absolute;
-      z-index: 75;
-      left: 0;
-      width: min(980px, calc(100vw - 42px));
-      top: calc(100% + 10px);
+      position: fixed;
+      z-index: 340;
+      left: calc(var(--app-sidebar-width, 250px) + var(--app-page-padding, 28px));
+      right: var(--app-page-padding, 28px);
+      top: 82px;
       display: none;
-      max-height: min(72vh, 670px);
+      max-height: calc(100vh - 120px);
       overflow: hidden;
       border: 1px solid rgba(127,176,255,.22);
       border-radius: 22px;
@@ -2084,7 +2089,7 @@
       letter-spacing: 0;
     }
     .symbol-picker-menu button { font-weight: 720; letter-spacing: 0; }
-    .symbol-combobox.open .symbol-picker-menu { display: block; }
+    .symbol-combobox.open .symbol-picker-menu { display: flex; flex-direction: column; }
     .symbol-picker-head {
       display: flex;
       align-items: center;
@@ -2189,7 +2194,8 @@
       box-shadow: 0 10px 24px rgba(127,176,255,.16);
     }
     .symbol-result-list {
-      max-height: min(46vh, 430px);
+      flex: 1 1 auto;
+      max-height: none;
       overflow-y: auto;
       padding: 8px;
     }
@@ -2249,6 +2255,38 @@
     }
     .symbol-picker-foot b { color: #bff7d6; }
     .symbol-empty { padding: 18px; color: #94a5c0; font-weight: 750; }
+
+    .trade-timezone-inline {
+      display: none !important;
+    }
+
+    .danger-button {
+      border-color: rgba(255, 91, 123, .38) !important;
+      background: rgba(255, 91, 123, .08) !important;
+      color: #ffb4c3 !important;
+      box-shadow: none !important;
+    }
+
+    .danger-button.armed {
+      background: linear-gradient(135deg, rgba(255,91,123,.18), rgba(255,123,91,.14)) !important;
+      color: #fff !important;
+    }
+
+    @media (max-width: 940px) {
+      .symbol-picker-menu {
+        left: 12px;
+        right: 12px;
+        top: 72px;
+        max-height: calc(100dvh - 155px);
+        border-radius: 18px;
+      }
+      .symbol-row {
+        grid-template-columns: 38px minmax(120px, .9fr) minmax(130px, 1fr);
+      }
+      .symbol-market {
+        grid-column: 2 / -1;
+      }
+    }
 
     button { border-color: var(--line); border-radius: 10px; background: #111d38; color: #edf2ff; transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease; }
     button:hover { filter: none; border-color: rgba(120, 151, 255, .38); transform: translateY(-1px); }
@@ -4264,7 +4302,7 @@
               <label class="timing-field">Exit time
                 <input id="manualExitTime" type="time">
               </label>
-              <label class="timing-field">Trade timezone
+              <label class="timing-field trade-timezone-inline">Trade timezone
                 <input id="manualTimeZone" list="timeZoneOptions" placeholder="Example: America/New_York or Asia/Kathmandu">
                 <datalist id="timeZoneOptions">
                   <option value="America/New_York">New York / Eastern Time</option>
@@ -4339,6 +4377,8 @@
             <p class="subtitle">Pick a trading day, add your recap, then tag trades so your review gets sharper each week.</p>
           </div>
           <div class="actions">
+            <button class="danger-button" id="deleteJournalNote" type="button">Delete Note</button>
+            <button class="danger-button" id="deleteJournalDay" type="button">Delete Day</button>
             <button class="primary" id="saveJournal">Save Journal</button>
           </div>
         </div>
@@ -4720,6 +4760,9 @@
                   </label>
                   <label>Phone number
                     <input id="accountPhoneSetting" type="tel" placeholder="+1 555 555 5555">
+                  </label>
+                  <label>Default trading timezone
+                    <input id="accountTradingTimeZone" list="timeZoneOptions" placeholder="Example: America/New_York or Asia/Kathmandu">
                   </label>
                   <label>New password
                     <input id="accountNewPassword" type="password" autocomplete="new-password" placeholder="Leave blank unless changing">
@@ -6822,7 +6865,11 @@
               ${screenshotBox(trade, "exitScreenshot", "Exit")}
             </div>
           </td>
-          <td><button class="primary" data-review-trade="${trade.id}">Full Review</button></td>
+          <td>
+            <button class="primary" data-review-trade="${trade.id}">Full Review</button>
+            <div style="height:6px"></div>
+            <button class="danger-button" data-delete-trade="${trade.id}" type="button">Delete</button>
+          </td>
         </tr>`).join("")}</tbody>
       </table>`;
       document.querySelectorAll("[data-edit]").forEach(input => {
@@ -6856,6 +6903,7 @@
       });
       bindTradingViewCaptureButtons(tradeWrap);
       bindReviewButtons();
+      bindDeleteTradeButtons();
     }
 
     function bindReviewButtons() {
@@ -6864,6 +6912,33 @@
           selectedTradeId = button.dataset.reviewTrade;
           renderTradeReview();
           switchView("tradeReview");
+        });
+      });
+    }
+
+    function bindDeleteTradeButtons() {
+      document.querySelectorAll("[data-delete-trade]").forEach(button => {
+        button.addEventListener("click", () => {
+          if (button.dataset.armed !== "true") {
+            button.dataset.armed = "true";
+            button.classList.add("armed");
+            button.textContent = "Click again";
+            showAppToast("Click Delete again to remove this trade.", { title: "Confirm delete", type: "warn", icon: "!" });
+            setTimeout(() => {
+              if (button.dataset.armed === "true") {
+                button.dataset.armed = "";
+                button.classList.remove("armed");
+                button.textContent = "Delete";
+              }
+            }, 3500);
+            return;
+          }
+          const tradeId = button.dataset.deleteTrade;
+          state.trades = state.trades.filter(trade => trade.id !== tradeId);
+          if (selectedTradeId === tradeId) selectedTradeId = null;
+          saveState();
+          render();
+          showAppToast("Trade deleted.", { title: "Deleted", type: "success", icon: "✓" });
         });
       });
     }
@@ -7090,6 +7165,7 @@
 
     function renderProfileContext() {
       const profile = { ...defaultProfile(), ...(state.profile || {}) };
+      const profileTimeZone = state.settings?.tradingTimeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
       const context = [profile.market, profile.broker].filter(Boolean).join(" · ") || "Your free review workspace";
       document.querySelector("#traderContext").textContent = context;
       document.querySelector("#accountProfile").textContent = profile.market && profile.broker ? `${profile.market} · ${profile.broker}` : "Complete trader profile";
@@ -7098,6 +7174,7 @@
         <div class="profile-summary-row"><span>Trading experience</span><strong>${escapeHtml(profileValue("experience"))}</strong></div>
         <div class="profile-summary-row"><span>Primary broker</span><strong>${escapeHtml(profileValue("broker"))}</strong></div>
         <div class="profile-summary-row"><span>Main market</span><strong>${escapeHtml(profileValue("market"))}</strong></div>
+        <div class="profile-summary-row"><span>Trading timezone</span><strong>${escapeHtml(profileTimeZone)}</strong></div>
         <p class="footer-note">These answers stay with your private journal and help prioritize future broker connections. They do not connect an account by themselves.</p>`;
       renderDashboardHero();
     }
@@ -7575,6 +7652,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       document.querySelector("#accountDisplayName").value = state.settings.displayName || "";
       document.querySelector("#accountEmailSetting").value = currentUser?.email || state.settings.billingEmail || "";
       document.querySelector("#accountPhoneSetting").value = state.settings.phone || "";
+      document.querySelector("#accountTradingTimeZone").value = state.settings.tradingTimeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
       document.querySelector("#appearanceFontScale").value = state.settings.fontScale || "comfortable";
       document.querySelector("#appearanceTheme").value = state.settings.theme || "premium-dark";
       document.querySelector("#appearanceAccent").value = state.settings.accent || "green";
@@ -7824,6 +7902,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
     async function saveAccountSettings() {
       state.settings.displayName = document.querySelector("#accountDisplayName").value.trim();
       state.settings.phone = document.querySelector("#accountPhoneSetting").value.trim();
+      state.settings.tradingTimeZone = document.querySelector("#accountTradingTimeZone").value.trim() || Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
       const newEmail = document.querySelector("#accountEmailSetting").value.trim();
       const newPassword = document.querySelector("#accountNewPassword").value;
       const updates = {};
@@ -8719,6 +8798,52 @@ Save this agent to the database and run it against new journal/trade events auto
         const count = importCsv(text);
         showAppToast(`Imported ${count} trades.${lastCsvRejectedCount ? ` Skipped ${lastCsvRejectedCount} row(s) because timing was invalid or the instrument did not match the chart ticker.` : ""}`, { title: "CSV import complete", type: lastCsvRejectedCount ? "warn" : "success", icon: lastCsvRejectedCount ? "!" : "✓" });
         switchView("dashboard");
+      });
+    });
+
+    function armDestructiveButton(button, message, action) {
+      if (!button) return;
+      if (!button.dataset.originalLabel) button.dataset.originalLabel = button.textContent;
+      if (button.dataset.armed !== "true") {
+        button.dataset.armed = "true";
+        button.classList.add("armed");
+        button.textContent = "Click again";
+        showAppToast(message, { title: "Confirm delete", type: "warn", icon: "!" });
+        setTimeout(() => {
+          if (button.dataset.armed === "true") {
+            button.dataset.armed = "";
+            button.classList.remove("armed");
+            button.textContent = button.dataset.originalLabel;
+          }
+        }, 3500);
+        return;
+      }
+      button.dataset.armed = "";
+      button.classList.remove("armed");
+      button.textContent = button.dataset.originalLabel;
+      action();
+    }
+
+    document.querySelector("#deleteJournalNote")?.addEventListener("click", event => {
+      if (!selectedDay) return;
+      armDestructiveButton(event.currentTarget, "Click Delete Note again to remove this journal note. Trades for the day stay saved.", () => {
+        delete state.journals[selectedDay];
+        saveState();
+        render();
+        showAppToast("Journal note deleted. Trades were kept.", { title: "Deleted", type: "success", icon: "✓" });
+      });
+    });
+
+    document.querySelector("#deleteJournalDay")?.addEventListener("click", event => {
+      if (!selectedDay) return;
+      const day = selectedDay;
+      armDestructiveButton(event.currentTarget, "Click Delete Day again to remove this journal day and its trades.", () => {
+        state.trades = state.trades.filter(trade => trade.date !== day);
+        delete state.journals[day];
+        selectedDay = null;
+        saveState();
+        render();
+        showAppToast("Trading day deleted.", { title: "Deleted", type: "success", icon: "✓" });
       });
     });
 
