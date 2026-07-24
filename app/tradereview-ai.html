@@ -6754,8 +6754,7 @@
     function marketTimeLabel(trade, field) {
       const time = trade[field] || "time needed";
       const date = field === "exitTime" ? (trade.exitDate || trade.date || todayKey()) : (trade.date || todayKey());
-      const utc = utcTimeForTrade(trade, field);
-      return `${date} ${time} ${tradeTimeZone(trade)}${utc ? ` / ${utc}` : ""}`;
+      return `${date} ${time} ${tradeTimeZone(trade)}`;
     }
 
     function tradeDateTimeLabel(trade, field) {
@@ -7578,7 +7577,7 @@
         && trade.tradingViewCapture.media[mediaKey] === image;
       const previewNotice = trade ? `<div class="visual-empty preview-warning">
         <strong>Preview only — exact timestamp not confirmed</strong>
-        <span>Requested ${escapeHtml(label)}. If TradingView shows UTC on the chart, match the UTC time in this label. This preview is not saved as official proof until exact seeking is connected.</span>
+        <span>Requested ${escapeHtml(label)}. TradeReview uses your selected trading timezone for this request. This preview is not saved as official proof until exact seeking is connected.</span>
         <a class="chart-link ${tone}" href="${escapeHtml(trade.tradingViewCapture?.media?.[mediaKey] || tradingViewUrl(trade))}" target="_blank" rel="noopener">Open preview image</a>
       </div>` : "";
       const empty = trade ? `<div class="visual-empty"><strong>No ${title.toLowerCase()} chart yet</strong><span>Open TradingView at ${escapeHtml(label)}, take the screenshot, then attach it in the Journal screenshot box.</span><a class="chart-link ${tone}" href="${tradingViewUrl(trade)}" target="_blank" rel="noopener">Open ${title} chart</a></div>` : "";
