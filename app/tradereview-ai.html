@@ -4451,6 +4451,54 @@
           </div>
         </div>
 
+        <div class="panel" id="quickBrokerSyncPanel" style="margin-top:18px">
+          <div class="panel-header"><h2>Broker Sync</h2><button type="button" data-view-button="billing">Upgrade for sync</button></div>
+          <div class="panel-body broker-linking">
+            <div class="broker-hero">
+              <div>
+                <span class="broker-kicker">Pro broker automation</span>
+                <h3>Connect once. Let trades flow into your journal.</h3>
+                <p>Broker sync belongs right beside manual add and CSV import. Choose a broker here, then TradeReview prepares the secure provider connection path.</p>
+              </div>
+              <span class="broker-status" id="quickBrokerSyncStatus"><i></i> Pro feature</span>
+            </div>
+            <div class="broker-controls">
+              <label>Broker to connect
+                <select id="quickBrokerProvider">
+                  <option value="">Select broker</option>
+                  <option>Schwab / thinkorswim</option>
+                  <option>Robinhood</option>
+                  <option>Webull</option>
+                  <option>Interactive Brokers</option>
+                  <option>NinjaTrader / Tradovate</option>
+                  <option>TradeStation</option>
+                  <option>Fidelity / E*TRADE</option>
+                  <option>OANDA</option>
+                  <option>MetaTrader / Forex.com</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label>Sync history
+                <select id="quickBrokerSyncWindow">
+                  <option value="30">Last 30 days</option>
+                  <option value="90" selected>Last 90 days</option>
+                  <option value="365">Last 12 months</option>
+                  <option value="all">All available history</option>
+                </select>
+              </label>
+              <div class="broker-provider-note">
+                <strong>What sync will bring in</strong>
+                <span>Executions/fills, fees, symbols, quantity, trade times, and links back to your journal review. CSV import still works today while live provider sync is connected.</span>
+              </div>
+              <div class="connection-actions">
+                <button class="primary" id="quickRequestBrokerSync" type="button">Continue broker sync</button>
+                <button id="openBrokerSettings" type="button">Advanced sync settings</button>
+              </div>
+              <div class="connection-note" id="quickBrokerSyncNote"><strong>Pro required:</strong> Broker sync opens secure Stripe checkout first for Free users, then the broker provider portal when backend keys are ready.</div>
+            </div>
+          </div>
+        </div>
+
         <div class="panel" id="manualTradePanel" style="margin-top:18px">
           <div class="panel-header"><h2>Add Trade Manually</h2></div>
           <div class="panel-body">
@@ -4885,13 +4933,17 @@
           <article class="billing-card"><small>Elite</small><h3>Elite</h3><div class="billing-price">$49.99 <span>/mo</span></div><ul class="billing-list"><li>Higher AI limits</li><li>Priority broker support</li><li>Unlimited strategy tracking</li><li>Priority support</li></ul><button type="button" data-plan="Elite $49.99">Unlock Elite</button></article>
         </div>
         <div style="height:18px"></div>
-        <div class="panel">
-          <div class="panel-header"><h2>Payment information</h2></div>
-          <div class="panel-body">
-            <p class="checkout-note" id="checkoutMessage">Choose a plan above. Next step is connecting Stripe Checkout/PayPal so customers can safely enter payment details on a secure payment page.</p>
-            <div class="ai-disclaimer">Do not collect raw card numbers inside this static app. Use Stripe Checkout, Stripe Billing, PayPal, or another PCI-compliant provider.</div>
-          </div>
-        </div>
+            <div class="panel">
+              <div class="panel-header"><h2>Payment information</h2></div>
+              <div class="panel-body">
+                <p class="checkout-note" id="checkoutMessage">Choose a plan above. Next step is connecting Stripe Checkout/PayPal so customers can safely enter payment details on a secure payment page.</p>
+                <div class="settings-plan-row">
+                  <div><strong id="stripeSelectedPlan">No paid plan selected</strong><br><span id="stripeCheckoutHint">Select Starter, Pro, or Elite, then continue to secure checkout.</span></div>
+                  <button class="primary" id="openStripeCheckout" type="button">Continue with Stripe Checkout</button>
+                </div>
+                <div class="ai-disclaimer">Do not collect raw card numbers inside this static app. Use Stripe Checkout, Stripe Billing, PayPal, or another PCI-compliant provider.</div>
+              </div>
+            </div>
       </section>
 
       <section id="settings" class="section">
@@ -5094,6 +5146,15 @@
                   </label>
                   <label>Pro price
                     <input id="adminProPrice" placeholder="$29.99">
+                  </label>
+                  <label>Starter Stripe link
+                    <input id="adminStarterStripeLink" type="url" placeholder="https://buy.stripe.com/...">
+                  </label>
+                  <label>Pro Stripe link
+                    <input id="adminProStripeLink" type="url" placeholder="https://buy.stripe.com/...">
+                  </label>
+                  <label>Elite Stripe link
+                    <input id="adminEliteStripeLink" type="url" placeholder="https://buy.stripe.com/...">
                   </label>
                 </div>
                 <p class="footer-note">This owner console is for small copy/settings changes. Bigger changes still belong in code so the product stays stable.</p>
@@ -5620,6 +5681,12 @@
         accent: "green",
         density: "normal",
         currentPlan: "Free",
+        pendingPlan: "",
+        stripeCheckoutLinks: {
+          starter: "",
+          pro: "",
+          elite: ""
+        },
         billingCycle: "monthly",
         billingEmail: "",
         billingCompany: "",
@@ -6372,6 +6439,7 @@
       const label = requiredPlan.charAt(0).toUpperCase() + requiredPlan.slice(1);
       showAppToast(premiumFeatureMessage(feature, label), { title: "Premium feature", type: "warn", icon: "$" });
       switchView("billing", { bypassPlanGate: true });
+      chooseBillingPlan(label === "Pro" ? "Pro $29.99" : label === "Elite" ? "Elite $49.99" : "Starter $9.99");
       const target = document.querySelector("#checkoutMessage");
       if (target) target.innerHTML = `<strong>${escapeHtml(feature)} is premium.</strong> ${escapeHtml(premiumFeatureMessage(feature, label))}`;
       return false;
@@ -7441,18 +7509,29 @@
       const provider = connection.provider || state.profile?.broker || "";
       const status = document.querySelector("#brokerConnectionStatus");
       const roadmap = document.querySelector("#brokerRoadmapStatus");
+      const quickProvider = document.querySelector("#quickBrokerProvider");
+      const quickWindow = document.querySelector("#quickBrokerSyncWindow");
+      const quickStatus = document.querySelector("#quickBrokerSyncStatus");
+      const quickNote = document.querySelector("#quickBrokerSyncNote");
       const providerLabel = provider || "your broker";
       document.querySelector("#brokerProvider").value = provider;
       document.querySelector("#brokerSyncWindow").value = connection.syncWindow || "90";
+      if (quickProvider) quickProvider.value = provider;
+      if (quickWindow) quickWindow.value = connection.syncWindow || "90";
       document.querySelector("#syncExecutions").checked = Boolean(connection.syncExecutions);
       document.querySelector("#syncFees").checked = Boolean(connection.syncFees);
       document.querySelector("#syncPositions").checked = Boolean(connection.syncPositions);
       document.querySelector("#syncNotes").checked = Boolean(connection.syncNotes);
 
       status.className = "broker-status";
+      if (quickStatus) quickStatus.className = "broker-status";
       if (connection.status === "requested") {
         status.classList.add("requested");
         status.innerHTML = "<i></i> Requested";
+        if (quickStatus) {
+          quickStatus.classList.add("requested");
+          quickStatus.innerHTML = "<i></i> Requested";
+        }
         roadmap.textContent = "Requested";
         roadmap.classList.remove("live");
         document.querySelector("#brokerConnectionTitle").textContent = `${providerLabel} link requested`;
@@ -7462,12 +7541,17 @@
       } else if (connection.status === "ready") {
         status.classList.add("ready");
         status.innerHTML = "<i></i> Ready";
+        if (quickStatus) {
+          quickStatus.classList.add("ready");
+          quickStatus.innerHTML = "<i></i> Ready";
+        }
         roadmap.textContent = "Ready";
         roadmap.classList.add("live");
         document.querySelector("#brokerConnectionTitle").textContent = `${providerLabel} sync ready`;
         document.querySelector("#brokerConnectionCopy").textContent = "Approved broker access is ready for this provider. You will connect through the provider portal, not by typing broker passwords into TradeReview.";
       } else {
         status.innerHTML = "<i></i> Not linked";
+        if (quickStatus) quickStatus.innerHTML = hasPlan("pro") ? "<i></i> Ready to request" : "<i></i> Pro feature";
         roadmap.textContent = "Planned";
         roadmap.classList.remove("live");
         document.querySelector("#brokerConnectionTitle").textContent = provider ? `Prepare ${provider} sync` : "Choose your broker";
@@ -7478,6 +7562,11 @@
 
       const when = connection.requestedAt ? ` Requested ${new Date(connection.requestedAt).toLocaleDateString()}.` : "";
       document.querySelector("#brokerConnectionNote").innerHTML = `<strong>Current live path:</strong> CSV import and manual trade logging are available today. Backend broker sync tables are prepared for secure provider connections.${when}`;
+      if (quickNote) quickNote.innerHTML = connection.status === "requested"
+        ? `<strong>Broker request saved:</strong> ${escapeHtml(providerLabel)} is queued from Add Trade.${when}`
+        : hasPlan("pro")
+          ? `<strong>Pro broker sync:</strong> Choose a broker, then continue to prepare the secure provider portal.`
+          : `<strong>Pro required:</strong> Broker sync opens secure Stripe checkout first for Free users, then the broker provider portal when backend keys are ready.`;
     }
 
     function brokerProviderKind(provider) {
@@ -7510,6 +7599,41 @@
       renderProfileContext();
       renderBrokerConnection();
       return await syncBrokerConnectionMetadata(state.brokerConnection);
+    }
+
+    function syncQuickBrokerFieldsToMain() {
+      const quickProvider = document.querySelector("#quickBrokerProvider")?.value || "";
+      const quickWindow = document.querySelector("#quickBrokerSyncWindow")?.value || "90";
+      const provider = document.querySelector("#brokerProvider");
+      const syncWindow = document.querySelector("#brokerSyncWindow");
+      if (provider) provider.value = quickProvider;
+      if (syncWindow) syncWindow.value = quickWindow;
+      ["syncExecutions", "syncFees", "syncPositions", "syncNotes"].forEach(id => {
+        const input = document.querySelector(`#${id}`);
+        if (input) input.checked = true;
+      });
+    }
+
+    async function requestQuickBrokerSync() {
+      if (!requirePlan("Broker sync requests", "pro")) return;
+      syncQuickBrokerFieldsToMain();
+      if (!document.querySelector("#brokerProvider")?.value && !state.profile?.broker) {
+        showAppToast("Choose a broker first.", { title: "Broker required", type: "warn" });
+        return;
+      }
+      const button = document.querySelector("#quickRequestBrokerSync");
+      const note = document.querySelector("#quickBrokerSyncNote");
+      button.disabled = true;
+      button.textContent = "Preparing secure sync...";
+      if (note) note.innerHTML = "<strong>Preparing broker sync:</strong> Saving your broker preference and sync window.";
+      try {
+        const result = await saveBrokerConnectionFromForm("requested");
+        if (result?.ok) await openBrokerConnectionPortal(state.brokerConnection);
+      } finally {
+        button.disabled = false;
+        button.textContent = "Continue broker sync";
+        renderBrokerConnection();
+      }
     }
 
     function selectedOnboardingValue(name) {
@@ -7919,8 +8043,12 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       document.querySelector("#adminAnnouncement").value = state.settings.productAnnouncement || "";
       document.querySelector("#adminStarterPrice").value = state.settings.starterPrice || "$9.99";
       document.querySelector("#adminProPrice").value = state.settings.proPrice || "$29.99";
+      document.querySelector("#adminStarterStripeLink").value = state.settings.stripeCheckoutLinks?.starter || "";
+      document.querySelector("#adminProStripeLink").value = state.settings.stripeCheckoutLinks?.pro || "";
+      document.querySelector("#adminEliteStripeLink").value = state.settings.stripeCheckoutLinks?.elite || "";
       document.querySelectorAll("[data-owner-only]").forEach(item => { item.hidden = !isOwnerUser(); });
       document.querySelector("#settingsAdminPane")?.toggleAttribute("hidden", !isOwnerUser());
+      updateStripeCheckoutState();
       renderOwnerConsole();
       applyAppearanceSettings();
     }
@@ -8048,8 +8176,14 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       state.settings.productAnnouncement = document.querySelector("#adminAnnouncement").value.trim();
       state.settings.starterPrice = document.querySelector("#adminStarterPrice").value.trim() || "$9.99";
       state.settings.proPrice = document.querySelector("#adminProPrice").value.trim() || "$29.99";
+      state.settings.stripeCheckoutLinks = {
+        starter: document.querySelector("#adminStarterStripeLink")?.value.trim() || "",
+        pro: document.querySelector("#adminProStripeLink")?.value.trim() || "",
+        elite: document.querySelector("#adminEliteStripeLink")?.value.trim() || ""
+      };
       saveState();
       renderOwnerConsole();
+      updateStripeCheckoutState();
       setSettingsStatus("adminSettingsStatus", "Owner settings saved. Support requests will use the customer service email.");
     }
 
@@ -8652,12 +8786,64 @@ Save this agent to the database and run it against new journal/trade events auto
 
     function chooseBillingPlan(plan) {
       const target = document.querySelector("#checkoutMessage");
-      state.settings.currentPlan = plan || "Free";
+      const selectedPlan = plan || "Free";
+      state.settings.pendingPlan = selectedPlan;
+      if (/^free$/i.test(selectedPlan)) {
+        state.settings.currentPlan = "Free";
+        state.settings.pendingPlan = "";
+      }
       saveState();
-      if (target) target.innerHTML = `<strong>${plan} selected.</strong> Next step: connect Stripe Checkout or PayPal so customers can safely enter payment details on a secure payment page. TradeReview should never store raw card numbers directly.`;
-      setSettingsStatus("subscriptionSettingsStatus", `${plan} selected. Upgrade, downgrade, or cancel-anytime flows will use Stripe/PayPal customer portal when connected.`);
+      if (target) target.innerHTML = /^free$/i.test(selectedPlan)
+        ? `<strong>Free selected.</strong> Manual journaling, CSV import, and the basic dashboard remain available at no cost.`
+        : `<strong>${escapeHtml(selectedPlan)} selected for checkout.</strong> Continue with secure Stripe Checkout to activate this tier. TradeReview should never store raw card numbers directly.`;
+      updateStripeCheckoutState();
+      setSettingsStatus("subscriptionSettingsStatus", /^free$/i.test(selectedPlan)
+        ? "Free plan selected."
+        : `${selectedPlan} selected. Continue through Stripe Checkout to activate paid access, or use Owner Console for manual comps/upgrades.`);
       const currentPlan = document.querySelector("#settingsCurrentPlan");
       if (currentPlan) currentPlan.textContent = state.settings.currentPlan;
+      renderBrokerConnection();
+    }
+
+    function checkoutPlanKey(plan = state.settings.pendingPlan) {
+      const key = String(plan || "").toLowerCase();
+      if (key.includes("elite")) return "elite";
+      if (key.includes("pro")) return "pro";
+      if (key.includes("starter")) return "starter";
+      return "";
+    }
+
+    function updateStripeCheckoutState() {
+      const selected = document.querySelector("#stripeSelectedPlan");
+      const hint = document.querySelector("#stripeCheckoutHint");
+      const button = document.querySelector("#openStripeCheckout");
+      if (!selected || !hint || !button) return;
+      const pending = state.settings.pendingPlan || "";
+      const key = checkoutPlanKey(pending);
+      selected.textContent = pending ? `${pending} selected` : "No paid plan selected";
+      hint.textContent = pending
+        ? "Use secure Stripe Checkout to activate this tier. Payment links must be connected by the owner before live billing."
+        : "Select Starter, Pro, or Elite, then continue to secure checkout.";
+      button.disabled = !key;
+      button.textContent = key ? `Continue with Stripe for ${key.charAt(0).toUpperCase() + key.slice(1)}` : "Continue with Stripe Checkout";
+    }
+
+    function openStripeCheckout() {
+      const key = checkoutPlanKey();
+      if (!key) {
+        showAppToast("Select Starter, Pro, or Elite first.", { title: "Choose a plan", type: "warn", icon: "$" });
+        return;
+      }
+      const url = state.settings.stripeCheckoutLinks?.[key] || "";
+      if (/^https:\/\/(buy|checkout)\.stripe\.com\//i.test(url)) {
+        window.location.href = url;
+        return;
+      }
+      const plan = state.settings.pendingPlan || key;
+      const message = `${plan} is selected, but the Stripe Checkout payment link is not connected yet. Create Stripe Payment Links or Checkout Sessions for Starter/Pro/Elite, then add those links through the owner backend/settings workflow.`;
+      showAppToast(message, { title: "Stripe checkout not connected", type: "warn", icon: "$" });
+      const target = document.querySelector("#checkoutMessage");
+      if (target) target.innerHTML = `<strong>Stripe checkout not connected yet.</strong> ${escapeHtml(message)}`;
     }
 
     function initSymbolPickers() {
@@ -8969,6 +9155,20 @@ Save this agent to the database and run it against new journal/trade events auto
       deleteBrokerConnectionMetadata(providerToClear);
     });
     document.querySelector("#brokerImportShortcut").addEventListener("click", () => switchView("import"));
+    document.querySelector("#quickBrokerProvider")?.addEventListener("change", () => {
+      syncQuickBrokerFieldsToMain();
+      saveBrokerConnectionFromForm("not-linked");
+    });
+    document.querySelector("#quickBrokerSyncWindow")?.addEventListener("change", () => {
+      syncQuickBrokerFieldsToMain();
+      saveBrokerConnectionFromForm();
+    });
+    document.querySelector("#quickRequestBrokerSync")?.addEventListener("click", requestQuickBrokerSync);
+    document.querySelector("#openBrokerSettings")?.addEventListener("click", () => {
+      switchView("settings");
+      switchSettingsTab("trading");
+    });
+    document.querySelector("#openStripeCheckout")?.addEventListener("click", openStripeCheckout);
     document.querySelector("#installMobileApp").addEventListener("click", installMobileApp);
     document.querySelector("#mobileInstallPrimary").addEventListener("click", installMobileApp);
     document.querySelector("#authMobileInstallPrimary").addEventListener("click", installMobileApp);
