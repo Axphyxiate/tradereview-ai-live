@@ -216,20 +216,24 @@
     .official-logo-hero {
       display: inline-flex;
       align-items: center;
+      width: min(980px, 94vw);
+      max-width: 100%;
       margin: 0 0 22px;
-      padding: 10px;
+      padding: 8px;
       border: 1px solid rgba(127,160,255,.18);
       border-radius: 28px;
-      background: linear-gradient(135deg, rgba(5, 11, 27, .72), rgba(8, 18, 42, .38));
+      background: linear-gradient(135deg, rgba(5, 11, 27, .50), rgba(8, 18, 42, .22));
       box-shadow: 0 28px 80px rgba(0, 0, 0, .30), inset 0 1px 0 rgba(255,255,255,.07);
       backdrop-filter: blur(16px);
     }
     .official-logo-hero img {
-      width: min(760px, 78vw);
-      max-height: 170px;
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 260px;
       border-radius: 22px;
-      object-fit: contain;
-      object-position: left center;
+      object-fit: cover;
+      object-position: center;
       box-shadow: 0 0 30px rgba(65,148,255,.14);
     }
 
@@ -824,7 +828,7 @@
             <div class="window-top"><div class="window-dots"><i></i><i></i><i></i></div><span>tradereview.ai / performance</span><span>Private session</span></div>
             <div class="mock-app">
               <div class="mock-side">
-                <div class="mock-brand"><span><img src="./icons/tradereview-logo-wide.png" alt=""></span> TradeReview</div>
+                <div class="mock-brand"><span><img src="./icons/tradereview-logo-wide.png" alt="TradeReview AI"></span></div>
                 <div class="mock-nav"><div class="active">⌂ &nbsp; Dashboard</div><div>＋ &nbsp; Add trade</div><div>✎ &nbsp; Journal</div><div>◉ &nbsp; Review</div><div>✦ &nbsp; AI Coach</div><div>⚙ &nbsp; Settings</div></div>
               </div>
               <div class="mock-main">

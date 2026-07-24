@@ -7920,6 +7920,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       document.querySelector("#adminStarterPrice").value = state.settings.starterPrice || "$9.99";
       document.querySelector("#adminProPrice").value = state.settings.proPrice || "$29.99";
       document.querySelectorAll("[data-owner-only]").forEach(item => { item.hidden = !isOwnerUser(); });
+      document.querySelector("#settingsAdminPane")?.toggleAttribute("hidden", !isOwnerUser());
       renderOwnerConsole();
       applyAppearanceSettings();
     }
@@ -7955,7 +7956,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
 
     function isOwnerUser() {
       const email = (currentUser?.email || "").toLowerCase();
-      return ["alexhopkins652@gmail.com", "sujan.lamsal546@gmail.com"].includes(email);
+      return email === "alexhopkins652@gmail.com";
     }
 
     async function applyCurrentPlanOverride() {
@@ -8135,6 +8136,10 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
 
     function switchSettingsTab(tab) {
       const nextTab = tab || "account";
+      if (nextTab === "admin" && !isOwnerUser()) {
+        setSettingsStatus("accountSettingsStatus", "Owner console is restricted to the TradeReview owner account.", "warn");
+        return switchSettingsTab("account");
+      }
       document.querySelectorAll(".settings-tabs [data-settings-tab]").forEach(button => {
         button.classList.toggle("active", button.dataset.settingsTab === nextTab);
       });
