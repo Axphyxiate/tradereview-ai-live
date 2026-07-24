@@ -5930,7 +5930,7 @@
       if (error || !data?.redirectURI) {
         const message = error?.message || data?.error || "The broker portal is not deployed or configured yet.";
         note?.classList.remove("connecting");
-        if (note) note.innerHTML = `<strong>Broker portal not ready:</strong> ${escapeHtml(message)}`;
+        if (note) note.innerHTML = `<strong>Broker connection setup needed:</strong> ${escapeHtml(message)}`;
         return;
       }
       state.brokerConnection = {
@@ -6770,14 +6770,14 @@
       if (exactHistoricalCapture && media.exitScreenshotUrl) trade.exitScreenshot = media.exitScreenshotUrl;
 
       if (error || data?.error || !data?.jobId) {
-        const workerError = error?.message || data?.error || data?.message || "TradingView capture worker is not connected yet.";
+        const workerError = error?.message || data?.error || data?.message || "The capture service is not connected yet.";
         trade.tradingViewCapture = {
           ...trade.tradingViewCapture,
           status: "backend_not_ready",
           error: workerError,
           message: tradingViewCaptureWorkerUrl()
-            ? `Capture request saved, but the automation worker did not return media yet. Worker said: ${workerError}`
-            : "Capture request saved. Add a TradingView capture worker URL so TradeReview can generate screenshots and replay videos automatically."
+            ? `Capture request saved. The chart media service is still being connected, so screenshots and replay video are not available yet.`
+            : "Capture request saved. Connect the chart media service to generate screenshots and replay videos automatically."
         };
         saveState();
         render();
@@ -6807,7 +6807,7 @@
         button.textContent = "Copied";
         setTimeout(() => { button.textContent = "Copy backend request"; }, 1400);
       }).catch(() => {
-        prompt("Copy this TradingView capture request:", payload);
+        showAppToast("Clipboard access was blocked by the browser. Try again from a secure browser tab.", { title: "Copy blocked", type: "warn" });
       });
     }
 
@@ -6832,7 +6832,7 @@
         : hasPreviewMedia
           ? "The worker generated preview media, but it did not confirm the requested entry/exit timestamps. It was not attached as official proof."
         : request?.status === "backend_not_ready"
-          ? "The request was saved, but the automation worker needs to be connected before media can be generated."
+          ? "The request was saved, but the chart media service needs to be connected before screenshots and replay video can be generated."
           : request
             ? "Your chart media is being prepared. You can keep journaling while TradeReview works in the background."
             : "";
@@ -6895,7 +6895,7 @@
         : hasPreviewMedia
           ? "The worker generated preview media, but it did not confirm the requested entry/exit timestamps. It was not attached as official proof."
         : request?.status === "backend_not_ready"
-          ? "The request was saved, but the automation worker needs to be connected before media can be generated."
+          ? "The request was saved, but the chart media service needs to be connected before screenshots and replay video can be generated."
           : request
             ? "Your chart media is being prepared. You can keep journaling while TradeReview works in the background."
             : "";
@@ -7405,7 +7405,7 @@
         button.textContent = "Copied";
         setTimeout(() => { button.textContent = "Copy time"; }, 1200);
       }).catch(() => {
-        prompt("Copy this TradingView capture label:", text);
+        showAppToast("Clipboard access was blocked by the browser. Try again from a secure browser tab.", { title: "Copy blocked", type: "warn" });
       });
     }
 
@@ -9465,25 +9465,39 @@ Save this agent to the database and run it against new journal/trade events auto
     });
 
     document.querySelector("#clearTrades").addEventListener("click", () => {
-      if (!confirm("Clear all trades and journal notes?")) return;
-      state.trades = [];
-      state.journals = {};
-      selectedDay = null;
-      saveState();
-      render();
+      showConfirmModal({
+        title: "Clear all trading data?",
+        message: "This removes every trade and journal note from this browser and your synced app state. Export a backup first if you may need it later.",
+        acceptLabel: "Clear all data",
+        onConfirm: () => {
+          state.trades = [];
+          state.journals = {};
+          selectedDay = null;
+          saveState();
+          render();
+          showAppToast("All trades and journal notes were cleared.", { title: "Data cleared", type: "success", icon: "✓" });
+        }
+      });
     });
 
     document.querySelector("#resetAll").addEventListener("click", () => {
-      if (!confirm("Reset the app data stored in this browser?")) return;
-      localStorage.removeItem(activeStoreKey);
-      state.trades = [];
-      state.journals = {};
-      state.settings = defaultSettings();
-      state.profile = defaultProfile();
-      state.brokerConnection = defaultBrokerConnection();
-      selectedDay = null;
-      saveState();
-      render();
+      showConfirmModal({
+        title: "Reset this browser?",
+        message: "This clears TradeReview data stored in this browser. Cloud data may sync again after sign-in unless you also clear it from your account.",
+        acceptLabel: "Reset browser",
+        onConfirm: () => {
+          localStorage.removeItem(activeStoreKey);
+          state.trades = [];
+          state.journals = {};
+          state.settings = defaultSettings();
+          state.profile = defaultProfile();
+          state.brokerConnection = defaultBrokerConnection();
+          selectedDay = null;
+          saveState();
+          render();
+          showAppToast("This browser was reset.", { title: "Reset complete", type: "success", icon: "✓" });
+        }
+      });
     });
 
     document.querySelector("#exportJson").addEventListener("click", () => {
