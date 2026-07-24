@@ -7639,7 +7639,15 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
         setSettingsStatus("adminSettingsStatus", "Owner backend data loaded from Supabase.");
       } catch (error) {
         renderOwnerConsole();
-        setSettingsStatus("adminSettingsStatus", `Backend admin schema is not connected yet: ${error?.message || "run owner-console-schema.sql in Supabase."}`, "warn");
+        const message = error?.message || "";
+        const missingFunction = /owner_user_directory|schema cache|could not find the function/i.test(message);
+        setSettingsStatus(
+          "adminSettingsStatus",
+          missingFunction
+            ? "Backend admin schema is not connected yet. Run supabase/owner-console-schema.sql in Supabase SQL Editor, then wait 30 seconds and refresh."
+            : `Backend admin schema is not connected yet: ${message || "run owner-console-schema.sql in Supabase."}`,
+          "warn"
+        );
       }
     }
 
