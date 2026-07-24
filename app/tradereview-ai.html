@@ -4762,7 +4762,26 @@
                     <input id="accountPhoneSetting" type="tel" placeholder="+1 555 555 5555">
                   </label>
                   <label>Default trading timezone
-                    <input id="accountTradingTimeZone" list="timeZoneOptions" placeholder="Example: America/New_York or Asia/Kathmandu">
+                    <select id="accountTradingTimeZone">
+                      <option value="America/New_York">New York / Eastern Time — NYSE, NASDAQ, US options</option>
+                      <option value="America/Chicago">Chicago / Central Time — CME futures</option>
+                      <option value="America/Denver">Denver / Mountain Time</option>
+                      <option value="America/Los_Angeles">Los Angeles / Pacific Time</option>
+                      <option value="Europe/London">London — LSE / UK markets</option>
+                      <option value="Europe/Berlin">Berlin / Frankfurt — EU markets</option>
+                      <option value="Europe/Zurich">Zurich — Swiss market</option>
+                      <option value="Asia/Kathmandu">Nepal Time — NEPSE</option>
+                      <option value="Asia/Kolkata">India Standard Time — NSE / BSE</option>
+                      <option value="Asia/Dubai">Dubai / Gulf Time</option>
+                      <option value="Asia/Singapore">Singapore Time</option>
+                      <option value="Asia/Hong_Kong">Hong Kong Time</option>
+                      <option value="Asia/Tokyo">Tokyo — Japan markets</option>
+                      <option value="Australia/Sydney">Sydney — ASX</option>
+                      <option value="Pacific/Auckland">Auckland — NZX</option>
+                      <option value="America/Toronto">Toronto / Eastern Canada</option>
+                      <option value="America/Sao_Paulo">São Paulo — Brazil</option>
+                      <option value="UTC">UTC / Exchange time</option>
+                    </select>
                   </label>
                   <label>New password
                     <input id="accountNewPassword" type="password" autocomplete="new-password" placeholder="Leave blank unless changing">
@@ -7652,7 +7671,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       document.querySelector("#accountDisplayName").value = state.settings.displayName || "";
       document.querySelector("#accountEmailSetting").value = currentUser?.email || state.settings.billingEmail || "";
       document.querySelector("#accountPhoneSetting").value = state.settings.phone || "";
-      document.querySelector("#accountTradingTimeZone").value = state.settings.tradingTimeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
+      setTimeZoneSelectValue(document.querySelector("#accountTradingTimeZone"), state.settings.tradingTimeZone);
       document.querySelector("#appearanceFontScale").value = state.settings.fontScale || "comfortable";
       document.querySelector("#appearanceTheme").value = state.settings.theme || "premium-dark";
       document.querySelector("#appearanceAccent").value = state.settings.accent || "green";
@@ -7686,6 +7705,19 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       if (!target) return;
       target.textContent = message;
       target.className = `settings-status ${type}`;
+    }
+
+    function setTimeZoneSelectValue(select, value) {
+      if (!select) return;
+      const fallback = Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
+      const nextValue = value || fallback;
+      if (![...select.options].some(option => option.value === nextValue)) {
+        const customOption = document.createElement("option");
+        customOption.value = nextValue;
+        customOption.textContent = `${nextValue} — custom saved timezone`;
+        select.appendChild(customOption);
+      }
+      select.value = nextValue;
     }
 
     function isOwnerUser() {
