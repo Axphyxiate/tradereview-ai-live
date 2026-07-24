@@ -276,6 +276,14 @@
       white-space: nowrap;
     }
 
+    .account-panel strong {
+      overflow: visible;
+      text-overflow: clip;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      line-height: 1.2;
+    }
+
     .account-panel span {
       margin-top: 3px;
       color: var(--muted);
@@ -5914,7 +5922,7 @@
         jobId: data.jobId,
         media,
         limitations: data.limitations || [],
-        message: data.message || "TradingView capture job queued."
+        message: data.message || "Your chart media is being prepared. You can keep journaling while TradeReview works in the background."
       };
       saveState();
       render();
@@ -5934,14 +5942,23 @@
 
     function tradingViewCaptureCardV2(trade, compact = false) {
       const request = trade.tradingViewCapture;
-      const statusTitle = request?.jobId
-        ? `Job ${request.jobId.slice(0, 8)} queued`
+      const hasCaptureMedia = !!(request?.media?.entryScreenshotUrl || request?.media?.exitScreenshotUrl || request?.media?.replayVideoUrl);
+      const statusTitle = hasCaptureMedia
+        ? "Chart media is ready"
+        : request?.jobId
+          ? "Capture request sent"
+          : request?.status === "backend_not_ready"
+            ? "Capture service needs setup"
+            : request
+              ? "Capture request saved"
+              : "";
+      const statusDetail = hasCaptureMedia
+        ? "Entry, exit, and replay media are ready to review."
         : request?.status === "backend_not_ready"
-          ? "Automation worker not connected yet"
+          ? "The request was saved, but the automation worker needs to be connected before media can be generated."
           : request
-            ? "Capture request saved"
+            ? "Your chart media is being prepared. You can keep journaling while TradeReview works in the background."
             : "";
-      const statusDetail = request?.message || `Queued ${new Date(request?.requestedAt || Date.now()).toLocaleString()} - waiting for capture backend`;
       const status = request
         ? `<strong>${escapeHtml(statusTitle)}</strong><small>${escapeHtml(statusDetail)}</small>`
         : "Ready to request once ticker, entry time, and exit time are set.";
@@ -5982,14 +5999,23 @@
     function tradingViewCaptureCardV2(trade, compact = false) {
       const request = trade.tradingViewCapture;
       const ticker = chartTicker(trade) || trade.symbol || "ticker";
-      const statusTitle = request?.jobId
-        ? `Job ${request.jobId.slice(0, 8)} queued`
+      const hasCaptureMedia = !!(request?.media?.entryScreenshotUrl || request?.media?.exitScreenshotUrl || request?.media?.replayVideoUrl);
+      const statusTitle = hasCaptureMedia
+        ? "Chart media is ready"
+        : request?.jobId
+          ? "Capture request sent"
+          : request?.status === "backend_not_ready"
+            ? "Capture service needs setup"
+            : request
+              ? "Capture request saved"
+              : "";
+      const statusDetail = hasCaptureMedia
+        ? "Entry, exit, and replay media are ready to review."
         : request?.status === "backend_not_ready"
-          ? "Automation worker not connected yet"
+          ? "The request was saved, but the automation worker needs to be connected before media can be generated."
           : request
-            ? "Capture request saved"
+            ? "Your chart media is being prepared. You can keep journaling while TradeReview works in the background."
             : "";
-      const statusDetail = request?.message || `Queued ${new Date(request?.requestedAt || Date.now()).toLocaleString()} - waiting for capture backend`;
       const status = request
         ? `<strong>${escapeHtml(statusTitle)}</strong><small>${escapeHtml(statusDetail)}</small>`
         : "Ready to request once ticker, entry time, and exit time are set.";
@@ -6040,7 +6066,7 @@
       return tradingViewCaptureCardV2(trade, compact);
       const request = trade.tradingViewCapture;
       const status = request
-        ? `${request.jobId ? `Job ${request.jobId.slice(0, 8)} · ` : ""}${request.message || `Queued ${new Date(request.requestedAt || Date.now()).toLocaleString()} · waiting for capture backend`}`
+        ? "Capture request sent. Your chart media is being prepared in the background."
         : "Ready to request once ticker, entry time, and exit time are set.";
       const reconnectAction = request?.reconnectRequired
         ? `<button class="primary" type="button" data-reconnect-auth="true">Reconnect account</button>`
