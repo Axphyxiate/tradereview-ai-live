@@ -9109,7 +9109,16 @@ Save this agent to the database and run it against new journal/trade events auto
       button.textContent = key ? `Continue with Stripe for ${key.charAt(0).toUpperCase() + key.slice(1)}` : "Continue with Stripe Checkout";
     }
 
-    function openStripeCheckout() {
+    function appReturnUrl(extra = {}) {
+      const url = new URL(window.location.href);
+      Object.entries(extra).forEach(([key, value]) => {
+        if (value === null || value === undefined || value === "") url.searchParams.delete(key);
+        else url.searchParams.set(key, String(value));
+      });
+      return url.toString();
+    }
+
+    async function openStripeCheckout() {
       const key = checkoutPlanKey();
       if (!key) {
         showAppToast("Select Starter, Pro, or Elite first.", { title: "Choose a plan", type: "warn", icon: "$" });
@@ -9120,11 +9129,65 @@ Save this agent to the database and run it against new journal/trade events auto
         window.location.href = url;
         return;
       }
-      const plan = state.settings.pendingPlan || key;
-      const message = `${plan} is selected, but the Stripe Checkout payment link is not connected yet. Create Stripe Payment Links or Checkout Sessions for Starter/Pro/Elite, then add those links through the owner backend/settings workflow.`;
-      showAppToast(message, { title: "Stripe checkout not connected", type: "warn", icon: "$" });
       const target = document.querySelector("#checkoutMessage");
-      if (target) target.innerHTML = `<strong>Stripe checkout not connected yet.</strong> ${escapeHtml(message)}`;
+      const button = document.querySelector("#openStripeCheckout");
+      const oldText = button?.textContent || "Continue with Stripe Checkout";
+      try {
+        if (!cloudClient) throw new Error("Stripe checkout needs Supabase sign-in first.");
+        if (button) {
+          button.disabled = true;
+          button.textContent = "Opening Stripe Checkout...";
+        }
+        if (target) target.innerHTML = `<strong>Opening secure Stripe Checkout...</strong> You will enter payment details on Stripe, not inside TradeReview.`;
+        const { data, error } = await cloudClient.functions.invoke("stripe-checkout", {
+          body: {
+            plan: key,
+            returnUrl: appReturnUrl({ view: "billing" })
+          }
+        });
+        if (error) throw error;
+        const checkoutUrl = data?.url || "";
+        if (!/^https:\/\/checkout\.stripe\.com\//i.test(checkoutUrl)) throw new Error("Stripe did not return a valid Checkout URL.");
+        window.location.href = checkoutUrl;
+      } catch (error) {
+        const message = error?.message || "Stripe checkout is not ready yet. Set Stripe secrets and deploy the stripe-checkout function.";
+        showAppToast(message, { title: "Stripe checkout setup needed", type: "warn", icon: "$" });
+        if (target) target.innerHTML = `<strong>Stripe checkout setup needed.</strong> ${escapeHtml(message)}`;
+        if (button) {
+          button.disabled = false;
+          button.textContent = oldText;
+        }
+      }
+    }
+
+    async function openStripeCustomerPortal() {
+      const button = document.querySelector("#openCustomerPortal");
+      const oldText = button?.textContent || "Open secure billing portal";
+      try {
+        if (!cloudClient) throw new Error("Sign in before opening the billing portal.");
+        if (button) {
+          button.disabled = true;
+          button.textContent = "Opening billing portal...";
+        }
+        setSettingsStatus("customerPortalStatus", "Opening secure Stripe Billing Portal...");
+        const { data, error } = await cloudClient.functions.invoke("stripe-portal", {
+          body: {
+            returnUrl: appReturnUrl({ view: "settings", settings: "billing" })
+          }
+        });
+        if (error) throw error;
+        const portalUrl = data?.url || "";
+        if (!/^https:\/\/billing\.stripe\.com\//i.test(portalUrl)) throw new Error("Stripe did not return a valid Billing Portal URL.");
+        window.location.href = portalUrl;
+      } catch (error) {
+        const message = error?.message || "Stripe billing portal is not ready yet. Set Stripe secrets and deploy the stripe-portal function.";
+        setSettingsStatus("customerPortalStatus", message, "warn");
+        showAppToast(message, { title: "Billing portal setup needed", type: "warn", icon: "$" });
+        if (button) {
+          button.disabled = false;
+          button.textContent = oldText;
+        }
+      }
     }
 
     function initSymbolPickers() {
@@ -9340,9 +9403,7 @@ Save this agent to the database and run it against new journal/trade events auto
     document.querySelector("#refreshOwnerUsers")?.addEventListener("click", () => {
       refreshOwnerBackendData();
     });
-    document.querySelector("#openCustomerPortal")?.addEventListener("click", () => {
-      setSettingsStatus("customerPortalStatus", "Secure billing portal is ready for Stripe/PayPal connection. After setup, this button will open the hosted customer portal.", "warn");
-    });
+    document.querySelector("#openCustomerPortal")?.addEventListener("click", openStripeCustomerPortal);
     document.querySelector("#securitySignOut")?.addEventListener("click", () => document.querySelector("#logout")?.click());
     document.querySelector("#exportAccountData")?.addEventListener("click", () => document.querySelector("#exportJson")?.click());
     document.querySelector("#requestAccountDeletion")?.addEventListener("click", () => {
