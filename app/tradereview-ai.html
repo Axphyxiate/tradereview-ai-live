@@ -5862,6 +5862,21 @@
       return { ok: true };
     }
 
+    async function syncDisplayNameToProfile(displayName) {
+      if (!cloudSyncReady || !currentUser) return { ok: false, error: "Not signed in." };
+      const cleanName = (displayName || "").trim() || null;
+      const { error } = await cloudClient.from("profiles").upsert({
+        id: currentUser.id,
+        display_name: cleanName,
+        updated_at: new Date().toISOString()
+      }, { onConflict: "id" });
+      if (error) {
+        console.error("Profile display name sync failed", error.message);
+        return { ok: false, error: error.message };
+      }
+      return { ok: true };
+    }
+
     async function syncBrokerConnectionMetadata(connection) {
       if (!cloudSyncReady || !currentUser || !connection?.provider || connection.status !== "requested") return { ok: false, error: "Sign in before connecting a broker." };
       const note = document.querySelector("#brokerConnectionNote");
@@ -8386,6 +8401,10 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
           setSettingsStatus("accountSettingsStatus", updates.email ? "Account saved. Check the new email inbox if Supabase asks for confirmation." : "Password updated securely.");
         } else {
           setSettingsStatus("accountSettingsStatus", "Account settings saved.");
+        }
+        const profileSync = await syncDisplayNameToProfile(state.settings.displayName);
+        if (!profileSync.ok && currentUser) {
+          setSettingsStatus("accountSettingsStatus", `Settings saved locally, but profile name did not update in Supabase: ${profileSync.error}`, "warn");
         }
         saveState();
         render();
