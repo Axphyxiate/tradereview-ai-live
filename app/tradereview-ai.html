@@ -6528,16 +6528,15 @@
         return;
       }
       wrap.innerHTML = `<table>
-        <thead><tr><th>Date</th><th>Symbol</th><th>Side</th><th>Setup</th><th>Risk Used</th><th>Result</th><th class="right">P/L</th><th></th></tr></thead>
+        <thead><tr><th>Date</th><th>Symbol</th><th>Side</th><th>Risk Used</th><th>Result</th><th class="right">P/L</th><th></th></tr></thead>
         <tbody>${state.trades.slice(0, 12).map(trade => `<tr>
           <td>${escapeHtml(trade.date)}</td>
           <td><strong>${escapeHtml(trade.symbol)}</strong></td>
           <td>${escapeHtml(trade.side)}</td>
-          <td>${escapeHtml(trade.setup || "-")}</td>
           <td><span class="risk-chip ${riskClass(riskUsedR(trade))}">${riskUsedR(trade).toFixed(2)}R</span></td>
           <td class="${rMultiple(trade) >= 0 ? "money-win" : "money-loss"}">${formatR(rMultiple(trade))}</td>
           <td class="right ${trade.pnl >= 0 ? "money-win" : "money-loss"}">${money.format(trade.pnl)}</td>
-          <td><button data-review-trade="${trade.id}">Review</button></td>
+          <td><button data-review-trade="${trade.id}">Full Review</button></td>
         </tr>`).join("")}</tbody>
       </table>`;
       bindReviewButtons();
