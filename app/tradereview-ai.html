@@ -3363,6 +3363,130 @@
         line-height: 1.45 !important;
       }
     }
+
+    /* Responsive dashboard hero: keep the premium hero, but prevent the AI visual from colliding with copy. */
+    @media (max-width: 1700px) {
+      body.app-ready .dashboard-hero {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) auto !important;
+        align-items: start !important;
+        gap: 18px !important;
+        min-height: 0 !important;
+        padding: clamp(22px, 3.2vw, 34px) !important;
+      }
+
+      body.app-ready .dashboard-hero .hero-copy {
+        max-width: min(760px, calc(100vw - var(--app-sidebar-width) - 130px)) !important;
+      }
+
+      body.app-ready .dashboard-hero .hero-copy::before {
+        inset: -14px -20px -12px -14px !important;
+        background: linear-gradient(90deg, rgba(4,10,24,.96), rgba(4,10,24,.78) 68%, rgba(4,10,24,.18)) !important;
+      }
+
+      body.app-ready .dashboard-hero .hero-headline {
+        max-width: 8.5ch !important;
+        font-size: clamp(46px, 6.1vw, 76px) !important;
+        line-height: .9 !important;
+        letter-spacing: -.065em !important;
+      }
+
+      body.app-ready .dashboard-hero .subtitle {
+        max-width: 680px !important;
+        font-size: 15px !important;
+        line-height: 1.5 !important;
+      }
+
+      body.app-ready .dashboard-hero .hero-command-visual {
+        right: 18px !important;
+        top: 42px !important;
+        bottom: auto !important;
+        width: min(34vw, 360px) !important;
+        min-width: 0 !important;
+        height: 360px !important;
+        opacity: .42 !important;
+        transform: none !important;
+        filter: blur(.15px) saturate(.95) !important;
+      }
+
+      body.app-ready .dashboard-hero .command-orb {
+        right: 0 !important;
+        width: 210px !important;
+        height: 210px !important;
+      }
+
+      body.app-ready .dashboard-hero .command-card {
+        display: none !important;
+      }
+
+      body.app-ready .dashboard-hero .actions {
+        grid-column: 2 !important;
+        grid-row: 1 !important;
+        z-index: 6 !important;
+        flex-direction: column !important;
+        align-self: center !important;
+        justify-self: end !important;
+        min-width: 130px !important;
+      }
+    }
+
+    @media (max-width: 1120px) {
+      body.app-ready .dashboard-hero {
+        grid-template-columns: 1fr !important;
+      }
+
+      body.app-ready .dashboard-hero .hero-copy {
+        max-width: 100% !important;
+      }
+
+      body.app-ready .dashboard-hero .hero-copy::before {
+        background: linear-gradient(90deg, rgba(4,10,24,.96), rgba(4,10,24,.72) 76%, transparent) !important;
+      }
+
+      body.app-ready .dashboard-hero .hero-headline {
+        max-width: min(10ch, 100%) !important;
+        font-size: clamp(40px, 8.7vw, 66px) !important;
+      }
+
+      body.app-ready .dashboard-hero .hero-command-visual {
+        display: none !important;
+      }
+
+      body.app-ready .dashboard-hero .actions {
+        grid-column: 1 !important;
+        grid-row: auto !important;
+        flex-direction: row !important;
+        align-self: start !important;
+        justify-self: start !important;
+        min-width: 0 !important;
+        margin-top: 2px !important;
+      }
+
+      body.app-ready .dashboard-hero .hero-dashboard-strip {
+        max-width: 100% !important;
+      }
+    }
+
+    @media (max-width: 780px) {
+      body.app-ready .dashboard-hero {
+        border-radius: 22px !important;
+        padding: 20px !important;
+      }
+
+      body.app-ready .dashboard-hero .hero-headline {
+        max-width: 100% !important;
+        font-size: clamp(36px, 12.5vw, 54px) !important;
+      }
+
+      body.app-ready .dashboard-hero .subtitle {
+        font-size: 14px !important;
+        padding: 9px 11px !important;
+      }
+
+      body.app-ready .dashboard-hero .hero-dashboard-strip {
+        grid-template-columns: 1fr !important;
+      }
+    }
   </style>
 </head>
 <body class="auth-pending">
@@ -6710,6 +6834,10 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
         const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
         hero.style.setProperty("--cursor-x", `${(x * 100).toFixed(1)}%`);
         hero.style.setProperty("--cursor-y", `${(y * 100).toFixed(1)}%`);
+        if (window.innerWidth < 1120) {
+          hero.style.transform = "";
+          return;
+        }
         hero.style.transform = `perspective(1200px) rotateX(${(0.5 - y) * 4}deg) rotateY(${(x - 0.5) * 5}deg) translateZ(0)`;
       });
       hero.addEventListener("pointerleave", () => {
