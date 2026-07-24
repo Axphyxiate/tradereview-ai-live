@@ -1108,6 +1108,144 @@
       86%, 100% { top: calc(100% - 16px); background: #ff7b8e; }
     }
 
+    .screenshots {
+      grid-template-columns: repeat(2, minmax(118px, 1fr));
+      min-width: 220px;
+      gap: 8px;
+    }
+
+    .shot-box {
+      min-height: 132px;
+      border-radius: 14px;
+      border-color: rgba(127,176,255,.16);
+      background: linear-gradient(145deg, rgba(10, 20, 40, .96), rgba(5, 11, 25, .98));
+      color: #a8bad6;
+      padding: 8px;
+    }
+
+    .shot-box img {
+      max-height: 88px;
+      border-radius: 10px;
+      border-color: rgba(127,176,255,.16);
+    }
+
+    .shot-placeholder {
+      min-height: 72px;
+      width: 100%;
+      display: grid;
+      place-items: center;
+      border: 1px dashed rgba(127,176,255,.18);
+      border-radius: 10px;
+      background: rgba(127,176,255,.04);
+      line-height: 1.35;
+    }
+
+    .shot-actions {
+      grid-template-columns: 1fr;
+    }
+
+    .shot-actions button,
+    .shot-actions .chart-link {
+      min-height: 30px;
+      border-radius: 9px;
+    }
+
+    .shot-manual {
+      width: 100%;
+      border-top: 1px solid rgba(127,176,255,.10);
+      padding-top: 6px;
+    }
+
+    .shot-manual summary {
+      cursor: pointer;
+      color: #8fa2c0;
+      font-size: 11px;
+      font-weight: 800;
+      list-style: none;
+    }
+
+    .shot-manual summary::-webkit-details-marker { display: none; }
+    .shot-manual[open] summary { margin-bottom: 6px; color: #dbe8ff; }
+
+    .tv-capture-card {
+      gap: 10px;
+      padding: 16px;
+    }
+
+    .tv-capture-card.compact .tv-capture-flow,
+    .tv-capture-flow.compact-flow {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .tv-capture-card.compact .tv-capture-flow::before,
+    .tv-capture-card.compact .tv-capture-flow::after,
+    .tv-capture-flow.compact-flow::before,
+    .tv-capture-flow.compact-flow::after {
+      display: none;
+    }
+
+    .tv-capture-card.compact .tv-capture-step,
+    .tv-capture-flow.compact-flow .tv-capture-step {
+      min-height: 42px;
+      grid-template-columns: auto 1fr;
+      padding: 9px 10px;
+      border-radius: 12px;
+      font-size: 10px;
+      animation: none;
+    }
+
+    .tv-capture-card.compact .tv-capture-step::before,
+    .tv-capture-flow.compact-flow .tv-capture-step::before {
+      min-width: 28px;
+      width: 28px;
+      height: 28px;
+      border-radius: 9px;
+      padding: 0;
+      font-size: 9px;
+    }
+
+    .tv-capture-card.compact .tv-capture-step::after,
+    .tv-capture-flow.compact-flow .tv-capture-step::after {
+      display: none;
+    }
+
+    .tv-capture-flow.compact-flow .capture-marker {
+      display: none;
+    }
+
+    .tv-capture-actions.primary-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .tv-capture-media-links {
+      display: grid;
+      gap: 7px;
+      grid-template-columns: 1fr;
+    }
+
+    .tv-capture-more {
+      border-top: 1px solid rgba(127,176,255,.10);
+      padding-top: 8px;
+    }
+
+    .tv-capture-more summary {
+      cursor: pointer;
+      color: #91a6c6;
+      font-size: 11px;
+      font-weight: 850;
+      list-style: none;
+    }
+
+    .tv-capture-more summary::-webkit-details-marker { display: none; }
+
+    .tv-capture-more[open] summary {
+      margin-bottom: 8px;
+      color: #e6f0ff;
+    }
+
     .time-note {
       color: var(--muted);
       font-size: 12px;
@@ -5843,6 +5981,7 @@
 
     function tradingViewCaptureCardV2(trade, compact = false) {
       const request = trade.tradingViewCapture;
+      const ticker = chartTicker(trade) || trade.symbol || "ticker";
       const statusTitle = request?.jobId
         ? `Job ${request.jobId.slice(0, 8)} queued`
         : request?.status === "backend_not_ready"
@@ -5863,31 +6002,37 @@
         media.exitScreenshotUrl ? `<a class="chart-link exit" href="${escapeHtml(media.exitScreenshotUrl)}" target="_blank" rel="noopener">Open exit image</a>` : "",
         media.replayVideoUrl ? `<a class="chart-link" href="${escapeHtml(media.replayVideoUrl)}" target="_blank" rel="noopener">Open replay video</a>` : ""
       ].filter(Boolean).join("");
+      const progressLabel = media.replayVideoUrl ? "Media ready" : request ? "Building media" : "Ready";
+      const actionLabel = request ? "Generate again" : "Generate entry, exit & replay";
       return `<div class="tv-capture-card ${compact ? "compact" : ""}">
-        <div class="tv-capture-kicker">TradingView capture pipeline</div>
-        <h3 class="tv-capture-title">Auto-build entry, exit, and replay media for ${escapeHtml(chartTicker(trade) || trade.symbol || "ticker")}</h3>
+        <div class="tv-capture-kicker">TradingView capture</div>
+        <h3 class="tv-capture-title">${escapeHtml(progressLabel)} for ${escapeHtml(ticker)}</h3>
         <div class="tv-capture-meta">
           <span>Entry: ${escapeHtml(marketTimeLabel(trade, "entryTime"))}</span>
           <span>Exit: ${escapeHtml(marketTimeLabel(trade, "exitTime"))}</span>
           <span>Replay window: ${escapeHtml(tradeDurationLabel(trade))}</span>
         </div>
-        <div class="tv-capture-flow">
+        <div class="tv-capture-flow compact-flow" aria-label="Capture progress">
           <div class="tv-capture-step entry" data-icon="ENTRY"><strong>1</strong><span class="capture-marker">↗</span>Entry point</div>
           <div class="tv-capture-step exit" data-icon="EXIT"><strong>2</strong><span class="capture-marker">↘</span>Exit point</div>
-          <div class="tv-capture-step" data-icon="REC"><strong>3</strong>Replay video</div>
-          <div class="tv-capture-step" data-icon="SYNC"><strong>4</strong>Attach to journal</div>
+          <div class="tv-capture-step" data-icon="REC"><strong>3</strong>Replay</div>
         </div>
-        <div class="tv-capture-actions">
-          <button class="primary" type="button" data-tv-capture="${trade.id}">${request ? "Refresh request" : "Request auto capture"}</button>
+        <div class="tv-capture-actions primary-actions">
+          <button class="primary" type="button" data-tv-capture="${trade.id}">${actionLabel}</button>
           ${reconnectAction}
-          <a class="chart-link" href="${tradingViewUrl(trade)}" target="_blank" rel="noopener">Open chart</a>
-          ${mediaLinks}
-          <button type="button" data-copy-tv-capture="${trade.id}">Copy backend request</button>
+          ${mediaLinks ? `<div class="tv-capture-media-links">${mediaLinks}</div>` : ""}
         </div>
         <div class="tv-capture-status ${request ? "waiting" : ""}">
           ${request ? status : escapeHtml(status)}
           ${request && !media.replayVideoUrl ? `<div class="tv-capture-loader" aria-hidden="true"><span></span></div>` : ""}
         </div>
+        <details class="tv-capture-more">
+          <summary>More tools</summary>
+          <div class="tv-capture-actions">
+            <a class="chart-link" href="${tradingViewUrl(trade)}" target="_blank" rel="noopener">Open chart</a>
+            <button type="button" data-copy-tv-capture="${trade.id}">Copy backend request</button>
+          </div>
+        </details>
       </div>`;
     }
 
@@ -6190,7 +6335,7 @@
       document.querySelector("#tomorrowRule").value = journal.tomorrowRule || "";
       const trades = groupedByDay()[selectedDay] || [];
       tradeWrap.innerHTML = `<table>
-        <thead><tr><th>Symbol</th><th>Times</th><th>1m Chart</th><th>Setup</th><th>Mistake</th><th>My R</th><th>Option Cost</th><th>Risk Used</th><th>Used R</th><th class="right">P/L R</th><th>Screenshots</th><th></th></tr></thead>
+        <thead><tr><th>Symbol</th><th>Times</th><th>1m Chart</th><th>Setup</th><th>Mistake</th><th>My R</th><th>Trade Cost</th><th>Risk Used</th><th>Used R</th><th class="right">P/L R</th><th>Screenshots</th><th></th></tr></thead>
         <tbody>${trades.map(trade => `<tr>
           <td><strong>${escapeHtml(trade.symbol)}</strong><br><span class="time-note">${escapeHtml(chartTicker(trade) || "ticker needed")}</span></td>
           <td>
@@ -6260,19 +6405,22 @@
 
     function screenshotBox(trade, field, label) {
       const timeField = field === "entryScreenshot" ? "entryTime" : "exitTime";
-      const image = trade[field] ? `<img src="${trade[field]}" alt="${label} screenshot for ${escapeHtml(trade.symbol)}">` : `<span>${label}<br>${escapeHtml(marketTimeLabel(trade, timeField))}</span>`;
+      const image = trade[field] ? `<img src="${trade[field]}" alt="${label} screenshot for ${escapeHtml(trade.symbol)}">` : `<div class="shot-placeholder"><strong>${label}</strong><span>${escapeHtml(marketTimeLabel(trade, timeField))}</span></div>`;
       const tone = field === "entryScreenshot" ? "entry" : "exit";
       return `<div class="shot-box">
         ${image}
         <div class="shot-actions">
           <a class="chart-link ${tone}" href="${tradingViewUrl(trade)}" target="_blank" rel="noopener">Open ${label}</a>
+        </div>
+        <details class="shot-manual">
+          <summary>Attach manually</summary>
           <button type="button" data-copy-shot-label="${trade.id}" data-field="${field}">Copy time</button>
-        </div>
-        <input type="file" accept="image/*" data-shot="${trade.id}" data-field="${field}" title="${label} screenshot">
-        <div class="shot-url">
-          <input value="" data-shot-url="${trade.id}" data-field="${field}" placeholder="image URL">
-          <button data-shot-save="${trade.id}" data-field="${field}" title="Attach image URL">Save</button>
-        </div>
+          <input type="file" accept="image/*" data-shot="${trade.id}" data-field="${field}" title="${label} screenshot">
+          <div class="shot-url">
+            <input value="" data-shot-url="${trade.id}" data-field="${field}" placeholder="image URL">
+            <button data-shot-save="${trade.id}" data-field="${field}" title="Attach image URL">Save</button>
+          </div>
+        </details>
       </div>`;
     }
 
