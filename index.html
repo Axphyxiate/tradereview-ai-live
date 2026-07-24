@@ -101,6 +101,15 @@
 
     .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; letter-spacing: -.025em; transition: transform .2s ease, filter .2s ease, color .2s ease; transform-origin: left center; }
     .brand:hover { transform: translateY(-1px) scale(1.035); filter: drop-shadow(0 14px 28px rgba(95,134,255,.18)); }
+    .brand-logo-wide {
+      display: block;
+      width: clamp(190px, 18vw, 310px);
+      height: clamp(48px, 5vw, 72px);
+      object-fit: contain;
+      object-position: left center;
+      border-radius: 16px;
+      filter: drop-shadow(0 18px 34px rgba(0,0,0,.28)) drop-shadow(0 0 16px rgba(64,156,255,.12));
+    }
     .brand-copy { display: grid; gap: 2px; line-height: 1; }
     .brand-name {
       color: #f5fbff;
@@ -207,37 +216,21 @@
     .official-logo-hero {
       display: inline-flex;
       align-items: center;
-      gap: 14px;
       margin: 0 0 22px;
-      padding: 12px 16px 12px 12px;
-      border: 1px solid rgba(127,160,255,.16);
-      border-radius: 22px;
-      background: rgba(5, 11, 27, .48);
-      box-shadow: 0 22px 60px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255,255,255,.06);
-      backdrop-filter: blur(14px);
+      padding: 10px;
+      border: 1px solid rgba(127,160,255,.18);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(5, 11, 27, .72), rgba(8, 18, 42, .38));
+      box-shadow: 0 28px 80px rgba(0, 0, 0, .30), inset 0 1px 0 rgba(255,255,255,.07);
+      backdrop-filter: blur(16px);
     }
     .official-logo-hero img {
-      width: 58px;
-      height: 58px;
-      border-radius: 16px;
-      object-fit: cover;
-      box-shadow: 0 0 24px rgba(65,148,255,.18);
-    }
-    .official-logo-hero strong {
-      display: block;
-      color: #f7fbff;
-      font-size: clamp(22px, 3vw, 34px);
-      line-height: .95;
-      letter-spacing: -.055em;
-    }
-    .official-logo-hero span {
-      display: block;
-      margin-top: 5px;
-      color: #a9bbd6;
-      font-size: clamp(10px, 1.25vw, 13px);
-      font-weight: 700;
-      letter-spacing: .12em;
-      text-transform: uppercase;
+      width: min(760px, 78vw);
+      max-height: 170px;
+      border-radius: 22px;
+      object-fit: contain;
+      object-position: left center;
+      box-shadow: 0 0 30px rgba(65,148,255,.14);
     }
 
     .eyebrow {
@@ -303,8 +296,8 @@
     .mock-app { display: grid; grid-template-columns: 175px minmax(0,1fr); min-height: 520px; }
     .mock-side { padding: 20px 13px; border-right: 1px solid var(--line); background: linear-gradient(180deg, #0a1328, #090f1e); }
     .mock-brand { display: flex; align-items: center; gap: 9px; margin-bottom: 25px; font-size: 12px; font-weight: 900; }
-    .mock-brand span { width: 27px; height: 27px; display: grid; place-items: center; overflow: hidden; border-radius: 8px; color: #64e7aa; background: rgba(89,230,170,.09); }
-    .mock-brand img { width: 100%; height: 100%; object-fit: cover; }
+    .mock-brand span { width: 112px; height: 31px; display: grid; place-items: center; overflow: hidden; border-radius: 8px; color: #64e7aa; background: rgba(89,230,170,.09); }
+    .mock-brand img { width: 100%; height: 100%; object-fit: contain; object-position: left center; }
     .mock-nav { display: grid; gap: 7px; }
     .mock-nav div { padding: 10px; border-radius: 8px; color: #607872; font-size: 10px; text-align: left; }
     .mock-nav div.active { color: #70e6ae; background: rgba(82,220,160,.08); box-shadow: inset 2px 0 #5be6aa; }
@@ -794,7 +787,7 @@
   <div class="scroll-aura" aria-hidden="true"></div>
   <div class="shell">
     <nav class="nav" aria-label="Primary navigation">
-      <a class="brand" href="#top" aria-label="TradeReview AI home"><span class="brand-mark" aria-hidden="true"><img src="./icons/tradereview-mark.png" alt=""></span><span class="brand-copy"><span class="brand-name">TradeReview AI</span><span class="brand-tagline">Review Every Trade</span></span></a>
+      <a class="brand" href="#top" aria-label="TradeReview AI home"><img class="brand-logo-wide" src="./icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision."></a>
       <div class="nav-links">
         <a href="#brokers">Supported Brokers</a>
         <a href="#features">Features</a>
@@ -812,7 +805,7 @@
       <section class="hero">
         <canvas class="landing-webgl" id="landingWebgl" aria-hidden="true"></canvas>
         <canvas class="market-canvas" id="marketCanvas" aria-hidden="true"></canvas>
-        <div class="official-logo-hero" aria-label="TradeReview AI — Review Every Trade. Refine Every Decision."><img src="./icons/tradereview-mark.png" alt=""><div><strong>TradeReview AI</strong><span>Review Every Trade. Refine Every Decision.</span></div></div>
+        <div class="official-logo-hero" aria-label="TradeReview AI — Review Every Trade. Refine Every Decision."><img src="./icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision."></div>
         <div class="eyebrow"><span class="dot"></span> Free account · No credit card required</div>
         <h1><span class="gradient" id="landingHeadline">Trade less on impulse. Review more on evidence.</span></h1>
         <p class="lead">A private performance workspace that turns executions, risk, screenshots, and daily notes into a review process you can actually repeat.</p>
@@ -831,7 +824,7 @@
             <div class="window-top"><div class="window-dots"><i></i><i></i><i></i></div><span>tradereview.ai / performance</span><span>Private session</span></div>
             <div class="mock-app">
               <div class="mock-side">
-                <div class="mock-brand"><span><img src="./icons/tradereview-mark.png" alt=""></span> TradeReview</div>
+                <div class="mock-brand"><span><img src="./icons/tradereview-logo-wide.png" alt=""></span> TradeReview</div>
                 <div class="mock-nav"><div class="active">⌂ &nbsp; Dashboard</div><div>＋ &nbsp; Add trade</div><div>✎ &nbsp; Journal</div><div>◉ &nbsp; Review</div><div>✦ &nbsp; AI Coach</div><div>⚙ &nbsp; Settings</div></div>
               </div>
               <div class="mock-main">
@@ -1010,7 +1003,7 @@
       <section class="cta"><div class="cta-inner"><h2>Make the review part of the trade.</h2><p>Start with one session. Capture the evidence, name the mistake, and build the process that protects your edge.</p><a class="button primary" href="./app/tradereview-ai.html?release=20260717-premium">Create your free account →</a></div></section>
     </main>
 
-    <footer><a class="brand" href="#top" aria-label="TradeReview AI home"><span class="brand-mark" aria-hidden="true"><img src="./icons/tradereview-mark.png" alt=""></span><span class="brand-copy"><span class="brand-name">TradeReview AI</span><span class="brand-tagline">Review Every Trade</span></span></a><span>Built for disciplined review. Trading involves substantial risk.</span><div class="footer-links"><a href="./blog/">Blog</a><a href="./privacy.html">Privacy</a><a href="./app/tradereview-ai.html?release=20260717-premium">Sign in</a></div></footer>
+    <footer><a class="brand" href="#top" aria-label="TradeReview AI home"><img class="brand-logo-wide" src="./icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision."></a><span>Built for disciplined review. Trading involves substantial risk.</span><div class="footer-links"><a href="./blog/">Blog</a><a href="./privacy.html">Privacy</a><a href="./app/tradereview-ai.html?release=20260717-premium">Sign in</a></div></footer>
   </div>
 
   <button class="help-button" id="helpButton" type="button" aria-expanded="false"><span class="help-icon">?</span><span>How can I help?</span></button>

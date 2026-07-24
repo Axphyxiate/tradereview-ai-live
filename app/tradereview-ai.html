@@ -433,6 +433,26 @@
       text-decoration: none;
     }
 
+    .brand-logo-wide-app {
+      display: block;
+      width: min(168px, 100%);
+      height: 58px;
+      object-fit: contain;
+      object-position: left center;
+      border-radius: 14px;
+      filter: drop-shadow(0 14px 30px rgba(0, 0, 0, .26)) drop-shadow(0 0 16px rgba(73, 152, 255, .12));
+    }
+
+    .auth-mini-logo {
+      display: block;
+      width: min(230px, 100%);
+      height: 62px;
+      object-fit: contain;
+      object-position: left center;
+      border-radius: 14px;
+      filter: drop-shadow(0 14px 30px rgba(0, 0, 0, .26));
+    }
+
     .mark {
       width: 36px;
       height: 36px;
@@ -2461,6 +2481,8 @@
     }
     .brand:hover { color: #86efac; transform: translateX(2px); filter: drop-shadow(0 0 18px rgba(134,239,172,.16)); }
     .brand .mark { width: 38px; height: 38px; }
+    aside .brand { padding-bottom: 24px; }
+    aside .brand .brand-logo-wide-app { width: 172px; height: 64px; }
     nav { gap: 6px; }
     nav button { min-height: 45px; border-radius: 11px; color: #809690; }
     nav button:hover { background: rgba(255,255,255,.028); color: #c9d8d4; }
@@ -4103,7 +4125,7 @@
   <section class="auth-gate" id="authGate" aria-labelledby="authTitle">
     <div class="auth-shell">
       <div class="auth-story">
-        <img class="auth-logo-lockup" src="../icons/tradereview-lockup.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision.">
+        <img class="auth-logo-lockup" src="../icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision.">
         <div class="product-pill"><span class="live-dot"></span> Your performance workspace</div>
         <h1><span>Turn every session into a repeatable edge.</span></h1>
         <p>Journal the trade, measure the risk, and find the behavior behind your results. Your review process finally lives in one focused workspace.</p>
@@ -4152,7 +4174,7 @@
 
       <div class="auth-card-wrap">
         <div class="auth-card">
-          <div class="auth-brand"><div class="mark" aria-hidden="true"><img src="../icons/tradereview-mark.png" alt=""></div><span>TradeReview AI</span></div>
+          <div class="auth-brand"><img class="auth-mini-logo" src="../icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision."></div>
           <h1 id="authTitle">Welcome back</h1>
           <p class="auth-copy" id="authCopy">Sign in to open your private trading journal.</p>
           <div class="auth-free-badge"><strong>$0 account</strong><span>Full current journal workflow · No card required</span></div>
@@ -4260,7 +4282,7 @@
 
   <div class="app" data-build="capture-pipeline-v36">
     <aside>
-      <a class="brand" href="../" aria-label="Open TradeReview AI main page"><div class="mark" aria-hidden="true"><img src="../icons/tradereview-mark.png" alt=""></div><span>TradeReview AI</span></a>
+      <a class="brand" href="../" aria-label="Open TradeReview AI main page"><img class="brand-logo-wide-app" src="../icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision."></a>
       <nav aria-label="Main navigation">
         <button class="active" data-view="dashboard" title="Dashboard">⌂ Dashboard</button>
         <button data-view="import" title="Add a trade">＋ Add Trade</button>
