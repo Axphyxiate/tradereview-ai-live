@@ -5222,6 +5222,12 @@
       return Number(match[1]) * 60 + Number(match[2]);
     }
 
+    function dateRank(date) {
+      const match = String(date || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if (!match) return null;
+      return Number(match[1]) * 10000 + Number(match[2]) * 100 + Number(match[3]);
+    }
+
     function tradeTimingError(trade) {
       if (!trade.date || !String(trade.date).match(/^\d{4}-\d{2}-\d{2}$/)) return "Use a valid trade date.";
       const exitDate = trade.exitDate || trade.date;
@@ -5232,10 +5238,11 @@
       const exit = minutesSinceMidnight(trade.exitTime);
       if (entry === null) return "Entry time must be a valid time, like 09:30 or 9:30 AM.";
       if (exit === null) return "Exit time must be a valid time, like 09:45 or 9:45 AM.";
-      const entryStamp = new Date(`${trade.date}T${String(trade.entryTime).padStart(5, "0")}:00`).getTime();
-      const exitStamp = new Date(`${exitDate}T${String(trade.exitTime).padStart(5, "0")}:00`).getTime();
-      if (!Number.isFinite(entryStamp) || !Number.isFinite(exitStamp)) return "Use valid entry and exit date/time.";
-      if (exitStamp <= entryStamp) return "Exit date/time must be after entry date/time.";
+      const entryDateRank = dateRank(trade.date);
+      const exitDateRank = dateRank(exitDate);
+      if (entryDateRank === null || exitDateRank === null) return "Use valid entry and exit date/time.";
+      if (exitDateRank < entryDateRank) return "Exit date must be the same day or after the entry date.";
+      if (exitDateRank === entryDateRank && exit <= entry) return "On the same date, exit time must be after entry time.";
       return "";
     }
 
@@ -5271,8 +5278,12 @@
         if (!trade.entryTime || minutesSinceMidnight(trade.entryTime) === null) setFieldError("manualEntryTime", "Use a valid entry time.");
         if (!trade.exitTime || minutesSinceMidnight(trade.exitTime) === null) setFieldError("manualExitTime", "Use a valid exit time.");
         if (trade.date && trade.exitDate && trade.entryTime && trade.exitTime && minutesSinceMidnight(trade.entryTime) !== null && minutesSinceMidnight(trade.exitTime) !== null) {
-          setFieldError("manualExitDate", "Exit must be after entry.");
-          setFieldError("manualExitTime", "Exit must be after entry.");
+          if (timing.includes("same day") || timing.includes("exit date")) {
+            setFieldError("manualExitDate", "Exit date must be same day or later.");
+          }
+          if (timing.includes("same date") || timing.includes("exit time")) {
+            setFieldError("manualExitTime", "Exit time must be later than entry time.");
+          }
         }
       }
       if (trade.qty <= 0) {
