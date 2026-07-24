@@ -4880,6 +4880,30 @@
               </div>
             </div>
             <div class="panel">
+              <div class="panel-header"><h2>Manual account upgrade</h2><button class="primary" id="saveOwnerPlanOverride" type="button">Save plan</button></div>
+              <div class="panel-body">
+                <div class="form-grid">
+                  <label>Customer email
+                    <input id="ownerPlanEmail" type="email" placeholder="customer@email.com" autocomplete="off">
+                  </label>
+                  <label>Account tier
+                    <select id="ownerPlanTier">
+                      <option>Free</option>
+                      <option>Starter</option>
+                      <option>Pro</option>
+                      <option>Elite</option>
+                    </select>
+                  </label>
+                  <label class="wide">Owner note
+                    <input id="ownerPlanNote" placeholder="Example: beta tester, manual comp, paid outside Stripe">
+                  </label>
+                </div>
+                <p class="footer-note">Use this for manual upgrades, comps, refunds, or beta access. The customer must already have a TradeReview account.</p>
+                <div class="settings-status" id="ownerPlanStatus"></div>
+                <div class="review-list account-overview-list" id="ownerPlanOverrideList"></div>
+              </div>
+            </div>
+            <div class="panel">
               <div class="panel-header"><h2>Support inbox preview</h2></div>
               <div class="panel-body review-list account-overview-list" id="ownerSupportList"></div>
             </div>
@@ -5762,6 +5786,7 @@
         applyState(nextState);
         localStorage.setItem(activeStoreKey, JSON.stringify(state));
         currentUser = user;
+        await applyCurrentPlanOverride();
         cloudSyncReady = true;
         document.querySelector("#accountEmail").textContent = user.email || "Signed in";
         document.body.classList.remove("auth-pending", "auth-required");
@@ -7590,6 +7615,21 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       return ["alexhopkins652@gmail.com", "sujan.lamsal546@gmail.com"].includes(email);
     }
 
+    async function applyCurrentPlanOverride() {
+      if (!currentUser || !cloudClient) return;
+      try {
+        const { data, error } = await cloudClient.rpc("current_user_plan_override");
+        if (error) return;
+        const override = Array.isArray(data) ? data[0] : null;
+        if (override?.plan && override.plan !== state.settings.currentPlan) {
+          state.settings.currentPlan = override.plan;
+          localStorage.setItem(activeStoreKey, JSON.stringify(state));
+        }
+      } catch (error) {
+        console.warn("Plan override lookup skipped", error);
+      }
+    }
+
     function supportEmailAddress() {
       return state.settings?.supportEmail || "alexhopkins652@gmail.com";
     }
@@ -7609,6 +7649,10 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
           <div class="review-item"><span>User directory</span><strong>Connect a Supabase Edge Function using the service-role key to list all users safely.</strong></div>
           <div class="review-item"><span>Frontend rule</span><strong>Never expose service-role keys or admin auth endpoints inside GitHub Pages JavaScript.</strong></div>
         `;
+      }
+      const planList = document.querySelector("#ownerPlanOverrideList");
+      if (planList && !planList.innerHTML.trim()) {
+        planList.innerHTML = `<div class="review-item"><span>Manual plans</span><strong>Enter an email, choose a tier, then save.</strong></div>`;
       }
     }
 
@@ -7663,6 +7707,45 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       saveState();
       renderOwnerConsole();
       setSettingsStatus("adminSettingsStatus", "Owner settings saved. Support requests will use the customer service email.");
+    }
+
+    async function saveOwnerPlanOverride() {
+      if (!isOwnerUser()) {
+        setSettingsStatus("ownerPlanStatus", "Only the TradeReview owner account can change user plans.", "warn");
+        return;
+      }
+      const email = document.querySelector("#ownerPlanEmail")?.value.trim().toLowerCase() || "";
+      const plan = document.querySelector("#ownerPlanTier")?.value || "Free";
+      const note = document.querySelector("#ownerPlanNote")?.value.trim() || "";
+      if (!email || !email.includes("@")) {
+        setSettingsStatus("ownerPlanStatus", "Enter the customer's email first.", "warn");
+        return;
+      }
+      try {
+        setSettingsStatus("ownerPlanStatus", `Saving ${plan} for ${email}...`);
+        const { data, error } = await cloudClient.rpc("owner_set_user_plan", {
+          p_email: email,
+          p_plan: plan,
+          p_note: note
+        });
+        if (error) throw error;
+        const saved = Array.isArray(data) ? data[0] : data;
+        const planList = document.querySelector("#ownerPlanOverrideList");
+        if (planList) {
+          planList.innerHTML = `<div class="review-item"><span>${escapeHtml(saved?.plan || plan)}</span><strong>${escapeHtml(saved?.email || email)} · Manual owner override saved</strong></div>`;
+        }
+        setSettingsStatus("ownerPlanStatus", `${saved?.email || email} is now on ${saved?.plan || plan}. Ask them to refresh or sign in again.`);
+      } catch (error) {
+        const message = error?.message || "Plan could not be saved.";
+        const missingFunction = /owner_set_user_plan|account_plan_overrides|schema cache|could not find/i.test(message);
+        setSettingsStatus(
+          "ownerPlanStatus",
+          missingFunction
+            ? "Manual upgrades are not connected yet. Run the updated supabase/owner-console-schema.sql file in Supabase SQL Editor, wait 30 seconds, then refresh."
+            : message,
+          "warn"
+        );
+      }
     }
 
     function submitSupportRequest(event) {
@@ -8421,6 +8504,7 @@ Save this agent to the database and run it against new journal/trade events auto
     document.querySelector("#saveAppearanceSettings")?.addEventListener("click", saveAppearanceSettings);
     document.querySelector("#saveBillingSettings")?.addEventListener("click", saveBillingSettings);
     document.querySelector("#saveAdminSettings")?.addEventListener("click", saveAdminSettings);
+    document.querySelector("#saveOwnerPlanOverride")?.addEventListener("click", saveOwnerPlanOverride);
     document.querySelector("#refreshOwnerUsers")?.addEventListener("click", () => {
       refreshOwnerBackendData();
     });
