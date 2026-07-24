@@ -5260,12 +5260,13 @@
       if (media.exitScreenshotUrl) trade.exitScreenshot = media.exitScreenshotUrl;
 
       if (error || data?.error || !data?.jobId) {
+        const workerError = error?.message || data?.error || data?.message || "TradingView capture worker is not connected yet.";
         trade.tradingViewCapture = {
           ...trade.tradingViewCapture,
           status: "backend_not_ready",
-          error: error?.message || data?.error || "TradingView capture worker is not connected yet.",
+          error: workerError,
           message: tradingViewCaptureWorkerUrl()
-            ? "Capture request saved, but the automation worker did not return media yet. Check the worker terminal/logs."
+            ? `Capture request saved, but the automation worker did not return media yet. Worker said: ${workerError}`
             : "Capture request saved. Add a TradingView capture worker URL so TradeReview can generate screenshots and replay videos automatically."
         };
         saveState();
