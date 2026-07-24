@@ -3140,6 +3140,38 @@
       text-transform: uppercase;
       vertical-align: middle;
     }
+    .broker-sync-inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid rgba(52,211,153,.36);
+      border-radius: 999px;
+      color: #07131d;
+      background: linear-gradient(135deg, #7cf7b4, #70a8ff);
+      box-shadow: 0 12px 28px rgba(52,211,153,.16);
+      font-size: 12px;
+      font-weight: 1000;
+      letter-spacing: .02em;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .broker-sync-inline::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #07131d;
+      box-shadow: 0 0 0 5px rgba(7,19,29,.12);
+    }
+    .attention-pulse {
+      animation: attentionPulse 1.1s ease both;
+    }
+    @keyframes attentionPulse {
+      0%, 100% { box-shadow: 0 18px 60px rgba(16,185,129,.09), 0 0 0 1px rgba(96,165,250,.08) inset; }
+      35% { box-shadow: 0 18px 60px rgba(16,185,129,.22), 0 0 0 4px rgba(125,247,180,.22), 0 0 0 1px rgba(96,165,250,.18) inset; }
+    }
     .broker-linking { display: grid; gap: 16px; }
     .broker-hero {
       position: relative;
@@ -4526,7 +4558,10 @@
         </div>
 
         <div class="panel" id="manualTradePanel" style="margin-top:18px">
-          <div class="panel-header"><h2>Add Trade Manually</h2></div>
+          <div class="panel-header">
+            <h2>Add Trade Manually</h2>
+            <button class="broker-sync-inline" id="manualBrokerSyncShortcut" type="button">Broker Sync</button>
+          </div>
           <div class="panel-body">
             <p class="form-hint">Select the trade date and exact entry and exit times.</p>
             <div class="form-grid">
@@ -9181,6 +9216,16 @@ Save this agent to the database and run it against new journal/trade events auto
       deleteBrokerConnectionMetadata(providerToClear);
     });
     document.querySelector("#brokerImportShortcut").addEventListener("click", () => switchView("import"));
+    document.querySelector("#manualBrokerSyncShortcut")?.addEventListener("click", () => {
+      const panel = document.querySelector("#quickBrokerSyncPanel");
+      if (panel) {
+        panel.scrollIntoView({ behavior: "smooth", block: "start" });
+        panel.classList.add("attention-pulse");
+        setTimeout(() => panel.classList.remove("attention-pulse"), 1200);
+      } else {
+        switchView("settings");
+      }
+    });
     document.querySelector("#quickBrokerProvider")?.addEventListener("change", () => {
       syncQuickBrokerFieldsToMain();
       saveBrokerConnectionFromForm("not-linked");
