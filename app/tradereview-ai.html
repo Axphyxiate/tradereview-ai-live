@@ -7750,7 +7750,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
         if (requestsError) throw requestsError;
         if (userList) {
           userList.innerHTML = (users || []).length
-            ? users.map(user => `<div class="review-item"><span>${escapeHtml(new Date(user.created_at).toLocaleDateString())}</span><strong>${escapeHtml(user.email || "No email")} · ${escapeHtml(user.id || "")}</strong></div>`).join("")
+            ? users.map(user => `<div class="review-item"><span>${escapeHtml(user.plan || "Free")} · ${escapeHtml(new Date(user.created_at).toLocaleDateString())}</span><strong>${escapeHtml(user.email || "No email")} · ${escapeHtml(user.id || "")}</strong></div>`).join("")
             : `<div class="review-item"><span>Users</span><strong>No users returned yet.</strong></div>`;
         }
         if (supportList) {
