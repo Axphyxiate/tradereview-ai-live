@@ -2463,6 +2463,40 @@
     .assistant-actions button { min-height: 34px; padding: 6px 10px; border-radius: 9px; color: #9cb0aa; font-size: 10px; font-weight: 800; background: rgba(255,255,255,.025); }
     .agent-support-link { display: block; margin: 0 16px 11px; padding: 10px 12px; border-radius: 9px; color: #061410; background: #18d995; text-align: center; text-decoration: none; font-size: 11px; font-weight: 900; }
     .agent-support-link[hidden] { display: none; }
+    .agent-support-form {
+      display: grid;
+      gap: 10px;
+      margin: 0 12px 12px;
+      padding: 12px;
+      border: 1px solid rgba(105,199,255,.18);
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(12,24,48,.96), rgba(7,15,31,.96));
+      box-shadow: 0 18px 44px rgba(0,0,0,.28);
+    }
+    .agent-support-form[hidden] { display: none; }
+    .agent-support-form label {
+      color: #9fb0ca;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .agent-support-form input,
+    .agent-support-form select,
+    .agent-support-form textarea {
+      width: 100%;
+      min-height: 38px;
+      border-radius: 11px;
+      border: 1px solid rgba(174,218,204,.13);
+      background: rgba(4,10,24,.9);
+      color: #f8fbff;
+      font-size: 12px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .agent-support-form textarea { resize: vertical; line-height: 1.45; padding: 10px 11px; }
+    .agent-support-form button { width: 100%; min-height: 40px; }
+    .support-status { min-height: 18px; margin: 0; color: #8ea4bd; font-size: 11px; line-height: 1.45; }
     .assistant-form { gap: 8px; padding: 12px; border-top: 1px solid rgba(174,218,204,.1); }
     .assistant-form input { min-height: 42px; }
     .assistant-form button { width: 42px; min-height: 42px; padding: 0; border-radius: 11px; }
@@ -4669,6 +4703,7 @@
           <button type="button" data-settings-tab="billing">Billing</button>
           <button type="button" data-settings-tab="security">Security</button>
           <button type="button" data-settings-tab="trading">Trading & integrations</button>
+          <button type="button" data-settings-tab="admin" data-owner-only hidden>Owner console</button>
         </div>
 
         <div class="settings-pane active" id="settingsAccountPane">
@@ -4810,6 +4845,43 @@
                 <div class="settings-plan-row"><div><strong>Delete account</strong><br><span>Requires a secure backend workflow so journal rows, auth account, and billing subscription are handled safely.</span></div><button id="requestAccountDeletion" type="button">Request deletion</button></div>
                 <div class="settings-status" id="securitySettingsStatus"></div>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-pane" id="settingsAdminPane">
+          <div class="grid">
+            <div class="panel">
+              <div class="panel-header"><h2>Owner quick controls</h2><button class="primary" id="saveAdminSettings" type="button">Save owner settings</button></div>
+              <div class="panel-body">
+                <div class="form-grid">
+                  <label>Customer service email
+                    <input id="adminSupportEmail" type="email" placeholder="support@example.com">
+                  </label>
+                  <label>Product announcement
+                    <input id="adminAnnouncement" placeholder="Example: Broker sync beta is opening soon">
+                  </label>
+                  <label>Starter price
+                    <input id="adminStarterPrice" placeholder="$9.99">
+                  </label>
+                  <label>Pro price
+                    <input id="adminProPrice" placeholder="$29.99">
+                  </label>
+                </div>
+                <p class="footer-note">This owner console is for small copy/settings changes. Bigger changes still belong in code so the product stays stable.</p>
+                <div class="settings-status" id="adminSettingsStatus"></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-header"><h2>User list</h2><button id="refreshOwnerUsers" type="button">Refresh</button></div>
+              <div class="panel-body review-list account-overview-list" id="ownerUserList">
+                <div class="review-item"><span>Status</span><strong>Secure backend function needed</strong></div>
+                <div class="review-item"><span>Why</span><strong>Supabase auth user lists require the service-role key, which must never be shipped in browser code.</strong></div>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="panel-header"><h2>Support inbox preview</h2></div>
+              <div class="panel-body review-list account-overview-list" id="ownerSupportList"></div>
             </div>
           </div>
         </div>
@@ -4972,7 +5044,27 @@
       <div class="assistant-message guide">Hi — I can help with accounts, imports, journaling, risk, and the statistics in your workspace. What would you like to know?</div>
     </div>
     <div class="assistant-actions"><button id="instantGuideApp" type="button">Instant guide</button><button id="talkAgentApp" type="button">Talk to an agent</button></div>
-    <a class="agent-support-link" id="agentSupportLink" href="https://github.com/Axphyxiate/tradereview-ai-live/issues/new?title=TradeReview%20support%20request&amp;body=Please%20describe%20what%20you%20need%20help%20with.%20Do%20not%20include%20passwords%2C%20login%20links%2C%20or%20private%20trade%20data." target="_blank" rel="noopener" hidden>Open human support request →</a>
+    <form class="agent-support-form" id="agentSupportForm" hidden>
+      <label>Reason
+        <select id="supportReason">
+          <option>Account issue</option>
+          <option>Billing</option>
+          <option>Broker sync</option>
+          <option>TradingView capture</option>
+          <option>Bug report</option>
+          <option>Feature request</option>
+          <option>Other</option>
+        </select>
+      </label>
+      <label>Your email
+        <input id="supportEmail" type="email" placeholder="you@example.com">
+      </label>
+      <label>Message
+        <textarea id="supportMessage" rows="4" placeholder="Tell the customer service agent what you need. Do not send passwords, auth links, or sensitive financial details."></textarea>
+      </label>
+      <button class="primary" type="submit">Send email to customer service agent</button>
+      <p class="support-status" id="supportStatus"></p>
+    </form>
     <div class="assistant-suggestions" aria-label="Suggested questions">
       <button type="button" data-help-question="How do I add a trade?">Add a trade</button>
       <button type="button" data-help-question="Explain my stats">Explain my stats</button>
@@ -5265,6 +5357,10 @@
         billingEmail: "",
         billingCompany: "",
         billingTaxId: "",
+        supportEmail: "alexhopkins652@gmail.com",
+        productAnnouncement: "",
+        starterPrice: "$9.99",
+        proPrice: "$29.99",
         tradingTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York"
       };
     }
@@ -5302,10 +5398,11 @@
           journals: saved?.journals || {},
           settings: { ...defaultSettings(), ...(saved?.settings || {}) },
           profile: { ...defaultProfile(), ...(saved?.profile || {}) },
-          brokerConnection: { ...defaultBrokerConnection(), ...(saved?.brokerConnection || {}) }
+          brokerConnection: { ...defaultBrokerConnection(), ...(saved?.brokerConnection || {}) },
+          supportRequests: Array.isArray(saved?.supportRequests) ? saved.supportRequests : []
         };
       } catch {
-        return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile(), brokerConnection: defaultBrokerConnection() };
+        return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile(), brokerConnection: defaultBrokerConnection(), supportRequests: [] };
       }
     }
 
@@ -5315,7 +5412,7 @@
     }
 
     function emptyState() {
-      return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile(), brokerConnection: defaultBrokerConnection() };
+      return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile(), brokerConnection: defaultBrokerConnection(), supportRequests: [] };
     }
 
     function applyState(nextState) {
@@ -5325,6 +5422,7 @@
       state.settings = { ...defaultSettings(), ...(safeState.settings || {}) };
       state.profile = { ...defaultProfile(), ...(safeState.profile || {}) };
       state.brokerConnection = { ...defaultBrokerConnection(), ...(safeState.brokerConnection || {}) };
+      state.supportRequests = Array.isArray(safeState.supportRequests) ? safeState.supportRequests : [];
       selectedDay = null;
       selectedTradeId = null;
     }
@@ -5335,7 +5433,8 @@
         journals: state.journals,
         settings: state.settings,
         profile: state.profile,
-        brokerConnection: state.brokerConnection
+        brokerConnection: state.brokerConnection,
+        supportRequests: state.supportRequests || []
       };
     }
 
@@ -7461,6 +7560,12 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       document.querySelector("#billingTaxSetting").value = state.settings.billingTaxId || "";
       document.querySelector("#settingsSignedInEmail").textContent = currentUser?.email || "Not signed in";
       document.querySelector("#settingsCurrentPlan").textContent = state.settings.currentPlan || "Free";
+      document.querySelector("#adminSupportEmail").value = state.settings.supportEmail || "alexhopkins652@gmail.com";
+      document.querySelector("#adminAnnouncement").value = state.settings.productAnnouncement || "";
+      document.querySelector("#adminStarterPrice").value = state.settings.starterPrice || "$9.99";
+      document.querySelector("#adminProPrice").value = state.settings.proPrice || "$29.99";
+      document.querySelectorAll("[data-owner-only]").forEach(item => { item.hidden = !isOwnerUser(); });
+      renderOwnerConsole();
       applyAppearanceSettings();
     }
 
@@ -7478,6 +7583,120 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       if (!target) return;
       target.textContent = message;
       target.className = `settings-status ${type}`;
+    }
+
+    function isOwnerUser() {
+      const email = (currentUser?.email || "").toLowerCase();
+      return ["alexhopkins652@gmail.com", "sujan.lamsal546@gmail.com"].includes(email);
+    }
+
+    function supportEmailAddress() {
+      return state.settings?.supportEmail || "alexhopkins652@gmail.com";
+    }
+
+    function renderOwnerConsole() {
+      const supportList = document.querySelector("#ownerSupportList");
+      if (supportList) {
+        const requests = (state.supportRequests || []).slice(-6).reverse();
+        supportList.innerHTML = requests.length
+          ? requests.map(request => `<div class="review-item"><span>${escapeHtml(request.reason || "Support")}</span><strong>${escapeHtml(request.email || "No email")} · ${escapeHtml(request.message || "").slice(0, 120)}</strong></div>`).join("")
+          : `<div class="review-item"><span>Inbox</span><strong>No local support requests yet.</strong></div>`;
+      }
+      const userList = document.querySelector("#ownerUserList");
+      if (userList) {
+        userList.innerHTML = `
+          <div class="review-item"><span>Signed-in user</span><strong>${escapeHtml(currentUser?.email || "Not signed in")}</strong></div>
+          <div class="review-item"><span>User directory</span><strong>Connect a Supabase Edge Function using the service-role key to list all users safely.</strong></div>
+          <div class="review-item"><span>Frontend rule</span><strong>Never expose service-role keys or admin auth endpoints inside GitHub Pages JavaScript.</strong></div>
+        `;
+      }
+    }
+
+    async function refreshOwnerBackendData() {
+      if (!isOwnerUser()) {
+        setSettingsStatus("adminSettingsStatus", "Owner console is only available to the TradeReview owner account.", "warn");
+        return;
+      }
+      const userList = document.querySelector("#ownerUserList");
+      const supportList = document.querySelector("#ownerSupportList");
+      try {
+        const [{ data: users, error: usersError }, { data: requests, error: requestsError }] = await Promise.all([
+          cloudClient.rpc("owner_user_directory"),
+          cloudClient.from("support_requests").select("created_at, customer_email, reason, message, status").order("created_at", { ascending: false }).limit(20)
+        ]);
+        if (usersError) throw usersError;
+        if (requestsError) throw requestsError;
+        if (userList) {
+          userList.innerHTML = (users || []).length
+            ? users.map(user => `<div class="review-item"><span>${escapeHtml(new Date(user.created_at).toLocaleDateString())}</span><strong>${escapeHtml(user.email || "No email")} · ${escapeHtml(user.id || "")}</strong></div>`).join("")
+            : `<div class="review-item"><span>Users</span><strong>No users returned yet.</strong></div>`;
+        }
+        if (supportList) {
+          supportList.innerHTML = (requests || []).length
+            ? requests.map(request => `<div class="review-item"><span>${escapeHtml(request.reason || "Support")}</span><strong>${escapeHtml(request.customer_email || "No email")} · ${escapeHtml(request.message || "").slice(0, 140)}</strong></div>`).join("")
+            : `<div class="review-item"><span>Support</span><strong>No support requests in Supabase yet.</strong></div>`;
+        }
+        setSettingsStatus("adminSettingsStatus", "Owner backend data loaded from Supabase.");
+      } catch (error) {
+        renderOwnerConsole();
+        setSettingsStatus("adminSettingsStatus", `Backend admin schema is not connected yet: ${error?.message || "run owner-console-schema.sql in Supabase."}`, "warn");
+      }
+    }
+
+    function saveAdminSettings() {
+      if (!isOwnerUser()) {
+        setSettingsStatus("adminSettingsStatus", "Owner console is only available to the TradeReview owner account.", "warn");
+        return;
+      }
+      state.settings.supportEmail = document.querySelector("#adminSupportEmail").value.trim() || "alexhopkins652@gmail.com";
+      state.settings.productAnnouncement = document.querySelector("#adminAnnouncement").value.trim();
+      state.settings.starterPrice = document.querySelector("#adminStarterPrice").value.trim() || "$9.99";
+      state.settings.proPrice = document.querySelector("#adminProPrice").value.trim() || "$29.99";
+      saveState();
+      renderOwnerConsole();
+      setSettingsStatus("adminSettingsStatus", "Owner settings saved. Support requests will use the customer service email.");
+    }
+
+    function submitSupportRequest(event) {
+      event.preventDefault();
+      const reason = document.querySelector("#supportReason").value;
+      const email = document.querySelector("#supportEmail").value.trim() || currentUser?.email || "";
+      const message = document.querySelector("#supportMessage").value.trim();
+      const status = document.querySelector("#supportStatus");
+      if (!email || !message) {
+        status.textContent = "Add your email and message before sending.";
+        return;
+      }
+      const request = {
+        id: crypto?.randomUUID?.() || `support-${Date.now()}`,
+        reason,
+        email,
+        message,
+        userId: currentUser?.id || "",
+        createdAt: new Date().toISOString(),
+        status: "email_draft_opened"
+      };
+      state.supportRequests ||= [];
+      state.supportRequests.push(request);
+      saveState();
+      renderOwnerConsole();
+      if (currentUser) {
+        cloudClient.from("support_requests").insert({
+          user_id: currentUser.id,
+          customer_email: email,
+          reason,
+          message,
+          status: "new"
+        }).then(({ error }) => {
+          if (error) {
+            document.querySelector("#supportStatus").textContent = "Email draft opened. Backend support table is not connected yet, so this was saved locally too.";
+          }
+        });
+      }
+      const subject = encodeURIComponent(`TradeReview support: ${reason}`);
+      const body = encodeURIComponent(`Reason: ${reason}\nCustomer email: ${email}\nUser ID: ${currentUser?.id || "Not signed in"}\n\nMessage:\n${message}\n\n---\nSent from TradeReview AI support form.`);
+      window.location.href = `mailto:${encodeURIComponent(supportEmailAddress())}?subject=${subject}&body=${body}`;
+      status.textContent = "Opening your email app to send this to the customer service agent.";
     }
 
     function switchSettingsTab(tab) {
@@ -8193,6 +8412,10 @@ Save this agent to the database and run it against new journal/trade events auto
     document.querySelector("#saveAccountSettings")?.addEventListener("click", saveAccountSettings);
     document.querySelector("#saveAppearanceSettings")?.addEventListener("click", saveAppearanceSettings);
     document.querySelector("#saveBillingSettings")?.addEventListener("click", saveBillingSettings);
+    document.querySelector("#saveAdminSettings")?.addEventListener("click", saveAdminSettings);
+    document.querySelector("#refreshOwnerUsers")?.addEventListener("click", () => {
+      refreshOwnerBackendData();
+    });
     document.querySelector("#openCustomerPortal")?.addEventListener("click", () => {
       setSettingsStatus("customerPortalStatus", "Secure billing portal is ready for Stripe/PayPal connection. After setup, this button will open the hosted customer portal.", "warn");
     });
@@ -8492,7 +8715,7 @@ Save this agent to the database and run it against new journal/trade events auto
       const summary = stats();
 
       if (/agent|human|person|support/.test(query)) {
-        return "Choose Talk to an agent below to open a human support request. Requests are handled through public GitHub Issues, so never include passwords, login links, or private trading data.";
+        return "Choose Talk to an agent below to send an email to the customer service agent. Pick a reason like account issue, billing, broker sync, TradingView capture, bug report, or feature request. Never include passwords, auth links, or private financial data.";
       }
       if (/add|enter|log/.test(query) && /trade|position|execution/.test(query)) {
         return "Open Add Trade in the left menu. Enter the trading day, exact entry and exit times, symbol, result, planned risk, and setup. Save it, then open Journal to attach charts and write your review.";
@@ -8540,14 +8763,18 @@ Save this agent to the database and run it against new journal/trade events auto
     });
     document.querySelector("#helpClose").addEventListener("click", () => setHelpOpen(false));
     document.querySelector("#instantGuideApp").addEventListener("click", () => {
-      document.querySelector("#agentSupportLink").hidden = true;
+      document.querySelector("#agentSupportForm").hidden = true;
       addHelpMessage("guide", "Ask me about the free account, importing trades, journal reviews, risk, privacy, or performance statistics.");
       document.querySelector("#helpInput").focus();
     });
     document.querySelector("#talkAgentApp").addEventListener("click", () => {
-      addHelpMessage("guide", "Human support is available through a GitHub support request. It is not live chat and the request is public, so do not include passwords, authentication links, or private trading data.");
-      document.querySelector("#agentSupportLink").hidden = false;
+      addHelpMessage("guide", "Use the form below to email the customer service agent. Choose a reason, describe the issue, and do not include passwords, login links, or private trading data.");
+      const form = document.querySelector("#agentSupportForm");
+      form.hidden = false;
+      document.querySelector("#supportEmail").value ||= currentUser?.email || "";
+      document.querySelector("#supportMessage").focus();
     });
+    document.querySelector("#agentSupportForm").addEventListener("submit", submitSupportRequest);
     document.querySelectorAll("[data-help-question]").forEach(button => {
       button.addEventListener("click", () => {
         const question = button.dataset.helpQuestion;
