@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A private trading journal for reviewing execution, risk, setups, and the decisions behind every trade.">
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" href="./icons/icon-192.png">
   <link rel="manifest" href="./manifest.webmanifest">
   <meta name="theme-color" content="#050817">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -116,7 +116,7 @@
       box-shadow: inset 0 0 24px rgba(127,160,255,.14), 0 14px 38px rgba(0,0,0,.28);
     }
 
-    .brand-mark svg { position: relative; z-index: 1; width: 29px; height: 29px; filter: drop-shadow(0 6px 12px rgba(0,0,0,.28)); }
+    .brand-mark img { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; filter: drop-shadow(0 6px 12px rgba(0,0,0,.28)); }
     .brand-mark::after { content: ""; position: absolute; inset: auto -35% -70% 20%; height: 100%; background: rgba(255,255,255,.17); transform: rotate(-22deg); }
     .nav-links { display: flex; align-items: center; gap: 26px; color: #93a5bd; font-size: 13px; font-weight: 700; }
     .nav-links a { display: inline-block; transition: transform .18s ease, color .18s ease, text-shadow .18s ease; transform-origin: center; }
@@ -253,7 +253,8 @@
     .mock-app { display: grid; grid-template-columns: 175px minmax(0,1fr); min-height: 520px; }
     .mock-side { padding: 20px 13px; border-right: 1px solid var(--line); background: linear-gradient(180deg, #0a1328, #090f1e); }
     .mock-brand { display: flex; align-items: center; gap: 9px; margin-bottom: 25px; font-size: 12px; font-weight: 900; }
-    .mock-brand span { width: 27px; height: 27px; display: grid; place-items: center; border-radius: 8px; color: #64e7aa; background: rgba(89,230,170,.09); }
+    .mock-brand span { width: 27px; height: 27px; display: grid; place-items: center; overflow: hidden; border-radius: 8px; color: #64e7aa; background: rgba(89,230,170,.09); }
+    .mock-brand img { width: 100%; height: 100%; object-fit: cover; }
     .mock-nav { display: grid; gap: 7px; }
     .mock-nav div { padding: 10px; border-radius: 8px; color: #607872; font-size: 10px; text-align: left; }
     .mock-nav div.active { color: #70e6ae; background: rgba(82,220,160,.08); box-shadow: inset 2px 0 #5be6aa; }
@@ -743,7 +744,7 @@
   <div class="scroll-aura" aria-hidden="true"></div>
   <div class="shell">
     <nav class="nav" aria-label="Primary navigation">
-      <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></span><span>TradeReview AI</span></a>
+      <a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><img src="./icons/tradereview-mark.png" alt=""></span><span>TradeReview AI</span></a>
       <div class="nav-links">
         <a href="#brokers">Supported Brokers</a>
         <a href="#features">Features</a>
@@ -779,7 +780,7 @@
             <div class="window-top"><div class="window-dots"><i></i><i></i><i></i></div><span>tradereview.ai / performance</span><span>Private session</span></div>
             <div class="mock-app">
               <div class="mock-side">
-                <div class="mock-brand"><span>TR</span> TradeReview</div>
+                <div class="mock-brand"><span><img src="./icons/tradereview-mark.png" alt=""></span> TradeReview</div>
                 <div class="mock-nav"><div class="active">⌂ &nbsp; Dashboard</div><div>＋ &nbsp; Add trade</div><div>✎ &nbsp; Journal</div><div>◉ &nbsp; Review</div><div>✦ &nbsp; AI Coach</div><div>⚙ &nbsp; Settings</div></div>
               </div>
               <div class="mock-main">
@@ -958,7 +959,7 @@
       <section class="cta"><div class="cta-inner"><h2>Make the review part of the trade.</h2><p>Start with one session. Capture the evidence, name the mistake, and build the process that protects your edge.</p><a class="button primary" href="./app/tradereview-ai.html?release=20260717-premium">Create your free account →</a></div></section>
     </main>
 
-    <footer><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></span><span>TradeReview AI</span></a><span>Built for disciplined review. Trading involves substantial risk.</span><div class="footer-links"><a href="./blog/">Blog</a><a href="./privacy.html">Privacy</a><a href="./app/tradereview-ai.html?release=20260717-premium">Sign in</a></div></footer>
+    <footer><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><img src="./icons/tradereview-mark.png" alt=""></span><span>TradeReview AI</span></a><span>Built for disciplined review. Trading involves substantial risk.</span><div class="footer-links"><a href="./blog/">Blog</a><a href="./privacy.html">Privacy</a><a href="./app/tradereview-ai.html?release=20260717-premium">Sign in</a></div></footer>
   </div>
 
   <button class="help-button" id="helpButton" type="button" aria-expanded="false"><span class="help-icon">?</span><span>How can I help?</span></button>

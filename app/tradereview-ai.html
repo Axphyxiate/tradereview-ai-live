@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="icon" type="image/png" href="../icons/icon-192.png">
   <link rel="manifest" href="../manifest.webmanifest">
   <meta name="theme-color" content="#050817">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1908,13 +1908,14 @@
       box-shadow: inset 0 0 25px rgba(115, 143, 255, .1), 0 12px 30px rgba(0, 0, 0, .22);
     }
 
-    .auth-brand .mark svg,
-    .brand .mark svg {
+    .auth-brand .mark img,
+    .brand .mark img {
       position: relative;
       z-index: 1;
-      width: 76%;
-      height: 76%;
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,.3));
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,.28));
     }
 
     .auth-brand .mark::after,
@@ -4088,7 +4089,7 @@
   <section class="auth-gate" id="authGate" aria-labelledby="authTitle">
     <div class="auth-shell">
       <div class="auth-story">
-        <div class="auth-brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
+        <div class="auth-brand"><div class="mark" aria-hidden="true"><img src="../icons/tradereview-mark.png" alt=""></div><span>TradeReview AI</span></div>
         <div class="product-pill"><span class="live-dot"></span> Your performance workspace</div>
         <h1><span>Turn every session into a repeatable edge.</span></h1>
         <p>Journal the trade, measure the risk, and find the behavior behind your results. Your review process finally lives in one focused workspace.</p>
@@ -4137,7 +4138,7 @@
 
       <div class="auth-card-wrap">
         <div class="auth-card">
-          <div class="auth-brand"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></div>
+          <div class="auth-brand"><div class="mark" aria-hidden="true"><img src="../icons/tradereview-mark.png" alt=""></div><span>TradeReview AI</span></div>
           <h1 id="authTitle">Welcome back</h1>
           <p class="auth-copy" id="authCopy">Sign in to open your private trading journal.</p>
           <div class="auth-free-badge"><strong>$0 account</strong><span>Full current journal workflow · No card required</span></div>
@@ -4245,7 +4246,7 @@
 
   <div class="app" data-build="capture-pipeline-v36">
     <aside>
-      <a class="brand" href="../" aria-label="Open TradeReview AI main page"><div class="mark" aria-hidden="true"><svg viewBox="0 0 40 40" role="img"><path d="M8 27 15 20l5 4 12-14" fill="none" stroke="#7fb0ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 16v14M20 11v18M29 8v21" stroke="#18d995" stroke-width="2.5" stroke-linecap="round"/><path d="M7 30h26" stroke="#ff536d" stroke-width="2.5" stroke-linecap="round" opacity=".95"/></svg></div><span>TradeReview AI</span></a>
+      <a class="brand" href="../" aria-label="Open TradeReview AI main page"><div class="mark" aria-hidden="true"><img src="../icons/tradereview-mark.png" alt=""></div><span>TradeReview AI</span></a>
       <nav aria-label="Main navigation">
         <button class="active" data-view="dashboard" title="Dashboard">⌂ Dashboard</button>
         <button data-view="import" title="Add a trade">＋ Add Trade</button>
