@@ -4049,7 +4049,7 @@
         <button class="active" data-view="dashboard" title="Dashboard">⌂ Dashboard</button>
         <button data-view="import" title="Add a trade">＋ Add Trade</button>
         <button data-view="journal" title="Journal">✎ Journal</button>
-        <button data-view="tradeReview" title="Trade review">◉ Review</button>
+        <button data-view="tradeReview" title="Trade review" hidden>◉ Review</button>
         <button data-view="aiCommand" title="Learn and trade with AI">✦ AI Coach</button>
         <button data-view="agents" title="AI agents">◇ Agents</button>
         <button data-view="billing" title="Plans and billing">$ Billing</button>
@@ -5862,6 +5862,47 @@
       return trade.timeZone || state.settings?.tradingTimeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
     }
 
+    function zonedDateTimeToUtc(date, time, timeZone) {
+      const dateMatch = String(date || "").match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      const timeMatch = String(time || "").match(/^(\d{1,2}):(\d{2})/);
+      if (!dateMatch || !timeMatch || !timeZone) return null;
+      const target = {
+        year: Number(dateMatch[1]),
+        month: Number(dateMatch[2]),
+        day: Number(dateMatch[3]),
+        hour: Number(timeMatch[1]),
+        minute: Number(timeMatch[2])
+      };
+      let utcMs = Date.UTC(target.year, target.month - 1, target.day, target.hour, target.minute);
+      try {
+        const formatter = new Intl.DateTimeFormat("en-US", {
+          timeZone,
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false
+        });
+        for (let i = 0; i < 3; i += 1) {
+          const parts = Object.fromEntries(formatter.formatToParts(new Date(utcMs)).map(part => [part.type, part.value]));
+          const seenMs = Date.UTC(Number(parts.year), Number(parts.month) - 1, Number(parts.day), Number(parts.hour), Number(parts.minute));
+          const wantedMs = Date.UTC(target.year, target.month - 1, target.day, target.hour, target.minute);
+          utcMs -= seenMs - wantedMs;
+        }
+        return new Date(utcMs);
+      } catch {
+        return null;
+      }
+    }
+
+    function utcTimeForTrade(trade, field) {
+      const date = field === "exitTime" ? (trade.exitDate || trade.date || todayKey()) : (trade.date || todayKey());
+      const utc = zonedDateTimeToUtc(date, trade[field], tradeTimeZone(trade));
+      if (!utc) return "";
+      return `${String(utc.getUTCHours()).padStart(2, "0")}:${String(utc.getUTCMinutes()).padStart(2, "0")} UTC`;
+    }
+
     function instrumentCore(value) {
       const raw = String(value || "")
         .trim()
@@ -6009,7 +6050,8 @@
     function marketTimeLabel(trade, field) {
       const time = trade[field] || "time needed";
       const date = field === "exitTime" ? (trade.exitDate || trade.date || todayKey()) : (trade.date || todayKey());
-      return `${date} ${time} ${tradeTimeZone(trade)}`;
+      const utc = utcTimeForTrade(trade, field);
+      return `${date} ${time} ${tradeTimeZone(trade)}${utc ? ` / ${utc}` : ""}`;
     }
 
     function tradeDateTimeLabel(trade, field) {
@@ -6793,6 +6835,15 @@
       const image = trade?.[field];
       const label = trade ? marketTimeLabel(trade, timeField) : "";
       const tone = field === "entryScreenshot" ? "entry" : "exit";
+      const mediaKey = field === "entryScreenshot" ? "entryScreenshotUrl" : "exitScreenshotUrl";
+      const previewOnly = trade?.tradingViewCapture?.exactHistoricalCapture === false
+        && trade.tradingViewCapture?.media?.[mediaKey]
+        && trade.tradingViewCapture.media[mediaKey] === image;
+      const previewNotice = trade ? `<div class="visual-empty preview-warning">
+        <strong>Preview only — exact timestamp not confirmed</strong>
+        <span>Requested ${escapeHtml(label)}. If TradingView shows UTC on the chart, match the UTC time in this label. This preview is not saved as official proof until exact seeking is connected.</span>
+        <a class="chart-link ${tone}" href="${escapeHtml(trade.tradingViewCapture?.media?.[mediaKey] || tradingViewUrl(trade))}" target="_blank" rel="noopener">Open preview image</a>
+      </div>` : "";
       const empty = trade ? `<div class="visual-empty"><strong>No ${title.toLowerCase()} chart yet</strong><span>Open TradingView at ${escapeHtml(label)}, take the screenshot, then attach it in the Journal screenshot box.</span><a class="chart-link ${tone}" href="${tradingViewUrl(trade)}" target="_blank" rel="noopener">Open ${title} chart</a></div>` : "";
       return `<div class="panel">
         <div class="panel-header">
@@ -6800,7 +6851,7 @@
           <span class="time-note">${escapeHtml(label)}</span>
         </div>
         <div class="visual-frame">
-          ${image ? `<img src="${image}" alt="${title} chart for ${escapeHtml(trade.symbol)}">` : empty}
+          ${image && !previewOnly ? `<img src="${image}" alt="${title} chart for ${escapeHtml(trade.symbol)}">` : (previewOnly ? previewNotice : empty)}
         </div>
       </div>`;
     }
@@ -6821,8 +6872,8 @@
 
       chartButton.disabled = false;
       chartButton.onclick = () => window.open(tradingViewUrl(trade), "_blank", "noopener");
-      title.textContent = `${trade.symbol} review`;
-      subtitle.textContent = `${trade.date} · Entry ${trade.entryTime || "time needed"} · Exit ${trade.exitTime || "time needed"} · ${chartTicker(trade)} 1m chart`;
+      title.textContent = `${trade.symbol}`;
+      subtitle.textContent = `${trade.date} · Entry ${marketTimeLabel(trade, "entryTime")} · Exit ${marketTimeLabel(trade, "exitTime")} · ${chartTicker(trade)} 1m chart`;
       body.innerHTML = `<div class="trade-review">
         <div class="visual-stack">
           ${visualPanel(trade, "entryScreenshot", "Entry Point", "entryTime")}
