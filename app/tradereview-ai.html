@@ -4690,6 +4690,7 @@
     const marketRegions = [
       { key: "world", label: "Entire world", icon: "GL" },
       { key: "us", label: "USA", icon: "US" },
+      { key: "nepal", label: "Nepal", icon: "NP" },
       { key: "india", label: "India", icon: "IN" },
       { key: "germany", label: "Germany", icon: "DE" },
       { key: "japan", label: "Japan", icon: "JP" },
@@ -4804,6 +4805,19 @@
       { symbol: "AMEX:VTI", display: "VTI", name: "Vanguard Total Stock Market ETF", type: "funds", venue: "NYSE Arca", market: "us" },
       { symbol: "AMEX:VOO", display: "VOO", name: "Vanguard S&P 500 ETF", type: "funds", venue: "NYSE Arca", market: "us" },
       { symbol: "AMEX:ARKK", display: "ARKK", name: "ARK Innovation ETF", type: "funds", venue: "NYSE Arca", market: "us" },
+      { symbol: "NEPSE:NABIL", display: "NABIL", name: "Nabil Bank", type: "stocks", venue: "NEPSE", market: "nepal" },
+      { symbol: "NEPSE:NICA", display: "NICA", name: "NIC Asia Bank", type: "stocks", venue: "NEPSE", market: "nepal" },
+      { symbol: "NEPSE:GBIME", display: "GBIME", name: "Global IME Bank", type: "stocks", venue: "NEPSE", market: "nepal" },
+      { symbol: "NEPSE:EBL", display: "EBL", name: "Everest Bank", type: "stocks", venue: "NEPSE", market: "nepal" },
+      { symbol: "NEPSE:SCB", display: "SCB", name: "Standard Chartered Bank Nepal", type: "stocks", venue: "NEPSE", market: "nepal" },
+      { symbol: "NEPSE:NIFRA", display: "NIFRA", name: "Nepal Infrastructure Bank", type: "stocks", venue: "NEPSE", market: "nepal" },
+      { symbol: "NEPSE:NTC", display: "NTC", name: "Nepal Telecom", type: "stocks", venue: "NEPSE", market: "nepal" },
+      { symbol: "NEPSE:NRIC", display: "NRIC", name: "Nepal Reinsurance Company", type: "stocks", venue: "NEPSE", market: "nepal" },
+      { symbol: "NEPSE:HIDCL", display: "HIDCL", name: "Hydroelectricity Investment and Development", type: "stocks", venue: "NEPSE", market: "nepal" },
+      { symbol: "NEPSE:UPPER", display: "UPPER", name: "Upper Tamakoshi Hydropower", type: "stocks", venue: "NEPSE", market: "nepal" },
+      { symbol: "NEPSE:SHIVM", display: "SHIVM", name: "Shivam Cements", type: "stocks", venue: "NEPSE", market: "nepal" },
+      { symbol: "NEPSE:HDL", display: "HDL", name: "Himalayan Distillery", type: "stocks", venue: "NEPSE", market: "nepal" },
+      { symbol: "NEPSE:NEPSE", display: "NEPSE", name: "NEPSE Index", type: "indices", venue: "NEPSE", market: "nepal" },
       { symbol: "NSE:SBIN", display: "SBIN", name: "State Bank of India", type: "stocks", venue: "NSE", market: "india" },
       { symbol: "NSE:ICICIBANK", display: "ICICIBANK", name: "ICICI Bank", type: "stocks", venue: "NSE", market: "india" },
       { symbol: "NSE:AXISBANK", display: "AXISBANK", name: "Axis Bank", type: "stocks", venue: "NSE", market: "india" },
@@ -4880,7 +4894,7 @@
     expandedTickerUniverse.forEach(item => {
       if (!tickerUniverse.some(existing => existing.symbol === item.symbol)) tickerUniverse.push(item);
     });
-    const marketIconByKey = { world: "GL", us: "US", india: "IN", germany: "DE", japan: "JP", canada: "CA", hk: "HK", uk: "GB", australia: "AU", brazil: "BR", france: "FR", singapore: "SG", global: "FX" };
+    const marketIconByKey = { world: "GL", us: "US", nepal: "NP", india: "IN", germany: "DE", japan: "JP", canada: "CA", hk: "HK", uk: "GB", australia: "AU", brazil: "BR", france: "FR", singapore: "SG", global: "FX" };
     tickerUniverse.forEach(item => {
       item.icon = marketIconByKey[item.market] || item.icon || "TR";
     });
