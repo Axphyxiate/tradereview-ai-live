@@ -181,6 +181,73 @@
       color: var(--red);
     }
 
+    .app-toast {
+      position: fixed;
+      right: 22px;
+      top: 22px;
+      z-index: 10000;
+      width: min(420px, calc(100vw - 32px));
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      border: 1px solid rgba(127,176,255,.22);
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(12,22,48,.98), rgba(6,12,28,.98));
+      color: #eaf7ff;
+      box-shadow: 0 24px 80px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.08);
+      transform: translateY(-14px) scale(.98);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .22s ease, transform .22s ease;
+    }
+
+    .app-toast.show {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+
+    .app-toast-icon {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(127,176,255,.12);
+      color: #9ec5ff;
+      font-weight: 950;
+    }
+
+    .app-toast.warn .app-toast-icon { color: #f8d98a; background: rgba(248,217,138,.12); }
+    .app-toast.error .app-toast-icon { color: #ff8ca0; background: rgba(255,83,109,.12); }
+    .app-toast.success .app-toast-icon { color: #86efac; background: rgba(134,239,172,.12); }
+
+    .app-toast-title {
+      margin: 0 0 3px;
+      color: #f6fbff;
+      font-size: 13px;
+      font-weight: 950;
+    }
+
+    .app-toast-message {
+      margin: 0;
+      color: #a9bad4;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .app-toast-close {
+      min-height: 30px;
+      width: 30px;
+      padding: 0;
+      border-radius: 10px;
+      border-color: rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      color: #cbd8ef;
+    }
+
     .free-note {
       margin: 18px 0 0;
       padding-top: 16px;
@@ -4327,6 +4394,14 @@
     <span class="help-launcher-icon">?</span>
     <span class="help-launcher-label">How can I help?</span>
   </button>
+  <div class="app-toast" id="appToast" role="status" aria-live="polite" aria-hidden="true">
+    <div class="app-toast-icon" id="appToastIcon">!</div>
+    <div>
+      <p class="app-toast-title" id="appToastTitle">TradeReview AI</p>
+      <p class="app-toast-message" id="appToastMessage"></p>
+    </div>
+    <button class="app-toast-close" id="appToastClose" type="button" aria-label="Close message">×</button>
+  </div>
 
   <section class="help-panel" id="helpPanel" aria-label="TradeReview help assistant" aria-hidden="true">
     <div class="assistant-head">
@@ -5105,11 +5180,34 @@
     function requirePlan(feature, requiredPlan = "starter") {
       if (hasPlan(requiredPlan)) return true;
       const label = requiredPlan.charAt(0).toUpperCase() + requiredPlan.slice(1);
-      alert(premiumFeatureMessage(feature, label));
+      showAppToast(premiumFeatureMessage(feature, label), { title: "Premium feature", type: "warn", icon: "$" });
       switchView("billing", { bypassPlanGate: true });
       const target = document.querySelector("#checkoutMessage");
       if (target) target.innerHTML = `<strong>${escapeHtml(feature)} is premium.</strong> ${escapeHtml(premiumFeatureMessage(feature, label))}`;
       return false;
+    }
+
+    let appToastTimer = null;
+    function showAppToast(message, options = {}) {
+      const toast = document.querySelector("#appToast");
+      const title = document.querySelector("#appToastTitle");
+      const body = document.querySelector("#appToastMessage");
+      const icon = document.querySelector("#appToastIcon");
+      if (!toast || !title || !body || !icon) {
+        console.warn(message);
+        return;
+      }
+      const type = options.type || "warn";
+      title.textContent = options.title || "TradeReview AI";
+      body.textContent = message;
+      icon.textContent = options.icon || (type === "success" ? "✓" : type === "error" ? "!" : "!");
+      toast.className = `app-toast ${type} show`;
+      toast.setAttribute("aria-hidden", "false");
+      clearTimeout(appToastTimer);
+      appToastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+        toast.setAttribute("aria-hidden", "true");
+      }, options.duration || 5200);
     }
 
     function chartTicker(trade) {
@@ -5203,12 +5301,12 @@
       if (!trade.entryTime) missing.push("entry time");
       if (!trade.exitTime) missing.push("exit time");
       if (missing.length) {
-        alert(`Add ${missing.join(", ")} first so TradeReview knows what to capture from TradingView.`);
+        showAppToast(`Add ${missing.join(", ")} first so TradeReview knows what to capture from TradingView.`, { title: "Capture needs more info", type: "warn" });
         return;
       }
       const timing = tradeTimingError(trade);
       if (timing) {
-        alert(timing);
+        showAppToast(timing, { title: "Fix trade timing", type: "error" });
         return;
       }
       const requestedAt = new Date().toISOString();
@@ -5732,7 +5830,7 @@
               : (field === "entryTime" || field === "exitTime" ? normalizeTime(input.value) : input.value.trim());
             if ((field === "entryTime" || field === "exitTime") && tradeTimingError(trade)) {
               trade[field] = previous;
-              alert(tradeTimingError({ ...trade, [field]: input.value }) || "Exit time must be after entry time.");
+              showAppToast(tradeTimingError({ ...trade, [field]: input.value }) || "Exit time must be after entry time.", { title: "Fix trade timing", type: "error" });
               render();
               return;
             }
@@ -7125,6 +7223,12 @@ Save this agent to the database and run it against new journal/trade events auto
     document.querySelectorAll("[data-view], [data-view-button]").forEach(button => {
       button.addEventListener("click", () => switchView(button.dataset.view || button.dataset.viewButton));
     });
+    document.querySelector("#appToastClose")?.addEventListener("click", () => {
+      const toast = document.querySelector("#appToast");
+      clearTimeout(appToastTimer);
+      toast?.classList.remove("show");
+      toast?.setAttribute("aria-hidden", "true");
+    });
     document.querySelectorAll("[data-performance-range]").forEach(button => {
       button.addEventListener("click", () => {
         performanceRange = button.dataset.performanceRange || "1d";
@@ -7237,7 +7341,7 @@ Save this agent to the database and run it against new journal/trade events auto
     document.querySelector("#requestBrokerAccess").addEventListener("click", async () => {
       if (!requirePlan("Broker sync requests", "pro")) return;
       if (!document.querySelector("#brokerProvider").value && !state.profile?.broker) {
-        alert("Choose a broker first.");
+        showAppToast("Choose a broker first.", { title: "Broker required", type: "warn" });
         return;
       }
       const button = document.querySelector("#requestBrokerAccess");
@@ -7330,7 +7434,7 @@ Save this agent to the database and run it against new journal/trade events auto
       };
       const errors = validateManualTradeDraft(trade);
       if (errors.length) {
-        alert(errors[0]);
+        showAppToast(errors[0], { title: "Fix trade details", type: "error" });
         return;
       }
       state.trades.unshift(trade);
@@ -7346,7 +7450,7 @@ Save this agent to the database and run it against new journal/trade events auto
       if (!file) return;
       file.text().then(text => {
         const count = importCsv(text);
-        alert(`Imported ${count} trades.${lastCsvRejectedCount ? ` Skipped ${lastCsvRejectedCount} row(s) because entry/exit time was invalid or exit was not after entry.` : ""}`);
+        showAppToast(`Imported ${count} trades.${lastCsvRejectedCount ? ` Skipped ${lastCsvRejectedCount} row(s) because entry/exit time was invalid or exit was not after entry.` : ""}`, { title: "CSV import complete", type: lastCsvRejectedCount ? "warn" : "success", icon: lastCsvRejectedCount ? "!" : "✓" });
         switchView("dashboard");
       });
     });
@@ -7366,7 +7470,7 @@ Save this agent to the database and run it against new journal/trade events auto
       if (!file) return;
       file.text().then(text => {
         const count = importCsv(text);
-        alert(`Imported ${count} trades.${lastCsvRejectedCount ? ` Skipped ${lastCsvRejectedCount} row(s) because entry/exit time was invalid or exit was not after entry.` : ""}`);
+        showAppToast(`Imported ${count} trades.${lastCsvRejectedCount ? ` Skipped ${lastCsvRejectedCount} row(s) because entry/exit time was invalid or exit was not after entry.` : ""}`, { title: "CSV import complete", type: lastCsvRejectedCount ? "warn" : "success", icon: lastCsvRejectedCount ? "!" : "✓" });
         switchView("dashboard");
       });
     });
@@ -7380,7 +7484,7 @@ Save this agent to the database and run it against new journal/trade events auto
         tomorrowRule: document.querySelector("#tomorrowRule").value.trim()
       };
       saveState();
-      alert("Journal saved.");
+      showAppToast("Journal saved.", { title: "Saved", type: "success", icon: "✓" });
     });
 
     document.querySelector("#addDemo").addEventListener("click", () => {
