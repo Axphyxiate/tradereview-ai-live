@@ -9085,11 +9085,18 @@ Save this agent to the database and run it against new journal/trade events auto
 
     document.querySelector("#deleteJournalNote")?.addEventListener("click", event => {
       if (!selectedDay) return;
-      armDestructiveButton(event.currentTarget, "Click Delete Note again to remove this journal note. Trades for the day stay saved.", () => {
-        delete state.journals[selectedDay];
-        saveState();
-        render();
-        showAppToast("Journal note deleted. Trades were kept.", { title: "Deleted", type: "success", icon: "✓" });
+      event.stopImmediatePropagation();
+      const day = selectedDay;
+      showConfirmModal({
+        title: "Are you sure?",
+        message: `Delete the journal note for ${day}? Your trades and screenshots for that day will stay saved.`,
+        acceptLabel: "Yes, delete note",
+        onConfirm: () => {
+          delete state.journals[day];
+          saveState();
+          render();
+          showAppToast("Journal note deleted. Trades were kept.", { title: "Deleted", type: "success", icon: "✓" });
+        }
       });
     });
 
