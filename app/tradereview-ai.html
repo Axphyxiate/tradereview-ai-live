@@ -1815,8 +1815,61 @@
       color: #10131b;
       border-color: #f6f7fb;
     }
+    .symbol-market-filter {
+      display: grid;
+      gap: 8px;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(127,176,255,.10);
+      background: linear-gradient(90deg, rgba(134,239,172,.045), rgba(127,176,255,.035), transparent);
+    }
+    .symbol-market-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      color: #f5fbff;
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .symbol-market-label span {
+      color: #92a6c8;
+      font-size: 10px;
+      font-weight: 850;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+    .symbol-region-tabs {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+      scrollbar-width: thin;
+    }
+    .symbol-region-tabs button {
+      flex: 0 0 auto;
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(127,176,255,.13);
+      background: rgba(255,255,255,.045);
+      color: #b7c6df;
+      font-size: 11px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .symbol-region-tabs button.active {
+      background: linear-gradient(135deg, #f8fbff, #dfe8ff);
+      border-color: #f8fbff;
+      color: #10131b;
+      box-shadow: 0 10px 24px rgba(127,176,255,.16);
+    }
     .symbol-result-list {
-      max-height: 278px;
+      max-height: 246px;
       overflow-y: auto;
       padding: 6px;
     }
@@ -1851,9 +1904,21 @@
       font-weight: 950;
       font-size: 13px;
     }
+    .symbol-avatar.flag {
+      background: rgba(255,255,255,.08);
+      font-size: 18px;
+    }
     .symbol-code { color: #ffffff; font-weight: 950; letter-spacing: -.01em; }
     .symbol-name { color: #b4c0d8; font-size: 13px; }
     .symbol-market { color: #7f8da7; font-size: 11px; font-weight: 850; text-transform: uppercase; white-space: nowrap; }
+    .symbol-picker-foot {
+      padding: 9px 12px 11px;
+      border-top: 1px solid rgba(127,176,255,.10);
+      color: #8294b2;
+      font-size: 11px;
+      line-height: 1.45;
+    }
+    .symbol-picker-foot b { color: #bff7d6; }
     .symbol-empty { padding: 18px; color: #94a5c0; font-weight: 750; }
 
     button { border-color: var(--line); border-radius: 10px; background: #111d38; color: #edf2ff; transition: transform .15s ease, border-color .15s ease, background .15s ease, box-shadow .15s ease; }
@@ -4603,6 +4668,22 @@
       mistake: ["mistake", "error", "rule broken"]
     };
 
+    const marketRegions = [
+      { key: "world", label: "Entire world", icon: "🌐" },
+      { key: "us", label: "USA", icon: "🇺🇸" },
+      { key: "india", label: "India", icon: "🇮🇳" },
+      { key: "germany", label: "Germany", icon: "🇩🇪" },
+      { key: "japan", label: "Japan", icon: "🇯🇵" },
+      { key: "canada", label: "Canada", icon: "🇨🇦" },
+      { key: "hk", label: "Hong Kong", icon: "🇭🇰" },
+      { key: "uk", label: "United Kingdom", icon: "🇬🇧" },
+      { key: "australia", label: "Australia", icon: "🇦🇺" },
+      { key: "brazil", label: "Brazil", icon: "🇧🇷" },
+      { key: "france", label: "France", icon: "🇫🇷" },
+      { key: "singapore", label: "Singapore", icon: "🇸🇬" },
+      { key: "global", label: "FX / Crypto / Futures", icon: "⚡" }
+    ];
+
     const tickerUniverse = [
       { symbol: "NASDAQ:QQQ", display: "QQQ", name: "Nasdaq 100 ETF", type: "funds", venue: "NASDAQ" },
       { symbol: "AMEX:SPY", display: "SPY", name: "SPDR S&P 500 ETF Trust", type: "funds", venue: "NYSE Arca" },
@@ -4637,6 +4718,56 @@
       { symbol: "SPY 0DTE CALL", display: "SPY Call", name: "SPY options contract journal label", type: "options", venue: "Options" },
       { symbol: "QQQ 0DTE PUT", display: "QQQ Put", name: "QQQ options contract journal label", type: "options", venue: "Options" }
     ];
+
+    tickerUniverse.forEach(item => {
+      if (!item.market) item.market = ["FX", "OANDA", "CME", "COMEX", "NYMEX", "Binance", "Coinbase", "TVC"].includes(item.venue) ? "global" : "us";
+      if (!item.icon) item.icon = item.market === "global" ? "🌐" : "🇺🇸";
+    });
+    tickerUniverse.push(
+      { symbol: "NSE:RELIANCE", display: "RELIANCE", name: "Reliance Industries", type: "stocks", venue: "NSE", market: "india", icon: "🇮🇳" },
+      { symbol: "NSE:TCS", display: "TCS", name: "Tata Consultancy Services", type: "stocks", venue: "NSE", market: "india", icon: "🇮🇳" },
+      { symbol: "NSE:INFY", display: "INFY", name: "Infosys", type: "stocks", venue: "NSE", market: "india", icon: "🇮🇳" },
+      { symbol: "NSE:HDFCBANK", display: "HDFCBANK", name: "HDFC Bank", type: "stocks", venue: "NSE", market: "india", icon: "🇮🇳" },
+      { symbol: "NSE:NIFTY", display: "NIFTY", name: "Nifty 50 Index", type: "indices", venue: "NSE", market: "india", icon: "🇮🇳" },
+      { symbol: "BSE:SENSEX", display: "SENSEX", name: "BSE Sensex", type: "indices", venue: "BSE", market: "india", icon: "🇮🇳" },
+      { symbol: "XETR:SAP", display: "SAP", name: "SAP SE", type: "stocks", venue: "Xetra", market: "germany", icon: "🇩🇪" },
+      { symbol: "XETR:SIE", display: "SIE", name: "Siemens", type: "stocks", venue: "Xetra", market: "germany", icon: "🇩🇪" },
+      { symbol: "XETR:ALV", display: "ALV", name: "Allianz", type: "stocks", venue: "Xetra", market: "germany", icon: "🇩🇪" },
+      { symbol: "TVC:DAX", display: "DAX", name: "Germany 40 Index", type: "indices", venue: "TVC", market: "germany", icon: "🇩🇪" },
+      { symbol: "TSE:7203", display: "7203", name: "Toyota Motor", type: "stocks", venue: "Tokyo", market: "japan", icon: "🇯🇵" },
+      { symbol: "TSE:6758", display: "6758", name: "Sony Group", type: "stocks", venue: "Tokyo", market: "japan", icon: "🇯🇵" },
+      { symbol: "TSE:9984", display: "9984", name: "SoftBank Group", type: "stocks", venue: "Tokyo", market: "japan", icon: "🇯🇵" },
+      { symbol: "TVC:NI225", display: "NI225", name: "Nikkei 225 Index", type: "indices", venue: "TVC", market: "japan", icon: "🇯🇵" },
+      { symbol: "TSX:SHOP", display: "SHOP", name: "Shopify", type: "stocks", venue: "TSX", market: "canada", icon: "🇨🇦" },
+      { symbol: "TSX:RY", display: "RY", name: "Royal Bank of Canada", type: "stocks", venue: "TSX", market: "canada", icon: "🇨🇦" },
+      { symbol: "TSX:TD", display: "TD", name: "Toronto-Dominion Bank", type: "stocks", venue: "TSX", market: "canada", icon: "🇨🇦" },
+      { symbol: "TVC:TSX", display: "TSX", name: "S&P/TSX Composite Index", type: "indices", venue: "TVC", market: "canada", icon: "🇨🇦" },
+      { symbol: "HKEX:700", display: "700", name: "Tencent Holdings", type: "stocks", venue: "HKEX", market: "hk", icon: "🇭🇰" },
+      { symbol: "HKEX:9988", display: "9988", name: "Alibaba Group", type: "stocks", venue: "HKEX", market: "hk", icon: "🇭🇰" },
+      { symbol: "HKEX:3690", display: "3690", name: "Meituan", type: "stocks", venue: "HKEX", market: "hk", icon: "🇭🇰" },
+      { symbol: "TVC:HSI", display: "HSI", name: "Hang Seng Index", type: "indices", venue: "TVC", market: "hk", icon: "🇭🇰" },
+      { symbol: "LSE:HSBA", display: "HSBA", name: "HSBC Holdings", type: "stocks", venue: "LSE", market: "uk", icon: "🇬🇧" },
+      { symbol: "LSE:BP.", display: "BP.", name: "BP", type: "stocks", venue: "LSE", market: "uk", icon: "🇬🇧" },
+      { symbol: "LSE:AZN", display: "AZN", name: "AstraZeneca", type: "stocks", venue: "LSE", market: "uk", icon: "🇬🇧" },
+      { symbol: "TVC:UKX", display: "UKX", name: "FTSE 100 Index", type: "indices", venue: "TVC", market: "uk", icon: "🇬🇧" },
+      { symbol: "ASX:BHP", display: "BHP", name: "BHP Group", type: "stocks", venue: "ASX", market: "australia", icon: "🇦🇺" },
+      { symbol: "ASX:CBA", display: "CBA", name: "Commonwealth Bank", type: "stocks", venue: "ASX", market: "australia", icon: "🇦🇺" },
+      { symbol: "ASX:FMG", display: "FMG", name: "Fortescue Metals", type: "stocks", venue: "ASX", market: "australia", icon: "🇦🇺" },
+      { symbol: "TVC:XJO", display: "XJO", name: "ASX 200 Index", type: "indices", venue: "TVC", market: "australia", icon: "🇦🇺" },
+      { symbol: "BMFBOVESPA:PETR4", display: "PETR4", name: "Petrobras PN", type: "stocks", venue: "B3", market: "brazil", icon: "🇧🇷" },
+      { symbol: "BMFBOVESPA:VALE3", display: "VALE3", name: "Vale", type: "stocks", venue: "B3", market: "brazil", icon: "🇧🇷" },
+      { symbol: "TVC:IBOV", display: "IBOV", name: "Bovespa Index", type: "indices", venue: "TVC", market: "brazil", icon: "🇧🇷" },
+      { symbol: "EURONEXT:MC", display: "MC", name: "LVMH", type: "stocks", venue: "Euronext Paris", market: "france", icon: "🇫🇷" },
+      { symbol: "EURONEXT:OR", display: "OR", name: "L'Oreal", type: "stocks", venue: "Euronext Paris", market: "france", icon: "🇫🇷" },
+      { symbol: "TVC:CAC40", display: "CAC40", name: "CAC 40 Index", type: "indices", venue: "TVC", market: "france", icon: "🇫🇷" },
+      { symbol: "SGX:D05", display: "D05", name: "DBS Group", type: "stocks", venue: "SGX", market: "singapore", icon: "🇸🇬" },
+      { symbol: "SGX:O39", display: "O39", name: "OCBC Bank", type: "stocks", venue: "SGX", market: "singapore", icon: "🇸🇬" },
+      { symbol: "TVC:STI", display: "STI", name: "Straits Times Index", type: "indices", venue: "TVC", market: "singapore", icon: "🇸🇬" },
+      { symbol: "FX:AUDUSD", display: "AUD/USD", name: "Australian Dollar / U.S. Dollar", type: "forex", venue: "FX", market: "global", icon: "🌐" },
+      { symbol: "FX:USDCAD", display: "USD/CAD", name: "U.S. Dollar / Canadian Dollar", type: "forex", venue: "FX", market: "global", icon: "🌐" },
+      { symbol: "FX:USDINR", display: "USD/INR", name: "U.S. Dollar / Indian Rupee", type: "forex", venue: "FX", market: "global", icon: "🌐" },
+      { symbol: "CBOT_MINI:YM1!", display: "YM1!", name: "E-mini Dow futures", type: "futures", venue: "CBOT", market: "global", icon: "⚡" }
+    );
 
     function defaultSettings() {
       return {
@@ -7258,34 +7389,44 @@ Save this agent to the database and run it against new journal/trade events auto
         });
       }
 
-      function renderPicker(box, activeType = box.dataset.activeType || "all") {
+      function renderPicker(box, activeType = box.dataset.activeType || "all", activeMarket = box.dataset.activeMarket || "world") {
         const input = box.querySelector("input");
         const menu = box.querySelector(".symbol-picker-menu");
         const query = (input.value || "").trim().toLowerCase();
         box.dataset.activeType = activeType;
+        box.dataset.activeMarket = activeMarket;
+        const selectedMarket = marketRegions.find(region => region.key === activeMarket) || marketRegions[0];
         const matches = tickerUniverse
           .filter(item => activeType === "all" || item.type === activeType)
+          .filter(item => activeMarket === "world" || item.market === activeMarket)
           .filter(item => {
-            const haystack = `${item.symbol} ${item.display} ${item.name} ${item.venue} ${item.type}`.toLowerCase();
+            const marketLabel = marketRegions.find(region => region.key === item.market)?.label || item.market || "";
+            const haystack = `${item.symbol} ${item.display} ${item.name} ${item.venue} ${item.type} ${marketLabel}`.toLowerCase();
             return !query || haystack.includes(query);
           })
-          .slice(0, 26);
+          .slice(0, 42);
         const tabHtml = tabs.map(([type, label]) => `<button type="button" class="${type === activeType ? "active" : ""}" data-symbol-type="${type}">${label}</button>`).join("");
+        const marketHtml = marketRegions.map(region => `<button type="button" class="${region.key === activeMarket ? "active" : ""}" data-symbol-market="${region.key}"><span>${escapeHtml(region.icon)}</span>${escapeHtml(region.label)}</button>`).join("");
         const rows = matches.length
           ? matches.map(item => `<button type="button" class="symbol-row" data-symbol-value="${escapeHtml(item.symbol)}" data-symbol-display="${escapeHtml(item.display)}">
-              <span class="symbol-avatar">${escapeHtml(item.display.replace(/[^A-Z0-9]/gi, "").slice(0, 1) || "?")}</span>
+              <span class="symbol-avatar flag">${escapeHtml(item.icon || item.display.replace(/[^A-Z0-9]/gi, "").slice(0, 1) || "?")}</span>
               <span class="symbol-code">${escapeHtml(item.symbol)}</span>
               <span class="symbol-name">${escapeHtml(item.name)}</span>
               <span class="symbol-market">${escapeHtml(item.type)} · ${escapeHtml(item.venue)}</span>
             </button>`).join("")
-          : `<div class="symbol-empty">No match yet. You can still type any TradingView symbol manually.</div>`;
+          : `<div class="symbol-empty">No match in ${escapeHtml(selectedMarket.label)} yet. Type any TradingView symbol manually, like NSE:RELIANCE, LSE:HSBA, FX:EURUSD, or BINANCE:BTCUSDT.</div>`;
         menu.innerHTML = `
           <div class="symbol-picker-head">
-            <div class="symbol-picker-title">Symbol search</div>
+            <div class="symbol-picker-title">${escapeHtml(selectedMarket.icon)} Global symbol search</div>
             <button type="button" class="symbol-picker-close">Close</button>
+          </div>
+          <div class="symbol-market-filter">
+            <div class="symbol-market-label">Market <span>${escapeHtml(selectedMarket.label)}</span></div>
+            <div class="symbol-region-tabs">${marketHtml}</div>
           </div>
           <div class="symbol-tabs">${tabHtml}</div>
           <div class="symbol-result-list">${rows}</div>
+          <div class="symbol-picker-foot"><b>Worldwide:</b> choose a market above or type any exact TradingView symbol manually if it is not listed yet.</div>
         `;
       }
 
@@ -7329,7 +7470,13 @@ Save this agent to the database and run it against new journal/trade events auto
           event.stopPropagation();
           const tab = event.target.closest("[data-symbol-type]");
           if (tab) {
-            renderPicker(box, tab.dataset.symbolType);
+            renderPicker(box, tab.dataset.symbolType, box.dataset.activeMarket || "world");
+            box.classList.add("open");
+            return;
+          }
+          const marketButton = event.target.closest("[data-symbol-market]");
+          if (marketButton) {
+            renderPicker(box, box.dataset.activeType || "all", marketButton.dataset.symbolMarket);
             box.classList.add("open");
             return;
           }
