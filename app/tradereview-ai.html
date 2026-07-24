@@ -248,6 +248,80 @@
       color: #cbd8ef;
     }
 
+    .confirm-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 11000;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(2, 6, 18, .72);
+      backdrop-filter: blur(18px);
+    }
+
+    .confirm-modal[hidden],
+    .confirm-modal[aria-hidden="true"] {
+      display: none;
+    }
+
+    .confirm-card {
+      width: min(480px, 100%);
+      padding: 22px;
+      border: 1px solid rgba(255, 93, 128, .35);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(255, 93, 128, .20), transparent 15rem),
+        linear-gradient(145deg, rgba(13, 23, 48, .98), rgba(5, 11, 25, .98));
+      color: #eef7ff;
+      box-shadow: 0 35px 90px rgba(0, 0, 0, .58), inset 0 1px 0 rgba(255,255,255,.08);
+    }
+
+    .confirm-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      background: rgba(255, 93, 128, .13);
+      color: #ff8ca0;
+      font-weight: 950;
+    }
+
+    .confirm-eyebrow {
+      margin: 0 0 6px;
+      color: #ff9dad;
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .confirm-copy h2 {
+      margin: 0;
+      font-size: clamp(24px, 4vw, 34px);
+      line-height: .98;
+      color: #f6fbff;
+    }
+
+    .confirm-copy p:not(.confirm-eyebrow) {
+      margin: 12px 0 0;
+      color: #b7c7dd;
+      line-height: 1.55;
+    }
+
+    .confirm-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+
+    .confirm-actions button {
+      min-height: 42px;
+    }
+
     .free-note {
       margin: 18px 0 0;
       padding-top: 16px;
@@ -2959,6 +3033,28 @@
       transform: translateY(-2px);
     }
 
+    nav button.plan-locked {
+      position: relative;
+      opacity: .78;
+    }
+
+    nav button.plan-locked::after {
+      content: "LOCK";
+      margin-left: auto;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #86efac, #7fb0ff);
+      color: #061410;
+      font-size: 8px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      box-shadow: 0 8px 22px rgba(96, 165, 250, .18);
+    }
+
+    nav button.plan-locked:hover {
+      opacity: 1;
+    }
+
     .review-pulse {
       display: grid;
       grid-template-columns: auto minmax(0,1fr);
@@ -5151,6 +5247,21 @@
     <button class="app-toast-close" id="appToastClose" type="button" aria-label="Close message">×</button>
   </div>
 
+  <div class="confirm-modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMessage" aria-hidden="true" hidden>
+    <div class="confirm-card">
+      <div class="confirm-icon">!</div>
+      <div class="confirm-copy">
+        <p class="confirm-eyebrow">Please confirm</p>
+        <h2 id="confirmTitle">Are you sure?</h2>
+        <p id="confirmMessage">This action cannot be undone.</p>
+      </div>
+      <div class="confirm-actions">
+        <button type="button" id="confirmCancel">Cancel</button>
+        <button type="button" class="danger-button" id="confirmAccept">Yes, delete</button>
+      </div>
+    </div>
+  </div>
+
   <section class="help-panel" id="helpPanel" aria-label="TradeReview help assistant" aria-hidden="true">
     <div class="assistant-head">
       <div class="assistant-identity">
@@ -6229,6 +6340,29 @@
       return false;
     }
 
+    function updatePremiumNavLocks() {
+      document.querySelectorAll("nav [data-view]").forEach(button => {
+        const view = button.dataset.view;
+        const aiLocked = view === "aiCommand" && !hasPlan("starter");
+        const agentsLocked = view === "agents" && !hasPlan("pro");
+        const locked = aiLocked || agentsLocked;
+        button.classList.toggle("plan-locked", locked);
+        if (aiLocked) {
+          button.title = "Upgrade to Starter to use AI Coach";
+          button.setAttribute("aria-label", "AI Coach locked. Upgrade to Starter.");
+        } else if (agentsLocked) {
+          button.title = "Upgrade to Pro to use AI agents";
+          button.setAttribute("aria-label", "Agents locked. Upgrade to Pro.");
+        } else if (view === "aiCommand") {
+          button.title = "Learn and trade with AI";
+          button.setAttribute("aria-label", "AI Coach");
+        } else if (view === "agents") {
+          button.title = "AI agents";
+          button.setAttribute("aria-label", "Agents");
+        }
+      });
+    }
+
     let appToastTimer = null;
     function showAppToast(message, options = {}) {
       const toast = document.querySelector("#appToast");
@@ -6250,6 +6384,34 @@
         toast.classList.remove("show");
         toast.setAttribute("aria-hidden", "true");
       }, options.duration || 5200);
+    }
+
+    let confirmModalAction = null;
+    function showConfirmModal({ title = "Are you sure?", message = "This action cannot be undone.", acceptLabel = "Confirm", onConfirm } = {}) {
+      const modal = document.querySelector("#confirmModal");
+      const titleNode = document.querySelector("#confirmTitle");
+      const messageNode = document.querySelector("#confirmMessage");
+      const accept = document.querySelector("#confirmAccept");
+      const cancel = document.querySelector("#confirmCancel");
+      if (!modal || !titleNode || !messageNode || !accept) {
+        if (typeof onConfirm === "function") onConfirm();
+        return;
+      }
+      titleNode.textContent = title;
+      messageNode.textContent = message;
+      accept.textContent = acceptLabel;
+      confirmModalAction = typeof onConfirm === "function" ? onConfirm : null;
+      modal.hidden = false;
+      modal.setAttribute("aria-hidden", "false");
+      requestAnimationFrame(() => cancel?.focus());
+    }
+
+    function closeConfirmModal() {
+      const modal = document.querySelector("#confirmModal");
+      if (!modal) return;
+      modal.hidden = true;
+      modal.setAttribute("aria-hidden", "true");
+      confirmModalAction = null;
     }
 
     function chartTicker(trade) {
@@ -8353,6 +8515,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       updateMobileInstallState();
       loadSettingsForm();
       setManualDefaults();
+      updatePremiumNavLocks();
       initDashboardMotion();
     }
 
@@ -8370,6 +8533,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
         section.style.display = isActive ? (section.id === "import" ? "flex" : "block") : "none";
       });
       document.querySelectorAll("nav button").forEach(button => button.classList.toggle("active", button.dataset.view === targetView));
+      updatePremiumNavLocks();
       requestAnimationFrame(() => {
         forceAppShellLayout();
         resetAppScroll();
@@ -8609,6 +8773,20 @@ Save this agent to the database and run it against new journal/trade events auto
       clearTimeout(appToastTimer);
       toast?.classList.remove("show");
       toast?.setAttribute("aria-hidden", "true");
+    });
+    document.querySelector("#confirmCancel")?.addEventListener("click", closeConfirmModal);
+    document.querySelector("#confirmModal")?.addEventListener("click", event => {
+      if (event.target?.id === "confirmModal") closeConfirmModal();
+    });
+    document.querySelector("#confirmAccept")?.addEventListener("click", () => {
+      const action = confirmModalAction;
+      closeConfirmModal();
+      if (action) action();
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && document.querySelector("#confirmModal")?.getAttribute("aria-hidden") === "false") {
+        closeConfirmModal();
+      }
     });
     document.querySelectorAll("[data-performance-range]").forEach(button => {
       button.addEventListener("click", () => {
@@ -8902,14 +9080,21 @@ Save this agent to the database and run it against new journal/trade events auto
 
     document.querySelector("#deleteJournalDay")?.addEventListener("click", event => {
       if (!selectedDay) return;
+      event.stopImmediatePropagation();
       const day = selectedDay;
-      armDestructiveButton(event.currentTarget, "Click Delete Day again to remove this journal day and its trades.", () => {
-        state.trades = state.trades.filter(trade => trade.date !== day);
-        delete state.journals[day];
-        selectedDay = null;
-        saveState();
-        render();
-        showAppToast("Trading day deleted.", { title: "Deleted", type: "success", icon: "✓" });
+      const tradeCount = (groupedByDay()[day] || []).length;
+      showConfirmModal({
+        title: "Are you sure?",
+        message: `Delete ${day}? This will remove ${tradeCount} trade${tradeCount === 1 ? "" : "s"} and the journal note for that day. This cannot be undone.`,
+        acceptLabel: "Yes, delete day",
+        onConfirm: () => {
+          state.trades = state.trades.filter(trade => trade.date !== day);
+          delete state.journals[day];
+          selectedDay = null;
+          saveState();
+          render();
+          showAppToast("Trading day deleted.", { title: "Deleted", type: "success", icon: "✓" });
+        }
       });
     });
 
