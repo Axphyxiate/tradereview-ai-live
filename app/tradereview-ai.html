@@ -1448,6 +1448,14 @@
       line-height: 1.35;
     }
 
+    .field-help {
+      display: block;
+      margin-top: 7px;
+      color: #8fa2bd;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+
     .premium-lock-note {
       margin-top: 10px;
       padding: 10px 12px;
@@ -4222,6 +4230,24 @@
               <label class="timing-field">Exit time
                 <input id="manualExitTime" type="time">
               </label>
+              <label class="timing-field">Trade timezone
+                <input id="manualTimeZone" list="timeZoneOptions" placeholder="Example: America/New_York or Asia/Kathmandu">
+                <datalist id="timeZoneOptions">
+                  <option value="America/New_York">New York / Eastern Time</option>
+                  <option value="America/Chicago">Chicago / Central Time</option>
+                  <option value="America/Denver">Denver / Mountain Time</option>
+                  <option value="America/Los_Angeles">Los Angeles / Pacific Time</option>
+                  <option value="Europe/London">London</option>
+                  <option value="Europe/Berlin">Berlin / Frankfurt</option>
+                  <option value="Asia/Kolkata">India Standard Time</option>
+                  <option value="Asia/Kathmandu">Nepal Time</option>
+                  <option value="Asia/Tokyo">Tokyo</option>
+                  <option value="Asia/Hong_Kong">Hong Kong</option>
+                  <option value="Australia/Sydney">Sydney</option>
+                  <option value="UTC">UTC</option>
+                </datalist>
+                <span class="field-help">Use the timezone your broker/chart used for the trade time.</span>
+              </label>
               <label>Symbol / instrument
                 <div class="symbol-combobox" data-symbol-picker="manualSymbol">
                   <input id="manualSymbol" autocomplete="off" placeholder="Enter symbol, pair, contract, or ticker">
@@ -4235,6 +4261,7 @@
                   <button type="button" class="symbol-picker-trigger" aria-label="Open TradingView symbol search">⌕</button>
                   <div class="symbol-picker-menu" role="listbox" aria-label="TradingView symbol search"></div>
                 </div>
+                <span class="field-help">Must match the instrument above. Example: TSLA should use NASDAQ:TSLA, not NASDAQ:GOOGL.</span>
               </label>
               <label>Side
                 <select id="manualSide">
@@ -5237,7 +5264,8 @@
         billingCycle: "monthly",
         billingEmail: "",
         billingCompany: "",
-        billingTaxId: ""
+        billingTaxId: "",
+        tradingTimeZone: Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York"
       };
     }
 
@@ -5749,6 +5777,7 @@
         chartTicker: (row[idx.chartTicker] || "").trim().toUpperCase(),
         entryTime: normalizeTime(row[idx.entryTime]),
         exitTime: normalizeTime(row[idx.exitTime]),
+        timeZone: state.settings?.tradingTimeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York",
         side: (row[idx.side] || "").trim().toUpperCase(),
         qty: num(row[idx.qty]),
         price: num(row[idx.price]),
@@ -5763,7 +5792,7 @@
         mistake: (row[idx.mistake] || "").trim(),
         note: ""
       })).filter(trade => trade.symbol && trade.symbol !== "UNKNOWN" || trade.pnl !== 0);
-      const imported = drafted.filter(trade => !tradeTimingError(trade));
+      const imported = drafted.filter(trade => !tradeTimingError(trade) && !symbolTickerMismatch(trade));
       lastCsvRejectedCount = drafted.length - imported.length;
       state.trades.unshift(...imported);
       saveState();
@@ -5829,6 +5858,32 @@
       return "";
     }
 
+    function tradeTimeZone(trade = {}) {
+      return trade.timeZone || state.settings?.tradingTimeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
+    }
+
+    function instrumentCore(value) {
+      const raw = String(value || "")
+        .trim()
+        .toUpperCase()
+        .replace(/\s+/g, " ");
+      if (!raw) return "";
+      const withoutExchange = raw.includes(":") ? raw.split(":").pop() : raw;
+      const compact = withoutExchange.replace(/[^A-Z0-9.!]/g, " ");
+      const first = compact.split(/\s+/).filter(Boolean)[0] || "";
+      if (!first) return "";
+      const optionRoot = first.match(/^([A-Z]{1,6})(?:\d{4,8}[CP]\d+|\d{1,6}[CP]|[CP]\d+|\d{2,})$/);
+      return (optionRoot?.[1] || first).replace(/[!._-]+$/g, "");
+    }
+
+    function symbolTickerMismatch(trade) {
+      const symbolCore = instrumentCore(trade.symbol);
+      const tickerCore = instrumentCore(trade.chartTicker || chartTicker(trade));
+      if (!symbolCore || !tickerCore) return "";
+      if (symbolCore === tickerCore) return "";
+      return `Symbol and TradingView chart symbol do not match. "${trade.symbol}" looks like ${symbolCore}, but "${trade.chartTicker}" points to ${tickerCore}.`;
+    }
+
     function clearFieldErrors(root = document) {
       root.querySelectorAll("label.field-invalid").forEach(label => {
         label.classList.remove("field-invalid");
@@ -5852,6 +5907,15 @@
       if (!trade.symbol) {
         errors.push("Symbol is required.");
         setFieldError("manualSymbol", "Add a symbol or ticker.");
+      }
+      const mismatch = symbolTickerMismatch(trade);
+      if (mismatch) {
+        errors.push(mismatch);
+        setFieldError("manualChartTicker", "Chart symbol must match the instrument.");
+      }
+      if (!tradeTimeZone(trade)) {
+        errors.push("Trade timezone is required.");
+        setFieldError("manualTimeZone", "Add the chart/broker timezone.");
       }
       const timing = tradeTimingError(trade);
       if (timing) {
@@ -5945,7 +6009,13 @@
     function marketTimeLabel(trade, field) {
       const time = trade[field] || "time needed";
       const date = field === "exitTime" ? (trade.exitDate || trade.date || todayKey()) : (trade.date || todayKey());
-      return `${date} ${time}`;
+      return `${date} ${time} ${tradeTimeZone(trade)}`;
+    }
+
+    function tradeDateTimeLabel(trade, field) {
+      const date = field === "exitTime" ? (trade.exitDate || trade.date || todayKey()) : (trade.date || todayKey());
+      const time = trade[field] || "";
+      return time ? `${date}T${time}` : "";
     }
 
     function minutesFromTime(time) {
@@ -5971,17 +6041,26 @@
         source: "TradingView",
         status: "queued",
         ticker: chartTicker(trade),
+        instrumentSymbol: trade.symbol || "",
         interval: "1",
         date: trade.date || todayKey(),
         exitDate: trade.exitDate || trade.date || todayKey(),
         entryTime: trade.entryTime || "",
         exitTime: trade.exitTime || "",
+        timeZone: tradeTimeZone(trade),
+        entryDateTimeLocal: tradeDateTimeLabel(trade, "entryTime"),
+        exitDateTimeLocal: tradeDateTimeLabel(trade, "exitTime"),
+        symbolValidation: {
+          instrumentCore: instrumentCore(trade.symbol),
+          chartTickerCore: instrumentCore(chartTicker(trade)),
+          matched: !symbolTickerMismatch(trade)
+        },
         entryLabel: captureLabel(trade, "entryScreenshot"),
         exitLabel: captureLabel(trade, "exitScreenshot"),
         replayWindow: `${marketTimeLabel(trade, "entryTime")} → ${marketTimeLabel(trade, "exitTime")}`,
         requestedOutputs: ["entry_screenshot", "exit_screenshot", "trade_replay_video"],
         tradingViewUrl: tradingViewUrl(trade),
-        implementationNote: "Backend worker should open an authorized chart session or TradingView Advanced Charts instance, jump to the requested symbol/time range, capture entry/exit images, record the replay window, then save media URLs back to this trade."
+        implementationNote: "Backend worker must seek the chart to entryDateTimeLocal and exitDateTimeLocal in the supplied timeZone before saving media as official entry/exit screenshots. If exact historical seek is unavailable, return exactHistoricalCapture:false so the app does not attach preview media as official proof."
       };
     }
 
@@ -6018,6 +6097,11 @@
       if (!chartTicker(trade)) missing.push("ticker");
       if (!trade.entryTime) missing.push("entry time");
       if (!trade.exitTime) missing.push("exit time");
+      const mismatch = symbolTickerMismatch(trade);
+      if (mismatch) {
+        showAppToast(mismatch, { title: "Fix symbol mismatch", type: "error" });
+        return;
+      }
       if (missing.length) {
         showAppToast(`Add ${missing.join(", ")} first so TradeReview knows what to capture from TradingView.`, { title: "Capture needs more info", type: "warn" });
         return;
@@ -6072,8 +6156,9 @@
       }
 
       const media = data?.media || {};
-      if (media.entryScreenshotUrl) trade.entryScreenshot = media.entryScreenshotUrl;
-      if (media.exitScreenshotUrl) trade.exitScreenshot = media.exitScreenshotUrl;
+      const exactHistoricalCapture = data?.exactHistoricalCapture !== false;
+      if (exactHistoricalCapture && media.entryScreenshotUrl) trade.entryScreenshot = media.entryScreenshotUrl;
+      if (exactHistoricalCapture && media.exitScreenshotUrl) trade.exitScreenshot = media.exitScreenshotUrl;
 
       if (error || data?.error || !data?.jobId) {
         const workerError = error?.message || data?.error || data?.message || "TradingView capture worker is not connected yet.";
@@ -6096,6 +6181,7 @@
         backendReady: true,
         status: data.status || "queued",
         jobId: data.jobId,
+        exactHistoricalCapture,
         media,
         limitations: data.limitations || [],
         message: data.message || "Your chart media is being prepared. You can keep journaling while TradeReview works in the background."
@@ -6118,9 +6204,13 @@
 
     function tradingViewCaptureCardV2(trade, compact = false) {
       const request = trade.tradingViewCapture;
-      const hasCaptureMedia = !!(request?.media?.entryScreenshotUrl || request?.media?.exitScreenshotUrl || request?.media?.replayVideoUrl);
+      const exactCapture = request?.exactHistoricalCapture !== false;
+      const hasCaptureMedia = exactCapture && !!(request?.media?.entryScreenshotUrl || request?.media?.exitScreenshotUrl || request?.media?.replayVideoUrl);
+      const hasPreviewMedia = !exactCapture && !!(request?.media?.entryScreenshotUrl || request?.media?.exitScreenshotUrl || request?.media?.replayVideoUrl);
       const statusTitle = hasCaptureMedia
         ? "Chart media is ready"
+        : hasPreviewMedia
+          ? "Preview captured — exact seek needed"
         : request?.jobId
           ? "Capture request sent"
           : request?.status === "backend_not_ready"
@@ -6130,6 +6220,8 @@
               : "";
       const statusDetail = hasCaptureMedia
         ? "Entry, exit, and replay media are ready to review."
+        : hasPreviewMedia
+          ? "The worker generated preview media, but it did not confirm the requested entry/exit timestamps. It was not attached as official proof."
         : request?.status === "backend_not_ready"
           ? "The request was saved, but the automation worker needs to be connected before media can be generated."
           : request
@@ -6175,9 +6267,13 @@
     function tradingViewCaptureCardV2(trade, compact = false) {
       const request = trade.tradingViewCapture;
       const ticker = chartTicker(trade) || trade.symbol || "ticker";
-      const hasCaptureMedia = !!(request?.media?.entryScreenshotUrl || request?.media?.exitScreenshotUrl || request?.media?.replayVideoUrl);
+      const exactCapture = request?.exactHistoricalCapture !== false;
+      const hasCaptureMedia = exactCapture && !!(request?.media?.entryScreenshotUrl || request?.media?.exitScreenshotUrl || request?.media?.replayVideoUrl);
+      const hasPreviewMedia = !exactCapture && !!(request?.media?.entryScreenshotUrl || request?.media?.exitScreenshotUrl || request?.media?.replayVideoUrl);
       const statusTitle = hasCaptureMedia
         ? "Chart media is ready"
+        : hasPreviewMedia
+          ? "Preview captured — exact seek needed"
         : request?.jobId
           ? "Capture request sent"
           : request?.status === "backend_not_ready"
@@ -6187,6 +6283,8 @@
               : "";
       const statusDetail = hasCaptureMedia
         ? "Entry, exit, and replay media are ready to review."
+        : hasPreviewMedia
+          ? "The worker generated preview media, but it did not confirm the requested entry/exit timestamps. It was not attached as official proof."
         : request?.status === "backend_not_ready"
           ? "The request was saved, but the automation worker needs to be connected before media can be generated."
           : request
@@ -6204,7 +6302,7 @@
         media.exitScreenshotUrl ? `<a class="chart-link exit" href="${escapeHtml(media.exitScreenshotUrl)}" target="_blank" rel="noopener">Open exit image</a>` : "",
         media.replayVideoUrl ? `<a class="chart-link" href="${escapeHtml(media.replayVideoUrl)}" target="_blank" rel="noopener">Open replay video</a>` : ""
       ].filter(Boolean).join("");
-      const progressLabel = media.replayVideoUrl ? "Media ready" : request ? "Building media" : "Ready";
+      const progressLabel = hasCaptureMedia ? "Media ready" : hasPreviewMedia ? "Preview needs exact seek" : request ? "Building media" : "Ready";
       const actionLabel = request ? "Generate again" : "Generate entry, exit & replay";
       return `<div class="tv-capture-card ${compact ? "compact" : ""}">
         <div class="tv-capture-kicker">TradingView capture</div>
@@ -8170,9 +8268,11 @@ Save this agent to the database and run it against new journal/trade events auto
       const date = document.querySelector("#manualDate");
       const exitDate = document.querySelector("#manualExitDate");
       const planned = document.querySelector("#manualPlannedRisk");
+      const timeZone = document.querySelector("#manualTimeZone");
       if (date && !date.value) date.value = todayKey();
       if (exitDate && !exitDate.value) exitDate.value = date?.value || todayKey();
       if (planned && !planned.value) planned.placeholder = String(plannedRisk());
+      if (timeZone) timeZone.value = state.settings?.tradingTimeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
     }
 
     function clearManualForm() {
@@ -8183,11 +8283,13 @@ Save this agent to the database and run it against new journal/trade events auto
       document.querySelector("#manualPlannedRisk").value = "";
       document.querySelector("#manualDate").value = todayKey();
       document.querySelector("#manualExitDate").value = todayKey();
+      document.querySelector("#manualTimeZone").value = state.settings?.tradingTimeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
       clearFieldErrors(document.querySelector("#manualTradePanel") || document);
     }
 
     document.querySelector("#addManualTrade").addEventListener("click", () => {
       const symbol = document.querySelector("#manualSymbol").value.trim().toUpperCase();
+      const selectedTimeZone = document.querySelector("#manualTimeZone").value || state.settings?.tradingTimeZone || "America/New_York";
       const trade = {
         id: crypto.randomUUID(),
         date: normalizeDate(document.querySelector("#manualDate").value),
@@ -8196,6 +8298,7 @@ Save this agent to the database and run it against new journal/trade events auto
         chartTicker: document.querySelector("#manualChartTicker").value.trim().toUpperCase() || chartTicker({ symbol }),
         entryTime: normalizeTime(document.querySelector("#manualEntryTime").value),
         exitTime: normalizeTime(document.querySelector("#manualExitTime").value),
+        timeZone: selectedTimeZone,
         side: document.querySelector("#manualSide").value,
         qty: num(document.querySelector("#manualQty").value) || 1,
         price: num(document.querySelector("#manualPrice").value),
@@ -8216,6 +8319,7 @@ Save this agent to the database and run it against new journal/trade events auto
         return;
       }
       state.trades.unshift(trade);
+      state.settings.tradingTimeZone = selectedTimeZone;
       selectedDay = trade.date;
       saveState();
       clearManualForm();
@@ -8228,7 +8332,7 @@ Save this agent to the database and run it against new journal/trade events auto
       if (!file) return;
       file.text().then(text => {
         const count = importCsv(text);
-        showAppToast(`Imported ${count} trades.${lastCsvRejectedCount ? ` Skipped ${lastCsvRejectedCount} row(s) because entry/exit time was invalid or exit was not after entry.` : ""}`, { title: "CSV import complete", type: lastCsvRejectedCount ? "warn" : "success", icon: lastCsvRejectedCount ? "!" : "✓" });
+        showAppToast(`Imported ${count} trades.${lastCsvRejectedCount ? ` Skipped ${lastCsvRejectedCount} row(s) because timing was invalid or the instrument did not match the chart ticker.` : ""}`, { title: "CSV import complete", type: lastCsvRejectedCount ? "warn" : "success", icon: lastCsvRejectedCount ? "!" : "✓" });
         switchView("dashboard");
       });
     });
@@ -8248,7 +8352,7 @@ Save this agent to the database and run it against new journal/trade events auto
       if (!file) return;
       file.text().then(text => {
         const count = importCsv(text);
-        showAppToast(`Imported ${count} trades.${lastCsvRejectedCount ? ` Skipped ${lastCsvRejectedCount} row(s) because entry/exit time was invalid or exit was not after entry.` : ""}`, { title: "CSV import complete", type: lastCsvRejectedCount ? "warn" : "success", icon: lastCsvRejectedCount ? "!" : "✓" });
+        showAppToast(`Imported ${count} trades.${lastCsvRejectedCount ? ` Skipped ${lastCsvRejectedCount} row(s) because timing was invalid or the instrument did not match the chart ticker.` : ""}`, { title: "CSV import complete", type: lastCsvRejectedCount ? "warn" : "success", icon: lastCsvRejectedCount ? "!" : "✓" });
         switchView("dashboard");
       });
     });
