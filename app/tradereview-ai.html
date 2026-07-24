@@ -1758,16 +1758,22 @@
       position: absolute;
       z-index: 75;
       left: 0;
-      right: 0;
+      width: min(980px, calc(100vw - 42px));
       top: calc(100% + 10px);
       display: none;
-      max-height: 390px;
+      max-height: min(72vh, 670px);
       overflow: hidden;
       border: 1px solid rgba(127,176,255,.22);
-      border-radius: 18px;
-      background: linear-gradient(145deg, rgba(12, 24, 46, .98), rgba(6, 13, 28, .98)), #07101f;
-      box-shadow: 0 24px 80px rgba(0,0,0,.48), 0 0 0 1px rgba(255,255,255,.035) inset;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 15% 0%, rgba(95,134,255,.22), transparent 18rem),
+        radial-gradient(circle at 86% 18%, rgba(134,239,172,.11), transparent 18rem),
+        linear-gradient(145deg, rgba(10, 20, 40, .985), rgba(5, 11, 25, .985)), #07101f;
+      box-shadow: 0 30px 96px rgba(0,0,0,.58), 0 0 0 1px rgba(255,255,255,.045) inset;
+      font-weight: 650;
+      letter-spacing: 0;
     }
+    .symbol-picker-menu button { font-weight: 720; letter-spacing: 0; }
     .symbol-combobox.open .symbol-picker-menu { display: block; }
     .symbol-picker-head {
       display: flex;
@@ -1779,10 +1785,10 @@
     }
     .symbol-picker-title {
       color: #f5fbff;
-      font-size: 12px;
-      font-weight: 950;
-      letter-spacing: .08em;
-      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: 820;
+      letter-spacing: -.01em;
+      text-transform: none;
     }
     .symbol-picker-close {
       min-height: 28px;
@@ -1795,7 +1801,7 @@
     .symbol-tabs {
       display: flex;
       gap: 6px;
-      padding: 10px 12px;
+      padding: 11px 14px;
       overflow-x: auto;
       border-bottom: 1px solid rgba(127,176,255,.10);
     }
@@ -1807,8 +1813,8 @@
       border: 1px solid rgba(127,176,255,.13);
       background: rgba(255,255,255,.045);
       color: #aebed8;
-      font-size: 11px;
-      font-weight: 850;
+      font-size: 12px;
+      font-weight: 740;
     }
     .symbol-tabs button.active {
       background: #f6f7fb;
@@ -1818,7 +1824,7 @@
     .symbol-market-filter {
       display: grid;
       gap: 8px;
-      padding: 10px 12px;
+      padding: 12px 14px;
       border-bottom: 1px solid rgba(127,176,255,.10);
       background: linear-gradient(90deg, rgba(134,239,172,.045), rgba(127,176,255,.035), transparent);
     }
@@ -1828,10 +1834,10 @@
       align-items: center;
       gap: 10px;
       color: #f5fbff;
-      font-size: 11px;
-      font-weight: 950;
-      letter-spacing: .08em;
-      text-transform: uppercase;
+      font-size: 12px;
+      font-weight: 780;
+      letter-spacing: 0;
+      text-transform: none;
     }
     .symbol-market-label span {
       color: #92a6c8;
@@ -1858,10 +1864,14 @@
       border: 1px solid rgba(127,176,255,.13);
       background: rgba(255,255,255,.045);
       color: #b7c6df;
-      font-size: 11px;
-      font-weight: 850;
+      font-size: 12px;
+      font-weight: 740;
       white-space: nowrap;
     }
+    .symbol-region-tabs::-webkit-scrollbar,
+    .symbol-tabs::-webkit-scrollbar { height: 6px; }
+    .symbol-region-tabs::-webkit-scrollbar-thumb,
+    .symbol-tabs::-webkit-scrollbar-thumb { background: rgba(127,176,255,.28); border-radius: 999px; }
     .symbol-region-tabs button.active {
       background: linear-gradient(135deg, #f8fbff, #dfe8ff);
       border-color: #f8fbff;
@@ -1869,19 +1879,21 @@
       box-shadow: 0 10px 24px rgba(127,176,255,.16);
     }
     .symbol-result-list {
-      max-height: 246px;
+      max-height: min(46vh, 430px);
       overflow-y: auto;
-      padding: 6px;
+      padding: 8px;
     }
+    .symbol-result-list::-webkit-scrollbar { width: 8px; }
+    .symbol-result-list::-webkit-scrollbar-thumb { background: rgba(127,176,255,.28); border-radius: 999px; }
     .symbol-row {
       width: 100%;
       display: grid;
-      grid-template-columns: 44px minmax(94px, .6fr) 1fr auto;
+      grid-template-columns: 46px minmax(150px, .65fr) minmax(220px, 1fr) auto;
       align-items: center;
-      gap: 10px;
-      min-height: 56px;
-      padding: 8px 10px;
-      border-radius: 12px;
+      gap: 12px;
+      min-height: 58px;
+      padding: 9px 12px;
+      border-radius: 15px;
       border: 1px solid transparent;
       background: transparent;
       color: #e9f2ff;
@@ -1889,33 +1901,40 @@
     }
     .symbol-row:hover,
     .symbol-row.active {
-      background: rgba(127,176,255,.12);
-      border-color: rgba(127,176,255,.24);
-      transform: none;
+      background: linear-gradient(90deg, rgba(127,176,255,.16), rgba(134,239,172,.06));
+      border-color: rgba(127,176,255,.28);
+      box-shadow: 0 12px 28px rgba(0,0,0,.18), inset 0 0 0 1px rgba(255,255,255,.025);
+      transform: translateX(2px);
     }
     .symbol-avatar {
       display: grid;
       place-items: center;
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
-      background: rgba(134,239,172,.12);
+      background: linear-gradient(135deg, rgba(127,176,255,.22), rgba(134,239,172,.14));
       color: #bff7d6;
-      font-weight: 950;
-      font-size: 13px;
+      font-weight: 850;
+      font-size: 12px;
+      letter-spacing: .02em;
     }
     .symbol-avatar.flag {
-      background: rgba(255,255,255,.08);
-      font-size: 18px;
+      background: rgba(255,255,255,.075);
+      font-size: 12px;
     }
-    .symbol-code { color: #ffffff; font-weight: 950; letter-spacing: -.01em; }
-    .symbol-name { color: #b4c0d8; font-size: 13px; }
-    .symbol-market { color: #7f8da7; font-size: 11px; font-weight: 850; text-transform: uppercase; white-space: nowrap; }
+    .symbol-code { color: #ffffff; font-size: 14px; font-weight: 820; letter-spacing: -.01em; }
+    .symbol-name { color: #b4c0d8; font-size: 13px; font-weight: 600; }
+    .symbol-market { color: #8797b5; font-size: 11px; font-weight: 720; text-transform: uppercase; white-space: nowrap; }
+    .symbol-row.manual-symbol {
+      border-color: rgba(134,239,172,.24);
+      background: linear-gradient(90deg, rgba(134,239,172,.12), rgba(127,176,255,.07));
+    }
+    .symbol-row.manual-symbol .symbol-avatar { color: #07101f; background: linear-gradient(135deg, #86efac, #7fb0ff); }
     .symbol-picker-foot {
-      padding: 9px 12px 11px;
+      padding: 10px 14px 12px;
       border-top: 1px solid rgba(127,176,255,.10);
-      color: #8294b2;
-      font-size: 11px;
+      color: #8da0be;
+      font-size: 12px;
       line-height: 1.45;
     }
     .symbol-picker-foot b { color: #bff7d6; }
@@ -4669,19 +4688,19 @@
     };
 
     const marketRegions = [
-      { key: "world", label: "Entire world", icon: "🌐" },
-      { key: "us", label: "USA", icon: "🇺🇸" },
-      { key: "india", label: "India", icon: "🇮🇳" },
-      { key: "germany", label: "Germany", icon: "🇩🇪" },
-      { key: "japan", label: "Japan", icon: "🇯🇵" },
-      { key: "canada", label: "Canada", icon: "🇨🇦" },
-      { key: "hk", label: "Hong Kong", icon: "🇭🇰" },
-      { key: "uk", label: "United Kingdom", icon: "🇬🇧" },
-      { key: "australia", label: "Australia", icon: "🇦🇺" },
-      { key: "brazil", label: "Brazil", icon: "🇧🇷" },
-      { key: "france", label: "France", icon: "🇫🇷" },
-      { key: "singapore", label: "Singapore", icon: "🇸🇬" },
-      { key: "global", label: "FX / Crypto / Futures", icon: "⚡" }
+      { key: "world", label: "Entire world", icon: "GL" },
+      { key: "us", label: "USA", icon: "US" },
+      { key: "india", label: "India", icon: "IN" },
+      { key: "germany", label: "Germany", icon: "DE" },
+      { key: "japan", label: "Japan", icon: "JP" },
+      { key: "canada", label: "Canada", icon: "CA" },
+      { key: "hk", label: "Hong Kong", icon: "HK" },
+      { key: "uk", label: "United Kingdom", icon: "GB" },
+      { key: "australia", label: "Australia", icon: "AU" },
+      { key: "brazil", label: "Brazil", icon: "BR" },
+      { key: "france", label: "France", icon: "FR" },
+      { key: "singapore", label: "Singapore", icon: "SG" },
+      { key: "global", label: "FX / Crypto / Futures", icon: "FX" }
     ];
 
     const tickerUniverse = [
@@ -4768,6 +4787,103 @@
       { symbol: "FX:USDINR", display: "USD/INR", name: "U.S. Dollar / Indian Rupee", type: "forex", venue: "FX", market: "global", icon: "🌐" },
       { symbol: "CBOT_MINI:YM1!", display: "YM1!", name: "E-mini Dow futures", type: "futures", venue: "CBOT", market: "global", icon: "⚡" }
     );
+
+    const expandedTickerUniverse = [
+      { symbol: "NYSE:JPM", display: "JPM", name: "JPMorgan Chase", type: "stocks", venue: "NYSE", market: "us" },
+      { symbol: "NYSE:BRK.B", display: "BRK.B", name: "Berkshire Hathaway Class B", type: "stocks", venue: "NYSE", market: "us" },
+      { symbol: "NYSE:UNH", display: "UNH", name: "UnitedHealth Group", type: "stocks", venue: "NYSE", market: "us" },
+      { symbol: "NYSE:V", display: "V", name: "Visa", type: "stocks", venue: "NYSE", market: "us" },
+      { symbol: "NYSE:MA", display: "MA", name: "Mastercard", type: "stocks", venue: "NYSE", market: "us" },
+      { symbol: "NASDAQ:AMZN", display: "AMZN", name: "Amazon", type: "stocks", venue: "NASDAQ", market: "us" },
+      { symbol: "NASDAQ:AVGO", display: "AVGO", name: "Broadcom", type: "stocks", venue: "NASDAQ", market: "us" },
+      { symbol: "NASDAQ:NFLX", display: "NFLX", name: "Netflix", type: "stocks", venue: "NASDAQ", market: "us" },
+      { symbol: "NASDAQ:COIN", display: "COIN", name: "Coinbase Global", type: "stocks", venue: "NASDAQ", market: "us" },
+      { symbol: "AMEX:TLT", display: "TLT", name: "20+ Year Treasury Bond ETF", type: "funds", venue: "NYSE Arca", market: "us" },
+      { symbol: "AMEX:GLD", display: "GLD", name: "SPDR Gold Shares", type: "funds", venue: "NYSE Arca", market: "us" },
+      { symbol: "AMEX:SLV", display: "SLV", name: "iShares Silver Trust", type: "funds", venue: "NYSE Arca", market: "us" },
+      { symbol: "AMEX:VTI", display: "VTI", name: "Vanguard Total Stock Market ETF", type: "funds", venue: "NYSE Arca", market: "us" },
+      { symbol: "AMEX:VOO", display: "VOO", name: "Vanguard S&P 500 ETF", type: "funds", venue: "NYSE Arca", market: "us" },
+      { symbol: "AMEX:ARKK", display: "ARKK", name: "ARK Innovation ETF", type: "funds", venue: "NYSE Arca", market: "us" },
+      { symbol: "NSE:SBIN", display: "SBIN", name: "State Bank of India", type: "stocks", venue: "NSE", market: "india" },
+      { symbol: "NSE:ICICIBANK", display: "ICICIBANK", name: "ICICI Bank", type: "stocks", venue: "NSE", market: "india" },
+      { symbol: "NSE:AXISBANK", display: "AXISBANK", name: "Axis Bank", type: "stocks", venue: "NSE", market: "india" },
+      { symbol: "NSE:ITC", display: "ITC", name: "ITC", type: "stocks", venue: "NSE", market: "india" },
+      { symbol: "NSE:LT", display: "LT", name: "Larsen & Toubro", type: "stocks", venue: "NSE", market: "india" },
+      { symbol: "NSE:BHARTIARTL", display: "BHARTIARTL", name: "Bharti Airtel", type: "stocks", venue: "NSE", market: "india" },
+      { symbol: "NSE:TATAMOTORS", display: "TATAMOTORS", name: "Tata Motors", type: "stocks", venue: "NSE", market: "india" },
+      { symbol: "NSE:ADANIENT", display: "ADANIENT", name: "Adani Enterprises", type: "stocks", venue: "NSE", market: "india" },
+      { symbol: "NSE:BANKNIFTY", display: "BANKNIFTY", name: "Nifty Bank Index", type: "indices", venue: "NSE", market: "india" },
+      { symbol: "XETR:DTE", display: "DTE", name: "Deutsche Telekom", type: "stocks", venue: "Xetra", market: "germany" },
+      { symbol: "XETR:BMW", display: "BMW", name: "BMW", type: "stocks", venue: "Xetra", market: "germany" },
+      { symbol: "XETR:MBG", display: "MBG", name: "Mercedes-Benz Group", type: "stocks", venue: "Xetra", market: "germany" },
+      { symbol: "XETR:BAS", display: "BAS", name: "BASF", type: "stocks", venue: "Xetra", market: "germany" },
+      { symbol: "XETR:VOW3", display: "VOW3", name: "Volkswagen Pref", type: "stocks", venue: "Xetra", market: "germany" },
+      { symbol: "XETR:IFX", display: "IFX", name: "Infineon Technologies", type: "stocks", venue: "Xetra", market: "germany" },
+      { symbol: "XETR:ADS", display: "ADS", name: "Adidas", type: "stocks", venue: "Xetra", market: "germany" },
+      { symbol: "TSE:8306", display: "8306", name: "Mitsubishi UFJ Financial", type: "stocks", venue: "Tokyo", market: "japan" },
+      { symbol: "TSE:6861", display: "6861", name: "Keyence", type: "stocks", venue: "Tokyo", market: "japan" },
+      { symbol: "TSE:8035", display: "8035", name: "Tokyo Electron", type: "stocks", venue: "Tokyo", market: "japan" },
+      { symbol: "TSE:6098", display: "6098", name: "Recruit Holdings", type: "stocks", venue: "Tokyo", market: "japan" },
+      { symbol: "TSE:9432", display: "9432", name: "Nippon Telegraph & Telephone", type: "stocks", venue: "Tokyo", market: "japan" },
+      { symbol: "TSE:9983", display: "9983", name: "Fast Retailing", type: "stocks", venue: "Tokyo", market: "japan" },
+      { symbol: "TSX:ENB", display: "ENB", name: "Enbridge", type: "stocks", venue: "TSX", market: "canada" },
+      { symbol: "TSX:CNQ", display: "CNQ", name: "Canadian Natural Resources", type: "stocks", venue: "TSX", market: "canada" },
+      { symbol: "TSX:BNS", display: "BNS", name: "Bank of Nova Scotia", type: "stocks", venue: "TSX", market: "canada" },
+      { symbol: "TSX:BMO", display: "BMO", name: "Bank of Montreal", type: "stocks", venue: "TSX", market: "canada" },
+      { symbol: "TSX:SU", display: "SU", name: "Suncor Energy", type: "stocks", venue: "TSX", market: "canada" },
+      { symbol: "TSX:CP", display: "CP", name: "Canadian Pacific Kansas City", type: "stocks", venue: "TSX", market: "canada" },
+      { symbol: "HKEX:5", display: "5", name: "HSBC Holdings", type: "stocks", venue: "HKEX", market: "hk" },
+      { symbol: "HKEX:1299", display: "1299", name: "AIA Group", type: "stocks", venue: "HKEX", market: "hk" },
+      { symbol: "HKEX:1810", display: "1810", name: "Xiaomi", type: "stocks", venue: "HKEX", market: "hk" },
+      { symbol: "HKEX:9618", display: "9618", name: "JD.com", type: "stocks", venue: "HKEX", market: "hk" },
+      { symbol: "HKEX:939", display: "939", name: "China Construction Bank", type: "stocks", venue: "HKEX", market: "hk" },
+      { symbol: "HKEX:2318", display: "2318", name: "Ping An Insurance", type: "stocks", venue: "HKEX", market: "hk" },
+      { symbol: "LSE:SHEL", display: "SHEL", name: "Shell", type: "stocks", venue: "LSE", market: "uk" },
+      { symbol: "LSE:ULVR", display: "ULVR", name: "Unilever", type: "stocks", venue: "LSE", market: "uk" },
+      { symbol: "LSE:GSK", display: "GSK", name: "GSK", type: "stocks", venue: "LSE", market: "uk" },
+      { symbol: "LSE:VOD", display: "VOD", name: "Vodafone Group", type: "stocks", venue: "LSE", market: "uk" },
+      { symbol: "LSE:BARC", display: "BARC", name: "Barclays", type: "stocks", venue: "LSE", market: "uk" },
+      { symbol: "LSE:LLOY", display: "LLOY", name: "Lloyds Banking Group", type: "stocks", venue: "LSE", market: "uk" },
+      { symbol: "ASX:CSL", display: "CSL", name: "CSL", type: "stocks", venue: "ASX", market: "australia" },
+      { symbol: "ASX:NAB", display: "NAB", name: "National Australia Bank", type: "stocks", venue: "ASX", market: "australia" },
+      { symbol: "ASX:WBC", display: "WBC", name: "Westpac Banking", type: "stocks", venue: "ASX", market: "australia" },
+      { symbol: "ASX:ANZ", display: "ANZ", name: "ANZ Group", type: "stocks", venue: "ASX", market: "australia" },
+      { symbol: "ASX:WOW", display: "WOW", name: "Woolworths Group", type: "stocks", venue: "ASX", market: "australia" },
+      { symbol: "ASX:RIO", display: "RIO", name: "Rio Tinto", type: "stocks", venue: "ASX", market: "australia" },
+      { symbol: "BMFBOVESPA:ITUB4", display: "ITUB4", name: "Itau Unibanco PN", type: "stocks", venue: "B3", market: "brazil" },
+      { symbol: "BMFBOVESPA:BBDC4", display: "BBDC4", name: "Banco Bradesco PN", type: "stocks", venue: "B3", market: "brazil" },
+      { symbol: "BMFBOVESPA:ABEV3", display: "ABEV3", name: "Ambev", type: "stocks", venue: "B3", market: "brazil" },
+      { symbol: "BMFBOVESPA:B3SA3", display: "B3SA3", name: "B3", type: "stocks", venue: "B3", market: "brazil" },
+      { symbol: "BMFBOVESPA:WEGE3", display: "WEGE3", name: "WEG", type: "stocks", venue: "B3", market: "brazil" },
+      { symbol: "EURONEXT:AI", display: "AI", name: "Air Liquide", type: "stocks", venue: "Euronext Paris", market: "france" },
+      { symbol: "EURONEXT:BNP", display: "BNP", name: "BNP Paribas", type: "stocks", venue: "Euronext Paris", market: "france" },
+      { symbol: "EURONEXT:TTE", display: "TTE", name: "TotalEnergies", type: "stocks", venue: "Euronext Paris", market: "france" },
+      { symbol: "EURONEXT:SAN", display: "SAN", name: "Sanofi", type: "stocks", venue: "Euronext Paris", market: "france" },
+      { symbol: "EURONEXT:AIR", display: "AIR", name: "Airbus", type: "stocks", venue: "Euronext Paris", market: "france" },
+      { symbol: "SGX:U11", display: "U11", name: "UOB", type: "stocks", venue: "SGX", market: "singapore" },
+      { symbol: "SGX:Z74", display: "Z74", name: "Singapore Telecommunications", type: "stocks", venue: "SGX", market: "singapore" },
+      { symbol: "SGX:F34", display: "F34", name: "Wilmar International", type: "stocks", venue: "SGX", market: "singapore" },
+      { symbol: "SGX:C6L", display: "C6L", name: "Singapore Airlines", type: "stocks", venue: "SGX", market: "singapore" },
+      { symbol: "SGX:BN4", display: "BN4", name: "Keppel", type: "stocks", venue: "SGX", market: "singapore" },
+      { symbol: "FX:EURJPY", display: "EUR/JPY", name: "Euro / Japanese Yen", type: "forex", venue: "FX", market: "global" },
+      { symbol: "FX:GBPJPY", display: "GBP/JPY", name: "British Pound / Japanese Yen", type: "forex", venue: "FX", market: "global" },
+      { symbol: "FX:NZDUSD", display: "NZD/USD", name: "New Zealand Dollar / U.S. Dollar", type: "forex", venue: "FX", market: "global" },
+      { symbol: "FX:USDCHF", display: "USD/CHF", name: "U.S. Dollar / Swiss Franc", type: "forex", venue: "FX", market: "global" },
+      { symbol: "ICEUS:DX1!", display: "DX1!", name: "U.S. Dollar Index futures", type: "futures", venue: "ICE", market: "global" },
+      { symbol: "CME:6E1!", display: "6E1!", name: "Euro FX futures", type: "futures", venue: "CME", market: "global" },
+      { symbol: "CME:6J1!", display: "6J1!", name: "Japanese Yen futures", type: "futures", venue: "CME", market: "global" },
+      { symbol: "CME:BTC1!", display: "BTC1!", name: "Bitcoin futures", type: "futures", venue: "CME", market: "global" },
+      { symbol: "BINANCE:SOLUSDT", display: "SOL/USDT", name: "Solana / Tether", type: "crypto", venue: "Binance", market: "global" },
+      { symbol: "BINANCE:XRPUSDT", display: "XRP/USDT", name: "XRP / Tether", type: "crypto", venue: "Binance", market: "global" }
+    ];
+
+    expandedTickerUniverse.forEach(item => {
+      if (!tickerUniverse.some(existing => existing.symbol === item.symbol)) tickerUniverse.push(item);
+    });
+    const marketIconByKey = { world: "GL", us: "US", india: "IN", germany: "DE", japan: "JP", canada: "CA", hk: "HK", uk: "GB", australia: "AU", brazil: "BR", france: "FR", singapore: "SG", global: "FX" };
+    tickerUniverse.forEach(item => {
+      item.icon = marketIconByKey[item.market] || item.icon || "TR";
+    });
 
     function defaultSettings() {
       return {
@@ -7404,29 +7520,41 @@ Save this agent to the database and run it against new journal/trade events auto
             const haystack = `${item.symbol} ${item.display} ${item.name} ${item.venue} ${item.type} ${marketLabel}`.toLowerCase();
             return !query || haystack.includes(query);
           })
-          .slice(0, 42);
+          .slice(0, 90);
+        const typedSymbol = (input.value || "").trim().toUpperCase();
+        const canUseTypedSymbol = typedSymbol.length >= 2 && /^[A-Z0-9_:.!/\-\s]+$/.test(typedSymbol);
+        const typedDisplay = typedSymbol.includes(":") ? typedSymbol.split(":").pop() : typedSymbol;
+        const typedRow = canUseTypedSymbol && !matches.some(item => item.symbol.toUpperCase() === typedSymbol || item.display.toUpperCase() === typedSymbol)
+          ? `<button type="button" class="symbol-row manual-symbol" data-symbol-value="${escapeHtml(typedSymbol)}" data-symbol-display="${escapeHtml(typedDisplay)}">
+              <span class="symbol-avatar">TV</span>
+              <span class="symbol-code">${escapeHtml(typedSymbol)}</span>
+              <span class="symbol-name">Use typed TradingView symbol</span>
+              <span class="symbol-market">Any market</span>
+            </button>`
+          : "";
         const tabHtml = tabs.map(([type, label]) => `<button type="button" class="${type === activeType ? "active" : ""}" data-symbol-type="${type}">${label}</button>`).join("");
         const marketHtml = marketRegions.map(region => `<button type="button" class="${region.key === activeMarket ? "active" : ""}" data-symbol-market="${region.key}"><span>${escapeHtml(region.icon)}</span>${escapeHtml(region.label)}</button>`).join("");
-        const rows = matches.length
-          ? matches.map(item => `<button type="button" class="symbol-row" data-symbol-value="${escapeHtml(item.symbol)}" data-symbol-display="${escapeHtml(item.display)}">
+        const matchRows = matches.map(item => `<button type="button" class="symbol-row" data-symbol-value="${escapeHtml(item.symbol)}" data-symbol-display="${escapeHtml(item.display)}">
               <span class="symbol-avatar flag">${escapeHtml(item.icon || item.display.replace(/[^A-Z0-9]/gi, "").slice(0, 1) || "?")}</span>
               <span class="symbol-code">${escapeHtml(item.symbol)}</span>
               <span class="symbol-name">${escapeHtml(item.name)}</span>
               <span class="symbol-market">${escapeHtml(item.type)} · ${escapeHtml(item.venue)}</span>
-            </button>`).join("")
-          : `<div class="symbol-empty">No match in ${escapeHtml(selectedMarket.label)} yet. Type any TradingView symbol manually, like NSE:RELIANCE, LSE:HSBA, FX:EURUSD, or BINANCE:BTCUSDT.</div>`;
+            </button>`).join("");
+        const rows = typedRow || matchRows
+          ? `${typedRow}${matchRows}`
+          : `<div class="symbol-empty">No match in ${escapeHtml(selectedMarket.label)} yet. Type any exact TradingView symbol, like NSE:RELIANCE, LSE:HSBA, FX:EURUSD, or BINANCE:BTCUSDT.</div>`;
         menu.innerHTML = `
           <div class="symbol-picker-head">
-            <div class="symbol-picker-title">${escapeHtml(selectedMarket.icon)} Global symbol search</div>
+            <div class="symbol-picker-title">${escapeHtml(selectedMarket.icon)} Global Market Finder</div>
             <button type="button" class="symbol-picker-close">Close</button>
           </div>
           <div class="symbol-market-filter">
-            <div class="symbol-market-label">Market <span>${escapeHtml(selectedMarket.label)}</span></div>
+            <div class="symbol-market-label">Market coverage <span>${escapeHtml(selectedMarket.label)} · ${matches.length}${matches.length === 90 ? "+" : ""} shown</span></div>
             <div class="symbol-region-tabs">${marketHtml}</div>
           </div>
           <div class="symbol-tabs">${tabHtml}</div>
           <div class="symbol-result-list">${rows}</div>
-          <div class="symbol-picker-foot"><b>Worldwide:</b> choose a market above or type any exact TradingView symbol manually if it is not listed yet.</div>
+          <div class="symbol-picker-foot"><b>Worldwide:</b> pick from the popular list or type the exact TradingView symbol. Obscure tickers still work when entered as EXCHANGE:SYMBOL.</div>
         `;
       }
 
