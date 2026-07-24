@@ -542,6 +542,162 @@
       max-width: 100%;
     }
 
+    .import-card {
+      position: relative;
+      overflow: hidden;
+      border-color: rgba(127,176,255,.18);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(24,217,149,.10), transparent 25rem),
+        radial-gradient(circle at 92% 15%, rgba(127,176,255,.10), transparent 22rem),
+        rgba(10, 22, 42, .78);
+    }
+
+    .import-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(127,176,255,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(127,176,255,.05) 1px, transparent 1px);
+      background-size: 34px 34px;
+      opacity: .35;
+      pointer-events: none;
+      mask-image: linear-gradient(90deg, #000, transparent 72%);
+    }
+
+    .import-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .premium-drop {
+      min-height: 188px;
+      border: 1px solid rgba(127,176,255,.20);
+      border-radius: 22px;
+      padding: clamp(22px, 3vw, 34px);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.055), rgba(255,255,255,.018)),
+        rgba(6, 16, 34, .7);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 18px 50px rgba(0,0,0,.22);
+      display: grid;
+      gap: 18px;
+      text-align: left;
+    }
+
+    .premium-drop:hover {
+      border-color: rgba(24,217,149,.48);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.11), 0 22px 70px rgba(24,217,149,.08);
+    }
+
+    .import-drop-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .import-orb {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      color: #061018;
+      font-weight: 1000;
+      background: linear-gradient(135deg, #18d995, #7fb0ff);
+      box-shadow: 0 16px 42px rgba(24,217,149,.22);
+    }
+
+    .import-drop-title {
+      display: block;
+      color: #f4fbff;
+      font-size: clamp(20px, 2vw, 28px);
+      letter-spacing: -.03em;
+      line-height: 1.05;
+    }
+
+    .import-drop-copy {
+      display: block;
+      margin-top: 5px;
+      color: #9eb1c9;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .csv-file-control {
+      display: grid;
+      gap: 8px;
+    }
+
+    .csv-file-control input[type="file"] {
+      width: 100%;
+      color: #9eb1c9;
+      border: 1px solid rgba(127,176,255,.18);
+      border-radius: 16px;
+      padding: 10px;
+      background: rgba(4, 12, 28, .72);
+    }
+
+    .csv-file-control input[type="file"]::file-selector-button {
+      margin-right: 14px;
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      color: #061018;
+      font-weight: 900;
+      cursor: pointer;
+      background: linear-gradient(135deg, #18d995, #7fb0ff);
+    }
+
+    .import-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .import-chip-row span {
+      border: 1px solid rgba(127,176,255,.16);
+      border-radius: 999px;
+      padding: 7px 10px;
+      color: #b7c6df;
+      font-size: 11px;
+      font-weight: 850;
+      letter-spacing: .02em;
+      background: rgba(255,255,255,.045);
+    }
+
+    .csv-schema-card {
+      border-color: rgba(127,176,255,.18);
+      background: linear-gradient(180deg, rgba(12, 25, 48, .9), rgba(7, 17, 35, .88));
+    }
+
+    .schema-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .schema-badges span {
+      border: 1px solid rgba(127,176,255,.16);
+      border-radius: 999px;
+      padding: 6px 9px;
+      color: #9db7ff;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      background: rgba(127,176,255,.065);
+    }
+
+    .universal-sample {
+      border: 1px solid rgba(127,176,255,.12);
+      border-radius: 16px;
+      padding: 14px;
+      background: #060d18;
+      color: #dce8ff;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
     .sample {
       width: 100%;
       overflow: auto;
@@ -4001,30 +4157,50 @@
         <div class="topbar">
           <div>
             <h1>Add a trade</h1>
-            <p class="subtitle">Choose the trading day, entry time, and exit time below. You can also import a CSV from thinkorswim, Schwab, or a spreadsheet.</p>
+            <p class="subtitle">Choose the trading day, entry time, and exit time below. You can also import a CSV from any broker, prop firm, exchange export, or spreadsheet.</p>
           </div>
         </div>
 
         <div class="grid">
-          <div class="panel">
-            <div class="panel-header"><h2>CSV Upload</h2></div>
+          <div class="panel import-card">
+            <div class="panel-header"><h2>Universal CSV Import</h2></div>
             <div class="panel-body">
-              <div class="drop" id="dropZone">
-                <strong>Drop your CSV here</strong>
-                <span class="subtitle">or choose a file from your computer</span>
-                <input id="csvFile" type="file" accept=".csv,text/csv">
+              <div class="drop premium-drop" id="dropZone">
+                <div class="import-drop-head">
+                  <div class="import-orb" aria-hidden="true">CSV</div>
+                  <div>
+                    <strong class="import-drop-title">Drop any broker export here</strong>
+                    <span class="import-drop-copy">Stocks, options, forex, futures, crypto, prop firms, and custom spreadsheets are welcome. TradeReview maps the columns, then lets you clean up anything after import.</span>
+                  </div>
+                </div>
+                <label class="csv-file-control">
+                  <span>Choose CSV file</span>
+                  <input id="csvFile" type="file" accept=".csv,text/csv">
+                </label>
+                <div class="import-chip-row" aria-label="Supported import sources">
+                  <span>Broker exports</span>
+                  <span>Prop firm reports</span>
+                  <span>Trading spreadsheets</span>
+                  <span>Global markets</span>
+                </div>
               </div>
-              <p class="footer-note">Your imported trades are saved privately to your account and protected by Supabase row-level security.</p>
+              <p class="footer-note">Your imported trades are saved privately to your account. The importer is broker-agnostic: it looks for dates, symbols, side, quantity, prices/costs, fees, P/L, risk, setup, and notes.</p>
             </div>
           </div>
 
-          <div class="panel">
-            <div class="panel-header"><h2>Supported CSV Shape</h2></div>
+          <div class="panel csv-schema-card">
+            <div class="panel-header"><h2>Flexible CSV Template</h2></div>
             <div class="panel-body">
-              <pre class="sample">Date,Entry Time,Exit Time,Symbol,Chart Ticker,Side,Qty,Entry/Cost,Fees,P/L,Planned Risk,Risk Used,Trade Cost,Strategy/Setup,Mistake
-2026-06-29,09:36,09:42,SPY 612C,SPY,BUY,1,110,1.00,35.00,25,110,110,VWAP,Too big
-2026-06-29,10:05,10:11,QQQ 540P,QQQ,BUY,1,25,1.00,-25.00,25,25,25,ORB,Full risk</pre>
-              <p class="footer-note">If your thinkorswim export uses different column names, this app still tries to match them. You can edit trades after import.</p>
+              <div class="schema-badges">
+                <span>Any broker</span>
+                <span>Any asset</span>
+                <span>Editable after import</span>
+              </div>
+              <pre class="sample universal-sample">Trade Date,Entry Time,Exit Time,Symbol,TradingView Ticker,Asset Class,Side,Quantity,Entry Price or Cost,Exit Price,Fees,Net P/L,Planned Risk,Actual Risk,Strategy,Notes
+2026-06-29,09:36,09:42,SPY 612C,AMEX:SPY,Options,Buy,1,110,,1.00,35.00,25,110,VWAP breakout,Exited at first target
+2026-06-29,10:05,10:11,EURUSD,FX:EURUSD,Forex,Sell,10000,1.0840,1.0824,0.00,16.00,20,12,London session pullback,Followed stop plan
+2026-06-29,13:30,13:52,NQ1!,CME_MINI:NQ1!,Futures,Buy,1,20250.25,20274.25,4.50,475.50,150,95,Opening drive,Scaled out cleanly</pre>
+              <p class="footer-note">Column names do not need to match perfectly. TradeReview tries to recognize common broker labels and standard fields, then you can edit or retag trades after import.</p>
             </div>
           </div>
         </div>
