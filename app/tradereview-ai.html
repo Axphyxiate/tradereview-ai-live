@@ -4476,8 +4476,13 @@
             <div class="broker-hero">
               <div>
                 <span class="broker-kicker">Pro broker automation</span>
-                <h3>Connect once. Let trades flow into your journal.</h3>
-                <p>Choose a broker here, then TradeReview prepares the secure provider connection path. CSV import stays available while live sync is connected.</p>
+                <h3>Set up broker sync from Add Trade.</h3>
+                <p>Select your broker, choose how many days of history to request, and pick the trade details you want imported. TradeReview saves the request securely, then opens the provider portal when your plan and backend keys are ready.</p>
+                <div class="broker-flow" aria-label="Broker sync setup steps">
+                  <div class="broker-flow-step"><span>1</span><strong>Select broker</strong><small>Choose stocks, options, futures, forex, crypto, or prop-firm workflow.</small></div>
+                  <div class="broker-flow-step"><span>2</span><strong>Choose history</strong><small>Start with 30, 90, 365 days, or all available provider history.</small></div>
+                  <div class="broker-flow-step"><span>3</span><strong>Prepare portal</strong><small>Connect by secure OAuth/API. TradeReview never asks for broker passwords.</small></div>
+                </div>
               </div>
               <span class="broker-status" id="quickBrokerSyncStatus"><i></i> Pro feature</span>
             </div>
@@ -4505,9 +4510,20 @@
                   <option value="all">All available history</option>
                 </select>
               </label>
+              <div class="sync-options" aria-label="Broker sync import scope">
+                <label class="sync-option"><input id="quickSyncExecutions" type="checkbox" checked> Executions and fills</label>
+                <label class="sync-option"><input id="quickSyncFees" type="checkbox" checked> Fees and commissions</label>
+                <label class="sync-option"><input id="quickSyncPositions" type="checkbox" checked> Symbols and position size</label>
+                <label class="sync-option"><input id="quickSyncNotes" type="checkbox" checked> Link imported trades to journal notes</label>
+              </div>
               <div class="broker-provider-note">
-                <strong>What sync will bring in</strong>
-                <span>Executions/fills, fees, symbols, quantity, trade times, and links back to your journal review.</span>
+                <strong>How it works</strong>
+                <span>Pick the broker and sync window first. If your broker is supported through SnapTrade or a direct API, TradeReview prepares the secure connection flow. If it is not ready yet, CSV import still works today and the broker request stays saved.</span>
+                <div class="broker-live-strip" aria-label="Broker sync connection paths">
+                  <span class="broker-live-pill up"><i></i> Secure provider portal</span>
+                  <span class="broker-live-pill up"><i></i> CSV fallback today</span>
+                  <span class="broker-live-pill down"><i></i> Direct APIs queued</span>
+                </div>
               </div>
               <div class="connection-actions">
                 <button class="primary" id="quickRequestBrokerSync" type="button">Continue broker sync</button>
@@ -5893,11 +5909,8 @@
     }
 
     function setBrokerConnectionLoading(connection, title, detail) {
-      const note = document.querySelector("#brokerConnectionNote");
-      if (!note) return;
       const provider = escapeHtml(connection?.provider || "broker");
-      note.classList.add("connecting");
-      note.innerHTML = `
+      const loadingHtml = `
         <div class="connection-orb" aria-hidden="true"></div>
         <div class="connection-console">
           <strong>${escapeHtml(title)} · ${provider}</strong>
@@ -5909,6 +5922,12 @@
             <em>Preparing sync</em>
           </div>
         </div>`;
+      ["#brokerConnectionNote", "#quickBrokerSyncNote"].forEach(selector => {
+        const note = document.querySelector(selector);
+        if (!note) return;
+        note.classList.add("connecting");
+        note.innerHTML = loadingHtml;
+      });
     }
 
     async function openBrokerConnectionPortal(connection) {
@@ -7603,6 +7622,17 @@
       document.querySelector("#syncFees").checked = Boolean(connection.syncFees);
       document.querySelector("#syncPositions").checked = Boolean(connection.syncPositions);
       document.querySelector("#syncNotes").checked = Boolean(connection.syncNotes);
+      const quickScope = {
+        quickSyncExecutions: "syncExecutions",
+        quickSyncFees: "syncFees",
+        quickSyncPositions: "syncPositions",
+        quickSyncNotes: "syncNotes"
+      };
+      Object.entries(quickScope).forEach(([quickId, mainId]) => {
+        const quickInput = document.querySelector(`#${quickId}`);
+        const mainInput = document.querySelector(`#${mainId}`);
+        if (quickInput && mainInput) quickInput.checked = Boolean(mainInput.checked);
+      });
 
       status.className = "broker-status";
       if (quickStatus) quickStatus.className = "broker-status";
@@ -7642,6 +7672,8 @@
       }
 
       const when = connection.requestedAt ? ` Requested ${new Date(connection.requestedAt).toLocaleDateString()}.` : "";
+      document.querySelector("#brokerConnectionNote")?.classList.remove("connecting");
+      quickNote?.classList.remove("connecting");
       document.querySelector("#brokerConnectionNote").innerHTML = `<strong>Current live path:</strong> CSV import and manual trade logging are available today. Backend broker sync tables are prepared for secure provider connections.${when}`;
       if (quickNote) quickNote.innerHTML = connection.status === "requested"
         ? `<strong>Broker request saved:</strong> ${escapeHtml(providerLabel)} is queued from Add Trade.${when}`
@@ -7689,9 +7721,15 @@
       const syncWindow = document.querySelector("#brokerSyncWindow");
       if (provider) provider.value = quickProvider;
       if (syncWindow) syncWindow.value = quickWindow;
-      ["syncExecutions", "syncFees", "syncPositions", "syncNotes"].forEach(id => {
-        const input = document.querySelector(`#${id}`);
-        if (input) input.checked = true;
+      [
+        ["quickSyncExecutions", "syncExecutions"],
+        ["quickSyncFees", "syncFees"],
+        ["quickSyncPositions", "syncPositions"],
+        ["quickSyncNotes", "syncNotes"]
+      ].forEach(([quickId, mainId]) => {
+        const quickInput = document.querySelector(`#${quickId}`);
+        const mainInput = document.querySelector(`#${mainId}`);
+        if (mainInput) mainInput.checked = quickInput ? quickInput.checked : true;
       });
     }
 
@@ -9214,6 +9252,20 @@ Save this agent to the database and run it against new journal/trade events auto
     document.querySelector("#brokerSyncWindow").addEventListener("change", () => { saveBrokerConnectionFromForm(); });
     document.querySelectorAll("#syncExecutions, #syncFees, #syncPositions, #syncNotes").forEach(input => {
       input.addEventListener("change", () => { saveBrokerConnectionFromForm(); });
+    });
+    document.querySelector("#quickBrokerProvider")?.addEventListener("change", () => {
+      syncQuickBrokerFieldsToMain();
+      saveBrokerConnectionFromForm("not-linked");
+    });
+    document.querySelector("#quickBrokerSyncWindow")?.addEventListener("change", () => {
+      syncQuickBrokerFieldsToMain();
+      saveBrokerConnectionFromForm();
+    });
+    document.querySelectorAll("#quickSyncExecutions, #quickSyncFees, #quickSyncPositions, #quickSyncNotes").forEach(input => {
+      input.addEventListener("change", () => {
+        syncQuickBrokerFieldsToMain();
+        saveBrokerConnectionFromForm();
+      });
     });
     document.querySelector("#requestBrokerAccess").addEventListener("click", async () => {
       if (!requirePlan("Broker sync requests", "pro")) return;
