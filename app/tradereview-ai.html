@@ -3875,7 +3875,7 @@
           <div class="panel">
             <div class="panel-header"><h2>Supported CSV Shape</h2></div>
             <div class="panel-body">
-              <pre class="sample">Date,Entry Time,Exit Time,Symbol,Chart Ticker,Side,Qty,Price,Fees,P/L,Planned R,Risk Used,Option Cost,Setup,Mistake
+              <pre class="sample">Date,Entry Time,Exit Time,Symbol,Chart Ticker,Side,Qty,Entry/Cost,Fees,P/L,Planned Risk,Risk Used,Trade Cost,Strategy/Setup,Mistake
 2026-06-29,09:36,09:42,SPY 612C,SPY,BUY,1,110,1.00,35.00,25,110,110,VWAP,Too big
 2026-06-29,10:05,10:11,QQQ 540P,QQQ,BUY,1,25,1.00,-25.00,25,25,25,ORB,Full risk</pre>
               <p class="footer-note">If your thinkorswim export uses different column names, this app still tries to match them. You can edit trades after import.</p>
@@ -3900,16 +3900,16 @@
               <label class="timing-field">Exit time
                 <input id="manualExitTime" type="time">
               </label>
-              <label>Symbol
+              <label>Symbol / instrument
                 <div class="symbol-combobox" data-symbol-picker="manualSymbol">
-                  <input id="manualSymbol" autocomplete="off" placeholder="SPY 612C">
+                  <input id="manualSymbol" autocomplete="off" placeholder="Enter symbol, pair, contract, or ticker">
                   <button type="button" class="symbol-picker-trigger" aria-label="Open symbol search">⌕</button>
                   <div class="symbol-picker-menu" role="listbox" aria-label="Symbol search"></div>
                 </div>
               </label>
-              <label>TradingView ticker
+              <label>TradingView chart symbol
                 <div class="symbol-combobox" data-symbol-picker="manualChartTicker">
-                  <input id="manualChartTicker" autocomplete="off" placeholder="NASDAQ:QQQ">
+                  <input id="manualChartTicker" autocomplete="off" placeholder="Example: NASDAQ:QQQ, FX:EURUSD, NEPSE:NABIL">
                   <button type="button" class="symbol-picker-trigger" aria-label="Open TradingView symbol search">⌕</button>
                   <div class="symbol-picker-menu" role="listbox" aria-label="TradingView symbol search"></div>
                 </div>
@@ -3923,20 +3923,20 @@
               <label>Qty
                 <input id="manualQty" type="number" min="0" step="1" value="1">
               </label>
-              <label>Option price or total cost
-                <input id="manualPrice" type="number" min="0" step="0.01" placeholder="110">
+              <label>Entry price / trade cost
+                <input id="manualPrice" type="number" min="0" step="0.01" placeholder="Enter fill price, premium, or total cost">
               </label>
               <label>P/L
                 <input id="manualPnl" type="number" step="0.01" placeholder="35">
               </label>
-              <label>My planned R amount
-                <input id="manualPlannedRisk" type="number" min="1" step="0.01" placeholder="25">
+              <label>Planned risk amount
+                <input id="manualPlannedRisk" type="number" min="1" step="0.01" placeholder="Enter your risk amount for this trade">
               </label>
-              <label>Risk actually used
-                <input id="manualRiskUsed" type="number" min="0" step="0.01" placeholder="110">
+              <label>Actual risk used
+                <input id="manualRiskUsed" type="number" min="0" step="0.01" placeholder="Enter actual risk used">
               </label>
-              <label>Setup
-                <input id="manualSetup" placeholder="VWAP">
+              <label>Strategy / setup used
+                <input id="manualSetup" placeholder="What strategy or setup did you use?">
               </label>
               <label>Mistake
                 <input id="manualMistake" placeholder="Too big">
@@ -4677,13 +4677,13 @@
       chartTicker: ["chart ticker", "chart symbol", "underlying ticker", "underlying symbol"],
       side: ["side", "action", "buy/sell", "type"],
       qty: ["qty", "quantity", "shares", "contracts"],
-      price: ["price", "fill price", "avg price", "average price"],
+      price: ["price", "fill price", "avg price", "average price", "entry/cost", "entry price", "trade cost"],
       fees: ["fees", "commission", "commissions"],
       pnl: ["p/l", "pl", "pnl", "profit", "profit/loss", "realized p/l", "net p/l"],
       plannedRisk: ["planned r", "planned risk", "r amount", "risk amount", "my r"],
-      riskUsed: ["risk", "risk used", "actual risk", "max risk", "capital risked"],
+      riskUsed: ["risk", "risk used", "actual risk", "actual risk used", "max risk", "capital risked"],
       optionCost: ["option cost", "premium", "debit", "cost", "trade cost"],
-      setup: ["setup", "strategy", "playbook"],
+      setup: ["setup", "strategy", "strategy/setup", "strategy / setup", "playbook"],
       mistake: ["mistake", "error", "rule broken"]
     };
 
