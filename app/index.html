@@ -3871,6 +3871,8 @@
       line-height: 1.45;
     }
     .agent-status-pill strong { display: block; color: #f8fbff; font-size: 13px; margin-bottom: 4px; }
+    .agent-status-pill.live { border-color: rgba(134,239,172,.38); background: linear-gradient(145deg, rgba(30,196,141,.13), rgba(105,199,255,.06)); }
+    .agent-status-pill.warn { border-color: rgba(255,95,135,.34); background: linear-gradient(145deg, rgba(255,95,135,.12), rgba(141,123,255,.05)); }
     .agent-command-hero {
       position: relative;
       overflow: hidden;
@@ -4026,6 +4028,69 @@
     .agent-console-card p,
     .agent-console-card li { color: #9fb0ca; font-size: 12px; line-height: 1.58; }
     .agent-console-card ul { display: grid; gap: 8px; padding-left: 18px; }
+    .active-agent-list { display: grid; gap: 10px; margin-top: 12px; }
+    .active-agent-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(134,239,172,.16);
+      background: rgba(255,255,255,.035);
+    }
+    .active-agent-row b { display: block; color: #f8fbff; font-size: 13px; margin-bottom: 4px; }
+    .active-agent-row span { color: #9fb0ca; font-size: 11px; line-height: 1.45; }
+    .active-agent-row button { min-height: 34px; padding: 0 10px; font-size: 11px; border-color: rgba(255,95,135,.28); color: #ff9ab0; }
+    .agent-signal-feed { display: grid; gap: 10px; margin: 14px 0; }
+    .agent-signal {
+      position: relative;
+      padding: 13px 14px 13px 36px;
+      border-radius: 16px;
+      border: 1px solid rgba(127,176,255,.14);
+      background: linear-gradient(135deg, rgba(11,26,52,.96), rgba(5,13,30,.98));
+      color: #dbe8ff;
+      font-size: 12px;
+      line-height: 1.55;
+      overflow: hidden;
+    }
+    .agent-signal::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: 17px;
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: #86efac;
+      box-shadow: 0 0 18px rgba(134,239,172,.7);
+    }
+    .agent-signal.warn::before { background: #ff5f87; box-shadow: 0 0 18px rgba(255,95,135,.7); }
+    .agent-signal strong { color: #f8fbff; }
+    .agent-scan-ribbon {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(134,239,172,.18);
+      color: #86efac;
+      background: rgba(134,239,172,.06);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .agent-scan-ribbon i {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #86efac;
+      box-shadow: 0 0 16px rgba(134,239,172,.8);
+      animation: agentBlink 1.35s ease-in-out infinite;
+    }
+    @keyframes agentBlink { 0%, 100% { opacity: .35; transform: scale(.8); } 50% { opacity: 1; transform: scale(1.2); } }
     .learning-ocean { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
     .learning-module { padding: 18px; border: 1px solid rgba(148,163,184,.13); border-radius: 18px; background: linear-gradient(150deg, rgba(14,25,52,.94), rgba(7,13,30,.98)); }
     .learning-module span { color: #86efac; font-size: 10px; font-weight: 950; letter-spacing: .1em; text-transform: uppercase; }
@@ -6328,10 +6393,11 @@
           settings: { ...defaultSettings(), ...(saved?.settings || {}) },
           profile: { ...defaultProfile(), ...(saved?.profile || {}) },
           brokerConnection: { ...defaultBrokerConnection(), ...(saved?.brokerConnection || {}) },
+          activeAgents: Array.isArray(saved?.activeAgents) ? saved.activeAgents : [],
           supportRequests: Array.isArray(saved?.supportRequests) ? saved.supportRequests : []
         };
       } catch {
-        return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile(), brokerConnection: defaultBrokerConnection(), supportRequests: [] };
+        return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile(), brokerConnection: defaultBrokerConnection(), activeAgents: [], supportRequests: [] };
       }
     }
 
@@ -6341,7 +6407,7 @@
     }
 
     function emptyState() {
-      return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile(), brokerConnection: defaultBrokerConnection(), supportRequests: [] };
+      return { trades: [], journals: {}, settings: defaultSettings(), profile: defaultProfile(), brokerConnection: defaultBrokerConnection(), activeAgents: [], supportRequests: [] };
     }
 
     function applyState(nextState) {
@@ -6351,6 +6417,7 @@
       state.settings = { ...defaultSettings(), ...(safeState.settings || {}) };
       state.profile = { ...defaultProfile(), ...(safeState.profile || {}) };
       state.brokerConnection = { ...defaultBrokerConnection(), ...(safeState.brokerConnection || {}) };
+      state.activeAgents = Array.isArray(safeState.activeAgents) ? safeState.activeAgents : [];
       state.supportRequests = Array.isArray(safeState.supportRequests) ? safeState.supportRequests : [];
       selectedDay = null;
       selectedTradeId = null;
@@ -6363,6 +6430,7 @@
         settings: state.settings,
         profile: state.profile,
         brokerConnection: state.brokerConnection,
+        activeAgents: state.activeAgents || [],
         supportRequests: state.supportRequests || []
       };
     }
@@ -9417,6 +9485,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       renderTradeReview();
       renderProfileContext();
       renderBrokerConnection();
+      renderActiveAgentList();
       updateMobileInstallState();
       loadSettingsForm();
       setManualDefaults();
@@ -9526,6 +9595,181 @@ Education should come before size. If you cannot explain the trade idea, invalid
 
         <strong>Backend step</strong>
         Save the active agent rules to Supabase and run them against new journal/trade events automatically.`;
+    }
+
+    function ensureAgentState() {
+      if (!Array.isArray(state.activeAgents)) state.activeAgents = [];
+      return state.activeAgents;
+    }
+
+    function agentKindFromText(text) {
+      const value = String(text || "").toLowerCase();
+      if (value.includes("risk") || value.includes("r-multiple") || value.includes("drawdown") || value.includes("size")) return "Risk Agent";
+      if (value.includes("tilt") || value.includes("fomo") || value.includes("revenge") || value.includes("emotion")) return "Tilt Agent";
+      if (value.includes("habit") || value.includes("routine") || value.includes("prep") || value.includes("journal consistency")) return "Habit Agent";
+      return "Custom Agent";
+    }
+
+    function activeAgentId(kind, mission) {
+      return `${kind.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-${String(mission || "").slice(0, 48).toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+    }
+
+    function buildAgentRecord(prompt) {
+      const mission = prompt || document.querySelector("#customAgentPrompt")?.value.trim() || "Watch my trading rules and warn me when I drift from my process.";
+      const kind = agentKindFromText(mission);
+      return {
+        id: activeAgentId(kind, mission),
+        kind,
+        mission,
+        status: "active",
+        createdAt: new Date().toISOString(),
+        lastScanAt: new Date().toISOString()
+      };
+    }
+
+    function summarizeAgentSignals(agent) {
+      const trades = Array.isArray(state.trades) ? state.trades : [];
+      const journals = state.journals || {};
+      const lower = `${agent?.kind || ""} ${agent?.mission || ""}`.toLowerCase();
+      const signals = [];
+      const overRisk = trades.filter(trade => riskUsedR(trade) > state.settings.riskWarningR);
+      const losers = trades.filter(trade => num(trade.pnl) < 0);
+      const winners = trades.filter(trade => num(trade.pnl) > 0);
+      const unreviewed = trades.filter(trade => !trade.note && !journals[trade.date]?.recap);
+      const mistakeCounts = {};
+      trades.forEach(trade => {
+        const key = (trade.mistake || "").trim();
+        if (key) mistakeCounts[key] = (mistakeCounts[key] || 0) + 1;
+      });
+      const topMistake = Object.entries(mistakeCounts).sort((a, b) => b[1] - a[1])[0];
+      const recentNotes = Object.values(journals).map(day => `${day?.recap || ""} ${day?.tomorrowRule || ""}`).join(" ").toLowerCase();
+      const tiltWords = ["fomo", "revenge", "rushed", "tilt", "bored", "angry", "hesitated", "overconfident", "forced"];
+      const tiltHits = tiltWords.filter(word => recentNotes.includes(word) || trades.some(trade => String(trade.mistake || "").toLowerCase().includes(word)));
+
+      if (lower.includes("risk")) {
+        signals.push({
+          level: overRisk.length ? "warn" : "live",
+          title: overRisk.length ? "Risk guardrail triggered" : "Risk guardrail clean",
+          body: overRisk.length
+            ? `${overRisk.length} trade${overRisk.length === 1 ? "" : "s"} exceeded the planned risk limit. Next prompt: reduce size or skip until the setup is A+.`
+            : `No trades are above your ${state.settings.riskWarningR.toFixed(2)}R warning level right now.`
+        });
+      }
+      if (lower.includes("tilt") || lower.includes("fomo") || lower.includes("revenge")) {
+        signals.push({
+          level: tiltHits.length || topMistake ? "warn" : "live",
+          title: tiltHits.length ? "Mindset language detected" : "Mindset scan running",
+          body: tiltHits.length
+            ? `Detected ${tiltHits.slice(0, 4).join(", ")} in notes or mistake tags. Next prompt: what rule slows this behavior before the next entry?`
+            : topMistake
+              ? `Most repeated mistake is "${topMistake[0]}" (${topMistake[1]} times). The agent will watch for this pattern.`
+              : "No emotional mistake words detected yet. Add mistake tags and notes so the scan gets sharper."
+        });
+      }
+      if (lower.includes("habit") || lower.includes("routine") || lower.includes("journal")) {
+        signals.push({
+          level: unreviewed.length ? "warn" : "live",
+          title: unreviewed.length ? "Review habit needs attention" : "Review habit healthy",
+          body: unreviewed.length
+            ? `${unreviewed.length} trade${unreviewed.length === 1 ? "" : "s"} still need notes or a day recap. Finish those reviews before adding more trades.`
+            : "All saved trades have supporting notes or day context."
+        });
+      }
+      if (lower.includes("broker") || lower.includes("sync")) {
+        signals.push({
+          level: state.brokerConnection?.status === "requested" ? "live" : "warn",
+          title: "Broker sync watch",
+          body: state.brokerConnection?.status === "requested"
+            ? `${state.brokerConnection.provider} sync request is saved for ${state.brokerConnection.syncWindow || 90} days of history.`
+            : "No broker sync request is active. Use Add Trade > Broker Sync setup to queue one."
+        });
+      }
+      if (!signals.length) {
+        signals.push({
+          level: trades.length ? "live" : "warn",
+          title: trades.length ? "Custom rule is watching your journal" : "Waiting for trade data",
+          body: trades.length
+            ? `${trades.length} trade${trades.length === 1 ? "" : "s"} indexed. This custom agent will compare new trades against: ${agent.mission}`
+            : "Add or import trades so this agent has real behavior to monitor."
+        });
+      }
+      if (losers.length && winners.length) {
+        signals.push({
+          level: "live",
+          title: "Performance context loaded",
+          body: `${winners.length} winning and ${losers.length} losing trade${trades.length === 1 ? "" : "s"} available for pattern review.`
+        });
+      }
+      return signals.slice(0, 4);
+    }
+
+    function renderAgentPlanV2(prompt, options = {}) {
+      if (!requirePlan("AI agents", "pro")) return;
+      const agent = buildAgentRecord(prompt);
+      const previewSignals = summarizeAgentSignals(agent);
+      const activeAgents = ensureAgentState();
+      const target = document.querySelector("#agentOutput");
+      if (!target) return;
+      target.innerHTML = `
+        <div class="agent-status-grid">
+          <div class="agent-status-pill live"><strong>${activeAgents.length}</strong>Active agent${activeAgents.length === 1 ? "" : "s"}</div>
+          <div class="agent-status-pill"><strong>${state.trades.length}</strong>Trades indexed</div>
+          <div class="agent-status-pill ${previewSignals.some(signal => signal.level === "warn") ? "warn" : "live"}"><strong>${previewSignals.length}</strong>Live signal${previewSignals.length === 1 ? "" : "s"}</div>
+          <div class="agent-status-pill"><strong>Local now</strong>Backend automation next</div>
+        </div>
+        <div class="agent-scan-ribbon"><i></i>${escapeHtml(agent.kind)} preview scan</div>
+        <strong>Mission</strong>
+        ${escapeHtml(agent.mission)}
+        <div class="agent-signal-feed">
+          ${previewSignals.map(signal => `<div class="agent-signal ${signal.level === "warn" ? "warn" : ""}"><strong>${escapeHtml(signal.title)}</strong><br>${escapeHtml(signal.body)}</div>`).join("")}
+        </div>
+        <strong>How it works now</strong>
+        1. Saves the agent as active in this account workspace.
+        2. Scans current trades, risk, mistake tags, notes, and broker-sync status.
+        3. Shows warnings and review prompts immediately in the agent console.
+        4. Keeps the rule ready for the backend automation worker when server jobs are connected.
+        ${options.activated ? "<p><strong>Activated.</strong> This agent is now saved and watching the current journal data.</p>" : ""}`;
+      renderActiveAgentList();
+    }
+
+    function activateAgent(prompt) {
+      if (!requirePlan("AI agents", "pro")) return;
+      const agents = ensureAgentState();
+      const nextAgent = buildAgentRecord(prompt);
+      const existingIndex = agents.findIndex(agent => agent.id === nextAgent.id || agent.kind === nextAgent.kind);
+      if (existingIndex >= 0) agents[existingIndex] = { ...agents[existingIndex], ...nextAgent, lastScanAt: new Date().toISOString() };
+      else agents.push(nextAgent);
+      saveState();
+      renderAgentPlanV2(nextAgent.mission, { activated: true });
+      showAppToast(`${nextAgent.kind} is active and scanning your journal data.`, { title: "Agent activated", type: "success", icon: "✓" });
+    }
+
+    function removeActiveAgent(agentId) {
+      state.activeAgents = ensureAgentState().filter(agent => agent.id !== agentId);
+      saveState();
+      renderAgentPlanV2(state.activeAgents[0]?.mission || undefined);
+      showAppToast("Agent stopped for this workspace.", { title: "Agent stopped", type: "info", icon: "○" });
+    }
+
+    function renderActiveAgentList() {
+      ensureAgentState();
+      const output = document.querySelector("#agentOutput");
+      if (!output) return;
+      const list = state.activeAgents.length
+        ? `<div class="active-agent-list">${state.activeAgents.map(agent => {
+            const signals = summarizeAgentSignals(agent);
+            const warnCount = signals.filter(signal => signal.level === "warn").length;
+            return `<div class="active-agent-row">
+              <div><b>${escapeHtml(agent.kind)} ${warnCount ? "• needs review" : "• monitoring"}</b><span>${escapeHtml(agent.mission)}<br>${signals.length} live signal${signals.length === 1 ? "" : "s"} · ${warnCount} warning${warnCount === 1 ? "" : "s"}</span></div>
+              <button type="button" data-stop-agent="${escapeHtml(agent.id)}">Stop</button>
+            </div>`;
+          }).join("")}</div>`
+        : `<div class="active-agent-list"><div class="active-agent-row"><div><b>No active agents yet</b><span>Pick an agent above or build a custom rule to start monitoring your journal.</span></div></div></div>`;
+      if (!output.querySelector(".active-agent-list")) output.insertAdjacentHTML("beforeend", list);
+      else output.querySelector(".active-agent-list").outerHTML = list;
+      output.querySelectorAll("[data-stop-agent]").forEach(button => {
+        button.addEventListener("click", () => removeActiveAgent(button.dataset.stopAgent));
+      });
     }
 
     function chooseBillingPlan(plan) {
@@ -9868,18 +10112,25 @@ Education should come before size. If you cannot explain the trade idea, invalid
       button.addEventListener("click", () => {
         document.querySelectorAll(".agent-lab-card").forEach(card => card.classList.remove("active"));
         button.closest(".agent-lab-card")?.classList.add("active");
-        renderAgentPlan(button.dataset.agentTemplate);
+        activateAgent(button.dataset.agentTemplate);
       });
     });
     document.querySelector("#buildCustomAgent")?.addEventListener("click", () => {
       document.querySelectorAll(".agent-lab-card").forEach(card => card.classList.remove("active"));
       document.querySelector("#buildCustomAgent")?.closest(".agent-lab-card")?.classList.add("active");
-      renderAgentPlan();
+      activateAgent();
     });
     document.querySelector("#saveAgentRules")?.addEventListener("click", () => {
       if (!requirePlan("save AI agent rules", "pro")) return;
       showAppToast("Agent rules saved as a draft. Backend automation can run these rules when agent jobs are connected.", { title: "Agent rules saved", type: "success", icon: "✓" });
     });
+    document.querySelector("#saveAgentRules")?.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      if (!requirePlan("save AI agent rules", "pro")) return;
+      const mission = document.querySelector("#customAgentPrompt")?.value.trim() || state.activeAgents?.[0]?.mission;
+      activateAgent(mission);
+    }, true);
     document.querySelectorAll("[data-plan]").forEach(button => {
       button.addEventListener("click", () => chooseBillingPlan(button.dataset.plan));
     });
