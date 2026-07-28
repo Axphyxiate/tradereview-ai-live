@@ -3655,6 +3655,13 @@
     @keyframes aiOrbitSpin { to { rotate: 360deg; } }
     @keyframes aiCorePulse { 0%, 100% { transform: scale(.96); } 50% { transform: scale(1.04); } }
     .ai-split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .ai-command[data-ai-mode="hub"] .ai-pane { display: none; }
+    .ai-command[data-ai-mode="learn"] #learnAiPane,
+    .ai-command[data-ai-mode="trade"] #tradeAiPane { display: grid; gap: 18px; animation: sectionRise .34s ease both; }
+    .ai-command[data-ai-mode="learn"] .ai-command-hero,
+    .ai-command[data-ai-mode="trade"] .ai-command-hero { min-height: 250px; }
+    .ai-command[data-ai-mode="learn"] .ai-split,
+    .ai-command[data-ai-mode="trade"] .ai-split { display: none; }
     .ai-card {
       position: relative;
       overflow: hidden;
@@ -3864,6 +3871,161 @@
       line-height: 1.45;
     }
     .agent-status-pill strong { display: block; color: #f8fbff; font-size: 13px; margin-bottom: 4px; }
+    .agent-command-hero {
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(360px, 1.08fr);
+      gap: 18px;
+      align-items: stretch;
+      padding: clamp(22px, 3vw, 34px);
+      border: 1px solid rgba(134,239,172,.18);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(134,239,172,.14), transparent 26rem),
+        radial-gradient(circle at 82% 18%, rgba(105,199,255,.16), transparent 28rem),
+        linear-gradient(135deg, rgba(3,9,22,.96), rgba(11,20,43,.94));
+      box-shadow: 0 28px 90px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.035);
+    }
+    .agent-command-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(125,161,255,.08) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(125,161,255,.055) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(circle at 72% 45%, #000, transparent 74%);
+      opacity: .72;
+    }
+    .agent-command-copy,
+    .agent-monitor-stage { position: relative; z-index: 1; }
+    .agent-command-copy h2 {
+      margin: 10px 0 12px;
+      color: #f8fbff;
+      font-size: clamp(36px, 5vw, 72px);
+      line-height: .92;
+      letter-spacing: -.07em;
+    }
+    .agent-command-copy p { max-width: 740px; color: #a9b8d2; line-height: 1.65; }
+    .agent-command-badges { display: flex; flex-wrap: wrap; gap: 9px; margin: 18px 0; }
+    .agent-command-badges span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      color: #dbe8ff;
+      background: rgba(255,255,255,.055);
+      border: 1px solid rgba(148,163,184,.14);
+      font-size: 11px;
+      font-weight: 900;
+    }
+    .agent-command-badges span::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #86efac;
+      box-shadow: 0 0 14px rgba(134,239,172,.7);
+    }
+    .agent-monitor-stage {
+      min-height: 360px;
+      padding: 18px;
+      border-radius: 24px;
+      border: 1px solid rgba(127,176,255,.14);
+      background:
+        radial-gradient(circle at 50% 45%, rgba(105,199,255,.12), transparent 14rem),
+        rgba(2,6,23,.52);
+      backdrop-filter: blur(14px);
+    }
+    .agent-pulse-core {
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      transform: translate(-50%, -50%);
+      width: 138px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #061410;
+      font-weight: 1000;
+      background: linear-gradient(135deg, #86efac, #69c7ff 58%, #8d7bff);
+      box-shadow: 0 0 65px rgba(105,199,255,.28);
+      animation: agentCoreBreath 2.8s ease-in-out infinite;
+    }
+    .agent-pulse-core::before,
+    .agent-pulse-core::after {
+      content: "";
+      position: absolute;
+      inset: -34px;
+      border: 1px solid rgba(134,239,172,.18);
+      border-radius: 50%;
+      animation: agentRing 3.4s ease-out infinite;
+    }
+    .agent-pulse-core::after {
+      inset: -70px;
+      border-color: rgba(105,199,255,.14);
+      animation-delay: 1.1s;
+    }
+    @keyframes agentCoreBreath { 0%, 100% { scale: .96; } 50% { scale: 1.04; } }
+    @keyframes agentRing { 0% { opacity: .85; scale: .82; } 100% { opacity: 0; scale: 1.12; } }
+    .agent-monitor-lane {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      display: grid;
+      grid-template-columns: 132px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 12px 13px;
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,.13);
+      background: rgba(8,16,32,.72);
+      box-shadow: 0 18px 45px rgba(0,0,0,.18);
+      animation: agentLaneFloat 5s ease-in-out infinite;
+    }
+    .agent-monitor-lane:nth-child(2) { top: 18px; }
+    .agent-monitor-lane:nth-child(3) { top: 92px; animation-delay: .45s; }
+    .agent-monitor-lane:nth-child(4) { bottom: 92px; animation-delay: .9s; }
+    .agent-monitor-lane:nth-child(5) { bottom: 18px; animation-delay: 1.35s; }
+    .agent-monitor-lane b { color: #f8fbff; font-size: 12px; }
+    .agent-monitor-lane span { color: #9fb0ca; font-size: 11px; }
+    .agent-monitor-lane i {
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #86efac, #69c7ff, #ff5f87);
+      transform-origin: left;
+      animation: agentSignal 2.6s ease-in-out infinite;
+    }
+    .agent-monitor-lane em {
+      font-style: normal;
+      color: #86efac;
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    @keyframes agentLaneFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes agentSignal { 0%, 100% { scale: .34 1; opacity: .55; } 50% { scale: 1 1; opacity: 1; } }
+    .agent-deck-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+    .agent-output-console {
+      display: grid;
+      grid-template-columns: minmax(280px, .72fr) minmax(0, 1.28fr);
+      gap: 16px;
+      align-items: stretch;
+    }
+    .agent-console-card {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(127,176,255,.14);
+      background: linear-gradient(160deg, rgba(14,25,52,.86), rgba(7,13,30,.98));
+    }
+    .agent-console-card h3 { margin: 0 0 10px; color: #f8fbff; }
+    .agent-console-card p,
+    .agent-console-card li { color: #9fb0ca; font-size: 12px; line-height: 1.58; }
+    .agent-console-card ul { display: grid; gap: 8px; padding-left: 18px; }
     .learning-ocean { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
     .learning-module { padding: 18px; border: 1px solid rgba(148,163,184,.13); border-radius: 18px; background: linear-gradient(150deg, rgba(14,25,52,.94), rgba(7,13,30,.98)); }
     .learning-module span { color: #86efac; font-size: 10px; font-weight: 950; letter-spacing: .1em; text-transform: uppercase; }
@@ -3951,7 +4113,7 @@
     .settings-plan-row strong { color: #f8fbff; }
     .settings-plan-row span { color: #94a3b8; font-size: 12px; }
     @media (max-width: 860px) {
-      .ai-command-hero, .ai-split, .ai-learning-grid, .learning-ocean, .resource-grid, .trade-lab-grid, .agent-lab-grid, .billing-grid { grid-template-columns: 1fr; }
+      .ai-command-hero, .ai-split, .ai-learning-grid, .learning-ocean, .resource-grid, .trade-lab-grid, .agent-lab-grid, .agent-deck-grid, .agent-command-hero, .agent-output-console, .billing-grid { grid-template-columns: 1fr; }
       .ai-question-box { grid-template-columns: 1fr; }
       .settings-plan-row { grid-template-columns: 1fr; }
       .account-overview-list .review-item { grid-template-columns: 1fr; }
@@ -4019,6 +4181,8 @@
       .agent-status-grid {
         grid-template-columns: 1fr;
       }
+      .agent-monitor-stage { min-height: 430px; }
+      .agent-monitor-lane { grid-template-columns: 1fr; }
       .auth-shell { grid-template-columns: 1fr; max-width: 680px; padding: 34px 0; }
       .auth-story { text-align: center; }
       .auth-brand { justify-content: center; }
@@ -4986,8 +5150,8 @@
         <div class="topbar">
           <div>
             <div class="page-kicker"><span class="live-dot"></span> Learn with AI · Trade with AI</div>
-            <h1>Learn the basics. Then build smarter trade plans.</h1>
-            <p class="subtitle">Learn with AI teaches the foundation: candles, support/resistance, trend, risk, psychology, journaling, and setups. Trade with AI is the advanced workspace where your journal history and your own strategy prompt become a structured trade plan.</p>
+            <h1>Welcome to AI Coach.</h1>
+            <p class="subtitle">Start by choosing your path. Learn with AI teaches the full trading foundation. Trade with AI turns your own strategy, journal patterns, risk rules, and setup notes into a structured planning workspace.</p>
           </div>
           <div class="actions">
             <button data-view-button="journal">Review Journal</button>
@@ -4995,20 +5159,20 @@
           </div>
         </div>
 
-        <div class="ai-command">
+        <div class="ai-command" id="aiCommandRoot" data-ai-mode="hub">
           <div class="ai-command-hero">
             <div class="ai-command-copy">
-              <span class="ai-command-kicker">AI trading workspace</span>
-              <h2>From trading basics to strategy-aware planning.</h2>
-              <p>Start with core lessons if you are new. When you are ready, use Trade with AI to explain your strategy, read your journal patterns, and generate a risk-first plan with entry logic, invalidation, management, and review prompts.</p>
+              <span class="ai-command-kicker">AI Coach command hub</span>
+              <h2>Choose how you want AI to help your trading.</h2>
+              <p>This is the front door for the coach. Pick Learn if you want education, examples, definitions, videos, and blog-style lessons. Pick Trade if you want a planning lab that uses your journal, mistakes, strategy prompt, and risk rules.</p>
               <div class="ai-mode-pills">
-                <span><i></i> Trading basics</span>
-                <span><i></i> Strategy prompts</span>
-                <span><i></i> Journal-aware plans</span>
-                <span><i></i> Risk-first review</span>
+                <span><i></i> Beginner lessons</span>
+                <span><i></i> Market library</span>
+                <span><i></i> Strategy lab</span>
+                <span><i></i> Journal-aware guardrails</span>
               </div>
               <div class="ai-mode-nav" aria-label="AI workspace modes">
-                <button class="active" type="button" data-ai-mode="learn">Open Learn with AI</button>
+                <button type="button" data-ai-mode="learn">Open Learn with AI</button>
                 <button type="button" data-ai-mode="trade">Open Trade with AI</button>
               </div>
             </div>
@@ -5024,27 +5188,27 @@
           </div>
 
           <div class="ai-split">
-            <button class="ai-card ai-mode-button active" type="button" data-ai-mode="learn">
+            <button class="ai-card ai-mode-button" type="button" data-ai-mode="learn">
               <h3>Learn with AI</h3>
-              <p>Beginner-friendly lessons covering the information a trader needs before risking money.</p>
+              <p>A full education ocean, not a two-line definition. Choose stocks, options, forex, futures, crypto, risk, or journaling and get a structured path.</p>
               <ul>
-                <li>Market structure, candles, trend, liquidity, support/resistance, and volatility.</li>
-                <li>Risk management, R-multiple, position sizing, stop loss, and expectancy.</li>
-                <li>Psychology, patience, overtrading, revenge trades, and journal discipline.</li>
+                <li>Foundation lessons, examples, mistakes, and drills.</li>
+                <li>Blog-style resources and video discovery links.</li>
+                <li>Beginner to advanced learning tracks by asset class.</li>
               </ul>
             </button>
             <button class="ai-card ai-mode-button" type="button" data-ai-mode="trade">
               <h3>Trade with AI</h3>
-              <p>Advanced planning using your strategy notes, journal history, and current risk settings.</p>
+              <p>A strategy command center for building rules, checklists, invalidation, and post-trade review from your own process.</p>
               <ul>
-                <li>Paste your strategy rules and ask for a checklist, not a random signal.</li>
-                <li>Use journal mistakes to flag when you should skip or reduce size.</li>
-                <li>Turn the plan into a post-trade review after execution.</li>
+                <li>Paste your strategy and convert it into a playbook.</li>
+                <li>Use journal mistakes to create risk guardrails.</li>
+                <li>Plan entries, exits, management, and review prompts.</li>
               </ul>
             </button>
           </div>
 
-          <div class="ai-pane active" id="learnAiPane">
+          <div class="ai-pane" id="learnAiPane">
           <div class="ai-page-hero">
             <span class="ai-command-kicker">Learn with AI</span>
             <h2>Your trading university, built into the journal.</h2>
@@ -5274,24 +5438,62 @@
         <div class="topbar">
           <div>
             <div class="page-kicker"><span class="live-dot"></span> AI Agents</div>
-            <h1>Build agents that watch your trading habits.</h1>
-            <p class="subtitle">Agents are inside the actual app now, not only on the homepage. They help monitor discipline, risk, mindset, broker sync, and your custom rules.</p>
+            <h1>Agent Command Center.</h1>
+            <p class="subtitle">Turn your journal into active monitoring. Agents watch discipline, risk, mindset, broker sync, and your custom trading rules so the app can warn, review, and coach around the habits that actually affect performance.</p>
           </div>
           <div class="actions">
             <button data-view-button="journal">Review Journal</button>
             <button class="primary" data-view-button="aiCommand">Open AI Coach</button>
           </div>
         </div>
-        <div class="agent-lab-grid">
+
+        <div class="agent-command-hero">
+          <div class="agent-command-copy">
+            <span class="ai-command-kicker">Live behavioral monitoring</span>
+            <h2>Agents that feel like a trading desk, not a note pad.</h2>
+            <p>Pick an agent below and TradeReview drafts the exact rules it should monitor. The front end now shows the control center; the next backend step is running these rules automatically when new trades, notes, screenshots, broker syncs, and review events arrive.</p>
+            <div class="agent-command-badges">
+              <span>Risk alerts</span>
+              <span>Tilt detection</span>
+              <span>Routine tracking</span>
+              <span>Custom rules</span>
+            </div>
+            <div class="actions">
+              <button class="primary" type="button" data-agent-template="Risk Agent: Watch my position size, daily max loss, R-multiple, consecutive losses, and rule breaks. Warn me before I over-risk.">Start Risk Agent</button>
+              <button type="button" data-agent-template="Tilt Agent: Watch my journal tone, trading frequency, mistake tags, and emotional patterns. Help me catch FOMO and revenge trading.">Start Tilt Agent</button>
+            </div>
+          </div>
+          <div class="agent-monitor-stage" aria-label="Animated agent monitoring dashboard">
+            <div class="agent-monitor-lane"><b>Risk Agent</b><i></i><em>scanning R</em></div>
+            <div class="agent-monitor-lane"><b>Tilt Agent</b><i></i><em>tone check</em></div>
+            <div class="agent-monitor-lane"><b>Habit Agent</b><i></i><em>routine pulse</em></div>
+            <div class="agent-monitor-lane"><b>Custom Agent</b><i></i><em>rules ready</em></div>
+            <div class="agent-pulse-core">AI</div>
+          </div>
+        </div>
+
+        <div style="height:18px"></div>
+        <div class="agent-deck-grid">
           <article class="agent-lab-card"><small>Discipline</small><h3>Habit Agent</h3><p>Watches pre-market prep, post-trade journaling, missed reviews, and whether your routine is slipping.</p><button class="primary" type="button" data-agent-template="Habit Agent: Watch my journal consistency, pre-market prep, post-trade review, and missed routines. Nudge me when I skip the process.">Activate Habit Agent</button></article>
           <article class="agent-lab-card"><small>Guardrails</small><h3>Risk Agent</h3><p>Tracks R-multiple, oversized trades, daily drawdown behavior, repeated losses, and when you should reduce size.</p><button class="primary" type="button" data-agent-template="Risk Agent: Watch my position size, daily max loss, R-multiple, consecutive losses, and rule breaks. Warn me before I over-risk.">Activate Risk Agent</button></article>
           <article class="agent-lab-card"><small>Mindset</small><h3>Tilt Agent</h3><p>Reads journal tone and mistake tags to detect FOMO, revenge trading, frustration, hesitation, and overconfidence.</p><button class="primary" type="button" data-agent-template="Tilt Agent: Watch my journal tone, trading frequency, mistake tags, and emotional patterns. Help me catch FOMO and revenge trading.">Activate Tilt Agent</button></article>
           <article class="agent-lab-card"><small>Your rules</small><h3>Custom Agent</h3><p>Describe the exact behavior, setup, broker issue, or trading rule you want TradeReview to monitor.</p><textarea id="customAgentPrompt" placeholder="Example: Watch for when I take trades outside my London session EUR/USD setup or when I enter before confirmation."></textarea><button class="primary" id="buildCustomAgent" type="button">Build Custom Agent</button></article>
         </div>
         <div style="height:18px"></div>
-        <div class="panel">
-          <div class="panel-header"><h2>Agent Output</h2></div>
-          <div class="panel-body"><div class="ai-output" id="agentOutput">Choose an agent or write a custom one. The setup plan will appear here and can be saved later when agent automation is connected to the backend.</div></div>
+        <div class="agent-output-console">
+          <div class="agent-console-card">
+            <h3>How agents will work</h3>
+            <ul>
+              <li>Watch new trades, journal notes, screenshots, and risk settings.</li>
+              <li>Detect repeated mistakes before they become account-damaging habits.</li>
+              <li>Warn with one clear action: reduce size, wait for confirmation, stop trading, or review.</li>
+              <li>Save every warning so the weekly review can measure whether behavior improved.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><h2>Agent rule preview</h2><button id="saveAgentRules" type="button">Save agent rules</button></div>
+            <div class="panel-body"><div class="ai-output" id="agentOutput">Choose an agent or write a custom one. The setup plan will appear here with monitoring rules, triggers, alert behavior, and the backend automation step.</div></div>
+          </div>
         </div>
       </section>
 
@@ -9251,7 +9453,8 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
 
     function setAiMode(mode) {
       if (!hasPlan("starter")) return;
-      const nextMode = mode === "trade" ? "trade" : "learn";
+      const nextMode = mode === "trade" ? "trade" : mode === "learn" ? "learn" : "hub";
+      document.querySelector("#aiCommandRoot")?.setAttribute("data-ai-mode", nextMode);
       document.querySelector("#learnAiPane")?.classList.toggle("active", nextMode === "learn");
       document.querySelector("#tradeAiPane")?.classList.toggle("active", nextMode === "trade");
       document.querySelectorAll("[data-ai-mode]").forEach(button => {
@@ -9261,7 +9464,8 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       if (aiSection?.classList.contains("active")) {
         const url = new URL(window.location.href);
         url.searchParams.set("view", "aiCommand");
-        url.searchParams.set("ai", nextMode);
+        if (nextMode === "hub") url.searchParams.delete("ai");
+        else url.searchParams.set("ai", nextMode);
         window.history.replaceState({}, "", url);
         aiSection.scrollIntoView({ behavior: "smooth", block: "start" });
       }
@@ -9672,6 +9876,10 @@ Education should come before size. If you cannot explain the trade idea, invalid
       document.querySelector("#buildCustomAgent")?.closest(".agent-lab-card")?.classList.add("active");
       renderAgentPlan();
     });
+    document.querySelector("#saveAgentRules")?.addEventListener("click", () => {
+      if (!requirePlan("save AI agent rules", "pro")) return;
+      showAppToast("Agent rules saved as a draft. Backend automation can run these rules when agent jobs are connected.", { title: "Agent rules saved", type: "success", icon: "✓" });
+    });
     document.querySelectorAll("[data-plan]").forEach(button => {
       button.addEventListener("click", () => chooseBillingPlan(button.dataset.plan));
     });
@@ -9712,7 +9920,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
     document.querySelector("#generateAiLesson").addEventListener("click", generateAiLesson);
     document.querySelector("#generateAiPlan").addEventListener("click", generateAiTradePlan);
     if (requestedViewFromUrl() === "aiCommand") {
-      setAiMode(new URLSearchParams(window.location.search).get("ai") || "learn");
+      setAiMode(new URLSearchParams(window.location.search).get("ai") || "hub");
     }
 
     document.querySelectorAll("#accountSize, #riskPerTrade, #optionMultiplier, #riskWarningR").forEach(input => {
