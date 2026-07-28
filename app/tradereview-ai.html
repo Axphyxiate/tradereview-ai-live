@@ -769,6 +769,24 @@
       background: rgba(255,255,255,.045);
     }
 
+    .csv-import-status {
+      display: none;
+      margin-top: 16px;
+      border: 1px solid rgba(125, 176, 255, .22);
+      background: linear-gradient(135deg, rgba(17, 34, 68, .88), rgba(6, 15, 34, .94));
+      border-radius: 18px;
+      padding: 14px 16px;
+      color: #b9c7e4;
+      box-shadow: inset 0 1px rgba(255,255,255,.04), 0 18px 42px rgba(0,0,0,.18);
+    }
+
+    .csv-import-status.show { display: block; animation: sectionRise .24s ease both; }
+    .csv-import-status.success { border-color: rgba(49, 232, 169, .36); background: linear-gradient(135deg, rgba(16, 82, 72, .42), rgba(8, 18, 38, .95)); }
+    .csv-import-status.warn, .csv-import-status.error { border-color: rgba(255, 91, 123, .42); background: linear-gradient(135deg, rgba(88, 27, 48, .42), rgba(8, 18, 38, .95)); }
+    .csv-import-status strong { display: block; color: #f2f7ff; font-size: 15px; margin-bottom: 5px; }
+    .csv-import-status small { display: block; color: #93a5c5; line-height: 1.55; }
+    .csv-import-status ul { margin: 10px 0 0 18px; padding: 0; color: #aebde0; line-height: 1.55; }
+
     .csv-schema-card {
       border-color: rgba(127,176,255,.18);
       background: linear-gradient(180deg, rgba(12, 25, 48, .9), rgba(7, 17, 35, .88));
@@ -3674,6 +3692,121 @@
     .ai-card h3 { position: relative; z-index: 1; margin: 0 0 8px; color: #eef5ff; font-size: 18px; }
     .ai-card p, .ai-card li { position: relative; z-index: 1; color: #9fb0ca; font-size: 12px; line-height: 1.55; }
     .ai-card ul { margin: 12px 0 0; padding-left: 18px; }
+    .ai-hub-stage {
+      position: relative;
+      overflow: hidden;
+      min-height: 430px;
+      padding: clamp(20px, 3vw, 34px);
+      border: 1px solid rgba(105,199,255,.16);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(105,199,255,.12), transparent 26rem),
+        radial-gradient(circle at 86% 72%, rgba(134,239,172,.09), transparent 24rem),
+        linear-gradient(135deg, rgba(6,14,31,.96), rgba(10,17,39,.9));
+      box-shadow: 0 30px 90px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.055);
+    }
+    .ai-hub-stage::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(125,161,255,.09) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(134,239,172,.055) 1px, transparent 1px);
+      background-size: 54px 54px;
+      opacity: .62;
+      mask-image: linear-gradient(90deg, #000, transparent 78%);
+    }
+    .ai-hub-stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(100deg, transparent 0 38%, rgba(105,199,255,.12) 45%, transparent 52% 100%);
+      animation: aiScanner 5.5s ease-in-out infinite;
+      opacity: .8;
+    }
+    @keyframes aiScanner { 0%, 100% { transform: translateX(-70%); } 50% { transform: translateX(70%); } }
+    .ai-hub-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(280px, .85fr) minmax(0, 1.15fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+    .ai-hub-brief h3 {
+      margin: 8px 0 12px;
+      color: #f8fbff;
+      font-size: clamp(30px, 4.5vw, 58px);
+      line-height: .94;
+      letter-spacing: -.06em;
+    }
+    .ai-hub-brief p { max-width: 640px; color: #aebbd3; line-height: 1.65; }
+    .ai-hub-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 20px; }
+    .ai-hub-metric {
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,.13);
+      background: rgba(255,255,255,.045);
+      backdrop-filter: blur(12px);
+    }
+    .ai-hub-metric b { display: block; color: #f8fbff; font-size: 20px; letter-spacing: -.04em; }
+    .ai-hub-metric span { color: #91a3c0; font-size: 11px; font-weight: 850; text-transform: uppercase; letter-spacing: .08em; }
+    .ai-workflow-board {
+      position: relative;
+      min-height: 350px;
+      border-radius: 24px;
+      border: 1px solid rgba(127,176,255,.13);
+      background: rgba(2,6,23,.38);
+      overflow: hidden;
+    }
+    .ai-workflow-board::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 180px;
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(134,239,172,.22), rgba(105,199,255,.08), transparent 68%);
+      filter: blur(2px);
+      animation: aiCoreGlow 3s ease-in-out infinite;
+    }
+    @keyframes aiCoreGlow { 0%, 100% { scale: .92; opacity: .7; } 50% { scale: 1.08; opacity: 1; } }
+    .ai-work-card {
+      position: absolute;
+      width: min(260px, 44%);
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(148,163,184,.16);
+      background: linear-gradient(145deg, rgba(16,30,59,.92), rgba(7,13,30,.96));
+      box-shadow: 0 22px 60px rgba(0,0,0,.24);
+      animation: aiFloatCard 5.2s ease-in-out infinite;
+    }
+    .ai-work-card:nth-child(1) { left: 18px; top: 20px; }
+    .ai-work-card:nth-child(2) { right: 18px; top: 58px; animation-delay: .7s; }
+    .ai-work-card:nth-child(3) { left: 11%; bottom: 26px; animation-delay: 1.4s; }
+    .ai-work-card:nth-child(4) { right: 11%; bottom: 18px; animation-delay: 2.1s; }
+    @keyframes aiFloatCard { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+    .ai-work-card small { color: #86efac; font-size: 10px; font-weight: 950; letter-spacing: .12em; text-transform: uppercase; }
+    .ai-work-card strong { display: block; margin: 7px 0 6px; color: #f8fbff; font-size: 15px; }
+    .ai-work-card span { color: #9fb0ca; font-size: 12px; line-height: 1.45; }
+    .ai-work-progress {
+      height: 5px;
+      margin-top: 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      overflow: hidden;
+    }
+    .ai-work-progress i {
+      display: block;
+      height: 100%;
+      width: 62%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #86efac, #69c7ff, #8d7bff);
+      animation: aiProgress 2.8s ease-in-out infinite;
+    }
+    @keyframes aiProgress { 0%, 100% { transform: translateX(-25%); } 50% { transform: translateX(35%); } }
     .ai-learning-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
     .ai-lesson-card {
       width: 100%;
@@ -4178,11 +4311,13 @@
     .settings-plan-row strong { color: #f8fbff; }
     .settings-plan-row span { color: #94a3b8; font-size: 12px; }
     @media (max-width: 860px) {
-      .ai-command-hero, .ai-split, .ai-learning-grid, .learning-ocean, .resource-grid, .trade-lab-grid, .agent-lab-grid, .agent-deck-grid, .agent-command-hero, .agent-output-console, .billing-grid { grid-template-columns: 1fr; }
+      .ai-command-hero, .ai-split, .ai-hub-grid, .ai-learning-grid, .learning-ocean, .resource-grid, .trade-lab-grid, .agent-lab-grid, .agent-deck-grid, .agent-command-hero, .agent-output-console, .billing-grid { grid-template-columns: 1fr; }
       .ai-question-box { grid-template-columns: 1fr; }
       .settings-plan-row { grid-template-columns: 1fr; }
       .account-overview-list .review-item { grid-template-columns: 1fr; }
       .account-overview-list .review-item strong { text-align: left; }
+      .ai-hub-stage { min-height: 0; }
+      .ai-workflow-board { min-height: 460px; }
     }
 
     /* First-login trader profile */
@@ -4285,6 +4420,9 @@
       .onboarding-body { padding: 24px 18px; }
       .onboarding-options { grid-template-columns: 1fr; }
       .onboarding-actions button { min-width: 0; flex: 1; }
+      .ai-hub-metrics { grid-template-columns: 1fr; }
+      .ai-work-card { position: relative; inset: auto !important; width: auto; margin: 10px; }
+      .ai-workflow-board { min-height: 0; display: grid; gap: 0; padding: 8px 0; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -4971,6 +5109,7 @@
                   <span>Trading spreadsheets</span>
                   <span>Global markets</span>
                 </div>
+                <div class="csv-import-status" id="csvImportStatus" role="status" aria-live="polite"></div>
               </div>
               <p class="footer-note">Your imported trades are saved privately to your account. The importer is broker-agnostic: it looks for dates, symbols, side, quantity, prices/costs, fees, P/L, risk, setup, and notes.</p>
             </div>
@@ -5271,6 +5410,27 @@
                 <li>Plan entries, exits, management, and review prompts.</li>
               </ul>
             </button>
+          </div>
+
+          <div class="ai-hub-stage" aria-label="Animated AI coaching workflow">
+            <div class="ai-hub-grid">
+              <div class="ai-hub-brief">
+                <span class="ai-command-kicker">Live AI workflow</span>
+                <h3>Education, planning, and review in one loop.</h3>
+                <p>TradeReview turns lessons, strategy prompts, journal mistakes, risk settings, and screenshots into a connected coaching flow. The point is not random signals. The point is better preparation before the trade and better evidence after the trade.</p>
+                <div class="ai-hub-metrics">
+                  <div class="ai-hub-metric"><b>01</b><span>Learn foundation</span></div>
+                  <div class="ai-hub-metric"><b>02</b><span>Build a plan</span></div>
+                  <div class="ai-hub-metric"><b>03</b><span>Review evidence</span></div>
+                </div>
+              </div>
+              <div class="ai-workflow-board">
+                <div class="ai-work-card"><small>Learn</small><strong>Topic map generated</strong><span>Stocks, options, forex, futures, crypto, risk, psychology, and journal lessons.</span><div class="ai-work-progress"><i></i></div></div>
+                <div class="ai-work-card"><small>Trade</small><strong>Strategy converted</strong><span>Your prompt becomes setup, trigger, invalidation, stop, target, and skip rules.</span><div class="ai-work-progress"><i></i></div></div>
+                <div class="ai-work-card"><small>Risk</small><strong>Guardrails scanning</strong><span>Planned risk, actual risk, R-multiple, repeated mistakes, and overtrading behavior.</span><div class="ai-work-progress"><i></i></div></div>
+                <div class="ai-work-card"><small>Review</small><strong>Evidence loop ready</strong><span>Entry, exit, screenshots, notes, and tomorrow's rule become the next lesson.</span><div class="ai-work-progress"><i></i></div></div>
+              </div>
+            </div>
           </div>
 
           <div class="ai-pane" id="learnAiPane">
@@ -6080,6 +6240,13 @@
     let deferredInstallPrompt = null;
     let performanceRange = "1d";
     let lastCsvRejectedCount = 0;
+    let lastCsvImportReport = {
+      totalRows: 0,
+      parsedRows: 0,
+      imported: 0,
+      rejected: 0,
+      reasons: []
+    };
 
     function cleanAppPathname(pathname = location.pathname) {
       return pathname.replace(/\/app\/(?:tradereview-ai|index)\.html$/i, "/app/");
@@ -6881,9 +7048,30 @@
 
     function importCsv(text) {
       const rows = parseCsv(text);
-      if (rows.length < 2) return 0;
+      lastCsvImportReport = {
+        totalRows: Math.max(rows.length - 1, 0),
+        parsedRows: 0,
+        imported: 0,
+        rejected: 0,
+        reasons: []
+      };
+      if (rows.length < 2) {
+        lastCsvRejectedCount = 0;
+        lastCsvImportReport.reasons.push("No trade rows were found. Make sure the file has a header row and at least one trade row.");
+        return 0;
+      }
       const headers = rows[0].map(item => item.trim());
       const idx = Object.fromEntries(Object.keys(columns).map(key => [key, findColumn(headers, key)]));
+      const missingRequired = [];
+      if (idx.date < 0) missingRequired.push("trade date");
+      if (idx.symbol < 0) missingRequired.push("symbol / instrument");
+      if (missingRequired.length) {
+        lastCsvRejectedCount = rows.length - 1;
+        lastCsvImportReport.rejected = lastCsvRejectedCount;
+        lastCsvImportReport.reasons.push(`Missing required column(s): ${missingRequired.join(", ")}.`);
+        lastCsvImportReport.reasons.push("Use headers like Trade Date, Symbol, Entry Time, Exit Time, Side, Quantity, Net P/L, Planned Risk, Actual Risk, Strategy, and Notes.");
+        return 0;
+      }
       const drafted = rows.slice(1).map(row => ({
         id: crypto.randomUUID(),
         date: normalizeDate(row[idx.date]),
@@ -6907,8 +7095,26 @@
         mistake: (row[idx.mistake] || "").trim(),
         note: ""
       })).filter(trade => trade.symbol && trade.symbol !== "UNKNOWN" || trade.pnl !== 0);
-      const imported = drafted.filter(trade => !tradeTimingError(trade) && !symbolTickerMismatch(trade));
+      lastCsvImportReport.parsedRows = drafted.length;
+      const imported = [];
+      const reasonCounts = {};
+      drafted.forEach(trade => {
+        const timing = tradeTimingError(trade);
+        const mismatch = symbolTickerMismatch(trade);
+        const reason = timing || mismatch || "";
+        if (reason) {
+          reasonCounts[reason] = (reasonCounts[reason] || 0) + 1;
+          return;
+        }
+        imported.push(trade);
+      });
       lastCsvRejectedCount = drafted.length - imported.length;
+      lastCsvImportReport.imported = imported.length;
+      lastCsvImportReport.rejected = lastCsvRejectedCount;
+      lastCsvImportReport.reasons = Object.entries(reasonCounts).map(([reason, count]) => `${count} row(s): ${reason}`);
+      if (!drafted.length) {
+        lastCsvImportReport.reasons.push("No usable trade rows were recognized. Check that symbol/instrument and P/L columns contain values.");
+      }
       state.trades.unshift(...imported);
       saveState();
       render();
@@ -10360,6 +10566,52 @@ Education should come before size. If you cannot explain the trade idea, invalid
       clearFieldErrors(document.querySelector("#manualTradePanel") || document);
     }
 
+    function setCsvImportStatus(type, title, detail, reasons = []) {
+      const status = document.querySelector("#csvImportStatus");
+      if (!status) return;
+      const reasonList = reasons.length
+        ? `<ul>${reasons.slice(0, 5).map(reason => `<li>${escapeHtml(reason)}</li>`).join("")}</ul>`
+        : "";
+      status.className = `csv-import-status show ${type}`;
+      status.innerHTML = `<strong>${escapeHtml(title)}</strong><small>${escapeHtml(detail)}</small>${reasonList}`;
+    }
+
+    async function handleCsvFile(file) {
+      if (!file) return;
+      if (!/\.csv$/i.test(file.name || "") && !/csv/i.test(file.type || "")) {
+        setCsvImportStatus("error", "That file does not look like a CSV", "Choose a .csv file exported from your broker, prop firm, exchange, or spreadsheet.");
+        showAppToast("Choose a .csv file and try again.", { title: "CSV import blocked", type: "error" });
+        return;
+      }
+      setCsvImportStatus("warn", "Reading CSV…", `Checking ${file.name || "your file"} for trade rows.`);
+      try {
+        const text = await file.text();
+        const count = importCsv(text);
+        const report = lastCsvImportReport;
+        if (count > 0) {
+          setCsvImportStatus(
+            report.rejected ? "warn" : "success",
+            `Imported ${count} trade${count === 1 ? "" : "s"}`,
+            `${report.totalRows} row${report.totalRows === 1 ? "" : "s"} found. ${report.rejected ? `${report.rejected} row${report.rejected === 1 ? "" : "s"} skipped and listed below.` : "Everything usable was imported."}`,
+            report.reasons
+          );
+          showAppToast(`Imported ${count} trade${count === 1 ? "" : "s"}.${report.rejected ? ` Skipped ${report.rejected} row(s).` : ""}`, { title: "CSV import complete", type: report.rejected ? "warn" : "success", icon: report.rejected ? "!" : "✓" });
+          switchView("dashboard");
+          return;
+        }
+        setCsvImportStatus(
+          "error",
+          "No trades were imported",
+          `${report.totalRows} row${report.totalRows === 1 ? "" : "s"} found, but TradeReview could not safely add them. Fix the CSV and import again.`,
+          report.reasons.length ? report.reasons : ["Required columns: Trade Date, Symbol or Instrument, Entry Time, Exit Time, Side, Quantity, Net P/L, Planned Risk, Actual Risk, Strategy."]
+        );
+        showAppToast("No trades were imported. Check the CSV import report below the upload box.", { title: "CSV needs cleanup", type: "error" });
+      } catch (error) {
+        setCsvImportStatus("error", "CSV import failed", error?.message || "The browser could not read this file. Save it as a plain .csv and try again.");
+        showAppToast("The CSV file could not be read.", { title: "CSV import failed", type: "error" });
+      }
+    }
+
     document.querySelector("#addManualTrade").addEventListener("click", () => {
       const symbol = document.querySelector("#manualSymbol").value.trim().toUpperCase();
       const selectedTimeZone = document.querySelector("#manualTimeZone").value || state.settings?.tradingTimeZone || "America/New_York";
@@ -10402,12 +10654,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
 
     document.querySelector("#csvFile").addEventListener("change", event => {
       const file = event.target.files[0];
-      if (!file) return;
-      file.text().then(text => {
-        const count = importCsv(text);
-        showAppToast(`Imported ${count} trades.${lastCsvRejectedCount ? ` Skipped ${lastCsvRejectedCount} row(s) because timing was invalid or the instrument did not match the chart ticker.` : ""}`, { title: "CSV import complete", type: lastCsvRejectedCount ? "warn" : "success", icon: lastCsvRejectedCount ? "!" : "✓" });
-        switchView("dashboard");
-      });
+      handleCsvFile(file);
     });
 
     const dropZone = document.querySelector("#dropZone");
@@ -10422,12 +10669,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
       event.preventDefault();
       dropZone.style.borderColor = "#9fb0aa";
       const file = event.dataTransfer.files[0];
-      if (!file) return;
-      file.text().then(text => {
-        const count = importCsv(text);
-        showAppToast(`Imported ${count} trades.${lastCsvRejectedCount ? ` Skipped ${lastCsvRejectedCount} row(s) because timing was invalid or the instrument did not match the chart ticker.` : ""}`, { title: "CSV import complete", type: lastCsvRejectedCount ? "warn" : "success", icon: lastCsvRejectedCount ? "!" : "✓" });
-        switchView("dashboard");
-      });
+      handleCsvFile(file);
     });
 
     function armDestructiveButton(button, message, action) {
