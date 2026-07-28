@@ -2215,12 +2215,13 @@
     .symbol-picker-menu {
       position: fixed;
       z-index: 340;
-      left: calc(var(--app-sidebar-width, 250px) + var(--app-page-padding, 28px));
-      right: var(--app-page-padding, 28px);
-      top: 82px;
+      left: 50%;
+      right: auto;
+      top: clamp(56px, 7vh, 88px);
       display: none;
-      height: min(780px, calc(100vh - 108px));
-      max-height: calc(100vh - 108px);
+      width: min(1180px, calc(100vw - 48px));
+      height: min(760px, calc(100dvh - 112px));
+      max-height: calc(100dvh - 112px);
       overflow: hidden;
       border: 1px solid rgba(127,176,255,.22);
       border-radius: 24px;
@@ -2232,6 +2233,15 @@
       box-shadow: 0 34px 110px rgba(0,0,0,.62), 0 0 0 1px rgba(255,255,255,.045) inset, 0 0 56px rgba(36,213,232,.08);
       font-weight: 650;
       letter-spacing: 0;
+      transform: translateX(-50%);
+    }
+    .symbol-combobox.open::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 330;
+      background: rgba(2, 6, 23, .62);
+      backdrop-filter: blur(10px);
     }
     .symbol-picker-menu button { font-weight: 720; letter-spacing: 0; }
     .symbol-combobox.open .symbol-picker-menu { display: flex; flex-direction: column; }
@@ -2343,7 +2353,8 @@
       min-height: 280px;
       max-height: none;
       overflow-y: auto;
-      padding: 10px;
+      padding: 12px;
+      overscroll-behavior: contain;
     }
     .symbol-result-list::-webkit-scrollbar { width: 8px; }
     .symbol-result-list::-webkit-scrollbar-thumb { background: rgba(127,176,255,.28); border-radius: 999px; }
@@ -2420,11 +2431,12 @@
 
     @media (max-width: 940px) {
       .symbol-picker-menu {
-        left: 12px;
-        right: 12px;
-        top: 72px;
-        height: calc(100dvh - 96px);
-        max-height: calc(100dvh - 96px);
+        left: 50%;
+        right: auto;
+        top: 54px;
+        width: calc(100vw - 18px);
+        height: calc(100dvh - 72px);
+        max-height: calc(100dvh - 72px);
         border-radius: 18px;
       }
       .symbol-row {
@@ -3735,6 +3747,7 @@
       line-height: 1.55;
       font-size: 12px;
     }
+    .ai-output strong { display: block; margin: 10px 0 5px; color: #f8fbff; font-size: 13px; }
     .ai-disclaimer { padding: 11px 12px; border-radius: 13px; color: #f2d394; background: rgba(242,197,109,.07); border: 1px solid rgba(242,197,109,.16); font-size: 11px; line-height: 1.5; }
     .ai-mode-button { width: 100%; text-align: left; cursor: pointer; }
     .ai-mode-button:hover { border-color: rgba(134,239,172,.32); transform: translateY(-3px); }
@@ -3743,6 +3756,114 @@
     .ai-pane.active { display: grid; gap: 18px; }
     .ai-mode-nav { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 0; }
     .ai-mode-nav button.active { border-color: rgba(134,239,172,.42); color: #061410; background: #86efac; }
+    .ai-page-hero {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(20px, 3vw, 34px);
+      border: 1px solid rgba(127,176,255,.18);
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 85% 18%, rgba(105,199,255,.18), transparent 24rem),
+        radial-gradient(circle at 12% 100%, rgba(134,239,172,.11), transparent 22rem),
+        linear-gradient(135deg, rgba(13,28,58,.94), rgba(6,12,28,.98));
+      box-shadow: 0 24px 80px rgba(0,0,0,.28), inset 0 0 0 1px rgba(255,255,255,.025);
+    }
+    .ai-page-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .22;
+      background-image:
+        linear-gradient(rgba(127,176,255,.14) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(127,176,255,.14) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: linear-gradient(90deg, #000, transparent 72%);
+    }
+    .ai-page-hero > * { position: relative; z-index: 1; }
+    .ai-page-hero h2 {
+      max-width: 980px;
+      margin: 8px 0 10px;
+      color: #f8fbff;
+      font-size: clamp(34px, 5vw, 72px);
+      line-height: .95;
+      letter-spacing: -.07em;
+    }
+    .ai-page-hero p { max-width: 760px; color: #a9b8d2; font-size: 15px; line-height: 1.65; }
+    .ai-path-grid { display: grid; grid-template-columns: .72fr 1.28fr; gap: 16px; }
+    .ai-track-panel {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(127,176,255,.15);
+      background: rgba(5,12,28,.62);
+    }
+    .ai-track-panel label { display: grid; gap: 8px; margin-bottom: 12px; }
+    .ai-track-panel select { min-height: 44px; }
+    .learning-timeline { display: grid; gap: 10px; }
+    .learning-step {
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      gap: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(148,163,184,.12);
+      background: linear-gradient(135deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+    }
+    .learning-step b {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      color: #061410;
+      background: linear-gradient(135deg, #86efac, #7fb0ff);
+      box-shadow: 0 10px 26px rgba(105,199,255,.18);
+    }
+    .learning-step strong { display: block; color: #f8fbff; margin-bottom: 4px; }
+    .learning-step span { color: #9fb0ca; font-size: 12px; line-height: 1.5; }
+    .trade-command-layout { display: grid; grid-template-columns: minmax(280px, .82fr) minmax(0, 1.18fr); gap: 16px; }
+    .trade-context-card {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(134,239,172,.16);
+      background: linear-gradient(160deg, rgba(8,22,38,.92), rgba(9,13,30,.98));
+    }
+    .trade-context-card h3 { margin: 0 0 10px; color: #f8fbff; }
+    .trade-context-card p, .trade-context-card li { color: #9fb0ca; font-size: 12px; line-height: 1.6; }
+    .trade-context-card ul { display: grid; gap: 8px; padding-left: 18px; }
+    .agent-lab-card {
+      transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .agent-lab-card:hover,
+    .agent-lab-card.active {
+      transform: translateY(-5px);
+      border-color: rgba(134,239,172,.42);
+      box-shadow: 0 26px 70px rgba(36,213,232,.10), 0 0 0 1px rgba(134,239,172,.08) inset;
+    }
+    .agent-lab-card.active::after {
+      content: "ACTIVE";
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 2;
+      padding: 5px 8px;
+      border-radius: 999px;
+      color: #061410;
+      background: linear-gradient(135deg, #86efac, #69c7ff);
+      font-size: 10px;
+      font-weight: 950;
+      letter-spacing: .08em;
+    }
+    .agent-status-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-bottom: 12px; }
+    .agent-status-pill {
+      padding: 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(127,176,255,.13);
+      background: rgba(255,255,255,.035);
+      color: #aebed8;
+      font-size: 11px;
+      line-height: 1.45;
+    }
+    .agent-status-pill strong { display: block; color: #f8fbff; font-size: 13px; margin-bottom: 4px; }
     .learning-ocean { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
     .learning-module { padding: 18px; border: 1px solid rgba(148,163,184,.13); border-radius: 18px; background: linear-gradient(150deg, rgba(14,25,52,.94), rgba(7,13,30,.98)); }
     .learning-module span { color: #86efac; font-size: 10px; font-weight: 950; letter-spacing: .1em; text-transform: uppercase; }
@@ -3893,6 +4014,11 @@
     .onboarding-actions .primary:disabled { cursor: not-allowed; opacity: .45; transform: none; }
 
     @media (max-width: 940px) {
+      .ai-path-grid,
+      .trade-command-layout,
+      .agent-status-grid {
+        grid-template-columns: 1fr;
+      }
       .auth-shell { grid-template-columns: 1fr; max-width: 680px; padding: 34px 0; }
       .auth-story { text-align: center; }
       .auth-brand { justify-content: center; }
@@ -4919,6 +5045,46 @@
           </div>
 
           <div class="ai-pane active" id="learnAiPane">
+          <div class="ai-page-hero">
+            <span class="ai-command-kicker">Learn with AI</span>
+            <h2>Your trading university, built into the journal.</h2>
+            <p>Choose what you trade, then learn the foundations in a clean path: market basics, chart reading, risk, psychology, setups, journaling, and links to deeper blog/video research. The goal is not hype — it is making every trader understand what they are doing before risking money.</p>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header"><h2>Choose your learning path</h2><button class="primary" id="generateAiTrack" type="button">Build path</button></div>
+            <div class="panel-body">
+              <div class="ai-path-grid">
+                <div class="ai-track-panel">
+                  <label>What do you want to learn?
+                    <select id="aiLearningTrack">
+                      <option value="stocks">Stocks and ETFs</option>
+                      <option value="options">Options: calls, puts, spreads, Greeks</option>
+                      <option value="forex">Forex and currency pairs</option>
+                      <option value="futures">Futures and prop firm trading</option>
+                      <option value="crypto">Crypto spot and derivatives</option>
+                      <option value="risk">Risk management and psychology</option>
+                      <option value="journal">Journaling, review, and performance reports</option>
+                    </select>
+                  </label>
+                  <label>Learning depth
+                    <select id="aiLearningDepth">
+                      <option>Beginner: explain from zero</option>
+                      <option>Intermediate: add examples and mistakes</option>
+                      <option>Advanced: give drills, rules, and review prompts</option>
+                    </select>
+                  </label>
+                  <p class="footer-note">This keeps the experience useful for stocks, options, forex, futures, crypto, and global markets instead of forcing everyone into one asset type.</p>
+                </div>
+                <div class="learning-timeline" id="aiLearningTrackOutput">
+                  <div class="learning-step"><b>1</b><div><strong>Pick an asset class</strong><span>Start with the exact market you trade so the lessons match your workflow.</span></div></div>
+                  <div class="learning-step"><b>2</b><div><strong>Learn structure and risk</strong><span>Understand price action, trade cost, stop placement, planned risk, and mistakes before using AI to plan.</span></div></div>
+                  <div class="learning-step"><b>3</b><div><strong>Connect lessons to your journal</strong><span>After you log trades, Trade with AI can turn repeated mistakes into guardrails and review questions.</span></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="panel">
             <div class="panel-header"><h2>Learn with AI: Trading Basics Path</h2><button class="primary" id="generateAiLesson" type="button">Generate lesson</button></div>
             <div class="panel-body ai-builder">
@@ -5031,10 +5197,26 @@
           </div>
 
           <div class="ai-pane" id="tradeAiPane">
+          <div class="ai-page-hero">
+            <span class="ai-command-kicker">Trade with AI</span>
+            <h2>Turn your strategy into a risk-first execution plan.</h2>
+            <p>Trade with AI is the advanced workspace: paste your strategy, choose market context, use journal mistakes as guardrails, and generate a pre-trade checklist. It is built for planning and review — not random signals, not financial advice, and never automatic order placement.</p>
+          </div>
+
           <div class="panel">
             <div class="panel-header"><h2>Trade with AI: Strategy Prompt Workspace</h2><button class="primary" id="generateAiPlan" type="button">Generate plan</button></div>
             <div class="panel-body ai-builder">
-              <div class="trade-lab-grid">
+              <div class="trade-command-layout">
+                <div class="trade-context-card">
+                  <h3>How this should be used</h3>
+                  <p>Use this before the trade to slow yourself down and after the trade to check decision quality. The strongest prompts include your setup, invalidation, risk rule, session, and what usually makes you break rules.</p>
+                  <ul>
+                    <li>Ask for a checklist, not a prediction.</li>
+                    <li>Require a skip rule before every trade.</li>
+                    <li>Use your own journal mistakes as guardrails.</li>
+                    <li>Keep risk defined before entry.</li>
+                  </ul>
+                </div>
                 <div class="panel" id="trade-ai">
                   <div class="panel-header"><h2>Strategy command center</h2></div>
                   <div class="panel-body ai-builder">
@@ -5045,12 +5227,6 @@
                       <button type="button" data-strategy-prompt="Help me convert my trading idea into a playbook with setup, entry trigger, invalidation, target, management, and review tags.">Playbook builder</button>
                       <button type="button" data-strategy-prompt="Create a post-trade review template that grades decision quality separately from P/L.">Post-trade review</button>
                     </div>
-                  </div>
-                </div>
-                <div class="panel">
-                  <div class="panel-header"><h2>Journal-aware inputs</h2></div>
-                  <div class="panel-body">
-                    <p class="footer-note">Trade with AI can use your saved profile, broker preference, risk settings, latest mistakes, setup tags, and journal notes to create a better plan. When broker sync is live, imported fills will make this stronger.</p>
                   </div>
                 </div>
               </div>
@@ -5676,7 +5852,6 @@
     const marketRegions = [
       { key: "world", label: "Entire world", icon: "GL" },
       { key: "us", label: "USA", icon: "US" },
-      { key: "nepal", label: "Nepal", icon: "NP" },
       { key: "india", label: "India", icon: "IN" },
       { key: "germany", label: "Germany", icon: "DE" },
       { key: "japan", label: "Japan", icon: "JP" },
@@ -5687,7 +5862,8 @@
       { key: "brazil", label: "Brazil", icon: "BR" },
       { key: "france", label: "France", icon: "FR" },
       { key: "singapore", label: "Singapore", icon: "SG" },
-      { key: "global", label: "FX / Crypto / Futures", icon: "FX" }
+      { key: "global", label: "FX / Crypto / Futures", icon: "FX" },
+      { key: "nepal", label: "Nepal", icon: "NP" }
     ];
 
     const tickerUniverse = [
@@ -7951,6 +8127,59 @@
       return `${trades.length} trade${trades.length === 1 ? "" : "s"} reviewed. Most common setup: ${topSetup?.[0] || "not tagged"}. Most common mistake: ${topMistake?.[0] || "not tagged"}. Over-risk trades: ${overRisk}.`;
     }
 
+    function generateAiLearningTrack() {
+      if (!requirePlan("Learn with AI", "starter")) return;
+      const track = document.querySelector("#aiLearningTrack")?.value || "stocks";
+      const depth = document.querySelector("#aiLearningDepth")?.value || "Beginner: explain from zero";
+      const tracks = {
+        stocks: [
+          ["Market basics", "Shares, ETFs, sectors, indexes, market cap, liquidity, spread, volume, earnings, dividends, and why stocks move."],
+          ["Chart reading", "Candles, trend, support/resistance, VWAP, relative strength, gap behavior, breakouts, and failed moves."],
+          ["Risk workflow", "Position size from stop distance, planned loss, partial exits, daily max loss, and post-trade screenshots."]
+        ],
+        options: [
+          ["Contract basics", "Calls, puts, strike, expiration, premium, intrinsic/extrinsic value, breakeven, assignment risk, and contract multiplier."],
+          ["Greeks and volatility", "Delta, gamma, theta, vega, implied volatility, IV crush, liquidity, bid/ask spreads, and why options can lose while direction is right."],
+          ["Options risk review", "Premium at risk, max loss, spread width, stop rules, size limits, and journaling the reason for choosing the contract."]
+        ],
+        forex: [
+          ["Currency basics", "Pairs, pips, lots, spread, sessions, London/New York overlap, economic news, swaps, and leverage risk."],
+          ["FX price action", "Liquidity sweeps, trend, ranges, support/resistance, session highs/lows, continuation, and reversal confirmation."],
+          ["FX risk routine", "Pip value, stop distance, account currency, max daily risk, news filter, and session-based journal review."]
+        ],
+        futures: [
+          ["Contract basics", "ES, NQ, CL, GC, tick size/value, margin, contract rollover, prop firm rules, and session behavior."],
+          ["Execution context", "Opening range, VWAP, market profile basics, trend day vs chop, liquidity, and news risk."],
+          ["Risk controls", "Daily drawdown, trailing drawdown, contracts per setup, stop discipline, max attempts, and rule-break review."]
+        ],
+        crypto: [
+          ["Market basics", "Spot, perpetuals, funding, exchange liquidity, weekend movement, volatility, custody risk, and stablecoin pairs."],
+          ["Chart behavior", "Breakouts, fakeouts, liquidation wicks, trend structure, volume spikes, and risk during news/low liquidity."],
+          ["Risk and journal", "Position sizing, leverage limits, fees/funding, stop discipline, and emotional control in 24/7 markets."]
+        ],
+        risk: [
+          ["Survival math", "R-multiple, max daily loss, drawdown, expectancy, reward/risk, win rate, and why one oversized trade destroys progress."],
+          ["Behavior guardrails", "FOMO, revenge trades, boredom entries, overconfidence, hesitation, and rules for stopping after a loss streak."],
+          ["Review loop", "Grade process separately from P/L, write tomorrow's rule, track mistake frequency, and reduce size when discipline slips."]
+        ],
+        journal: [
+          ["Daily workflow", "Plan the session, log entries/exits, attach screenshots, tag setup/mistake, write recap, and set tomorrow's rule."],
+          ["Reports", "Win rate, average R, profit factor, setup quality, time of day, symbol behavior, fees, and risk consistency."],
+          ["AI review", "Use your journal patterns to generate checklists, guardrails, weekly summaries, and focused lessons."]
+        ]
+      };
+      const rows = tracks[track] || tracks.stocks;
+      const target = document.querySelector("#aiLearningTrackOutput");
+      if (target) {
+        target.innerHTML = rows.map((row, index) => `
+          <div class="learning-step">
+            <b>${index + 1}</b>
+            <div><strong>${escapeHtml(row[0])}</strong><span>${escapeHtml(row[1])}<br>Depth: ${escapeHtml(depth)}.</span></div>
+          </div>
+        `).join("");
+      }
+    }
+
     function generateAiLesson() {
       if (!requirePlan("Learn with AI", "starter")) return;
       const profile = { ...defaultProfile(), ...(state.profile || {}) };
@@ -9028,6 +9257,14 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       document.querySelectorAll("[data-ai-mode]").forEach(button => {
         button.classList.toggle("active", button.dataset.aiMode === nextMode);
       });
+      const aiSection = document.querySelector("#aiCommand");
+      if (aiSection?.classList.contains("active")) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("view", "aiCommand");
+        url.searchParams.set("ai", nextMode);
+        window.history.replaceState({}, "", url);
+        aiSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }
 
     function answerAiLearningQuestion() {
@@ -9060,26 +9297,31 @@ Education should come before size. If you cannot explain the trade idea, invalid
       const text = prompt || document.querySelector("#customAgentPrompt")?.value.trim() || "Watch my trading rules and warn me when I drift from my process.";
       const target = document.querySelector("#agentOutput");
       if (!target) return;
-      target.textContent = `Agent setup drafted
+      target.innerHTML = `
+        <div class="agent-status-grid">
+          <div class="agent-status-pill"><strong>Drafted</strong>Agent rules generated</div>
+          <div class="agent-status-pill"><strong>Watching</strong>Risk, mistakes, routine</div>
+          <div class="agent-status-pill"><strong>Output</strong>Warning + review prompt</div>
+          <div class="agent-status-pill"><strong>Backend</strong>Ready for automation hook</div>
+        </div>
+        <strong>Mission</strong>
+        ${escapeHtml(text)}
 
-Mission
-${text}
+        <strong>What this agent watches</strong>
+        • Saved risk settings and max R per trade
+        • Repeated mistake tags from journal entries
+        • Setup tags that appear before losses
+        • Missed journal reviews or skipped preparation
+        • Emotional language like FOMO, revenge, rushed, bored, tilted, or overconfident
 
-What this agent should watch
-- Your saved risk settings and max R per trade
-- Recent mistakes from journal entries
-- Setup tags that repeat before losses
-- Missed journal reviews or skipped preparation
-- Emotional language such as rushed, FOMO, revenge, bored, tilted, or overconfident
+        <strong>How it responds</strong>
+        1. Gives a short warning before the next trade plan.
+        2. Asks one question that slows the decision down.
+        3. Suggests a risk reduction or skip rule when behavior repeats.
+        4. Adds the issue to the post-trade review.
 
-How it should respond
-1. Give a short warning before the next trade plan.
-2. Ask one question that slows the decision down.
-3. Suggest a risk reduction or skip rule when behavior repeats.
-4. Add the issue to the post-trade review.
-
-Next backend step
-Save this agent to the database and run it against new journal/trade events automatically.`;
+        <strong>Backend step</strong>
+        Save the active agent rules to Supabase and run them against new journal/trade events automatically.`;
     }
 
     function chooseBillingPlan(plan) {
@@ -9416,10 +9658,20 @@ Save this agent to the database and run it against new journal/trade events auto
     document.querySelectorAll("#askAiLessonQuestion, #askAiLessonQuestionInline").forEach(button => {
       button?.addEventListener("click", answerAiLearningQuestion);
     });
+    document.querySelector("#generateAiTrack")?.addEventListener("click", generateAiLearningTrack);
+    document.querySelector("#aiLearningTrack")?.addEventListener("change", generateAiLearningTrack);
     document.querySelectorAll("[data-agent-template]").forEach(button => {
-      button.addEventListener("click", () => renderAgentPlan(button.dataset.agentTemplate));
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".agent-lab-card").forEach(card => card.classList.remove("active"));
+        button.closest(".agent-lab-card")?.classList.add("active");
+        renderAgentPlan(button.dataset.agentTemplate);
+      });
     });
-    document.querySelector("#buildCustomAgent")?.addEventListener("click", () => renderAgentPlan());
+    document.querySelector("#buildCustomAgent")?.addEventListener("click", () => {
+      document.querySelectorAll(".agent-lab-card").forEach(card => card.classList.remove("active"));
+      document.querySelector("#buildCustomAgent")?.closest(".agent-lab-card")?.classList.add("active");
+      renderAgentPlan();
+    });
     document.querySelectorAll("[data-plan]").forEach(button => {
       button.addEventListener("click", () => chooseBillingPlan(button.dataset.plan));
     });
@@ -9459,6 +9711,9 @@ Save this agent to the database and run it against new journal/trade events auto
     });
     document.querySelector("#generateAiLesson").addEventListener("click", generateAiLesson);
     document.querySelector("#generateAiPlan").addEventListener("click", generateAiTradePlan);
+    if (requestedViewFromUrl() === "aiCommand") {
+      setAiMode(new URLSearchParams(window.location.search).get("ai") || "learn");
+    }
 
     document.querySelectorAll("#accountSize, #riskPerTrade, #optionMultiplier, #riskWarningR").forEach(input => {
       input.addEventListener("change", saveSettingsFromForm);
