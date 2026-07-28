@@ -1,4 +1,4 @@
-const CACHE_NAME = "tradereview-ai-mobile-v4";
+const CACHE_NAME = "tradereview-ai-mobile-v5";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -7,6 +7,9 @@ const APP_SHELL = [
   "./icons/icon-512.png",
   "./manifest.webmanifest",
   "./privacy.html",
+  "./app/",
+  "./app/index.html",
+  "./app/tradereview-ai.html",
   "./app/supabase-config.js?v=20260716-3",
   "./app/vendor/supabase.js",
   "./blog/"
@@ -33,7 +36,7 @@ self.addEventListener("fetch", event => {
   if (request.method !== "GET") return;
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
-  const isAppHtml = url.pathname.endsWith("/app/tradereview-ai.html");
+  const isAppHtml = url.pathname.endsWith("/app/") || url.pathname.endsWith("/app/index.html") || url.pathname.endsWith("/app/tradereview-ai.html");
 
   if (isAppHtml) {
     event.respondWith(fetch(request, { cache: "reload" }));
@@ -47,6 +50,6 @@ self.addEventListener("fetch", event => {
         caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
         return response;
       })
-      .catch(() => caches.match(request).then(cached => cached || caches.match("./app/tradereview-ai.html")))
+      .catch(() => caches.match(request).then(cached => cached || caches.match("./app/index.html") || caches.match("./app/tradereview-ai.html")))
   );
 });
