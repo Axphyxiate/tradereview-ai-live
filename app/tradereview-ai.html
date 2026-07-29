@@ -6,7 +6,10 @@
   <link rel="canonical" href="https://gettradereview.com/app/">
   <link rel="icon" type="image/png" href="../icons/icon-192.png">
   <link rel="manifest" href="../manifest.webmanifest">
-  <meta name="theme-color" content="#050817">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#efe8d8">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="TradeReview">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -5612,6 +5615,608 @@
       }
       .dashboard-hero {
         border-radius: 22px;
+      }
+    }
+
+    /* Summit Canvas brand reset — warm, restrained, professional */
+    :root {
+      color-scheme: light;
+      --summit-ink: #1a1612;
+      --summit-muted: #736b5e;
+      --summit-canvas: #efe8d8;
+      --summit-lift: #e6dfd0;
+      --summit-pine: #2d4a2b;
+      --summit-card-border: rgba(26,22,18,0.10);
+      --summit-divider: rgba(26,22,18,0.14);
+      --summit-outline: rgba(26,22,18,0.22);
+      --summit-soft: rgba(26,22,18,0.06);
+      --summit-pine-soft: rgba(45,74,43,0.12);
+      --summit-shadow-card: rgba(26,22,18,0.05) 0 1px 2px;
+      --summit-shadow-hover: 0 12px 28px -12px rgba(15,23,42,0.18);
+    }
+
+    html,
+    body,
+    body.auth-pending,
+    body.auth-required,
+    body.app-ready {
+      color: var(--summit-ink) !important;
+      background: var(--summit-canvas) !important;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+      letter-spacing: -0.005em;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(26,22,18,0.04) 1px, transparent 1px),
+        linear-gradient(rgba(26,22,18,0.035) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: .75;
+      mask-image: linear-gradient(180deg, #000 0%, transparent 78%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(45,74,43,0.12), transparent 24rem),
+        radial-gradient(circle at 84% 4%, rgba(26,22,18,0.06), transparent 28rem);
+    }
+
+    .auth-gate,
+    .app,
+    main,
+    .view,
+    .page,
+    .settings-view,
+    .ai-command-view {
+      color: var(--summit-ink) !important;
+      background: transparent !important;
+    }
+
+    .auth-gate {
+      padding: clamp(20px, 3vw, 48px) !important;
+      min-height: 100vh;
+    }
+
+    .auth-gate::before,
+    .auth-gate::after,
+    .dashboard-hero::before,
+    .dashboard-hero::after,
+    .hero-command-visual,
+    .command-orb {
+      display: none !important;
+    }
+
+    .auth-nav {
+      width: min(1240px, 100%) !important;
+      margin: 0 auto clamp(48px, 7vh, 96px) !important;
+      padding: 12px 14px !important;
+      border-radius: 6px !important;
+      border: 1px solid var(--summit-card-border) !important;
+      background: var(--summit-canvas) !important;
+      box-shadow: var(--summit-shadow-card) !important;
+      backdrop-filter: none !important;
+    }
+
+    .auth-nav-logo,
+    .auth-logo-lockup,
+    .auth-mini-logo,
+    aside .brand .brand-logo-wide-app,
+    .brand-logo-wide-app {
+      border-radius: 4px !important;
+      background: var(--summit-lift) !important;
+      box-shadow: var(--summit-shadow-card) !important;
+      filter: saturate(.78) contrast(.92) sepia(.10) !important;
+    }
+
+    .auth-nav-logo {
+      width: clamp(210px, 22vw, 330px) !important;
+      height: 66px !important;
+      object-fit: cover !important;
+      object-position: left center !important;
+    }
+
+    .auth-logo-lockup {
+      width: min(460px, 100%) !important;
+      max-height: 126px !important;
+      object-fit: contain !important;
+      object-position: left center !important;
+      margin-bottom: 32px !important;
+      opacity: .94;
+    }
+
+    .auth-mini-logo {
+      max-width: 230px !important;
+      height: auto !important;
+      object-fit: contain !important;
+    }
+
+    aside .brand .brand-logo-wide-app,
+    .brand-logo-wide-app {
+      width: min(168px, 100%) !important;
+      height: auto !important;
+      max-height: 58px !important;
+      object-fit: contain !important;
+    }
+
+    .auth-nav-links,
+    .auth-nav-links a,
+    nav button,
+    .tabs button,
+    .auth-tabs button {
+      color: var(--summit-muted) !important;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+      font-size: .8125rem !important;
+      font-weight: 600 !important;
+      letter-spacing: .06em !important;
+      text-transform: uppercase !important;
+    }
+
+    .auth-nav-links a:hover,
+    nav button:hover,
+    nav button.active,
+    .tabs button:hover,
+    .tabs button.active,
+    .auth-tabs button.active {
+      color: var(--summit-ink) !important;
+      background: var(--summit-pine-soft) !important;
+      border-color: transparent !important;
+      box-shadow: inset 0 -2px 0 var(--summit-pine) !important;
+      transform: none !important;
+      text-shadow: none !important;
+    }
+
+    .auth-shell {
+      width: min(1240px, 100%) !important;
+      min-height: auto !important;
+      align-items: center !important;
+      gap: clamp(48px, 7vw, 96px) !important;
+      grid-template-columns: minmax(0, 1.06fr) minmax(360px, 440px) !important;
+    }
+
+    .auth-story h1,
+    .dashboard-hero .hero-headline,
+    .view-title,
+    .section-title,
+    .auth-card h1,
+    .panel h2,
+    .pricing-card h2 {
+      color: var(--summit-ink) !important;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+      font-weight: 700 !important;
+      line-height: 1 !important;
+      letter-spacing: -0.035em !important;
+      text-shadow: none !important;
+      filter: none !important;
+    }
+
+    .auth-story h1 {
+      max-width: 760px !important;
+      font-size: clamp(56px, 7vw, 92px) !important;
+      margin: 28px 0 22px !important;
+    }
+
+    .auth-story h1 span {
+      color: var(--summit-ink) !important;
+      background: none !important;
+      -webkit-background-clip: initial !important;
+      background-clip: initial !important;
+      filter: none !important;
+    }
+
+    .auth-story > p,
+    .subtitle,
+    .lead,
+    .muted,
+    p,
+    .auth-copy,
+    .google-note,
+    .free-note,
+    .auth-status,
+    .preview-toolbar,
+    .preview-head span,
+    .preview-trade span,
+    .preview-stat span,
+    .review-item span,
+    small {
+      color: var(--summit-muted) !important;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      letter-spacing: -0.005em;
+    }
+
+    .product-pill,
+    .page-kicker,
+    .section-kicker,
+    .eyebrow,
+    .kicker,
+    label,
+    th,
+    .metric-label,
+    .onboarding-kicker {
+      color: var(--summit-muted) !important;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace !important;
+      font-size: 12px !important;
+      font-weight: 500 !important;
+      letter-spacing: .06em !important;
+      text-transform: uppercase !important;
+    }
+
+    .product-pill,
+    .page-kicker,
+    .section-kicker,
+    .metric-pill,
+    .broker-chip,
+    .market-chip,
+    .global-market-chip,
+    .global-asset-chip,
+    .tag,
+    .pill {
+      border-radius: 9999px !important;
+      border: 1px solid var(--summit-divider) !important;
+      background: var(--summit-lift) !important;
+      box-shadow: none !important;
+    }
+
+    .live-dot {
+      background: var(--summit-pine) !important;
+      box-shadow: 0 0 0 4px var(--summit-pine-soft) !important;
+    }
+
+    .auth-card,
+    .auth-preview,
+    .panel,
+    .stat,
+    .pricing-card,
+    .review-item,
+    .journal-card,
+    .settings-card,
+    .broker-sync-panel,
+    .agent-card,
+    .coach-card,
+    .global-symbol-search,
+    .market-finder,
+    .symbol-search-popover,
+    .ai-command-card,
+    .csv-card,
+    .modal-card,
+    .onboarding-card,
+    .help-widget,
+    .capture-pipeline,
+    .premium-lock,
+    .upgrade-callout,
+    .status-card,
+    .capture-status {
+      color: var(--summit-ink) !important;
+      border: 1px solid var(--summit-card-border) !important;
+      border-radius: 6px !important;
+      background: var(--summit-canvas) !important;
+      box-shadow: var(--summit-shadow-card) !important;
+      backdrop-filter: none !important;
+    }
+
+    .auth-card,
+    .auth-preview,
+    .dashboard-hero,
+    .panel,
+    .settings-card,
+    .global-symbol-search,
+    .market-finder {
+      background:
+        linear-gradient(rgba(26,22,18,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,22,18,0.025) 1px, transparent 1px),
+        var(--summit-canvas) !important;
+      background-size: 32px 32px, 32px 32px, auto !important;
+    }
+
+    .auth-card,
+    .panel,
+    .pricing-card,
+    .stat,
+    .settings-card {
+      padding: 24px !important;
+    }
+
+    .auth-card:hover,
+    .auth-preview:hover,
+    .panel:hover,
+    .pricing-card:hover,
+    .stat:hover,
+    .review-item:hover,
+    .agent-card:hover,
+    .coach-card:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: var(--summit-shadow-hover) !important;
+      border-color: var(--summit-divider) !important;
+    }
+
+    .dashboard-hero {
+      min-height: auto !important;
+      border-radius: 6px !important;
+      border: 1px solid var(--summit-card-border) !important;
+      background:
+        linear-gradient(rgba(26,22,18,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(26,22,18,0.025) 1px, transparent 1px),
+        var(--summit-canvas) !important;
+      background-size: 32px 32px, 32px 32px, auto !important;
+      box-shadow: var(--summit-shadow-card) !important;
+    }
+
+    .dashboard-hero .hero-copy::before {
+      display: none !important;
+    }
+
+    .dashboard-hero .hero-headline {
+      max-width: 12ch !important;
+      font-size: clamp(48px, 6vw, 80px) !important;
+    }
+
+    .dashboard-hero .subtitle {
+      max-width: 68ch !important;
+      padding: 0 0 0 18px !important;
+      border-left: 2px solid var(--summit-pine) !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+    }
+
+    aside {
+      color: var(--summit-ink) !important;
+      border-right: 1px solid var(--summit-divider) !important;
+      background: var(--summit-lift) !important;
+      box-shadow: none !important;
+    }
+
+    aside .brand {
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+
+    main {
+      color: var(--summit-ink) !important;
+    }
+
+    button,
+    .primary,
+    .auth-submit,
+    .auth-card .primary,
+    .auth-nav-actions .nav-start {
+      min-height: auto !important;
+      padding: 12px 22px !important;
+      border-radius: 4px !important;
+      border: none !important;
+      color: var(--summit-canvas) !important;
+      background: var(--summit-pine) !important;
+      box-shadow: none !important;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+      font-size: .8125rem !important;
+      font-weight: 600 !important;
+      letter-spacing: .06em !important;
+      text-transform: uppercase !important;
+    }
+
+    .secondary,
+    .auth-nav-actions .nav-signin,
+    .google-button,
+    .mobile-actions button:not(.primary) {
+      color: var(--summit-ink) !important;
+      border: 1px solid var(--summit-divider) !important;
+      background: var(--summit-lift) !important;
+      box-shadow: none !important;
+    }
+
+    .ghost-btn,
+    .auth-link,
+    .link-button,
+    .small-action {
+      color: var(--summit-muted) !important;
+      border: none !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    button:hover,
+    .primary:hover,
+    .secondary:hover,
+    .google-button:hover {
+      filter: brightness(.97) !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 12px -2px rgba(15,23,42,0.18) !important;
+    }
+
+    input,
+    select,
+    textarea,
+    .auth-card input,
+    .agent-support-form input,
+    .agent-support-form select,
+    .agent-support-form textarea {
+      color: var(--summit-ink) !important;
+      border: 1px solid var(--summit-divider) !important;
+      border-radius: 4px !important;
+      background: var(--summit-lift) !important;
+      box-shadow: none !important;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: var(--summit-muted) !important;
+      opacity: .78;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus,
+    .auth-card input:focus {
+      border: 1.5px solid var(--summit-ink) !important;
+      box-shadow: 0 0 0 4px rgba(26, 22, 18, 0.15) !important;
+      background: var(--summit-canvas) !important;
+      outline: none !important;
+    }
+
+    .auth-tabs {
+      border: 0 !important;
+      border-bottom: 1px solid var(--summit-divider) !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    .auth-tabs button {
+      background: transparent !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      color: var(--summit-muted) !important;
+    }
+
+    .auth-tabs button.active {
+      color: var(--summit-ink) !important;
+      background: transparent !important;
+      box-shadow: inset 0 -2px 0 var(--summit-pine) !important;
+    }
+
+    .auth-free-badge,
+    .auth-benefit,
+    .auth-mobile-install,
+    .preview-trade,
+    .preview-stat,
+    .hero-dashboard-strip .mini-card {
+      color: var(--summit-ink) !important;
+      border: 1px solid var(--summit-card-border) !important;
+      border-radius: 6px !important;
+      background: var(--summit-lift) !important;
+      box-shadow: none !important;
+    }
+
+    .auth-free-badge strong,
+    .auth-free-badge span,
+    .auth-mobile-install h2,
+    .auth-benefit strong,
+    .preview-head strong,
+    .preview-stat strong,
+    strong,
+    td,
+    .metric-value {
+      color: var(--summit-ink) !important;
+    }
+
+    .preview-change,
+    .preview-trade strong.win,
+    .money-win,
+    .positive,
+    .win,
+    .pnl-positive {
+      color: var(--summit-pine) !important;
+    }
+
+    .preview-trade strong.loss,
+    .money-loss,
+    .negative,
+    .loss,
+    .pnl-negative {
+      color: var(--summit-muted) !important;
+    }
+
+    .preview-chart .candle line,
+    .preview-chart .candle rect,
+    svg .candle line,
+    svg .candle rect {
+      stroke: var(--summit-pine) !important;
+      fill: var(--summit-pine) !important;
+      opacity: .88 !important;
+    }
+
+    .global-symbol-row,
+    .symbol-row,
+    tr,
+    .trade-row,
+    .journal-row {
+      border-color: var(--summit-card-border) !important;
+      color: var(--summit-ink) !important;
+      background: transparent !important;
+    }
+
+    .global-symbol-row:hover,
+    .symbol-row:hover,
+    tr:hover,
+    .trade-row:hover {
+      transform: none !important;
+      border-color: var(--summit-divider) !important;
+      background: var(--summit-soft) !important;
+    }
+
+    .global-market-chip.active,
+    .global-asset-chip.active,
+    .market-chip.active,
+    .broker-chip.active,
+    .symbol-row.active,
+    .global-symbol-row.active,
+    .selected {
+      color: var(--summit-canvas) !important;
+      border-color: var(--summit-pine) !important;
+      background: var(--summit-pine) !important;
+    }
+
+    .help-widget,
+    .assistant-panel,
+    .agent-support-form {
+      color: var(--summit-ink) !important;
+      background: var(--summit-canvas) !important;
+      border: 1px solid var(--summit-card-border) !important;
+      box-shadow: var(--summit-shadow-card) !important;
+    }
+
+    .agent-support-link {
+      color: var(--summit-canvas) !important;
+      background: var(--summit-pine) !important;
+      border-radius: 4px !important;
+      box-shadow: none !important;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after,
+    hr,
+    .divider {
+      background: var(--summit-divider) !important;
+      border-color: var(--summit-divider) !important;
+    }
+
+    @media (max-width: 1080px) {
+      .auth-shell {
+        grid-template-columns: 1fr !important;
+      }
+      .auth-card-wrap {
+        width: min(520px, 100%) !important;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .auth-nav-logo {
+        width: 100% !important;
+        height: 58px !important;
+      }
+      .auth-story h1,
+      .dashboard-hero .hero-headline {
+        font-size: clamp(42px, 13vw, 60px) !important;
+        letter-spacing: -0.035em !important;
+      }
+      .auth-logo-lockup {
+        width: min(320px, 100%) !important;
+        max-height: 94px !important;
+      }
+      .auth-preview {
+        display: block !important;
       }
     }
   </style>
