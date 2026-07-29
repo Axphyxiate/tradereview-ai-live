@@ -123,3 +123,196 @@ footer .brand-logo-wide { width: 210px; height: 48px; }
   .article { font-size: 16px; }
   footer { flex-direction: column; text-align: center; }
 }
+
+/* TradeReview Executive Canvas — shared public-page polish */
+:root {
+  color-scheme: light;
+  --canvas: #efe8d8;
+  --lift: #e6dfd0;
+  --ink: #1a1612;
+  --muted: #736b5e;
+  --pine: #2d4a2b;
+  --hairline: rgba(26, 22, 18, 0.12);
+  --soft-shadow: rgba(26, 22, 18, 0.05) 0 1px 2px;
+}
+
+html,
+body {
+  background:
+    linear-gradient(90deg, rgba(26,22,18,.035) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(26,22,18,.028) 1px, transparent 1px),
+    radial-gradient(circle at 16% 8%, rgba(45,74,43,.12), transparent 32rem),
+    var(--canvas) !important;
+  background-size: 42px 42px, 42px 42px, auto, auto !important;
+  color: var(--ink) !important;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+body::before {
+  display: none !important;
+}
+
+.shell {
+  width: min(1180px, calc(100% - 48px)) !important;
+}
+
+.nav {
+  top: 18px !important;
+  border-radius: 6px !important;
+  background: rgba(239, 232, 216, .84) !important;
+  border: 1px solid var(--hairline) !important;
+  box-shadow: var(--soft-shadow) !important;
+  backdrop-filter: blur(18px) saturate(1.04) !important;
+}
+
+.brand-logo-wide {
+  width: min(360px, 38vw) !important;
+  height: 76px !important;
+  object-fit: contain !important;
+  object-position: left center !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  filter: drop-shadow(0 12px 24px rgba(26,22,18,.12)) !important;
+}
+
+.nav-link {
+  color: var(--muted) !important;
+  border: 1px solid transparent !important;
+  border-radius: 4px !important;
+  text-transform: uppercase !important;
+  letter-spacing: .06em !important;
+  font-size: .82rem !important;
+  font-weight: 800 !important;
+}
+
+.nav-link:hover {
+  color: var(--ink) !important;
+  background: rgba(45,74,43,.08) !important;
+}
+
+.nav-link.primary {
+  background: var(--pine) !important;
+  color: var(--canvas) !important;
+  border: 0 !important;
+}
+
+.blog-hero {
+  max-width: none !important;
+  min-height: 440px !important;
+  margin: 86px 0 28px !important;
+  padding: clamp(34px, 6vw, 78px) !important;
+  border-radius: 6px !important;
+  background:
+    linear-gradient(90deg, rgba(239,232,216,.92), rgba(230,223,208,.72)),
+    radial-gradient(circle at 86% 18%, rgba(45,74,43,.14), transparent 28rem) !important;
+  border: 1px solid var(--hairline) !important;
+  box-shadow: var(--soft-shadow) !important;
+}
+
+.blog-hero::after {
+  opacity: .18 !important;
+  border-radius: 6px !important;
+  border-color: var(--hairline) !important;
+  background: rgba(45,74,43,.08) !important;
+}
+
+.eyebrow,
+.meta,
+.free-note,
+footer {
+  color: var(--muted) !important;
+  text-transform: uppercase !important;
+  letter-spacing: .06em !important;
+  font-weight: 800 !important;
+}
+
+.blog-hero h1,
+h1 {
+  max-width: 960px !important;
+  color: var(--ink) !important;
+  font-size: clamp(3.6rem, 7vw, 6.6rem) !important;
+  line-height: .94 !important;
+  letter-spacing: -.055em !important;
+}
+
+.lead {
+  max-width: 760px !important;
+  color: var(--muted) !important;
+  font-size: 1.0625rem !important;
+  line-height: 1.65 !important;
+}
+
+.post-card,
+.article,
+.side-card {
+  background: rgba(239,232,216,.78) !important;
+  border: 1px solid var(--hairline) !important;
+  border-radius: 6px !important;
+  box-shadow: var(--soft-shadow) !important;
+  color: var(--ink) !important;
+}
+
+.post-card:hover {
+  transform: translateY(-2px) !important;
+  border-color: rgba(45,74,43,.28) !important;
+  box-shadow: 0 6px 18px rgba(26,22,18,.07) !important;
+}
+
+.post-chart {
+  background:
+    linear-gradient(90deg, rgba(26,22,18,.04) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(26,22,18,.035) 1px, transparent 1px),
+    var(--lift) !important;
+  background-size: 28px 28px, 28px 28px, auto !important;
+}
+
+.post-card h2,
+.article h1,
+.article h2,
+.article h3,
+.side-card h3 {
+  color: var(--ink) !important;
+  letter-spacing: -.025em !important;
+}
+
+.post-card p,
+.article p,
+.article li,
+.side-card p {
+  color: var(--muted) !important;
+  line-height: 1.65 !important;
+}
+
+.article > p:first-child,
+.article strong {
+  color: var(--ink) !important;
+}
+
+.read,
+.side-card span {
+  color: var(--pine) !important;
+  text-transform: uppercase !important;
+  letter-spacing: .06em !important;
+  font-weight: 800 !important;
+}
+
+.side-card a {
+  background: var(--pine) !important;
+  color: var(--canvas) !important;
+  border-radius: 4px !important;
+  text-transform: uppercase !important;
+  letter-spacing: .06em !important;
+}
+
+footer {
+  background: transparent !important;
+  border-color: var(--hairline) !important;
+}
+
+@media (max-width: 760px) {
+  .shell { width: min(100% - 28px, 100%) !important; }
+  .brand-logo-wide { width: 100% !important; max-width: 320px !important; }
+  .blog-hero h1, h1 { font-size: clamp(3rem, 14vw, 4.6rem) !important; }
+}
