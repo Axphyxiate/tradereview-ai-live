@@ -3890,6 +3890,24 @@
       line-height: 1.55;
       font-size: 12px;
     }
+    .ai-output.ai-working {
+      position: relative;
+      overflow: hidden;
+    }
+    .ai-output.ai-working::after {
+      content: "";
+      position: absolute;
+      inset: auto 14px 10px 14px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, currentColor, transparent);
+      opacity: .35;
+      animation: aiWorkingSweep 1.4s ease-in-out infinite;
+    }
+    @keyframes aiWorkingSweep {
+      0% { transform: translateX(-70%); }
+      100% { transform: translateX(70%); }
+    }
     .ai-output strong { display: block; margin: 10px 0 5px; color: #f8fbff; font-size: 13px; }
     .ai-disclaimer { padding: 11px 12px; border-radius: 13px; color: #f2d394; background: rgba(242,197,109,.07); border: 1px solid rgba(242,197,109,.16); font-size: 11px; line-height: 1.5; }
     .ai-mode-button { width: 100%; text-align: left; cursor: pointer; }
@@ -7728,6 +7746,50 @@
         storageKey: "tradereview-ai-auth"
       }
     });
+
+    async function callTradeReviewAi(task, input = {}) {
+      if (!currentUser) throw new Error("Sign in before using TradeReview AI.");
+      const profile = { ...defaultProfile(), ...(state.profile || {}) };
+      const trades = Array.isArray(state.trades) ? state.trades : [];
+      const context = {
+        profile,
+        accountPlan: currentPlan(),
+        timezone: profile.timezone || Intl.DateTimeFormat().resolvedOptions().timeZone || "local",
+        journalSummary: journalPatternSummary(),
+        riskWarningR: state.settings?.riskWarningR,
+        brokerConnection: state.brokerConnection || null,
+        recentTrades: trades.slice(-12).map(trade => ({
+          date: trade.date,
+          symbol: trade.symbol,
+          chartTicker: trade.chartTicker,
+          side: trade.side,
+          pnl: trade.pnl,
+          plannedRisk: trade.plannedRisk,
+          riskUsed: trade.riskUsed,
+          setup: trade.setup,
+          mistake: trade.mistake,
+          note: trade.note
+        }))
+      };
+      const { data, error } = await cloudClient.functions.invoke("ai-router", {
+        body: { task, input, context }
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      if (!data?.output) throw new Error("TradeReview AI did not return an answer.");
+      return data.output;
+    }
+
+    function showAiWorking(target, label = "TradeReview AI is building a response through OmniRoute...") {
+      if (!target) return;
+      target.textContent = label;
+      target.classList.add("ai-working");
+    }
+
+    function stopAiWorking(target) {
+      target?.classList.remove("ai-working");
+    }
+
     let activeStoreKey = storeKey;
     const state = loadState(activeStoreKey);
     let selectedDay = null;
@@ -10418,7 +10480,7 @@ If I cannot explain the setup and invalidation in one sentence, I do not take th
       });
     }
 
-    function generateAiTradePlan() {
+    async function generateAiTradePlan() {
       if (!requirePlan("Trade with AI", "starter")) return;
       const profile = { ...defaultProfile(), ...(state.profile || {}) };
       const context = document.querySelector("#aiMarketContext")?.value || "Opening range / first hour";
@@ -10432,6 +10494,28 @@ If I cannot explain the setup and invalidation in one sentence, I do not take th
       const broker = profile.broker || "your broker";
       const market = profile.market || "your market";
       const experience = profile.experience || "your current level";
+      const target = document.querySelector("#aiPlanOutput");
+      try {
+        showAiWorking(target, "TradeReview AI is routing your strategy through OmniRoute...");
+        const aiOutput = await callTradeReviewAi("trade", {
+          helpMode,
+          context,
+          setup,
+          riskMode,
+          userPrompt,
+          latestMistake,
+          maxRisk,
+          broker,
+          market,
+          experience
+        });
+        if (target) target.textContent = aiOutput;
+        return;
+      } catch (error) {
+        console.warn("OmniRoute AI plan fallback:", error);
+      } finally {
+        stopAiWorking(target);
+      }
       const output = `AI focus: ${helpMode}
 
 Trader context
@@ -10461,7 +10545,6 @@ Trade with AI plan
 Behavior review
 Recent pattern to watch: ${latestMistake}.
 Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and reason to skip are written before entry.`;
-      const target = document.querySelector("#aiPlanOutput");
       if (target) target.textContent = output;
     }
 
@@ -11247,9 +11330,25 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       }
     }
 
-    function answerAiLearningQuestion() {
+    async function answerAiLearningQuestion() {
       if (!requirePlan("Learn with AI questions", "starter")) return;
       const question = document.querySelector("#aiLearnQuestion")?.value.trim() || "How do I learn trading without getting overwhelmed?";
+      const target = document.querySelector("#aiQuestionOutput");
+      try {
+        showAiWorking(target, "TradeReview AI is routing your learning question through OmniRoute...");
+        const aiOutput = await callTradeReviewAi("learn", {
+          question,
+          selectedTrack: document.querySelector("#aiLearningTrack")?.value || "",
+          selectedMarket: document.querySelector("#aiLearnMarket")?.value || "",
+          selectedLevel: document.querySelector("#aiLearnLevel")?.value || ""
+        });
+        if (target) target.textContent = aiOutput;
+        return;
+      } catch (error) {
+        console.warn("OmniRoute learning fallback:", error);
+      } finally {
+        stopAiWorking(target);
+      }
       const output = `Question
 ${question}
 
@@ -11268,7 +11367,6 @@ Pick one topic from the library, read the lesson, then write:
 
 Risk warning
 Education should come before size. If you cannot explain the trade idea, invalidation, and maximum loss in one sentence, the right answer is usually to wait.`;
-      const target = document.querySelector("#aiQuestionOutput");
       if (target) target.textContent = output;
     }
 
@@ -11439,7 +11537,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
       renderActiveAgentList();
     }
 
-    function activateAgent(prompt) {
+    async function activateAgent(prompt) {
       if (!requirePlan("AI agents", "pro")) return;
       const agents = ensureAgentState();
       const nextAgent = buildAgentRecord(prompt);
@@ -11449,6 +11547,23 @@ Education should come before size. If you cannot explain the trade idea, invalid
       saveState();
       renderAgentPlanV2(nextAgent.mission, { activated: true });
       showAppToast(`${nextAgent.kind} is active and scanning your journal data.`, { title: "Agent activated", type: "success", icon: "✓" });
+      const target = document.querySelector("#agentOutput");
+      try {
+        const aiOutput = await callTradeReviewAi("agent", {
+          kind: nextAgent.kind,
+          mission: nextAgent.mission,
+          previewSignals: summarizeAgentSignals(nextAgent),
+          activeAgents: ensureAgentState().map(agent => ({ kind: agent.kind, mission: agent.mission, status: agent.status }))
+        });
+        if (target) {
+          target.insertAdjacentHTML("afterbegin", `
+            <div class="agent-scan-ribbon"><i></i>OmniRoute generated agent logic</div>
+            <div class="agent-signal live"><strong>Generated monitoring plan</strong><br>${escapeHtml(aiOutput).replace(/\n/g, "<br>")}</div>
+          `);
+        }
+      } catch (error) {
+        console.warn("OmniRoute agent fallback:", error);
+      }
     }
 
     function removeActiveAgent(agentId) {
