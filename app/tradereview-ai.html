@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <meta name="theme-color" content="#efe8d8">
+  <meta name="theme-color" content="#050814">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="TradeReview">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -6235,6 +6235,524 @@
       }
       .auth-preview {
         display: block !important;
+      }
+    }
+    /* TradeReview Premium Theme Override — final layer wins across the full SPA */
+    :root {
+      color-scheme: dark !important;
+      --ink: #f4f8ff !important;
+      --muted: #9aa8bc !important;
+      --line: rgba(155, 177, 214, .16) !important;
+      --soft: rgba(13, 23, 46, .82) !important;
+      --paper: rgba(12, 21, 41, .82) !important;
+      --green: #2df0a6 !important;
+      --red: #ff5571 !important;
+      --blue: #73a7ff !important;
+      --gold: #f6c96f !important;
+      --violet: #9b7cff !important;
+      --navy-0: #050814 !important;
+      --navy-1: #071022 !important;
+      --navy-2: #0c1730 !important;
+      --glass: rgba(11, 20, 40, .74) !important;
+      --glass-strong: rgba(13, 25, 50, .9) !important;
+      --shadow: 0 28px 90px rgba(0, 0, 0, .42), inset 0 1px 0 rgba(255,255,255,.055) !important;
+      --font-display: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    }
+
+    html,
+    body {
+      background:
+        radial-gradient(circle at 12% 12%, rgba(45, 240, 166, .12), transparent 28rem),
+        radial-gradient(circle at 86% 8%, rgba(115, 167, 255, .14), transparent 30rem),
+        radial-gradient(circle at 78% 92%, rgba(155, 124, 255, .16), transparent 32rem),
+        linear-gradient(135deg, #050814 0%, #071022 48%, #0a0820 100%) !important;
+      color: var(--ink) !important;
+      font-family: var(--font-display) !important;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(155,177,214,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(155,177,214,.035) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: radial-gradient(circle at 50% 24%, #000, transparent 76%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(120deg, rgba(45,240,166,.04), transparent 30%, rgba(155,124,255,.055)),
+        radial-gradient(circle at var(--cursor-x, 60%) var(--cursor-y, 30%), rgba(115,167,255,.08), transparent 24rem);
+      mix-blend-mode: screen;
+    }
+
+    .auth-gate,
+    body.app-ready .app,
+    .app,
+    main {
+      background:
+        radial-gradient(circle at 20% 8%, rgba(45,240,166,.1), transparent 26rem),
+        radial-gradient(circle at 78% 20%, rgba(115,167,255,.12), transparent 30rem),
+        radial-gradient(circle at 84% 88%, rgba(155,124,255,.14), transparent 34rem),
+        #050814 !important;
+    }
+
+    aside {
+      border-right: 1px solid rgba(155,177,214,.14) !important;
+      background: linear-gradient(180deg, rgba(7,16,34,.98), rgba(5,10,24,.96)) !important;
+      box-shadow: 20px 0 80px rgba(0,0,0,.28) !important;
+    }
+
+    .brand,
+    .auth-brand,
+    .auth-nav-logo,
+    .auth-logo-lockup,
+    .auth-mini-logo,
+    .brand-logo-wide-app {
+      filter: saturate(1.08) contrast(1.04) drop-shadow(0 18px 34px rgba(57, 141, 255, .16)) !important;
+    }
+
+    aside .brand,
+    .brand {
+      height: auto !important;
+      min-height: 68px !important;
+      margin-bottom: 16px !important;
+      padding: 0 !important;
+      overflow: visible !important;
+      background: transparent !important;
+      border: 0 !important;
+    }
+
+    aside .brand .brand-logo-wide-app,
+    .brand-logo-wide-app {
+      width: 174px !important;
+      height: auto !important;
+      max-height: 64px !important;
+      object-fit: contain !important;
+      object-position: left center !important;
+      border-radius: 12px !important;
+      background: rgba(4,10,24,.8) !important;
+    }
+
+    .auth-nav-logo {
+      width: 240px !important;
+      height: auto !important;
+      object-fit: contain !important;
+      border-radius: 16px !important;
+      background: rgba(4,10,24,.82) !important;
+    }
+
+    .auth-logo-lockup {
+      width: min(720px, 86vw) !important;
+      max-height: 230px !important;
+      object-fit: contain !important;
+      border-radius: 30px !important;
+      background: rgba(4,10,24,.76) !important;
+      box-shadow: 0 32px 100px rgba(0,0,0,.38) !important;
+    }
+
+    .auth-mini-logo {
+      width: 220px !important;
+      height: auto !important;
+      border-radius: 14px !important;
+      object-fit: contain !important;
+    }
+
+    nav button,
+    .settings-tabs button,
+    .ai-mode-nav button,
+    .symbol-market-chip,
+    .symbol-tab,
+    .range-toggle button {
+      border: 1px solid rgba(155,177,214,.14) !important;
+      color: #aab9ce !important;
+      background: rgba(12,24,48,.56) !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.035) !important;
+      backdrop-filter: blur(16px) !important;
+      text-transform: none !important;
+    }
+
+    nav button:hover,
+    .settings-tabs button:hover,
+    .ai-mode-nav button:hover,
+    .symbol-market-chip:hover,
+    .symbol-tab:hover,
+    .range-toggle button:hover {
+      color: #f6fbff !important;
+      border-color: rgba(115,167,255,.34) !important;
+      background: rgba(20,38,74,.82) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    nav button.active,
+    .settings-tabs button.active,
+    .ai-mode-nav button.active,
+    .symbol-market-chip.active,
+    .symbol-tab.active,
+    .range-toggle button.active {
+      color: #06101f !important;
+      border-color: rgba(45,240,166,.62) !important;
+      background: linear-gradient(135deg, #35f0b0, #7db2ff) !important;
+      box-shadow: 0 16px 40px rgba(45,240,166,.18), inset 0 1px 0 rgba(255,255,255,.34) !important;
+    }
+
+    .account-panel,
+    .panel,
+    .pricing-card,
+    .billing-card,
+    .learning-module,
+    .resource-card,
+    .agent-card,
+    .ai-builder,
+    .broker-hero,
+    .csv-import-status,
+    .help-panel,
+    .auth-card,
+    .onboarding-card,
+    .app-toast {
+      border: 1px solid rgba(155,177,214,.16) !important;
+      color: var(--ink) !important;
+      background:
+        linear-gradient(150deg, rgba(18,31,61,.88), rgba(8,15,32,.94)),
+        radial-gradient(circle at 18% 0%, rgba(45,240,166,.07), transparent 22rem) !important;
+      box-shadow: var(--shadow) !important;
+      backdrop-filter: blur(22px) saturate(1.1) !important;
+    }
+
+    .panel:hover,
+    .pricing-card:hover,
+    .billing-card:hover,
+    .learning-module:hover,
+    .resource-card:hover,
+    .agent-card:hover {
+      border-color: rgba(115,167,255,.30) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 32px 110px rgba(0,0,0,.46), 0 0 0 1px rgba(115,167,255,.05) !important;
+    }
+
+    .section.active {
+      background:
+        radial-gradient(circle at 12% 8%, rgba(45,240,166,.09), transparent 22rem),
+        radial-gradient(circle at 84% 18%, rgba(115,167,255,.10), transparent 28rem),
+        radial-gradient(circle at 86% 92%, rgba(155,124,255,.12), transparent 30rem),
+        linear-gradient(135deg, #050814, #071022 54%, #09091d) !important;
+    }
+
+    .topbar:not(.dashboard-hero),
+    .page-hero,
+    .ai-page-hero,
+    .ai-command-hero,
+    .agent-command-hero {
+      border: 1px solid rgba(155,177,214,.14) !important;
+      border-radius: 28px !important;
+      background:
+        linear-gradient(135deg, rgba(12,25,50,.82), rgba(7,14,31,.92)),
+        radial-gradient(circle at 20% 10%, rgba(45,240,166,.10), transparent 22rem),
+        radial-gradient(circle at 82% 18%, rgba(155,124,255,.12), transparent 25rem) !important;
+      box-shadow: var(--shadow) !important;
+      overflow: hidden !important;
+    }
+
+    .dashboard-hero {
+      min-height: clamp(500px, 58vh, 720px) !important;
+      border: 1px solid rgba(155,177,214,.16) !important;
+      border-radius: 32px !important;
+      background:
+        radial-gradient(circle at 70% 35%, rgba(115,167,255,.14), transparent 26rem),
+        radial-gradient(circle at 22% 18%, rgba(45,240,166,.11), transparent 24rem),
+        linear-gradient(135deg, rgba(7,14,31,.96), rgba(9,12,30,.98)) !important;
+      box-shadow: 0 34px 120px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.06) !important;
+      overflow: hidden !important;
+    }
+
+    .dashboard-hero::before {
+      opacity: .52 !important;
+      background-image:
+        linear-gradient(rgba(155,177,214,.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(155,177,214,.045) 1px, transparent 1px) !important;
+    }
+
+    .dashboard-hero .hero-copy::before {
+      background: linear-gradient(90deg, rgba(5,8,20,.94), rgba(5,8,20,.72) 58%, transparent) !important;
+    }
+
+    .hero-headline,
+    .auth-card h1,
+    .section-title,
+    .topbar h1,
+    .ai-page-hero h1,
+    .ai-command-hero h1,
+    .agent-command-hero h1 {
+      color: #f6fbff !important;
+      letter-spacing: -.065em !important;
+      text-shadow: 0 18px 48px rgba(0,0,0,.52) !important;
+    }
+
+    .hero-headline {
+      max-width: 860px !important;
+      font-size: clamp(48px, 7vw, 96px) !important;
+      line-height: .88 !important;
+    }
+
+    .subtitle,
+    .auth-copy,
+    .panel p,
+    .panel-body,
+    .account-panel span,
+    .broker-hero p,
+    .ai-page-hero p,
+    .ai-command-hero p,
+    .agent-command-hero p {
+      color: #a5b3c8 !important;
+    }
+
+    .page-kicker,
+    .section-kicker,
+    .welcome-line,
+    .panel h2,
+    .panel h3,
+    .panel h4 {
+      color: #dce7ff !important;
+    }
+
+    .hero-chip,
+    .trader-context,
+    .hero-mini-card,
+    .review-item,
+    .day-button,
+    .settings-plan-row,
+    .agent-signal,
+    .learning-path-card,
+    .ai-lesson-card,
+    .symbol-row {
+      border-color: rgba(155,177,214,.14) !important;
+      background: rgba(12,24,48,.54) !important;
+      color: #cbd7ea !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.035) !important;
+    }
+
+    .hero-chip b,
+    .trader-context strong,
+    .stat strong,
+    .billing-price,
+    .account-panel strong,
+    td,
+    .symbol-row strong {
+      color: #f6fbff !important;
+    }
+
+    .stat,
+    .chart-card,
+    .trade-review-card,
+    .visual-frame,
+    .screenshot-card,
+    .capture-card,
+    .broker-sync-card,
+    .drop,
+    .sample,
+    .symbol-picker-modal,
+    .symbol-picker-panel {
+      border-color: rgba(155,177,214,.15) !important;
+      background: linear-gradient(150deg, rgba(13,25,50,.78), rgba(7,14,31,.92)) !important;
+      box-shadow: var(--shadow) !important;
+    }
+
+    table,
+    thead,
+    tbody,
+    th,
+    tr,
+    td {
+      border-color: rgba(155,177,214,.11) !important;
+    }
+
+    th {
+      color: #8fa1bb !important;
+      background: rgba(115,167,255,.06) !important;
+    }
+
+    tr:hover td {
+      background: rgba(115,167,255,.035) !important;
+    }
+
+    input,
+    select,
+    textarea {
+      border: 1px solid rgba(155,177,214,.16) !important;
+      color: #eef6ff !important;
+      background: rgba(5,10,24,.76) !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.025) !important;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(172,186,207,.58) !important;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(115,167,255,.55) !important;
+      box-shadow: 0 0 0 4px rgba(115,167,255,.13), inset 0 1px 0 rgba(255,255,255,.05) !important;
+      outline: none !important;
+    }
+
+    button,
+    .button,
+    .auth-submit,
+    .google-button,
+    .agent-support-link {
+      border-radius: 14px !important;
+      border: 1px solid rgba(155,177,214,.14) !important;
+      color: #f7fbff !important;
+      background: rgba(14,28,56,.78) !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.045) !important;
+    }
+
+    button.primary,
+    .primary,
+    .auth-submit,
+    .agent-support-link,
+    [data-plan],
+    #openBrokerSyncSetup,
+    #startBrokerSyncSetup {
+      color: #04101f !important;
+      border-color: rgba(45,240,166,.54) !important;
+      background: linear-gradient(135deg, #2df0a6 0%, #73a7ff 58%, #9b7cff 100%) !important;
+      box-shadow: 0 18px 44px rgba(45,240,166,.18), 0 12px 34px rgba(115,167,255,.12) !important;
+      font-weight: 900 !important;
+    }
+
+    button:hover,
+    .button:hover,
+    .agent-support-link:hover {
+      transform: translateY(-1px) !important;
+      filter: brightness(1.06) !important;
+    }
+
+    .danger,
+    .delete,
+    [id*="Delete"],
+    button[id*="delete"],
+    button[data-action*="delete"] {
+      color: #ffd7df !important;
+      border-color: rgba(255,85,113,.34) !important;
+      background: rgba(80, 18, 37, .45) !important;
+    }
+
+    .symbol-picker-modal,
+    .symbol-picker-panel {
+      color: #edf5ff !important;
+      background:
+        linear-gradient(145deg, rgba(12,24,48,.98), rgba(6,12,28,.99)),
+        radial-gradient(circle at 18% 0%, rgba(45,240,166,.08), transparent 20rem) !important;
+      backdrop-filter: blur(28px) saturate(1.08) !important;
+    }
+
+    .symbol-result-list {
+      max-height: min(58vh, 620px) !important;
+      overflow-y: auto !important;
+    }
+
+    .auth-card {
+      width: min(100%, 520px) !important;
+      background:
+        linear-gradient(150deg, rgba(13,25,50,.92), rgba(7,14,31,.96)),
+        radial-gradient(circle at 20% 0%, rgba(115,167,255,.15), transparent 24rem) !important;
+    }
+
+    .auth-card h1,
+    .auth-card label,
+    .auth-tabs button.active {
+      color: #f6fbff !important;
+    }
+
+    .auth-tabs {
+      background: rgba(5,10,24,.72) !important;
+      border: 1px solid rgba(155,177,214,.14) !important;
+    }
+
+    .auth-tabs button.active {
+      background: rgba(115,167,255,.14) !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05) !important;
+    }
+
+    .google-button {
+      color: #f6fbff !important;
+      background: rgba(255,255,255,.06) !important;
+    }
+
+    .dashboard-hero .subtitle {
+      max-width: 760px !important;
+      color: #d0d9e8 !important;
+      background: linear-gradient(90deg, rgba(5,10,24,.82), rgba(5,10,24,.42), transparent) !important;
+      border-left: 3px solid #2df0a6 !important;
+      box-shadow: none !important;
+    }
+
+    .performance-card,
+    .chart-panel,
+    .owner-console,
+    .settings-stack {
+      background: transparent !important;
+    }
+
+    .bar,
+    .meter,
+    .progress-track {
+      background: rgba(155,177,214,.10) !important;
+    }
+
+    .bar-fill,
+    .progress-fill {
+      background: linear-gradient(90deg, #2df0a6, #73a7ff, #ff5571) !important;
+    }
+
+    .help-toggle,
+    .assistant-launch {
+      color: #06101f !important;
+      background: linear-gradient(135deg, #2df0a6, #73a7ff) !important;
+      box-shadow: 0 18px 50px rgba(45,240,166,.22) !important;
+    }
+
+    @media (max-width: 900px) {
+      aside .brand .brand-logo-wide-app,
+      .brand-logo-wide-app {
+        width: 154px !important;
+        max-height: 54px !important;
+      }
+
+      .hero-headline {
+        font-size: clamp(38px, 13vw, 62px) !important;
+      }
+
+      .dashboard-hero {
+        min-height: auto !important;
+        padding: 28px 18px !important;
+      }
+
+      .hero-command-visual {
+        opacity: .28 !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      nav button {
+        border-radius: 14px !important;
+      }
+
+      .auth-nav-logo,
+      .auth-logo-lockup {
+        width: min(92vw, 420px) !important;
       }
     }
   </style>
