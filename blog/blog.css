@@ -733,3 +733,136 @@ button,
   border-color:rgba(163,230,53,.35) !important;
   background:rgba(31,34,40,.96) !important;
 }
+
+/* Final MD token lock: keep blog/support visually aligned with the app. */
+:root {
+  --lock-green:#A3E635;
+  --lock-bg:#191C21;
+  --lock-surface:#18181B;
+  --lock-text:#FFFFFF;
+  --lock-muted:#A1A1AA;
+  --lock-border:#2A2A2E;
+  --lock-radius-card:16px;
+  --lock-radius-control:8px;
+  --lock-font:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --lock-mono:"JetBrains Mono","SFMono-Regular",Consolas,monospace;
+}
+
+html,
+body {
+  background:
+    radial-gradient(circle at 78% 10%, rgba(163,230,53,.055), transparent 28rem),
+    linear-gradient(180deg, var(--lock-bg), #14171B 62%, var(--lock-bg)) !important;
+  color:var(--lock-text) !important;
+  font-family:var(--lock-font) !important;
+}
+
+body::before,
+body::after,
+.blog-hero::before,
+.blog-hero::after,
+.article-hero::before,
+.article-hero::after,
+.post-chart,
+.blog-visual {
+  display:none !important;
+}
+
+.blog-shell,
+.article-shell,
+main {
+  background:
+    linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px) !important;
+  background-size:64px 64px !important;
+}
+
+.blog-nav,
+.nav,
+.post-card,
+.article,
+.article-card,
+.side-card,
+.blog-hero,
+.article-head,
+.resource-card,
+footer,
+.help-card {
+  background:rgba(24,24,27,.94) !important;
+  border:1px solid var(--lock-border) !important;
+  border-radius:var(--lock-radius-card) !important;
+  box-shadow:0 24px 70px rgba(0,0,0,.26) !important;
+  color:var(--lock-text) !important;
+}
+
+.cta {
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+
+img[src*="tradereview-aethel-logo"],
+.blog-logo img,
+.brand img {
+  width:auto !important;
+  max-width:260px !important;
+  height:auto !important;
+  max-height:64px !important;
+  object-fit:contain !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  filter:none !important;
+}
+
+h1,
+.blog-hero h1,
+.article-hero h1,
+.article-head h1 {
+  color:var(--lock-text) !important;
+  font-family:var(--lock-font) !important;
+  font-weight:500 !important;
+  letter-spacing:-.055em !important;
+  line-height:1.04 !important;
+  text-shadow:none !important;
+}
+
+p,
+li,
+.subtitle,
+.muted,
+.post-card p,
+.article-card p {
+  color:var(--lock-muted) !important;
+}
+
+.eyebrow,
+.pill,
+.badge,
+.category,
+.meta,
+.tag {
+  color:var(--lock-green) !important;
+  font-family:var(--lock-mono) !important;
+  font-weight:600 !important;
+}
+
+.button,
+.button.primary,
+button.primary,
+.start-free {
+  background:var(--lock-green) !important;
+  color:#11150F !important;
+  border:1px solid rgba(163,230,53,.42) !important;
+  border-radius:var(--lock-radius-control) !important;
+  box-shadow:0 18px 44px rgba(163,230,53,.16) !important;
+}
+
+.button.secondary,
+.secondary,
+.nav-signin {
+  background:rgba(24,24,27,.9) !important;
+  color:var(--lock-text) !important;
+  border:1px solid var(--lock-border) !important;
+  box-shadow:none !important;
+}

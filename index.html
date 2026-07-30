@@ -1125,6 +1125,220 @@
       opacity: 1 !important;
     }
   </style>
+  <style id="aethel-token-lock-final">
+    /*
+      Final authority: match the supplied Aethel MD only.
+      Palette: #191C21 background, #18181B surface, #2A2A2E border,
+      #FFFFFF text, #A1A1AA muted, #A3E635 as the only green accent.
+    */
+    :root {
+      --lock-green: #A3E635;
+      --lock-bg: #191C21;
+      --lock-surface: #18181B;
+      --lock-surface-2: #202126;
+      --lock-text: #FFFFFF;
+      --lock-muted: #A1A1AA;
+      --lock-border: #2A2A2E;
+      --lock-radius-card: 16px;
+      --lock-radius-control: 8px;
+      --lock-font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --lock-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+    }
+
+    html,
+    body {
+      background:
+        radial-gradient(circle at 78% 10%, rgba(163,230,53,.055), transparent 28rem),
+        linear-gradient(180deg, var(--lock-bg), #14171B 62%, var(--lock-bg)) !important;
+      color: var(--lock-text) !important;
+      font-family: var(--lock-font) !important;
+    }
+
+    body::before,
+    body::after,
+    .scroll-aura,
+    .scroll-aura::before,
+    .scroll-aura::after,
+    .market-canvas,
+    .landing-webgl {
+      display: none !important;
+    }
+
+    .shell {
+      background:
+        linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px) !important;
+      background-size: 64px 64px !important;
+    }
+
+    .nav,
+    .product-frame,
+    .feature-card,
+    .pricing-card,
+    .broker-card,
+    .blog-card,
+    .privacy-card,
+    .cta-inner,
+    footer,
+    .help-card {
+      background: rgba(24,24,27,.94) !important;
+      border: 1px solid var(--lock-border) !important;
+      border-radius: var(--lock-radius-card) !important;
+      box-shadow: 0 24px 70px rgba(0,0,0,.28) !important;
+      color: var(--lock-text) !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    .cta {
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      padding: 80px 0 !important;
+    }
+
+    .cta-inner {
+      background:
+        linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px),
+        var(--lock-surface) !important;
+      background-size: 64px 64px !important;
+      padding: clamp(56px, 8vw, 92px) 24px !important;
+      overflow: hidden !important;
+    }
+
+    .cta-inner::before,
+    .cta-inner::after,
+    .hero::before,
+    .hero::after,
+    .product-frame::after,
+    .blog-visual,
+    .post-chart {
+      display: none !important;
+    }
+
+    .official-logo-hero {
+      max-width: 760px !important;
+      margin: 0 auto 36px !important;
+      padding: 0 !important;
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
+    }
+
+    .official-logo-hero img,
+    .brand-logo-wide,
+    img[src*="tradereview-aethel-logo"] {
+      width: auto !important;
+      max-width: min(760px, 92vw) !important;
+      height: auto !important;
+      max-height: 118px !important;
+      object-fit: contain !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    .nav .brand-logo-wide {
+      max-width: 260px !important;
+      max-height: 64px !important;
+    }
+
+    .hero,
+    section {
+      background: transparent !important;
+      color: var(--lock-text) !important;
+    }
+
+    h1,
+    .hero h1,
+    .cta h2 {
+      color: var(--lock-text) !important;
+      font-family: var(--lock-font) !important;
+      font-weight: 500 !important;
+      line-height: 1.04 !important;
+      letter-spacing: -0.055em !important;
+      text-shadow: none !important;
+    }
+
+    .hero h1 {
+      font-size: clamp(58px, 8.8vw, 128px) !important;
+    }
+
+    p,
+    li,
+    .subhead,
+    .muted,
+    .hero p {
+      color: var(--lock-muted) !important;
+      font-size: 16px !important;
+      line-height: 1.6 !important;
+    }
+
+    .eyebrow,
+    .pill,
+    .badge,
+    .metric-label,
+    label {
+      color: var(--lock-green) !important;
+      font-family: var(--lock-mono) !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      letter-spacing: .04em !important;
+      text-transform: uppercase !important;
+    }
+
+    .button,
+    .button.primary,
+    .nav-start,
+    button.primary {
+      background: var(--lock-green) !important;
+      border: 1px solid rgba(163,230,53,.42) !important;
+      border-radius: var(--lock-radius-control) !important;
+      color: #11150F !important;
+      font-family: var(--lock-mono) !important;
+      font-weight: 700 !important;
+      box-shadow: 0 18px 44px rgba(163,230,53,.16) !important;
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease !important;
+    }
+
+    .button:hover,
+    .nav-start:hover,
+    button.primary:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 26px 56px rgba(163,230,53,.22) !important;
+    }
+
+    .button.secondary,
+    .nav-signin,
+    .help-button,
+    .agent-link {
+      background: rgba(24,24,27,.9) !important;
+      border: 1px solid var(--lock-border) !important;
+      color: var(--lock-text) !important;
+      box-shadow: none !important;
+    }
+
+    .help-icon,
+    .message.user,
+    .help-form button {
+      background: var(--lock-green) !important;
+      color: #11150F !important;
+    }
+
+    .feature-card:hover,
+    .pricing-card:hover,
+    .broker-card:hover,
+    .blog-card:hover {
+      transform: translateY(-4px) !important;
+      border-color: rgba(163,230,53,.36) !important;
+    }
+
+    @media (max-width: 700px) {
+      .hero h1 { font-size: clamp(44px, 14vw, 76px) !important; }
+      .official-logo-hero img { max-height: 82px !important; }
+    }
+  </style>
 </head>
 <body>
   <div class="scroll-aura" aria-hidden="true"></div>

@@ -8958,6 +8958,699 @@
       h1, .dashboard-hero .hero-headline { font-size: clamp(38px, 12vw, 58px) !important; }
     }
   </style>
+  <style id="aethel-token-lock-final">
+    /*
+      Final authority: Aethel MD only.
+      No blue/purple/teal/beige systems. Green accent is only #A3E635.
+    */
+    :root {
+      --lock-green: #A3E635;
+      --lock-bg: #191C21;
+      --lock-surface: #18181B;
+      --lock-surface-2: #202126;
+      --lock-text: #FFFFFF;
+      --lock-muted: #A1A1AA;
+      --lock-border: #2A2A2E;
+      --lock-danger: #F87171;
+      --lock-radius-card: 16px;
+      --lock-radius-control: 8px;
+      --lock-font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --lock-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+    }
+
+    html,
+    body,
+    body.auth-pending,
+    body.auth-required,
+    body.app-ready {
+      background:
+        radial-gradient(circle at 78% 10%, rgba(163,230,53,.055), transparent 28rem),
+        linear-gradient(180deg, var(--lock-bg), #14171B 62%, var(--lock-bg)) !important;
+      color: var(--lock-text) !important;
+      font-family: var(--lock-font) !important;
+    }
+
+    body::before,
+    body::after,
+    .auth-gate::before,
+    .auth-gate::after,
+    .dashboard-hero::before,
+    .dashboard-hero::after,
+    .agent-command-hero::before,
+    .ai-command-hero::before,
+    .hero-command-visual,
+    .command-orb,
+    .command-card {
+      display: none !important;
+    }
+
+    body.app-ready aside {
+      width: 240px !important;
+      padding: 28px 18px !important;
+      background: rgba(18,20,25,.96) !important;
+      border-right: 1px solid var(--lock-border) !important;
+      box-shadow: none !important;
+    }
+
+    body.app-ready main {
+      background:
+        linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px),
+        var(--lock-bg) !important;
+      background-size: 64px 64px !important;
+    }
+
+    body.app-ready .section {
+      left: 240px !important;
+      width: calc(100vw - 240px) !important;
+      padding: clamp(24px, 3.2vw, 44px) !important;
+      background: transparent !important;
+    }
+
+    .auth-nav,
+    .topbar,
+    aside,
+    .auth-card,
+    .auth-preview,
+    .dashboard-hero,
+    .card,
+    .panel,
+    .metric-card,
+    .stat-card,
+    .journal-card,
+    .review-card,
+    .agent-command-hero,
+    .ai-command-hero,
+    .ai-page-hero,
+    .agent-card,
+    .agent-deck-card,
+    .agent-lab-card,
+    .agent-output-console,
+    .learn-card,
+    .trade-ai-card,
+    .learning-card,
+    .learning-module,
+    .resource-card,
+    .billing-card,
+    .settings-card,
+    .global-symbol-finder,
+    .global-symbol-modal,
+    .broker-sync-panel,
+    .csv-card,
+    .recent-trades,
+    table,
+    .modal,
+    .trade-review,
+    .trade-row {
+      background: rgba(24,24,27,.94) !important;
+      border: 1px solid var(--lock-border) !important;
+      border-radius: var(--lock-radius-card) !important;
+      box-shadow: 0 24px 70px rgba(0,0,0,.26) !important;
+      color: var(--lock-text) !important;
+      backdrop-filter: blur(16px) !important;
+    }
+
+    .auth-nav,
+    .topbar {
+      max-width: 1180px !important;
+      min-height: 76px !important;
+      margin: 28px auto 0 !important;
+      padding: 12px 16px !important;
+    }
+
+    aside .brand,
+    .auth-logo-lockup,
+    .workspace-logo-lockup,
+    .auth-brand,
+    .mock-brand {
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+    }
+
+    .auth-nav-logo,
+    .auth-logo-lockup,
+    .workspace-logo-lockup,
+    .brand-logo-wide-app,
+    .auth-brand img,
+    aside .brand img,
+    img[src*="tradereview-aethel-logo"] {
+      width: min(248px, 100%) !important;
+      max-width: 100% !important;
+      height: 54px !important;
+      object-fit: contain !important;
+      object-position: left center !important;
+      background: transparent !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      filter: none !important;
+      padding: 0 !important;
+    }
+
+    aside .brand img,
+    .brand-logo-wide-app {
+      width: 188px !important;
+      height: 46px !important;
+    }
+
+    h1,
+    .auth-story h1,
+    .dashboard-hero .hero-headline,
+    .hero-headline,
+    .page-hero h1,
+    .ai-page-hero h1,
+    .ai-command-hero h1,
+    .agent-command-hero h1 {
+      color: var(--lock-text) !important;
+      font-family: var(--lock-font) !important;
+      font-size: clamp(46px, 5.5vw, 82px) !important;
+      font-weight: 500 !important;
+      line-height: 1.04 !important;
+      letter-spacing: -0.052em !important;
+      text-shadow: none !important;
+    }
+
+    p,
+    td,
+    .muted,
+    .subtitle,
+    .auth-story > p,
+    .dashboard-hero .subtitle,
+    .agent-command-hero p,
+    .ai-command-hero p {
+      color: var(--lock-muted) !important;
+      font-size: 16px !important;
+      line-height: 1.6 !important;
+      font-weight: 400 !important;
+    }
+
+    label,
+    th,
+    .eyebrow,
+    .pill,
+    .status-pill,
+    .metric-label,
+    .auth-free-badge,
+    .hero-dashboard-strip,
+    .agent-command-badges span,
+    .product-pill {
+      color: var(--lock-green) !important;
+      font-family: var(--lock-mono) !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      letter-spacing: .04em !important;
+      text-transform: uppercase !important;
+    }
+
+    button,
+    .button,
+    .primary,
+    .auth-submit,
+    .nav-start,
+    input[type="submit"] {
+      min-height: 44px !important;
+      border-radius: var(--lock-radius-control) !important;
+      border: 1px solid rgba(163,230,53,.46) !important;
+      background: var(--lock-green) !important;
+      color: #11150F !important;
+      font-family: var(--lock-mono) !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      letter-spacing: .03em !important;
+      box-shadow: 0 18px 44px rgba(163,230,53,.14) !important;
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease !important;
+    }
+
+    button:hover,
+    .button:hover,
+    .primary:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 22px 54px rgba(163,230,53,.22) !important;
+    }
+
+    button:not(.primary):not(.auth-submit):not(.nav-start),
+    .button.secondary,
+    .nav-signin,
+    .google-button,
+    .auth-tabs button {
+      background: rgba(24,24,27,.96) !important;
+      color: var(--lock-text) !important;
+      border-color: var(--lock-border) !important;
+      box-shadow: none !important;
+    }
+
+    nav {
+      gap: 10px !important;
+    }
+
+    nav button {
+      min-height: 48px !important;
+      justify-content: flex-start !important;
+      padding: 0 14px !important;
+      border-radius: var(--lock-radius-control) !important;
+      background: transparent !important;
+      color: var(--lock-muted) !important;
+      border: 1px solid transparent !important;
+      box-shadow: none !important;
+      font-family: var(--lock-mono) !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      letter-spacing: .02em !important;
+      text-transform: uppercase !important;
+    }
+
+    nav button:hover,
+    nav button.active,
+    .auth-tabs button.active,
+    .market-chip.active,
+    .ai-mode-nav button.active {
+      background: rgba(163,230,53,.08) !important;
+      border-color: rgba(163,230,53,.28) !important;
+      color: var(--lock-text) !important;
+      box-shadow: inset 3px 0 0 var(--lock-green) !important;
+      transform: translateX(2px) !important;
+    }
+
+    input,
+    textarea,
+    select {
+      background: #111317 !important;
+      border: 1px solid var(--lock-border) !important;
+      border-radius: var(--lock-radius-control) !important;
+      color: var(--lock-text) !important;
+      box-shadow: none !important;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(163,230,53,.70) !important;
+      box-shadow: 0 0 0 4px rgba(163,230,53,.09) !important;
+      outline: 0 !important;
+    }
+
+    .dashboard-hero,
+    .agent-command-hero,
+    .ai-command-hero,
+    .ai-page-hero {
+      background:
+        linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px),
+        var(--lock-surface) !important;
+      background-size: 64px 64px !important;
+      overflow: hidden !important;
+    }
+
+    .dashboard-hero {
+      min-height: 460px !important;
+      padding: clamp(34px, 5vw, 64px) !important;
+      display: grid !important;
+      grid-template-columns: minmax(0, 680px) 1fr !important;
+      align-items: center !important;
+      gap: 36px !important;
+    }
+
+    .dashboard-hero .subtitle {
+      max-width: 650px !important;
+      padding: 18px 20px !important;
+      background: rgba(17,19,23,.88) !important;
+      border-left: 3px solid var(--lock-green) !important;
+      border-radius: 0 var(--lock-radius-control) var(--lock-radius-control) 0 !important;
+    }
+
+    .metric-card,
+    .stat-card,
+    .mini-card,
+    .agent-lab-card,
+    .agent-card,
+    .billing-card,
+    .learning-card,
+    .learning-module,
+    .resource-card,
+    .settings-card,
+    .journal-card,
+    .review-card,
+    .trade-row {
+      transition: transform .22s ease, border-color .22s ease, background .22s ease !important;
+    }
+
+    .metric-card:hover,
+    .stat-card:hover,
+    .mini-card:hover,
+    .agent-lab-card:hover,
+    .agent-card:hover,
+    .billing-card:hover,
+    .learning-card:hover,
+    .learning-module:hover,
+    .resource-card:hover,
+    .settings-card:hover,
+    .journal-card:hover,
+    .review-card:hover,
+    .trade-row:hover {
+      transform: translateY(-4px) !important;
+      border-color: rgba(163,230,53,.32) !important;
+      background: var(--lock-surface-2) !important;
+    }
+
+    .gradient-bar,
+    .risk-bar,
+    .progress,
+    .mini-progress,
+    .bar-fill {
+      background: var(--lock-green) !important;
+    }
+
+    .positive,
+    .profit,
+    .win,
+    .success,
+    [class*="positive"] {
+      color: var(--lock-green) !important;
+    }
+
+    .negative,
+    .loss,
+    .error,
+    [class*="negative"] {
+      color: var(--lock-danger) !important;
+    }
+
+    .trade-card-preview,
+    .screenshot-card,
+    .capture-step,
+    .global-symbol-results {
+      background: #111317 !important;
+      border-color: var(--lock-border) !important;
+      color: var(--lock-text) !important;
+    }
+
+    @media (max-width: 940px) {
+      body.app-ready aside { width: 92px !important; }
+      body.app-ready .section { left: 92px !important; width: calc(100vw - 92px) !important; }
+      aside .brand img,
+      .brand-logo-wide-app {
+        width: 56px !important;
+        object-fit: cover !important;
+        object-position: left center !important;
+      }
+      nav button { font-size: 0 !important; justify-content: center !important; }
+    }
+
+    @media (max-width: 700px) {
+      body.app-ready aside { width: 100vw !important; }
+      body.app-ready .section { left: 0 !important; width: 100vw !important; }
+      .dashboard-hero,
+      .agent-command-hero,
+      .ai-command-hero,
+      .ai-page-hero {
+        grid-template-columns: 1fr !important;
+        min-height: auto !important;
+      }
+      h1,
+      .dashboard-hero .hero-headline {
+        font-size: clamp(38px, 12vw, 58px) !important;
+      }
+    }
+  </style>
+  <style id="aethel-token-lock-tight">
+    /* Final visual tighten after screenshot QA. */
+    body.app-ready main,
+    .auth-gate {
+      background:
+        linear-gradient(rgba(255,255,255,.024) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.024) 1px, transparent 1px),
+        #191C21 !important;
+      background-size: 64px 64px !important;
+    }
+
+    .dashboard-hero,
+    .agent-command-hero,
+    .ai-command-hero,
+    .ai-page-hero,
+    .auth-preview {
+      background:
+        linear-gradient(rgba(255,255,255,.024) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.024) 1px, transparent 1px),
+        #18181B !important;
+      background-size: 64px 64px !important;
+      border-color: #2A2A2E !important;
+    }
+
+    .product-pill,
+    .hero-dashboard-strip,
+    .hero-dashboard-strip *,
+    .status-pill,
+    .metric-chip,
+    .trader-context,
+    .trader-context *,
+    .auth-free-badge {
+      background: rgba(24,24,27,.92) !important;
+      border: 1px solid #2A2A2E !important;
+      color: #A3E635 !important;
+      box-shadow: none !important;
+    }
+
+    .metric-card,
+    .stat-card,
+    .mini-card {
+      background: #18181B !important;
+      border-color: #2A2A2E !important;
+      box-shadow: 0 20px 50px rgba(0,0,0,.24) !important;
+    }
+
+    .mini-progress,
+    .gradient-bar,
+    .risk-bar,
+    .bar-fill,
+    .progress {
+      background: #A3E635 !important;
+      box-shadow: none !important;
+    }
+
+    .dashboard-hero .subtitle {
+      color: #FFFFFF !important;
+      background: #111317 !important;
+      border: 1px solid #2A2A2E !important;
+      border-left: 3px solid #A3E635 !important;
+    }
+
+    .dashboard-hero .actions {
+      justify-self: end !important;
+      align-self: center !important;
+    }
+
+    .account-panel,
+    .user-card {
+      background: #18181B !important;
+      border-color: #2A2A2E !important;
+    }
+
+    .help-button {
+      background: #18181B !important;
+      border-color: #2A2A2E !important;
+      color: #FFFFFF !important;
+    }
+
+    .help-icon {
+      background: #A3E635 !important;
+      color: #11150F !important;
+    }
+
+    @media (max-width: 940px) {
+      .dashboard-hero .actions { justify-self: start !important; }
+    }
+  </style>
+  <style id="aethel-md-only-dashboard-final">
+    /*
+      Last-mile visual lock: match the supplied Aethel MD tokens only.
+      This removes the remaining teal/purple/beige dashboard artifacts.
+    */
+    body.app-ready main {
+      background-color: #191C21 !important;
+      background-image:
+        linear-gradient(rgba(255,255,255,.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.022) 1px, transparent 1px) !important;
+      background-size: 64px 64px !important;
+    }
+
+    body.app-ready aside,
+    body.app-ready .dashboard-hero,
+    body.app-ready .agent-command-hero,
+    body.app-ready .ai-command-hero,
+    body.app-ready .ai-page-hero,
+    body.app-ready .topbar,
+    body.app-ready .card,
+    body.app-ready .panel,
+    body.app-ready .metric-card,
+    body.app-ready .stat-card,
+    body.app-ready .journal-card,
+    body.app-ready .review-card,
+    body.app-ready .agent-card,
+    body.app-ready .billing-card,
+    body.app-ready .settings-card,
+    body.app-ready .csv-card,
+    body.app-ready .broker-sync-panel,
+    body.app-ready .global-symbol-finder,
+    body.app-ready .global-symbol-modal {
+      background-color: #18181B !important;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px) !important;
+      background-size: 64px 64px !important;
+      border-color: #2A2A2E !important;
+      box-shadow: 0 18px 60px rgba(0,0,0,.22) !important;
+    }
+
+    body.app-ready .dashboard-hero {
+      min-height: 520px !important;
+      max-width: 1180px !important;
+      margin: 0 auto 18px !important;
+      grid-template-columns: minmax(0, 680px) minmax(220px, 1fr) !important;
+      background: #18181B !important;
+      opacity: 1 !important;
+      animation: none !important;
+    }
+
+    body.app-ready .dashboard-hero .hero-webgl,
+    body.app-ready .dashboard-hero .hero-command-visual,
+    body.app-ready .dashboard-hero .command-orb,
+    body.app-ready .dashboard-hero .command-card {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+    }
+
+    body.app-ready .dashboard-hero .hero-copy {
+      opacity: 1 !important;
+      animation: none !important;
+    }
+
+    body.app-ready .dashboard-hero .hero-headline {
+      max-width: 780px !important;
+      font-size: clamp(54px, 5.15vw, 76px) !important;
+      letter-spacing: -0.055em !important;
+    }
+
+    body.app-ready .dashboard-hero .subtitle,
+    body.app-ready .hero-copy .subtitle {
+      width: min(650px, 100%) !important;
+      background: #111317 !important;
+      color: #FFFFFF !important;
+      border: 1px solid #2A2A2E !important;
+      border-left: 3px solid #A3E635 !important;
+      box-shadow: none !important;
+    }
+
+    body.app-ready .hero-dashboard-strip,
+    body.app-ready .hero-dashboard-strip *,
+    body.app-ready .product-pill,
+    body.app-ready .status-pill,
+    body.app-ready .metric-chip,
+    body.app-ready .trader-context,
+    body.app-ready .trader-context *,
+    body.app-ready .page-kicker,
+    body.app-ready .page-kicker *,
+    body.app-ready .account-plan,
+    body.app-ready .plan-badge,
+    body.app-ready .lock-pill,
+    body.app-ready .tag,
+    body.app-ready .badge {
+      background: #18181B !important;
+      color: #A3E635 !important;
+      border-color: #2A2A2E !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+
+    body.app-ready .topbar,
+    body.app-ready .section,
+    body.app-ready .card,
+    body.app-ready .panel,
+    body.app-ready .metric-card,
+    body.app-ready .stat-card,
+    body.app-ready .journal-card,
+    body.app-ready .review-card,
+    body.app-ready .agent-card,
+    body.app-ready .billing-card,
+    body.app-ready .settings-card {
+      opacity: 1 !important;
+      animation-name: none !important;
+    }
+
+    body.app-ready .metric-card h3,
+    body.app-ready .stat-card h3,
+    body.app-ready .mini-card h3,
+    body.app-ready .metric-card strong,
+    body.app-ready .stat-card strong,
+    body.app-ready .mini-card strong {
+      color: #FFFFFF !important;
+    }
+
+    body.app-ready .metric-card span,
+    body.app-ready .stat-card span,
+    body.app-ready .mini-card span,
+    body.app-ready .muted,
+    body.app-ready p {
+      color: #A1A1AA !important;
+    }
+
+    body.app-ready nav button,
+    body.app-ready .secondary,
+    body.app-ready button.secondary {
+      background: #18181B !important;
+      color: #A1A1AA !important;
+      border-color: #2A2A2E !important;
+    }
+
+    body.app-ready nav button.active,
+    body.app-ready nav button:hover {
+      background: rgba(163,230,53,.08) !important;
+      color: #FFFFFF !important;
+      border-color: rgba(163,230,53,.34) !important;
+    }
+
+    body.app-ready .primary,
+    body.app-ready button.primary,
+    body.app-ready .auth-submit,
+    body.app-ready input[type="submit"],
+    body.app-ready .dashboard-hero .actions button:first-child {
+      background: #A3E635 !important;
+      border-color: #A3E635 !important;
+      color: #11150F !important;
+    }
+
+    body.app-ready .gradient-bar,
+    body.app-ready .risk-bar,
+    body.app-ready .mini-progress,
+    body.app-ready .progress,
+    body.app-ready .bar-fill {
+      background: #A3E635 !important;
+      box-shadow: none !important;
+    }
+
+    body.app-ready .money-win,
+    body.app-ready .risk-ok,
+    body.app-ready .positive,
+    body.app-ready .success {
+      color: #A3E635 !important;
+    }
+
+    body.app-ready .money-loss,
+    body.app-ready .risk-bad,
+    body.app-ready .negative,
+    body.app-ready .error {
+      color: #F87171 !important;
+    }
+
+    @media (max-width: 980px) {
+      body.app-ready .dashboard-hero {
+        grid-template-columns: 1fr !important;
+        min-height: auto !important;
+      }
+    }
+  </style>
 </head>
 <body class="auth-pending">
   <section class="auth-gate" id="authGate" aria-labelledby="authTitle">
