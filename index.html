@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -6,7 +6,7 @@
   <meta name="description" content="A private trading journal for reviewing execution, risk, setups, and the decisions behind every trade.">
   <link rel="canonical" href="https://gettradereview.com/">
   <meta property="og:url" content="https://gettradereview.com/">
-  <meta property="og:title" content="TradeReview AI — Review Every Trade. Refine Every Decision.">
+  <meta property="og:title" content="TradeReview AI - Review Every Trade. Refine Every Decision.">
   <meta property="og:description" content="A private trading journal for reviewing execution, risk, setups, and the decisions behind every trade.">
   <link rel="icon" type="image/png" href="./icons/icon-192.png">
   <link rel="manifest" href="./manifest.webmanifest">
@@ -14,7 +14,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="TradeReview">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>TradeReview AI — Turn trades into a repeatable edge</title>
+  <title>TradeReview AI - Turn trades into a repeatable edge</title>
   <style>
     :root {
       color-scheme: dark;
@@ -605,7 +605,7 @@
       line-height: 1.45;
     }
     .price-list li::before {
-      content: "✓";
+      content: "?";
       width: 22px;
       height: 22px;
       display: grid;
@@ -791,13 +791,215 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
     }
+    /* TradeReview Aethel public site - final design layer */
+    :root {
+      --ae-bg:#191C21; --ae-deep:#0B1013; --ae-surface:#18181B; --ae-card:#151A20;
+      --ae-text:#FFFFFF; --ae-muted:#A1A1AA; --ae-lime:#A3E635; --ae-cyan:#67E8F9;
+      --ae-red:#FB7185; --ae-border:#2A2A2E; --ae-radius:16px; --ae-control:8px;
+    }
+    html, body {
+      background: var(--ae-bg) !important;
+      color: var(--ae-text) !important;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    }
+    body::before {
+      content:""; position:fixed; inset:0; z-index:-3; pointer-events:none;
+      background:
+        radial-gradient(circle at 70% 12%, rgba(163,230,53,.12), transparent 24rem),
+        radial-gradient(circle at 14% 38%, rgba(103,232,249,.09), transparent 30rem),
+        linear-gradient(180deg,#191C21,#111417 68%,#191C21) !important;
+    }
+    body::after {
+      content:""; position:fixed; inset:0; z-index:-2; opacity:.33; pointer-events:none;
+      background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+      background-size:44px 44px; mask-image:linear-gradient(180deg,#000,transparent 85%);
+    }
+    .shell, main, section { background:transparent !important; color:var(--ae-text) !important; }
+    .nav {
+      width:min(1240px, calc(100vw - 48px)) !important; margin:32px auto 0 !important;
+      box-sizing:border-box !important;
+      background:rgba(15,18,23,.92) !important; border:1px solid var(--ae-border) !important;
+      border-radius:24px !important; box-shadow:0 22px 80px rgba(0,0,0,.34) !important;
+      backdrop-filter:blur(18px) saturate(120%) !important;
+    }
+    .brand-logo-wide { width:min(300px, 42vw) !important; height:auto !important; max-height:76px !important; object-fit:contain !important; border-radius:14px !important; box-shadow:none !important; }
+    .official-logo-hero {
+      width:min(680px, 88vw) !important; padding:0 !important; margin:0 auto 26px !important;
+      background:transparent !important; border:0 !important; box-shadow:0 26px 90px rgba(0,0,0,.28) !important;
+    }
+    .official-logo-hero img { width:100% !important; height:auto !important; border-radius:22px !important; object-fit:contain !important; }
+    .hero {
+      min-height:860px !important; padding:clamp(70px,9vw,140px) 24px !important;
+      background:transparent !important; overflow:hidden !important;
+    }
+    .hero h1, .hero h1 span, h1 {
+      color:#fff !important; font-size:clamp(62px,8.2vw,124px) !important; line-height:1.02 !important;
+      font-weight:500 !important; letter-spacing:-.07em !important; text-shadow:none !important;
+    }
+    .lead, p, li { color:var(--ae-muted) !important; line-height:1.62 !important; }
+    .eyebrow, .microcopy, .pill, .stat-label {
+      font-family:"JetBrains Mono", ui-monospace, Consolas, monospace !important; color:#D8F8A6 !important;
+      letter-spacing:.09em !important; text-transform:uppercase !important;
+    }
+    .button, .nav-link, .feature-card, .metric-card, .pricing-card, .blog-card, .step-card, .help-panel, footer {
+      border-radius:var(--ae-radius) !important; border:1px solid var(--ae-border) !important;
+      background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018)), var(--ae-surface) !important;
+      color:var(--ae-text) !important; box-shadow:0 24px 80px rgba(0,0,0,.32) !important;
+    }
+    .button.primary, .primary, .help-submit {
+      background:var(--ae-lime) !important; color:#11150F !important; border-color:rgba(163,230,53,.35) !important;
+      font-weight:800 !important; box-shadow:0 18px 44px rgba(163,230,53,.18) !important;
+    }
+    .button:hover, .feature-card:hover, .pricing-card:hover, .blog-card:hover { transform:translateY(-3px) !important; filter:brightness(1.03) !important; }
+    .market-canvas, .landing-webgl { opacity:.18 !important; filter:saturate(.72) blur(.2px) !important; }
+    input, textarea, select { background:#0F1319 !important; color:#fff !important; border:1px solid var(--ae-border) !important; border-radius:8px !important; }
+    @media (max-width:760px) {
+      .nav { width:calc(100vw - 28px) !important; margin-top:14px !important; }
+      .brand-logo-wide { width:190px !important; }
+      .hero { min-height:auto !important; padding:52px 16px !important; }
+      .hero h1, .hero h1 span, h1 { font-size:clamp(46px,15vw,70px) !important; }
+    }
+    /* Aethel reference lock: final public-site authority */
+    :root {
+      --ae-bg:#191C21;
+      --ae-surface:#18181B;
+      --ae-text:#FFFFFF;
+      --ae-muted:#A1A1AA;
+      --ae-border:#2A2A2E;
+      --ae-lime:#A3E635;
+      --ae-radius-card:16px;
+      --ae-radius-control:8px;
+    }
+
+    html, body {
+      background:
+        radial-gradient(circle at 82% 12%, rgba(163,230,53,.06), transparent 26rem),
+        radial-gradient(circle at 18% 20%, rgba(255,255,255,.035), transparent 24rem),
+        linear-gradient(180deg, #191C21 0%, #121418 100%) !important;
+      color: var(--ae-text) !important;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    }
+
+    body::before {
+      opacity:.22 !important;
+      background:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px) !important;
+      background-size:48px 48px !important;
+    }
+
+    .nav {
+      width:min(1180px, calc(100vw - 48px)) !important;
+      border-radius:26px !important;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.015)),
+        var(--ae-surface) !important;
+      border:1px solid var(--ae-border) !important;
+      box-shadow:0 30px 90px rgba(0,0,0,.32) !important;
+    }
+
+    .nav-logo-wide {
+      width:clamp(180px, 18vw, 280px) !important;
+      height:64px !important;
+      object-fit:contain !important;
+      object-position:left center !important;
+      border-radius:12px !important;
+      background:#0A0C10 !important;
+      box-shadow:none !important;
+    }
+
+    .hero {
+      min-height:calc(100vh - 120px) !important;
+      padding:clamp(72px, 10vw, 130px) 24px 96px !important;
+      background:transparent !important;
+    }
+
+    .official-logo-hero {
+      width:min(420px, 82vw) !important;
+      padding:0 !important;
+      margin:0 auto 36px !important;
+      border:1px solid var(--ae-border) !important;
+      border-radius:16px !important;
+      background:var(--ae-surface) !important;
+      box-shadow:0 24px 70px rgba(0,0,0,.28) !important;
+      overflow:hidden !important;
+    }
+
+    .official-logo-hero img {
+      width:100% !important;
+      height:92px !important;
+      object-fit:contain !important;
+      object-position:left center !important;
+      border-radius:0 !important;
+      filter:none !important;
+    }
+
+    .hero h1, .hero h1 span, h1 {
+      color:var(--ae-text) !important;
+      -webkit-text-fill-color:var(--ae-text) !important;
+      background:none !important;
+      font-size:clamp(56px, 8vw, 116px) !important;
+      font-weight:500 !important;
+      line-height:1.04 !important;
+      letter-spacing:0 !important;
+      text-shadow:none !important;
+    }
+
+    .hero p, p, .subcopy, .muted {
+      color:var(--ae-muted) !important;
+    }
+
+    .button.primary, .primary, .nav-start {
+      background:var(--ae-lime) !important;
+      border-color:var(--ae-lime) !important;
+      color:#11150F !important;
+      border-radius:var(--ae-radius-control) !important;
+      box-shadow:0 14px 34px rgba(163,230,53,.16) !important;
+    }
+
+    .nav-signin, .button.secondary, button.secondary {
+      background:#202126 !important;
+      border-color:var(--ae-border) !important;
+      color:var(--ae-text) !important;
+      box-shadow:none !important;
+    }
+
+    .button:not(.primary), .card, .feature-card, .tool-card, .pricing-card,
+    .section-card, .dashboard-preview, .broker-strip, footer {
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.015)),
+        var(--ae-surface) !important;
+      border:1px solid var(--ae-border) !important;
+      border-radius:var(--ae-radius-card) !important;
+      color:var(--ae-text) !important;
+      box-shadow:0 30px 90px rgba(0,0,0,.22) !important;
+    }
+
+    .market-canvas {
+      opacity:.14 !important;
+      filter:grayscale(.2) !important;
+    }
+
+    .eyebrow, .badge, .pill {
+      background:rgba(163,230,53,.08) !important;
+      border:1px solid rgba(163,230,53,.22) !important;
+      color:var(--ae-lime) !important;
+      border-radius:9999px !important;
+      font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace !important;
+    }
+
+    @media (max-width:700px) {
+      .nav { width:calc(100vw - 24px) !important; }
+      .hero h1, h1 { font-size:clamp(44px, 14vw, 68px) !important; }
+      .official-logo-hero img { height:72px !important; }
+    }
   </style>
 </head>
 <body>
   <div class="scroll-aura" aria-hidden="true"></div>
   <div class="shell">
     <nav class="nav" aria-label="Primary navigation">
-      <a class="brand" href="#top" aria-label="TradeReview AI home"><img class="brand-logo-wide" src="./icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision."></a>
+      <a class="brand" href="#top" aria-label="TradeReview AI home"><img class="brand-logo-wide" src="./icons/tradereview-aethel-logo.svg" alt="TradeReview AI - Review Every Trade. Refine Every Decision."></a>
       <div class="nav-links">
         <a href="#brokers">Supported Brokers</a>
         <a href="#features">Features</a>
@@ -807,7 +1009,7 @@
       </div>
       <div class="nav-actions">
         <a class="button small" id="navLoginLink" href="./app/">Sign in</a>
-        <a class="button primary small" id="navPrimaryLink" href="./app/">Start free →</a>
+        <a class="button primary small" id="navPrimaryLink" href="./app/">Start free -></a>
       </div>
     </nav>
 
@@ -815,33 +1017,33 @@
       <section class="hero">
         <canvas class="landing-webgl" id="landingWebgl" aria-hidden="true"></canvas>
         <canvas class="market-canvas" id="marketCanvas" aria-hidden="true"></canvas>
-        <div class="official-logo-hero" aria-label="TradeReview AI — Review Every Trade. Refine Every Decision."><img src="./icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision."></div>
-        <div class="eyebrow"><span class="dot"></span> Free account · No credit card required</div>
+        <div class="official-logo-hero" aria-label="TradeReview AI - Review Every Trade. Refine Every Decision."><img src="./icons/tradereview-aethel-logo.svg" alt="TradeReview AI - Review Every Trade. Refine Every Decision."></div>
+        <div class="eyebrow"><span class="dot"></span> Free account - No credit card required</div>
         <h1><span class="gradient" id="landingHeadline">Trade less on impulse. Review more on evidence.</span></h1>
         <p class="lead">A private performance workspace that turns executions, risk, screenshots, and daily notes into a review process you can actually repeat.</p>
         <div class="hero-actions">
-          <a class="button primary" id="heroPrimaryLink" href="./app/">Start your free journal →</a>
+          <a class="button primary" id="heroPrimaryLink" href="./app/">Start your free journal -></a>
           <a class="button" href="#features">Explore the workspace</a>
         </div>
         <div class="logged-in-welcome" id="loggedInWelcome">
           <div><strong id="welcomeUserLine">Welcome back</strong><span id="welcomeUserEmail">Your dashboard is ready.</span></div>
-          <a class="button primary small" href="./app/?view=dashboard">Open dashboard →</a>
+          <a class="button primary small" href="./app/?view=dashboard">Open dashboard -></a>
         </div>
-        <div class="microcopy">$0 to start · Full journal workflow · Private cloud sync</div>
+        <div class="microcopy">$0 to start - Full journal workflow - Private cloud sync</div>
 
         <div class="product-frame" aria-label="TradeReview AI product preview">
           <div class="app-window">
             <div class="window-top"><div class="window-dots"><i></i><i></i><i></i></div><span>tradereview.ai / performance</span><span>Private session</span></div>
             <div class="mock-app">
               <div class="mock-side">
-                <div class="mock-brand"><span><img src="./icons/tradereview-logo-wide.png" alt="TradeReview AI"></span></div>
-                <div class="mock-nav"><div class="active">⌂ &nbsp; Dashboard</div><div>＋ &nbsp; Add trade</div><div>✎ &nbsp; Journal</div><div>◉ &nbsp; Review</div><div>✦ &nbsp; AI Coach</div><div>⚙ &nbsp; Settings</div></div>
+                <div class="mock-brand"><span><img src="./icons/tradereview-aethel-logo.svg" alt="TradeReview AI"></span></div>
+                <div class="mock-nav"><div class="active">? &nbsp; Dashboard</div><div>+ &nbsp; Add trade</div><div>? &nbsp; Journal</div><div>? &nbsp; Review</div><div>? &nbsp; AI Coach</div><div>? &nbsp; Settings</div></div>
               </div>
               <div class="mock-main">
                 <div class="mock-title"><div><small>Performance workspace</small><h2>Review the decision, not only the result.</h2></div><a class="button primary">Add trade</a></div>
                 <div class="mock-stats"><div class="mock-stat"><span>Total P/L</span><strong class="positive">+$148.75</strong></div><div class="mock-stat"><span>Total R</span><strong class="positive">+2.37R</strong></div><div class="mock-stat"><span>Win rate</span><strong>58%</strong></div><div class="mock-stat"><span>Risk breaks</span><strong style="color:var(--red)">1</strong></div></div>
                 <div class="mock-grid">
-                  <div class="mock-card"><div class="mock-card-head"><span>Execution chart</span><span class="positive">Price action · moving</span></div><svg class="mock-chart" viewBox="0 0 560 165" aria-hidden="true"><g opacity=".15" stroke="#8ba19b"><path d="M0 40H560M0 82H560M0 124H560"/><path d="M93 0V165M186 0V165M279 0V165M372 0V165M465 0V165"/></g><line class="live-marker" x1="0" y1="74" x2="560" y2="74"/><g class="mock-candle up"><line x1="28" y1="94" x2="28" y2="142"/><rect x="21" y="105" width="14" height="25" rx="1"/></g><g class="mock-candle down"><line x1="66" y1="84" x2="66" y2="130"/><rect x="59" y="94" width="14" height="24" rx="1"/></g><g class="mock-candle up"><line x1="104" y1="75" x2="104" y2="119"/><rect x="97" y="86" width="14" height="22" rx="1"/></g><g class="mock-candle up"><line x1="142" y1="55" x2="142" y2="105"/><rect x="135" y="68" width="14" height="26" rx="1"/></g><g class="mock-candle down"><line x1="180" y1="62" x2="180" y2="108"/><rect x="173" y="73" width="14" height="24" rx="1"/></g><g class="mock-candle down"><line x1="218" y1="78" x2="218" y2="122"/><rect x="211" y="87" width="14" height="25" rx="1"/></g><g class="mock-candle up"><line x1="256" y1="65" x2="256" y2="113"/><rect x="249" y="76" width="14" height="26" rx="1"/></g><g class="mock-candle up"><line x1="294" y1="44" x2="294" y2="94"/><rect x="287" y="55" width="14" height="29" rx="1"/></g><g class="mock-candle down"><line x1="332" y1="51" x2="332" y2="96"/><rect x="325" y="61" width="14" height="25" rx="1"/></g><g class="mock-candle up"><line x1="370" y1="33" x2="370" y2="83"/><rect x="363" y="43" width="14" height="29" rx="1"/></g><g class="mock-candle down"><line x1="408" y1="42" x2="408" y2="88"/><rect x="401" y="52" width="14" height="25" rx="1"/></g><g class="mock-candle up"><line x1="446" y1="24" x2="446" y2="75"/><rect x="439" y="35" width="14" height="29" rx="1"/></g><g class="mock-candle up"><line x1="484" y1="12" x2="484" y2="62"/><rect x="477" y="23" width="14" height="28" rx="1"/></g><g class="mock-candle down"><line x1="522" y1="20" x2="522" y2="66"/><rect x="515" y="30" width="14" height="26" rx="1"/></g></svg><div class="chart-legend"><span><i></i>Followed plan</span><span><i></i>Rule break</span></div></div>
+                  <div class="mock-card"><div class="mock-card-head"><span>Execution chart</span><span class="positive">Price action ? moving</span></div><svg class="mock-chart" viewBox="0 0 560 165" aria-hidden="true"><g opacity=".15" stroke="#8ba19b"><path d="M0 40H560M0 82H560M0 124H560"/><path d="M93 0V165M186 0V165M279 0V165M372 0V165M465 0V165"/></g><line class="live-marker" x1="0" y1="74" x2="560" y2="74"/><g class="mock-candle up"><line x1="28" y1="94" x2="28" y2="142"/><rect x="21" y="105" width="14" height="25" rx="1"/></g><g class="mock-candle down"><line x1="66" y1="84" x2="66" y2="130"/><rect x="59" y="94" width="14" height="24" rx="1"/></g><g class="mock-candle up"><line x1="104" y1="75" x2="104" y2="119"/><rect x="97" y="86" width="14" height="22" rx="1"/></g><g class="mock-candle up"><line x1="142" y1="55" x2="142" y2="105"/><rect x="135" y="68" width="14" height="26" rx="1"/></g><g class="mock-candle down"><line x1="180" y1="62" x2="180" y2="108"/><rect x="173" y="73" width="14" height="24" rx="1"/></g><g class="mock-candle down"><line x1="218" y1="78" x2="218" y2="122"/><rect x="211" y="87" width="14" height="25" rx="1"/></g><g class="mock-candle up"><line x1="256" y1="65" x2="256" y2="113"/><rect x="249" y="76" width="14" height="26" rx="1"/></g><g class="mock-candle up"><line x1="294" y1="44" x2="294" y2="94"/><rect x="287" y="55" width="14" height="29" rx="1"/></g><g class="mock-candle down"><line x1="332" y1="51" x2="332" y2="96"/><rect x="325" y="61" width="14" height="25" rx="1"/></g><g class="mock-candle up"><line x1="370" y1="33" x2="370" y2="83"/><rect x="363" y="43" width="14" height="29" rx="1"/></g><g class="mock-candle down"><line x1="408" y1="42" x2="408" y2="88"/><rect x="401" y="52" width="14" height="25" rx="1"/></g><g class="mock-candle up"><line x1="446" y1="24" x2="446" y2="75"/><rect x="439" y="35" width="14" height="29" rx="1"/></g><g class="mock-candle up"><line x1="484" y1="12" x2="484" y2="62"/><rect x="477" y="23" width="14" height="28" rx="1"/></g><g class="mock-candle down"><line x1="522" y1="20" x2="522" y2="66"/><rect x="515" y="30" width="14" height="26" rx="1"/></g></svg><div class="chart-legend"><span><i></i>Followed plan</span><span><i></i>Rule break</span></div></div>
                   <div class="mock-card"><div class="mock-card-head"><span>Review coach</span><span class="positive">3 insights</span></div><div class="coach"><div>Your best setup held risk at or below plan.</div><div>Late-morning trades produced weaker results.</div><div>Review the one oversized winner before repeating it.</div></div></div>
                 </div>
               </div>
@@ -880,7 +1082,7 @@
       <section class="free-banner" id="pricing" aria-label="Free account details">
         <div class="free-price"><span>Free plan</span><strong>$0</strong></div>
         <div class="free-copy"><h3>Your trading journal should start free. Power tools should stay affordable.</h3><p>TradeReview gives every trader a real free journal, then upgrades to paid plans that are dramatically cheaper than premium trading journal competitors.</p><div class="free-points"><span>Free forever starter</span><span>$9.99 growth plan</span><span>$29.99 pro plan</span><span>$49.99 elite plan</span><span>No inflated pricing</span></div></div>
-        <a class="button primary" href="./app/">Create free account →</a>
+        <a class="button primary" href="./app/">Create free account -></a>
       </section>
 
       <section class="pricing-section" aria-label="TradeReview AI pricing plans">
@@ -952,11 +1154,11 @@
       </section>
 
       <section class="section" id="features">
-        <div class="section-head"><div class="section-label">Everything in one review loop</div><h2>The tools that make your next decision clearer.</h2><p class="section-copy">TradeReview connects the execution, the context, and the lesson so your journal becomes a working feedback system—not a graveyard of notes.</p></div>
+        <div class="section-head"><div class="section-label">Everything in one review loop</div><h2>The tools that make your next decision clearer.</h2><p class="section-copy">TradeReview connects the execution, the context, and the lesson so your journal becomes a working feedback system-not a graveyard of notes.</p></div>
         <div class="feature-grid">
-          <article class="feature-card"><div class="feature-icon">↗</div><h3>Performance dashboard</h3><p>See P/L, total R, win rate, average trade, setup performance, and risk breaks without rebuilding a spreadsheet.</p><div class="feature-meta"><span>Automatic</span><span>After every save</span></div></article>
-          <article class="feature-card"><div class="feature-icon">◎</div><h3>Visual trade review</h3><p>Pair exact entry and exit times with chart screenshots, then review execution, invalidation, and emotional decisions together.</p><div class="feature-meta"><span>Entry + exit</span><span>One view</span></div></article>
-          <article class="feature-card"><div class="feature-icon">✦</div><h3>Broker-link ready</h3><p>Choose your primary broker, request direct sync, and keep using CSV import while approved broker OAuth/API access is prepared.</p><div class="feature-meta"><span>No broker passwords</span><span>CSV today</span></div></article>
+          <article class="feature-card"><div class="feature-icon">?</div><h3>Performance dashboard</h3><p>See P/L, total R, win rate, average trade, setup performance, and risk breaks without rebuilding a spreadsheet.</p><div class="feature-meta"><span>Automatic</span><span>After every save</span></div></article>
+          <article class="feature-card"><div class="feature-icon">?</div><h3>Visual trade review</h3><p>Pair exact entry and exit times with chart screenshots, then review execution, invalidation, and emotional decisions together.</p><div class="feature-meta"><span>Entry + exit</span><span>One view</span></div></article>
+          <article class="feature-card"><div class="feature-icon">?</div><h3>Broker-link ready</h3><p>Choose your primary broker, request direct sync, and keep using CSV import while approved broker OAuth/API access is prepared.</p><div class="feature-meta"><span>No broker passwords</span><span>CSV today</span></div></article>
           <article class="feature-card"><div class="feature-icon">AI</div><h3>Learn and trade with AI</h3><p>Use AI to study setups, draft risk-first trade plans, and review your behavior after execution without auto-trading or broker password collection.</p><div class="feature-meta"><span>Learn</span><span>Plan</span></div></article>
         </div>
       </section>
@@ -992,34 +1194,34 @@
       </section>
 
       <section class="section workflow" id="workflow">
-        <div class="section-head"><div class="section-label">A process you can repeat</div><h2>From fill to feedback in minutes.</h2><p class="section-copy">The workflow is intentionally simple enough to finish after a demanding session—and structured enough to reveal patterns over time.</p></div>
+        <div class="section-head"><div class="section-label">A process you can repeat</div><h2>From fill to feedback in minutes.</h2><p class="section-copy">The workflow is intentionally simple enough to finish after a demanding session-and structured enough to reveal patterns over time.</p></div>
         <div class="steps"><article class="step"><div class="step-num">01</div><div><h3>Capture the trade</h3><p>Add it manually or import a CSV with the trading day, execution times, risk, setup, and result.</p></div></article><article class="step"><div class="step-num">02</div><div><h3>Review the evidence</h3><p>Attach entry and exit charts and compare the planned trade with the decision you actually made.</p></div></article><article class="step"><div class="step-num">03</div><div><h3>Write the next rule</h3><p>Grade the session, name the behavior, and leave tomorrow with one clear adjustment instead of a vague promise.</p></div></article></div>
       </section>
 
       <section class="section" id="blog">
         <div class="section-head"><div class="section-label">From the TradeReview blog</div><h2>Practical notes for a better review process.</h2><p class="section-copy">Short, useful reads about execution, risk, and turning journal entries into decisions you can repeat.</p></div>
         <div class="blog-grid">
-          <a class="blog-card" href="./blog/ten-minute-post-market-review.html"><div class="blog-visual"><div class="blog-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="blog-meta">Process · 6 min read</div><h3>The 10-minute post-market review</h3><p>A simple sequence for reviewing executions while the context is still fresh—without turning journaling into homework.</p><div class="blog-read"><span>Read article</span><span>→</span></div></a>
-          <a class="blog-card" href="./blog/winning-trade-bad-decision.html"><div class="blog-visual"><div class="blog-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="blog-meta">Risk · 5 min read</div><h3>Why a winning trade can still be a bad trade</h3><p>Outcome and decision quality are different. Learn how to review risk violations even when the P/L is green.</p><div class="blog-read"><span>Read article</span><span>→</span></div></a>
-          <a class="blog-card" href="./blog/journal-tags-that-reveal-behavior.html"><div class="blog-visual"><div class="blog-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="blog-meta">Journaling · 7 min read</div><h3>Three journal tags that reveal behavior</h3><p>Use setup, mistake, and mindset tags to separate strategy problems from execution and emotional leaks.</p><div class="blog-read"><span>Read article</span><span>→</span></div></a>
+          <a class="blog-card" href="./blog/ten-minute-post-market-review.html"><div class="blog-visual"><div class="blog-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="blog-meta">Process ? 6 min read</div><h3>The 10-minute post-market review</h3><p>A simple sequence for reviewing executions while the context is still fresh-without turning journaling into homework.</p><div class="blog-read"><span>Read article</span><span>-></span></div></a>
+          <a class="blog-card" href="./blog/winning-trade-bad-decision.html"><div class="blog-visual"><div class="blog-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="blog-meta">Risk ? 5 min read</div><h3>Why a winning trade can still be a bad trade</h3><p>Outcome and decision quality are different. Learn how to review risk violations even when the P/L is green.</p><div class="blog-read"><span>Read article</span><span>-></span></div></a>
+          <a class="blog-card" href="./blog/journal-tags-that-reveal-behavior.html"><div class="blog-visual"><div class="blog-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="blog-meta">Journaling ? 7 min read</div><h3>Three journal tags that reveal behavior</h3><p>Use setup, mistake, and mindset tags to separate strategy problems from execution and emotional leaks.</p><div class="blog-read"><span>Read article</span><span>-></span></div></a>
         </div>
       </section>
 
       <section class="section" id="privacy">
         <div class="section-head"><div class="section-label">Your data stays yours</div><h2>Built around a private journal, not public performance.</h2></div>
-        <div class="privacy-card"><div><h3>Your trades are personal.</h3><p>TradeReview uses secure account authentication and row-level database rules so each user can access only their own journal data. Your review is available across devices after sign-in.</p></div><div class="privacy-points"><div class="privacy-point"><span class="check">✓</span> Private user-level access</div><div class="privacy-point"><span class="check">✓</span> Secure cloud synchronization</div><div class="privacy-point"><span class="check">✓</span> Exportable journal backup</div></div></div>
+        <div class="privacy-card"><div><h3>Your trades are personal.</h3><p>TradeReview uses secure account authentication and row-level database rules so each user can access only their own journal data. Your review is available across devices after sign-in.</p></div><div class="privacy-points"><div class="privacy-point"><span class="check">?</span> Private user-level access</div><div class="privacy-point"><span class="check">?</span> Secure cloud synchronization</div><div class="privacy-point"><span class="check">?</span> Exportable journal backup</div></div></div>
       </section>
 
-      <section class="cta"><div class="cta-inner"><h2>Make the review part of the trade.</h2><p>Start with one session. Capture the evidence, name the mistake, and build the process that protects your edge.</p><a class="button primary" href="./app/">Create your free account →</a></div></section>
+      <section class="cta"><div class="cta-inner"><h2>Make the review part of the trade.</h2><p>Start with one session. Capture the evidence, name the mistake, and build the process that protects your edge.</p><a class="button primary" href="./app/">Create your free account -></a></div></section>
     </main>
 
-    <footer><a class="brand" href="#top" aria-label="TradeReview AI home"><img class="brand-logo-wide" src="./icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision."></a><span>Built for disciplined review. Trading involves substantial risk.</span><div class="footer-links"><a href="./blog/">Blog</a><a href="./privacy.html">Privacy</a><a href="./app/">Sign in</a></div></footer>
+    <footer><a class="brand" href="#top" aria-label="TradeReview AI home"><img class="brand-logo-wide" src="./icons/tradereview-aethel-logo.svg" alt="TradeReview AI - Review Every Trade. Refine Every Decision."></a><span>Built for disciplined review. Trading involves substantial risk.</span><div class="footer-links"><a href="./blog/">Blog</a><a href="./privacy.html">Privacy</a><a href="./app/">Sign in</a></div></footer>
   </div>
 
   <button class="help-button" id="helpButton" type="button" aria-expanded="false"><span class="help-icon">?</span><span>How can I help?</span></button>
   <section class="help-card" id="helpCard" aria-label="TradeReview help" aria-hidden="true">
-    <div class="help-head"><div class="help-brand"><img src="./icons/tradereview-mark.png" alt="TradeReview AI"></div><div><strong>TradeReview support</strong><span>Instant guidance or email customer service</span></div><button class="help-close" id="helpClose" type="button" aria-label="Close help">×</button></div>
-    <div class="help-messages" id="helpMessages"><div class="message">Hi — I can answer product questions instantly, or help you email a customer service agent. What do you need?</div></div>
+    <div class="help-head"><div class="help-brand"><img src="./icons/tradereview-aethel-logo.svg" alt="TradeReview AI"></div><div><strong>TradeReview support</strong><span>Instant guidance or email customer service</span></div><button class="help-close" id="helpClose" type="button" aria-label="Close help">?</button></div>
+    <div class="help-messages" id="helpMessages"><div class="message">Hi - I can answer product questions instantly, or help you email a customer service agent. What do you need?</div></div>
     <div class="help-actions"><button id="instantGuide" type="button">Instant guide</button><button id="talkToAgent" type="button">Talk to an agent</button></div>
     <form class="agent-email-form" id="agentEmailForm">
       <select id="supportReason" aria-label="Support reason">
@@ -1035,8 +1237,8 @@
       <button type="submit">Send email to customer service agent</button>
       <p class="agent-email-note">This opens your email app and sends to TradeReview customer service. Do not include passwords, login links, or private trading data.</p>
     </form>
-    <a class="agent-link" id="agentLink" href="mailto:alexhopkins652@gmail.com?subject=TradeReview%20AI%20support%20request&body=Hi%20TradeReview%20customer%20service%2C%0A%0AI%20need%20help%20with%3A%0A%0A" hidden>Email customer service →</a>
-    <form class="help-form" id="helpForm"><input id="helpInput" placeholder="Ask a question…" autocomplete="off" aria-label="Ask a question"><button type="submit" aria-label="Send">↑</button></form>
+    <a class="agent-link" id="agentLink" href="mailto:alexhopkins652@gmail.com?subject=TradeReview%20AI%20support%20request&body=Hi%20TradeReview%20customer%20service%2C%0A%0AI%20need%20help%20with%3A%0A%0A" hidden>Email customer service -></a>
+    <form class="help-form" id="helpForm"><input id="helpInput" placeholder="Ask a question..." autocomplete="off" aria-label="Ask a question"><button type="submit" aria-label="Send">?</button></form>
   </section>
 
   <script>
@@ -1078,12 +1280,12 @@
       document.body.classList.add("user-logged-in");
       document.querySelector("#landingHeadline").textContent = `Welcome back, ${firstName}. Your trading command center is ready.`;
       document.querySelector("#welcomeUserLine").textContent = `Welcome back, ${firstName}`;
-      document.querySelector("#welcomeUserEmail").textContent = `${user.email} · Continue to your private dashboard.`;
+      document.querySelector("#welcomeUserEmail").textContent = `${user.email} ? Continue to your private dashboard.`;
       document.querySelector("#navLoginLink").textContent = "Dashboard";
       document.querySelector("#navLoginLink").href = `${appUrl}?view=dashboard`;
-      document.querySelector("#navPrimaryLink").textContent = "Open dashboard →";
+      document.querySelector("#navPrimaryLink").textContent = "Open dashboard ->";
       document.querySelector("#navPrimaryLink").href = `${appUrl}?view=dashboard`;
-      document.querySelector("#heroPrimaryLink").textContent = "Open your dashboard →";
+      document.querySelector("#heroPrimaryLink").textContent = "Open your dashboard ->";
       document.querySelector("#heroPrimaryLink").href = `${appUrl}?view=dashboard`;
     }
 
@@ -1441,3 +1643,4 @@
   </script>
 </body>
 </html>
+

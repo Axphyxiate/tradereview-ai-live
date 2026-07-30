@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   color-scheme: dark;
   --bg: #050817;
   --panel: #0c1730;
@@ -124,7 +124,7 @@ footer .brand-logo-wide { width: 210px; height: 48px; }
   footer { flex-direction: column; text-align: center; }
 }
 
-/* TradeReview Executive Canvas — shared public-page polish */
+/* TradeReview Executive Canvas - shared public-page polish */
 :root {
   color-scheme: light;
   --canvas: #efe8d8;
@@ -316,3 +316,238 @@ footer {
   .brand-logo-wide { width: 100% !important; max-width: 320px !important; }
   .blog-hero h1, h1 { font-size: clamp(3rem, 14vw, 4.6rem) !important; }
 }
+
+/* TradeReview Aethel blog/support - final design layer */
+:root {
+  --ae-bg:#191C21; --ae-deep:#0B1013; --ae-surface:#18181B; --ae-card:#151A20;
+  --ae-text:#FFFFFF; --ae-muted:#A1A1AA; --ae-lime:#A3E635; --ae-cyan:#67E8F9;
+  --ae-red:#FB7185; --ae-border:#2A2A2E; --ae-radius:16px; --ae-control:8px;
+}
+
+html, body {
+  background:var(--ae-bg) !important;
+  color:var(--ae-text) !important;
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+body::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-3;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 70% 12%, rgba(163,230,53,.12), transparent 24rem),
+    radial-gradient(circle at 16% 36%, rgba(103,232,249,.08), transparent 28rem),
+    linear-gradient(180deg,#191C21,#111417 70%,#191C21) !important;
+}
+
+body::after {
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  opacity:.32;
+  background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:44px 44px;
+  mask-image:linear-gradient(180deg,#000,transparent 86%);
+}
+
+.shell, main, section, article { background:transparent !important; color:var(--ae-text) !important; }
+
+.nav, .post-card, .article, .side-card, .blog-hero, .article-head, footer {
+  background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018)), var(--ae-surface) !important;
+  border:1px solid var(--ae-border) !important;
+  border-radius:var(--ae-radius) !important;
+  box-shadow:0 24px 80px rgba(0,0,0,.32) !important;
+}
+
+.nav {
+  width:min(1440px, calc(100vw - 64px)) !important;
+  margin:32px auto !important;
+  padding:14px 22px !important;
+  backdrop-filter:blur(18px) saturate(120%) !important;
+}
+
+.brand-logo-wide {
+  width:min(300px, 42vw) !important;
+  height:auto !important;
+  max-height:76px !important;
+  object-fit:contain !important;
+  border-radius:14px !important;
+  box-shadow:none !important;
+}
+
+h1, h2, h3 {
+  color:var(--ae-text) !important;
+  -webkit-text-fill-color:var(--ae-text) !important;
+  background:none !important;
+  font-weight:500 !important;
+  letter-spacing:-.055em !important;
+  text-shadow:none !important;
+}
+
+h1 *, h2 *, h3 *, .gradient, .blog-hero h1 span, .article-head h1 span {
+  color:var(--ae-text) !important;
+  -webkit-text-fill-color:var(--ae-text) !important;
+  background:none !important;
+}
+
+.blog-hero h1, .article-head h1, h1 {
+  font-size:clamp(52px, 7vw, 104px) !important;
+  line-height:1.04 !important;
+}
+
+p, li, .lead, .post-card p, .article p, .article li, .side-card p {
+  color:var(--ae-muted) !important;
+  line-height:1.65 !important;
+}
+
+.eyebrow, .read, .article-meta, .side-card span {
+  font-family:"JetBrains Mono", ui-monospace, Consolas, monospace !important;
+  color:#D8F8A6 !important;
+  letter-spacing:.09em !important;
+  text-transform:uppercase !important;
+  font-weight:700 !important;
+}
+
+a, .nav-link { color:#EAFCE3 !important; }
+.nav-link.primary, .side-card a {
+  background:var(--ae-lime) !important;
+  color:#11150F !important;
+  border-radius:var(--ae-control) !important;
+  border:1px solid rgba(163,230,53,.35) !important;
+}
+
+.post-card:hover, .side-card:hover, .nav-link:hover {
+  transform:translateY(-3px) !important;
+  filter:brightness(1.03) !important;
+}
+
+.post-card img,
+.post-card .chart,
+.post-visual,
+.article-visual,
+.mini-chart {
+  background:linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.018)), var(--ae-card) !important;
+  border-color:var(--ae-border) !important;
+  filter:saturate(.84) brightness(.82) !important;
+}
+
+@media (max-width:760px) {
+  .nav { width:calc(100vw - 28px) !important; margin:14px auto !important; }
+  .brand-logo-wide { width:190px !important; }
+  .blog-hero h1, .article-head h1, h1 { font-size:clamp(42px, 14vw, 68px) !important; }
+}
+
+/* Aethel reference lock: final blog/support authority */
+:root {
+  --ae-bg:#191C21;
+  --ae-surface:#18181B;
+  --ae-text:#FFFFFF;
+  --ae-muted:#A1A1AA;
+  --ae-border:#2A2A2E;
+  --ae-lime:#A3E635;
+  --ae-radius-card:16px;
+  --ae-radius-control:8px;
+}
+
+html, body {
+  background:
+    radial-gradient(circle at 82% 12%, rgba(163,230,53,.06), transparent 26rem),
+    radial-gradient(circle at 18% 20%, rgba(255,255,255,.035), transparent 24rem),
+    linear-gradient(180deg, #191C21 0%, #121418 100%) !important;
+  color:var(--ae-text) !important;
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+}
+
+body::before {
+  opacity:.22 !important;
+  background:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px) !important;
+  background-size:48px 48px !important;
+}
+
+.nav, .post-card, .article, .side-card, .blog-hero, .article-head, footer,
+.support-card, .contact-card, .help-card {
+  background:
+    linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.015)),
+    var(--ae-surface) !important;
+  border:1px solid var(--ae-border) !important;
+  border-radius:var(--ae-radius-card) !important;
+  box-shadow:0 30px 90px rgba(0,0,0,.26) !important;
+  color:var(--ae-text) !important;
+}
+
+.nav {
+  width:min(1180px, calc(100vw - 48px)) !important;
+  padding:12px 14px !important;
+  border-radius:26px !important;
+}
+
+.brand-logo-wide, .nav img, .logo img, .brand img {
+  width:clamp(180px, 18vw, 280px) !important;
+  height:64px !important;
+  object-fit:contain !important;
+  object-position:left center !important;
+  border-radius:12px !important;
+  background:#0A0C10 !important;
+  box-shadow:none !important;
+}
+
+.blog-hero {
+  padding:clamp(56px, 8vw, 96px) 24px !important;
+}
+
+.blog-hero::after, .article-head::after {
+  opacity:.14 !important;
+  border-color:rgba(163,230,53,.18) !important;
+  background:radial-gradient(circle, rgba(163,230,53,.12), transparent 68%) !important;
+}
+
+.blog-hero h1, .article-head h1, h1 {
+  color:var(--ae-text) !important;
+  -webkit-text-fill-color:var(--ae-text) !important;
+  background:none !important;
+  font-size:clamp(48px, 7vw, 92px) !important;
+  font-weight:500 !important;
+  line-height:1.04 !important;
+  letter-spacing:0 !important;
+}
+
+h2, h3, strong { color:var(--ae-text) !important; }
+p, li, .muted, .excerpt, .article-meta { color:var(--ae-muted) !important; }
+
+.button.primary, .primary, button[type="submit"], .nav-link.primary, .side-card a {
+  background:var(--ae-lime) !important;
+  border-color:var(--ae-lime) !important;
+  color:#11150F !important;
+  border-radius:var(--ae-radius-control) !important;
+  box-shadow:0 14px 34px rgba(163,230,53,.16) !important;
+}
+
+.button:not(.primary), input, textarea, select {
+  background:#101216 !important;
+  border:1px solid var(--ae-border) !important;
+  color:var(--ae-text) !important;
+  border-radius:var(--ae-radius-control) !important;
+}
+
+.tag, .pill, .eyebrow, .category {
+  background:rgba(163,230,53,.08) !important;
+  border:1px solid rgba(163,230,53,.22) !important;
+  color:var(--ae-lime) !important;
+  border-radius:9999px !important;
+  font-family:"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace !important;
+  letter-spacing:.08em !important;
+  text-transform:uppercase !important;
+}
+
+@media (max-width:700px) {
+  .nav { width:calc(100vw - 24px) !important; }
+  .blog-hero h1, .article-head h1, h1 { font-size:clamp(42px, 13vw, 68px) !important; }
+  .brand-logo-wide, .nav img, .logo img, .brand img { width:190px !important; height:54px !important; }
+}
+

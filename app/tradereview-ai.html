@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -1148,7 +1148,7 @@
     }
 
     .tv-capture-step:not(:last-child)::after {
-      content: "→";
+      content: "->";
       position: absolute;
       right: -15px;
       top: 50%;
@@ -1364,14 +1364,14 @@
     }
 
     .tv-capture-step:not(:last-child)::after {
-      content: "→";
+      content: "->";
       right: -18px;
       width: 24px;
       height: 24px;
     }
 
     .tv-capture-card.compact .tv-capture-step:not(:last-child)::after {
-      content: "↓";
+      content: "?";
       right: auto;
       left: 18px;
       top: auto;
@@ -3151,7 +3151,7 @@
     .pulse-mask { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
     .pulse-track { width: max-content; display: flex; gap: 9px; animation: pulseFlow 20s linear infinite; }
     .pulse-track span { display: inline-flex; align-items: center; gap: 8px; color: #8d9dbd; font-size: 10px; font-weight: 750; white-space: nowrap; }
-    .pulse-track span::after { content: "◆"; color: #8b78f2; font-size: 6px; }
+    .pulse-track span::after { content: "?"; color: #8b78f2; font-size: 6px; }
     @keyframes pulseFlow { to { transform: translateX(-50%); } }
 
     .profile-summary { display: grid; gap: 10px; }
@@ -4272,7 +4272,7 @@
     .billing-price { margin: 14px 0; color: #f8fbff; font-size: 38px; font-weight: 950; letter-spacing: -.06em; }
     .billing-price span { color: #94a3b8; font-size: 13px; font-weight: 700; letter-spacing: 0; }
     .billing-list { display: grid; gap: 9px; margin: 16px 0; padding: 0; list-style: none; color: #aab8d0; font-size: 12px; line-height: 1.45; }
-    .billing-list li::before { content: "✓ "; color: #86efac; font-weight: 950; }
+    .billing-list li::before { content: "? "; color: #86efac; font-weight: 950; }
     .checkout-note { margin-top: 12px; color: #94a3b8; font-size: 12px; line-height: 1.55; }
     .settings-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0; }
     .settings-tabs button { min-height: 38px; padding: 0 13px; border-radius: 999px; color: #91a7bf; font-size: 12px; font-weight: 850; }
@@ -5636,7 +5636,7 @@
       }
     }
 
-    /* Summit Canvas brand reset — warm, restrained, professional */
+    /* Summit Canvas brand reset - warm, restrained, professional */
     :root {
       color-scheme: light;
       --summit-ink: #1a1612;
@@ -5739,7 +5739,7 @@
     .auth-nav-logo {
       width: clamp(210px, 22vw, 330px) !important;
       height: 66px !important;
-      object-fit: cover !important;
+      object-fit: contain !important;
       object-position: left center !important;
     }
 
@@ -6237,7 +6237,7 @@
         display: block !important;
       }
     }
-    /* TradeReview Premium Theme Override — final layer wins across the full SPA */
+    /* TradeReview Premium Theme Override - final layer wins across the full SPA */
     :root {
       color-scheme: dark !important;
       --ink: #f4f8ff !important;
@@ -6756,7 +6756,7 @@
       }
     }
 
-    /* TradeReview Executive Canvas — final brand polish layer */
+    /* TradeReview Executive Canvas - final brand polish layer */
     :root {
       --tr-ink: #1a1612;
       --tr-muted: #736b5e;
@@ -7387,12 +7387,843 @@
         padding: 28px 20px !important;
       }
     }
+    /* TradeReview Aethel Command - final design layer */
+    :root {
+      --ae-bg: #191C21;
+      --ae-bg-deep: #0B1013;
+      --ae-surface: #18181B;
+      --ae-surface-2: #20242B;
+      --ae-card: #151A20;
+      --ae-text: #FFFFFF;
+      --ae-muted: #A1A1AA;
+      --ae-soft: #D8F0E2;
+      --ae-lime: #A3E635;
+      --ae-lime-2: #4ADE80;
+      --ae-cyan: #67E8F9;
+      --ae-red: #FB7185;
+      --ae-border: #2A2A2E;
+      --ae-border-soft: rgba(255,255,255,.09);
+      --ae-radius-card: 16px;
+      --ae-radius-control: 8px;
+      --ae-shadow: 0 28px 90px rgba(0,0,0,.38);
+    }
+
+    html, body {
+      background: var(--ae-bg) !important;
+      color: var(--ae-text) !important;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+      letter-spacing: -.01em;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 72% 12%, rgba(163,230,53,.13), transparent 24rem),
+        radial-gradient(circle at 18% 30%, rgba(103,232,249,.08), transparent 28rem),
+        linear-gradient(180deg, #191C21 0%, #101418 58%, #191C21 100%) !important;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      opacity: .38;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,.88), rgba(0,0,0,.18));
+    }
+
+    .app,
+    .auth-shell,
+    .app-shell,
+    main,
+    .view,
+    .app-view,
+    .workspace,
+    .dashboard,
+    .page,
+    section {
+      background: transparent !important;
+      color: var(--ae-text) !important;
+    }
+
+    aside,
+    .sidebar,
+    .auth-nav,
+    .nav-shell {
+      background: rgba(15, 18, 23, .92) !important;
+      border-color: var(--ae-border) !important;
+      box-shadow: 0 18px 60px rgba(0,0,0,.32) !important;
+      backdrop-filter: blur(18px) saturate(120%) !important;
+    }
+
+    .auth-nav {
+      width: min(1440px, calc(100vw - 64px)) !important;
+      min-height: 92px !important;
+      margin: 32px auto 0 !important;
+      padding: 14px 24px !important;
+      border-radius: 24px !important;
+    }
+
+    .auth-nav-logo,
+    .auth-mini-logo,
+    .brand-logo-wide-app,
+    .workspace-logo-lockup {
+      display: block !important;
+      width: min(300px, 78vw) !important;
+      height: auto !important;
+      max-height: 78px !important;
+      object-fit: contain !important;
+      border-radius: 14px !important;
+      filter: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
+    }
+
+    .auth-logo-lockup {
+      width: min(620px, 88vw) !important;
+      max-height: 146px !important;
+      object-fit: contain !important;
+      border-radius: 22px !important;
+      box-shadow: var(--ae-shadow) !important;
+    }
+
+    aside .brand,
+    .brand {
+      min-height: auto !important;
+      padding: 10px 8px !important;
+      border: 0 !important;
+      background: transparent !important;
+    }
+
+    aside .brand .brand-logo-wide-app {
+      width: 164px !important;
+      max-height: 48px !important;
+      border-radius: 8px !important;
+    }
+
+    .nav-item,
+    aside button,
+    .sidebar button {
+      min-height: 48px !important;
+      border-radius: var(--ae-radius-control) !important;
+      color: var(--ae-muted) !important;
+      background: transparent !important;
+      border: 1px solid transparent !important;
+      transition: transform .22s ease, border-color .22s ease, background .22s ease, color .22s ease !important;
+    }
+
+    .nav-item:hover,
+    aside button:hover,
+    .sidebar button:hover {
+      transform: translateX(4px) !important;
+      color: var(--ae-text) !important;
+      border-color: rgba(163,230,53,.24) !important;
+      background: rgba(163,230,53,.06) !important;
+    }
+
+    .nav-item.active,
+    aside button.active,
+    .sidebar .active {
+      color: var(--ae-text) !important;
+      border-color: rgba(163,230,53,.48) !important;
+      background: linear-gradient(90deg, rgba(163,230,53,.12), rgba(255,255,255,.02)) !important;
+      box-shadow: inset 3px 0 0 var(--ae-lime) !important;
+    }
+
+    h1, h2, h3, h4,
+    .hero-headline,
+    .auth-story h1,
+    .dashboard-hero h1,
+    .section-title {
+      color: var(--ae-text) !important;
+      font-weight: 500 !important;
+      letter-spacing: -.06em !important;
+      text-shadow: none !important;
+    }
+
+    .auth-story h1,
+    .hero-headline,
+    .dashboard-hero h1 {
+      font-size: clamp(52px, 6.3vw, 96px) !important;
+      line-height: 1.04 !important;
+      max-width: 980px !important;
+    }
+
+    p, li, label, small,
+    .subtitle,
+    .muted,
+    .field-help,
+    .auth-story p,
+    .dashboard-hero .subtitle {
+      color: var(--ae-muted) !important;
+      line-height: 1.6 !important;
+      text-shadow: none !important;
+    }
+
+    .eyebrow,
+    .kicker,
+    .label,
+    .hero-chip,
+    .badge,
+    .pill,
+    .agent-command-badges span,
+    .auth-proof,
+    .broker-chip {
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Consolas, monospace !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      letter-spacing: .09em !important;
+      text-transform: uppercase !important;
+      color: var(--ae-soft) !important;
+    }
+
+    .dashboard-hero,
+    .auth-hero,
+    .auth-card,
+    .panel,
+    .card,
+    .stat-card,
+    .hero-mini-card,
+    .agent-card,
+    .agent-command-hero,
+    .ai-command-hero,
+    .ai-page-hero,
+    .broker-hero,
+    .broker-sync-spotlight,
+    .csv-zone,
+    .settings-card,
+    .pricing-card,
+    .plan-card,
+    .modal,
+    .help-panel,
+    .global-symbol-picker,
+    .owner-console,
+    .journal-card,
+    .trade-row,
+    .learn-card,
+    .trade-ai-card {
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.018)),
+        var(--ae-surface) !important;
+      border: 1px solid var(--ae-border) !important;
+      border-radius: var(--ae-radius-card) !important;
+      box-shadow: var(--ae-shadow) !important;
+      color: var(--ae-text) !important;
+    }
+
+    .dashboard-hero,
+    .auth-hero {
+      overflow: hidden !important;
+      min-height: clamp(560px, 72vh, 780px) !important;
+      padding: clamp(36px, 5vw, 72px) !important;
+      isolation: isolate !important;
+    }
+
+    .dashboard-hero::before,
+    .auth-hero::before,
+    .agent-command-hero::before,
+    .ai-command-hero::before {
+      opacity: .26 !important;
+      background:
+        radial-gradient(circle at 75% 22%, rgba(163,230,53,.14), transparent 22rem),
+        linear-gradient(115deg, rgba(103,232,249,.08), transparent 55%) !important;
+      animation: aeAmbient 9s ease-in-out infinite alternate !important;
+    }
+
+    @keyframes aeAmbient {
+      from { transform: translate3d(-10px, -8px, 0) scale(1); }
+      to { transform: translate3d(12px, 10px, 0) scale(1.03); }
+    }
+
+    .hero-market-chart,
+    .hero-webgl,
+    .canvas-gradient,
+    .bull-bear-art,
+    .hero-command-visual::before,
+    .hero-command-visual::after {
+      opacity: .18 !important;
+      filter: saturate(.8) blur(.2px) !important;
+    }
+
+    .auth-story,
+    .hero-copy,
+    .dashboard-hero .hero-copy {
+      max-width: 900px !important;
+      padding: 0 !important;
+      background: transparent !important;
+      border: 0 !important;
+    }
+
+    .dashboard-hero .subtitle,
+    .auth-story p {
+      max-width: 720px !important;
+      font-size: clamp(17px, 1.4vw, 22px) !important;
+      color: #C7CED6 !important;
+    }
+
+    input,
+    textarea,
+    select,
+    .input,
+    .field,
+    .symbol-search-input {
+      background: #0F1319 !important;
+      border: 1px solid var(--ae-border) !important;
+      border-radius: var(--ae-radius-control) !important;
+      color: var(--ae-text) !important;
+      box-shadow: none !important;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: rgba(163,230,53,.72) !important;
+      box-shadow: 0 0 0 3px rgba(163,230,53,.13) !important;
+      outline: none !important;
+    }
+
+    button,
+    .button,
+    .primary,
+    .btn-primary,
+    .auth-primary,
+    .cta-primary {
+      border-radius: var(--ae-radius-control) !important;
+      border: 1px solid rgba(163,230,53,.22) !important;
+      background: var(--ae-lime) !important;
+      color: #12150F !important;
+      font-weight: 800 !important;
+      box-shadow: 0 14px 34px rgba(163,230,53,.14) !important;
+      transition: transform .18s ease, filter .18s ease, box-shadow .18s ease !important;
+    }
+
+    button:hover,
+    .button:hover,
+    .primary:hover,
+    .btn-primary:hover,
+    .auth-primary:hover,
+    .cta-primary:hover {
+      transform: translateY(-2px) !important;
+      filter: brightness(1.03) !important;
+      box-shadow: 0 18px 42px rgba(163,230,53,.2) !important;
+    }
+
+    .secondary,
+    .ghost,
+    .btn-secondary,
+    .auth-secondary,
+    .cta-secondary,
+    .load-demo-btn {
+      background: rgba(255,255,255,.035) !important;
+      color: var(--ae-text) !important;
+      border: 1px solid var(--ae-border) !important;
+      box-shadow: none !important;
+    }
+
+    .danger,
+    .delete,
+    .loss,
+    .negative,
+    .error,
+    .field-error {
+      color: var(--ae-red) !important;
+      border-color: rgba(251,113,133,.35) !important;
+    }
+
+    .win,
+    .positive,
+    .money-win,
+    .success {
+      color: var(--ae-lime) !important;
+    }
+
+    table,
+    .table,
+    .recent-trades,
+    .journal-table {
+      background: var(--ae-surface) !important;
+      color: var(--ae-text) !important;
+      border-color: var(--ae-border) !important;
+    }
+
+    th {
+      color: #D7DEE5 !important;
+      background: #20242B !important;
+      font-family: "JetBrains Mono", ui-monospace, monospace !important;
+      font-size: 12px !important;
+      letter-spacing: .08em !important;
+    }
+
+    td,
+    .trade-table td,
+    .recent-trades td {
+      color: #E9EEF2 !important;
+      border-color: rgba(255,255,255,.06) !important;
+    }
+
+    tr:hover,
+    .trade-row:hover,
+    .agent-card:hover,
+    .learn-card:hover,
+    .trade-ai-card:hover,
+    .plan-card:hover {
+      background: rgba(163,230,53,.045) !important;
+      transform: translateY(-2px) !important;
+    }
+
+    .global-symbol-picker,
+    .symbol-search-popover,
+    .market-finder {
+      max-height: min(78vh, 720px) !important;
+      overflow: auto !important;
+      z-index: 10000 !important;
+      backdrop-filter: blur(18px) saturate(130%) !important;
+    }
+
+    .global-symbol-picker .market-row,
+    .symbol-result,
+    .symbol-option {
+      color: var(--ae-text) !important;
+      background: transparent !important;
+      border-color: rgba(255,255,255,.06) !important;
+    }
+
+    .global-symbol-picker .market-row:hover,
+    .symbol-result:hover,
+    .symbol-option:hover {
+      background: rgba(163,230,53,.09) !important;
+    }
+
+    .agent-monitor-stage,
+    .ai-orbit,
+    .command-visual,
+    .capture-pipeline {
+      background:
+        radial-gradient(circle at 50% 48%, rgba(163,230,53,.12), transparent 10rem),
+        #0D1117 !important;
+      border-color: var(--ae-border) !important;
+    }
+
+    .agent-pulse-core,
+    .ai-core {
+      background: radial-gradient(circle, #D9F99D 0%, #A3E635 48%, #4ADE80 100%) !important;
+      color: #111 !important;
+      box-shadow: 0 0 44px rgba(163,230,53,.28) !important;
+    }
+
+    .help-launcher {
+      background: var(--ae-lime) !important;
+      color: #111 !important;
+      border-color: rgba(163,230,53,.45) !important;
+      box-shadow: 0 18px 50px rgba(0,0,0,.35) !important;
+    }
+
+    .agent-support-link,
+    .agent-support-form button {
+      background: var(--ae-lime) !important;
+      color: #111 !important;
+    }
+
+    .app-account-card,
+    .account-card {
+      background: rgba(24,24,27,.94) !important;
+      border-color: var(--ae-border) !important;
+      border-radius: var(--ae-radius-card) !important;
+      color: var(--ae-text) !important;
+    }
+
+    @media (max-width: 920px) {
+      .auth-nav { width: calc(100vw - 28px) !important; padding: 12px !important; }
+      .auth-nav-logo, .auth-mini-logo, .brand-logo-wide-app { width: 190px !important; }
+      .auth-logo-lockup, .workspace-logo-lockup { width: min(360px, 92vw) !important; }
+      .dashboard-hero, .auth-hero { padding: 28px !important; min-height: auto !important; }
+      .auth-story h1, .hero-headline, .dashboard-hero h1 { font-size: clamp(42px, 13vw, 66px) !important; }
+      aside .brand .brand-logo-wide-app { width: 140px !important; }
+      .agent-deck-grid, .agent-status-grid { grid-template-columns: 1fr !important; }
+    }
+
+    body.auth-required,
+    body.auth-pending,
+    body.app-ready,
+    body.auth-required .auth-shell,
+    body.auth-pending .auth-shell,
+    body.auth-required .app-shell,
+    body.auth-pending .app-shell {
+      background:
+        radial-gradient(circle at 70% 12%, rgba(163,230,53,.12), transparent 24rem),
+        radial-gradient(circle at 16% 36%, rgba(103,232,249,.08), transparent 28rem),
+        linear-gradient(180deg,#191C21,#111417 70%,#191C21) !important;
+      color: var(--ae-text) !important;
+    }
+
+    body.auth-required .auth-card,
+    body.auth-pending .auth-card,
+    body.auth-required .auth-panel,
+    body.auth-pending .auth-panel,
+    body.auth-required .auth-feature,
+    body.auth-pending .auth-feature {
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.018)),
+        var(--ae-surface) !important;
+      color: var(--ae-text) !important;
+      border: 1px solid var(--ae-border) !important;
+      border-radius: var(--ae-radius-card) !important;
+      box-shadow: var(--ae-shadow) !important;
+    }
+
+    body.auth-required .auth-story h1,
+    body.auth-pending .auth-story h1,
+    body.auth-required .auth-story h1 span,
+    body.auth-pending .auth-story h1 span,
+    body.auth-required .gradient,
+    body.auth-pending .gradient,
+    body.auth-required #landingHeadline,
+    body.auth-pending #landingHeadline,
+    body.auth-required h1,
+    body.auth-pending h1,
+    body.auth-required h2,
+    body.auth-pending h2,
+    body.auth-required .auth-card h2,
+    body.auth-pending .auth-card h2,
+    body.auth-required .auth-card strong,
+    body.auth-pending .auth-card strong {
+      color: var(--ae-text) !important;
+      -webkit-text-fill-color: var(--ae-text) !important;
+      background: none !important;
+    }
+
+    body.auth-required .auth-story p,
+    body.auth-pending .auth-story p,
+    body.auth-required .auth-card p,
+    body.auth-pending .auth-card p,
+    body.auth-required .auth-card span,
+    body.auth-pending .auth-card span,
+    body.auth-required .lead,
+    body.auth-pending .lead,
+    body.auth-required .auth-subtitle,
+    body.auth-pending .auth-subtitle {
+      color: var(--ae-muted) !important;
+    }
+
+    body.auth-required input,
+    body.auth-pending input,
+    body.auth-required textarea,
+    body.auth-pending textarea,
+    body.auth-required select,
+    body.auth-pending select {
+      background: #0F1319 !important;
+      color: #FFFFFF !important;
+      border: 1px solid var(--ae-border) !important;
+    }
+
+    body.auth-required button,
+    body.auth-pending button,
+    body.auth-required .button,
+    body.auth-pending .button {
+      border-radius: var(--ae-radius-control) !important;
+      border-color: rgba(163,230,53,.22) !important;
+    }
+
+    body.auth-required .primary,
+    body.auth-pending .primary,
+    body.auth-required .auth-primary,
+    body.auth-pending .auth-primary,
+    body.auth-required button[type="submit"],
+    body.auth-pending button[type="submit"] {
+      background: var(--ae-lime) !important;
+      color: #11150F !important;
+    }
+
+    body.auth-required .auth-nav,
+    body.auth-pending .auth-nav {
+      width: min(1240px, calc(100vw - 48px)) !important;
+      box-sizing: border-box !important;
+      background: rgba(15,18,23,.94) !important;
+      border-color: var(--ae-border) !important;
+    }
+
+    body.auth-required .mock-browser,
+    body.auth-pending .mock-browser,
+    body.auth-required .auth-preview,
+    body.auth-pending .auth-preview,
+    body.auth-required .performance-preview,
+    body.auth-pending .performance-preview {
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.018)),
+        var(--ae-surface) !important;
+      color: var(--ae-text) !important;
+      border-color: var(--ae-border) !important;
+    }
+    /* Aethel reference lock: final visual authority */
+    :root {
+      --ae-bg: #191C21;
+      --ae-surface: #18181B;
+      --ae-surface-2: #202126;
+      --ae-text: #FFFFFF;
+      --ae-muted: #A1A1AA;
+      --ae-border: #2A2A2E;
+      --ae-lime: #A3E635;
+      --ae-lime-soft: rgba(163,230,53,.14);
+      --ae-radius-card: 16px;
+      --ae-radius-control: 8px;
+      --ae-shadow: 0 30px 90px rgba(0,0,0,.32);
+    }
+
+    html, body, body.auth-pending, body.auth-required, body.app-ready {
+      background:
+        radial-gradient(circle at 82% 10%, rgba(163,230,53,.06), transparent 26rem),
+        radial-gradient(circle at 16% 24%, rgba(255,255,255,.035), transparent 24rem),
+        linear-gradient(180deg, #191C21 0%, #121418 100%) !important;
+      color: var(--ae-text) !important;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    }
+
+    body::before {
+      opacity: .22 !important;
+      background:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px) !important;
+      background-size: 48px 48px !important;
+      mask-image: linear-gradient(to bottom, #000, transparent 76%) !important;
+    }
+
+    .app, .app-shell, .main, .view, main,
+    .auth-gate, .auth-shell {
+      background: transparent !important;
+    }
+
+    .auth-nav, aside, .sidebar, .topbar, .page-hero,
+    .panel, .card, .stat-card, .journal-card, .daily-card, .settings-card,
+    .broker-hero, .ai-page-hero, .ai-command-hero, .agent-command-hero,
+    .agent-output-console, .billing-card, .modal, .sheet, .global-market-picker,
+    .auth-card, .auth-preview, .auth-mobile-install, .auth-benefit {
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.015)),
+        var(--ae-surface) !important;
+      border: 1px solid var(--ae-border) !important;
+      border-radius: var(--ae-radius-card) !important;
+      box-shadow: 0 1px 0 rgba(255,255,255,.04) inset, var(--ae-shadow) !important;
+      color: var(--ae-text) !important;
+    }
+
+    .auth-nav {
+      width: min(1180px, calc(100vw - 48px)) !important;
+      padding: 12px 14px !important;
+    }
+
+    .auth-nav-logo, .auth-logo-lockup, .workspace-logo-lockup,
+    aside .brand .brand-logo-wide-app, .brand-logo-wide-app {
+      width: clamp(180px, 18vw, 280px) !important;
+      height: 64px !important;
+      max-height: 72px !important;
+      object-fit: contain !important;
+      object-position: left center !important;
+      border-radius: 12px !important;
+      background: #0A0C10 !important;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    .auth-logo-lockup, .workspace-logo-lockup {
+      margin: 0 0 28px !important;
+    }
+
+    .dashboard-hero {
+      min-height: 540px !important;
+      padding: clamp(36px, 5vw, 72px) !important;
+      display: grid !important;
+      align-items: center !important;
+      background:
+        radial-gradient(circle at 80% 22%, rgba(163,230,53,.08), transparent 18rem),
+        linear-gradient(145deg, rgba(255,255,255,.04), rgba(255,255,255,.012)),
+        var(--ae-surface) !important;
+      overflow: hidden !important;
+    }
+
+    .dashboard-hero::before,
+    .dashboard-hero::after,
+    .hero-command-visual,
+    .hero-webgl,
+    .hero-market-chart {
+      opacity: .16 !important;
+      filter: none !important;
+    }
+
+    .auth-story h1, .dashboard-hero .hero-headline, .hero-headline,
+    .page-hero h1, .ai-page-hero h1, .ai-command-hero h1, .agent-command-hero h1,
+    h1 {
+      max-width: 820px !important;
+      color: var(--ae-text) !important;
+      -webkit-text-fill-color: var(--ae-text) !important;
+      background: none !important;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+      font-size: clamp(48px, 6vw, 88px) !important;
+      font-weight: 500 !important;
+      line-height: 1.04 !important;
+      letter-spacing: 0 !important;
+      text-shadow: none !important;
+    }
+
+    h2, h3, strong, label, .metric-value, .section-title {
+      color: var(--ae-text) !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    p, .subtitle, .lead, .muted, .helper, .auth-story > p,
+    .broker-hero p, .ai-page-hero p, .ai-command-hero p, .agent-command-hero p,
+    td, .table-meta {
+      color: var(--ae-muted) !important;
+    }
+
+    .eyebrow, .product-pill, .chip, .hero-chip, .badge, .mini-badge {
+      background: rgba(163,230,53,.08) !important;
+      border: 1px solid rgba(163,230,53,.22) !important;
+      color: var(--ae-lime) !important;
+      border-radius: 9999px !important;
+      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace !important;
+      letter-spacing: .08em !important;
+      text-transform: uppercase !important;
+    }
+
+    button, .button, .primary, .auth-submit, .nav-start,
+    input[type="submit"] {
+      border-radius: var(--ae-radius-control) !important;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif !important;
+      font-weight: 700 !important;
+    }
+
+    .primary, .auth-submit, .nav-start, button.primary {
+      background: var(--ae-lime) !important;
+      border-color: var(--ae-lime) !important;
+      color: #11150F !important;
+      box-shadow: 0 14px 34px rgba(163,230,53,.16) !important;
+    }
+
+    .nav-signin, .auth-nav-actions .nav-signin,
+    .button.secondary, button.secondary {
+      background: #202126 !important;
+      border-color: var(--ae-border) !important;
+      color: var(--ae-text) !important;
+      box-shadow: none !important;
+    }
+
+    .nav-start, .auth-nav-actions .nav-start {
+      background: var(--ae-lime) !important;
+      border-color: var(--ae-lime) !important;
+      color: #11150F !important;
+    }
+
+    input, textarea, select, .field, .select, .global-market-search {
+      background: #101216 !important;
+      border: 1px solid var(--ae-border) !important;
+      color: var(--ae-text) !important;
+      border-radius: var(--ae-radius-control) !important;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(163,230,53,.64) !important;
+      box-shadow: 0 0 0 4px rgba(163,230,53,.12) !important;
+      outline: none !important;
+    }
+
+    .global-market-picker,
+    .symbol-results,
+    .symbol-menu {
+      max-height: min(72vh, 720px) !important;
+      overflow: auto !important;
+      z-index: 9999 !important;
+    }
+
+    .global-market-picker .market-tabs,
+    .global-market-picker .asset-tabs {
+      background: rgba(255,255,255,.02) !important;
+      border-bottom: 1px solid var(--ae-border) !important;
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 2 !important;
+    }
+
+    .global-market-picker button,
+    .symbol-filter {
+      border-radius: 9999px !important;
+      background: #202126 !important;
+      border-color: var(--ae-border) !important;
+      color: var(--ae-muted) !important;
+    }
+
+    .global-market-picker button.active,
+    .symbol-filter.active {
+      background: var(--ae-lime) !important;
+      color: #11150F !important;
+      border-color: var(--ae-lime) !important;
+    }
+
+    .trade-row, tr, .recent-trade-row {
+      border-color: var(--ae-border) !important;
+    }
+
+    .agent-card, .agent-deck-card, .learning-card, .resource-card {
+      transition: transform .28s ease, border-color .28s ease, background .28s ease !important;
+    }
+
+    .agent-card:hover, .agent-deck-card:hover, .learning-card:hover, .resource-card:hover,
+    .card:hover {
+      transform: translateY(-3px) !important;
+      border-color: rgba(163,230,53,.32) !important;
+      background:
+        linear-gradient(145deg, rgba(163,230,53,.055), rgba(255,255,255,.018)),
+        var(--ae-surface) !important;
+    }
+
+    @media (max-width: 900px) {
+      .auth-nav, .app-shell { width: 100% !important; }
+      .auth-story h1, .dashboard-hero .hero-headline, .hero-headline, h1 {
+        font-size: clamp(40px, 12vw, 62px) !important;
+      }
+      .dashboard-hero { min-height: auto !important; padding: 28px !important; }
+      .auth-nav-logo, .auth-logo-lockup, .workspace-logo-lockup,
+      aside .brand .brand-logo-wide-app, .brand-logo-wide-app {
+        width: 190px !important;
+        height: 54px !important;
+      }
+    }
+    /* Aethel secondary-button correction: keep all non-primary auth actions on charcoal. */
+    .auth-nav-actions .nav-signin,
+    .auth-tabs button.active,
+    .auth-card .auth-tabs button.active,
+    .auth-card button:not(.primary):not(.auth-submit),
+    .nav-signin {
+      background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025)) !important;
+      color: #FFFFFF !important;
+      border: 1px solid rgba(255,255,255,.16) !important;
+      box-shadow: 0 16px 38px rgba(0,0,0,.22) !important;
+    }
+  </style>
+  <style id="aethel-final-button-lock">
+    .auth-nav-actions .nav-signin,
+    .auth-nav-actions .nav-signin.active,
+    button.nav-signin,
+    button.nav-signin.active {
+      background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.025)) !important;
+      color: #FFFFFF !important;
+      border: 1px solid rgba(255,255,255,.16) !important;
+      box-shadow: 0 16px 38px rgba(0,0,0,.22) !important;
+    }
   </style>
 </head>
 <body class="auth-pending">
   <section class="auth-gate" id="authGate" aria-labelledby="authTitle">
     <nav class="auth-nav" aria-label="TradeReview public navigation">
-      <img class="auth-nav-logo" src="../icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision.">
+      <img class="auth-nav-logo" src="../icons/tradereview-aethel-logo.svg" alt="TradeReview AI - Review Every Trade. Refine Every Decision.">
       <div class="auth-nav-links">
         <a href="#supportedBrokers">Supported Brokers</a>
         <a href="#features">Features</a>
@@ -7407,10 +8238,10 @@
     </nav>
     <div class="auth-shell">
       <div class="auth-story">
-        <img class="auth-logo-lockup" src="../icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision.">
-        <div class="product-pill"><span class="live-dot"></span> Free account · No credit card required</div>
+        <img class="auth-logo-lockup" src="../icons/tradereview-aethel-logo.svg" alt="TradeReview AI - Review Every Trade. Refine Every Decision.">
+        <div class="product-pill"><span class="live-dot"></span> Free account - No credit card required</div>
         <h1><span>Review Every Trade. Refine Every Decision.</span></h1>
-        <p>A focused trading journal for manual trades, CSV imports, broker-sync requests, AI review, and risk habits — built around a clean private access flow.</p>
+        <p>A focused trading journal for manual trades, CSV imports, broker-sync requests, AI review, and risk habits - built around a clean private access flow.</p>
 
         <div class="auth-preview" aria-label="TradeReview performance preview">
           <div class="preview-toolbar">
@@ -7445,7 +8276,7 @@
             <g class="candle down"><line x1="522" y1="14" x2="522" y2="47"/><rect x="516" y="21" width="12" height="18" rx="1"/></g>
             <g class="candle up"><line x1="560" y1="4" x2="560" y2="37"/><rect x="554" y="11" width="12" height="19" rx="1"/></g>
           </svg>
-          <div class="preview-trades"><div class="preview-trade"><span>Best execution</span><strong class="win">+1.82R</strong></div><div class="preview-trade"><span>Risk leak</span><strong class="loss">−0.74R</strong></div></div>
+          <div class="preview-trades"><div class="preview-trade"><span>Best execution</span><strong class="win">+1.82R</strong></div><div class="preview-trade"><span>Risk leak</span><strong class="loss">?0.74R</strong></div></div>
           <div class="preview-stats">
             <div class="preview-stat"><span>Winners</span><strong class="money-win">Measured clearly</strong></div>
             <div class="preview-stat"><span>Losers</span><strong class="money-loss">Reviewed honestly</strong></div>
@@ -7456,10 +8287,10 @@
 
       <div class="auth-card-wrap">
         <div class="auth-card">
-          <div class="auth-brand"><img class="auth-mini-logo" src="../icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision."></div>
+          <div class="auth-brand"><img class="auth-mini-logo" src="../icons/tradereview-aethel-logo.svg" alt="TradeReview AI - Review Every Trade. Refine Every Decision."></div>
           <h1 id="authTitle">Welcome back</h1>
           <p class="auth-copy" id="authCopy">Sign in to open your private trading journal.</p>
-          <div class="auth-free-badge"><strong>$0 account</strong><span>Full current journal workflow · No card required</span></div>
+          <div class="auth-free-badge"><strong>$0 account</strong><span>Full current journal workflow - No card required</span></div>
           <div class="auth-tabs" id="authTabs">
             <button class="active" type="button" data-auth-mode="signin">Sign in</button>
             <button type="button" data-auth-mode="signup">Create account</button>
@@ -7482,7 +8313,7 @@
             <button class="primary auth-submit" id="authSubmit" type="submit">Sign in</button>
             <button class="auth-link" id="forgotPassword" type="button">Forgot password?</button>
           </form>
-          <p class="auth-status" id="authStatus" role="status" aria-live="polite">Connecting securely…</p>
+          <p class="auth-status" id="authStatus" role="status" aria-live="polite">Connecting securely...</p>
           <div class="auth-benefits" aria-label="Account benefits">
             <div class="auth-benefit"><strong>Private</strong> Row-level security</div>
             <div class="auth-benefit"><strong>Synced</strong> Across devices</div>
@@ -7505,7 +8336,7 @@
   <section class="onboarding" id="onboarding" aria-label="Trader profile onboarding" aria-hidden="true">
     <div class="onboarding-card">
       <div class="onboarding-head">
-        <div class="onboarding-brand"><strong>Build your trader profile</strong><span>$0 journal · no card</span></div>
+        <div class="onboarding-brand"><strong>Build your trader profile</strong><span>$0 journal - no card</span></div>
         <div class="onboarding-progress" aria-hidden="true"><i id="onboardingProgress"></i></div>
       </div>
       <form class="onboarding-body" id="onboardingForm">
@@ -7514,18 +8345,18 @@
           <h2 id="onboardingTitle">How long have you been trading?</h2>
           <p>This helps TradeReview frame coaching and risk reminders at the right level.</p>
           <div class="onboarding-options">
-            <label class="onboarding-option"><input type="radio" name="experience" value="Just starting"><span class="onboarding-option-body"><strong>Just starting</strong><small>I’m learning the process and language.</small></span></label>
-            <label class="onboarding-option"><input type="radio" name="experience" value="Less than 1 year"><span class="onboarding-option-body"><strong>Less than 1 year</strong><small>I’m building consistency and a playbook.</small></span></label>
-            <label class="onboarding-option"><input type="radio" name="experience" value="1–3 years"><span class="onboarding-option-body"><strong>1–3 years</strong><small>I have experience and want cleaner execution.</small></span></label>
-            <label class="onboarding-option"><input type="radio" name="experience" value="3–5 years"><span class="onboarding-option-body"><strong>3–5 years</strong><small>I’m refining risk, setups, and repeatability.</small></span></label>
-            <label class="onboarding-option"><input type="radio" name="experience" value="5+ years"><span class="onboarding-option-body"><strong>5+ years</strong><small>I’m protecting and scaling a developed edge.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="experience" value="Just starting"><span class="onboarding-option-body"><strong>Just starting</strong><small>I'm learning the process and language.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="experience" value="Less than 1 year"><span class="onboarding-option-body"><strong>Less than 1 year</strong><small>I'm building consistency and a playbook.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="experience" value="1-3 years"><span class="onboarding-option-body"><strong>1-3 years</strong><small>I have experience and want cleaner execution.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="experience" value="3-5 years"><span class="onboarding-option-body"><strong>3-5 years</strong><small>I'm refining risk, setups, and repeatability.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="experience" value="5+ years"><span class="onboarding-option-body"><strong>5+ years</strong><small>I'm protecting and scaling a developed edge.</small></span></label>
           </div>
         </div>
 
         <div class="onboarding-step" data-onboarding-step="1">
           <div class="onboarding-kicker">Question 2 of 3</div>
           <h2>What is your primary broker?</h2>
-          <p>We’ll use this to prioritize direct broker sync. For now, CSV import and manual entries remain available.</p>
+          <p>We'll use this to prioritize direct broker sync. For now, CSV import and manual entries remain available.</p>
           <div class="onboarding-options">
             <label class="onboarding-option"><input type="radio" name="broker" value="Schwab / thinkorswim"><span class="onboarding-option-body"><strong>Schwab / thinkorswim</strong><small>Stocks, options, and futures workflows.</small></span></label>
             <label class="onboarding-option"><input type="radio" name="broker" value="Robinhood"><span class="onboarding-option-body"><strong>Robinhood</strong><small>Mobile-first equities and options.</small></span></label>
@@ -7536,7 +8367,7 @@
             <label class="onboarding-option"><input type="radio" name="broker" value="Fidelity / E*TRADE"><span class="onboarding-option-body"><strong>Fidelity / E*TRADE</strong><small>Stocks and listed options.</small></span></label>
             <label class="onboarding-option"><input type="radio" name="broker" value="OANDA"><span class="onboarding-option-body"><strong>OANDA</strong><small>Forex and CFD workflows queued for direct API sync.</small></span></label>
             <label class="onboarding-option"><input type="radio" name="broker" value="MetaTrader / Forex.com"><span class="onboarding-option-body"><strong>MetaTrader / Forex.com</strong><small>FX trade review, CSV import, and direct sync roadmap.</small></span></label>
-            <label class="onboarding-option"><input type="radio" name="broker" value="Other"><span class="onboarding-option-body"><strong>Another broker</strong><small>We’ll still support CSV and manual logging.</small></span></label>
+            <label class="onboarding-option"><input type="radio" name="broker" value="Other"><span class="onboarding-option-body"><strong>Another broker</strong><small>We'll still support CSV and manual logging.</small></span></label>
           </div>
         </div>
 
@@ -7556,7 +8387,7 @@
 
         <div class="onboarding-actions">
           <button id="onboardingBack" type="button" hidden>Back</button>
-          <button class="primary" id="onboardingNext" type="button" disabled>Continue →</button>
+          <button class="primary" id="onboardingNext" type="button" disabled>Continue -></button>
         </div>
       </form>
     </div>
@@ -7564,16 +8395,16 @@
 
   <div class="app" data-build="capture-pipeline-v36">
     <aside>
-      <a class="brand" href="../" aria-label="Open TradeReview AI main page"><img class="brand-logo-wide-app" src="../icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision."></a>
+      <a class="brand" href="../" aria-label="Open TradeReview AI main page"><img class="brand-logo-wide-app" src="../icons/tradereview-aethel-logo.svg" alt="TradeReview AI - Review Every Trade. Refine Every Decision."></a>
       <nav aria-label="Main navigation">
-        <button class="active" data-view="dashboard" title="Dashboard">⌂ Dashboard</button>
-        <button data-view="import" title="Add a trade">＋ Add Trade</button>
-        <button data-view="journal" title="Journal">✎ Journal</button>
-        <button data-view="tradeReview" title="Trade review" hidden>◉ Review</button>
-        <button data-view="aiCommand" title="Learn and trade with AI">✦ AI Coach</button>
-        <button data-view="agents" title="AI agents">◇ Agents</button>
+        <button class="active" data-view="dashboard" title="Dashboard">? Dashboard</button>
+        <button data-view="import" title="Add a trade">+ Add Trade</button>
+        <button data-view="journal" title="Journal">? Journal</button>
+        <button data-view="tradeReview" title="Trade review" hidden>? Review</button>
+        <button data-view="aiCommand" title="Learn and trade with AI">? AI Coach</button>
+        <button data-view="agents" title="AI agents">? Agents</button>
         <button data-view="billing" title="Plans and billing">$ Billing</button>
-        <button data-view="settings" title="Settings">⚙ Settings</button>
+        <button data-view="settings" title="Settings">? Settings</button>
       </nav>
       <div class="account-panel">
         <strong id="accountGreeting">Welcome back</strong>
@@ -7588,7 +8419,7 @@
         <div class="topbar dashboard-hero" id="dashboardHero">
           <canvas class="hero-webgl" id="heroWebgl" aria-hidden="true"></canvas>
           <div class="hero-copy">
-            <img class="workspace-logo-lockup" src="../icons/tradereview-logo-wide.png" alt="TradeReview AI — Review Every Trade. Refine Every Decision.">
+            <img class="workspace-logo-lockup" src="../icons/tradereview-aethel-logo.svg" alt="TradeReview AI - Review Every Trade. Refine Every Decision.">
             <div class="welcome-line" id="welcomeLine">Welcome back</div>
             <div class="page-kicker"><span class="live-dot"></span> Performance workspace</div>
             <h1 class="hero-headline" id="dashboardHeadline">Review today before tomorrow trades you.</h1>
@@ -7617,7 +8448,7 @@
             </div>
             <div class="command-card command-card-one"><span>Risk radar</span><strong>Rule guard active</strong></div>
             <div class="command-card command-card-two"><span>Journal memory</span><strong>108 trades indexed</strong></div>
-            <div class="command-card command-card-three"><span>Next action</span><strong>Review → Plan → Execute</strong></div>
+            <div class="command-card command-card-three"><span>Next action</span><strong>Review -> Plan -> Execute</strong></div>
           </div>
           <div class="actions">
             <button class="primary" data-view-button="import">Add Trade</button>
@@ -7627,7 +8458,7 @@
 
         <div class="review-pulse" aria-label="Animated journal workflow">
           <span class="pulse-label">Workspace rhythm</span>
-          <div class="pulse-mask"><div class="pulse-track"><span>Capture execution</span><span>Measure risk</span><span>Tag the setup</span><span>Review the chart</span><span>Name the behavior</span><span>Write tomorrow’s rule</span><span>Capture execution</span><span>Measure risk</span><span>Tag the setup</span><span>Review the chart</span><span>Name the behavior</span><span>Write tomorrow’s rule</span></div></div>
+          <div class="pulse-mask"><div class="pulse-track"><span>Capture execution</span><span>Measure risk</span><span>Tag the setup</span><span>Review the chart</span><span>Name the behavior</span><span>Write tomorrow's rule</span><span>Capture execution</span><span>Measure risk</span><span>Tag the setup</span><span>Review the chart</span><span>Name the behavior</span><span>Write tomorrow's rule</span></div></div>
         </div>
 
         <div class="stats">
@@ -7659,7 +8490,7 @@
           <div class="panel">
             <div class="panel-header">
               <h2>Recent Trades</h2>
-              <button class="icon" id="clearTrades" title="Clear all saved trades">×</button>
+              <button class="icon" id="clearTrades" title="Clear all saved trades">?</button>
             </div>
             <div class="panel-body" id="tradeTableWrap"></div>
           </div>
@@ -7902,14 +8733,14 @@
               <label>Symbol / instrument
                 <div class="symbol-combobox" data-symbol-picker="manualSymbol">
                   <input id="manualSymbol" autocomplete="off" placeholder="Enter symbol, pair, contract, or ticker">
-                  <button type="button" class="symbol-picker-trigger" aria-label="Open symbol search">⌕</button>
+                  <button type="button" class="symbol-picker-trigger" aria-label="Open symbol search">?</button>
                   <div class="symbol-picker-menu" role="listbox" aria-label="Symbol search"></div>
                 </div>
               </label>
               <label>TradingView chart symbol
                 <div class="symbol-combobox" data-symbol-picker="manualChartTicker">
                   <input id="manualChartTicker" autocomplete="off" placeholder="Example: NASDAQ:QQQ, FX:EURUSD, NEPSE:NABIL">
-                  <button type="button" class="symbol-picker-trigger" aria-label="Open TradingView symbol search">⌕</button>
+                  <button type="button" class="symbol-picker-trigger" aria-label="Open TradingView symbol search">?</button>
                   <div class="symbol-picker-menu" role="listbox" aria-label="TradingView symbol search"></div>
                 </div>
                 <span class="field-help">Must match the instrument above. Example: TSLA should use NASDAQ:TSLA, not NASDAQ:GOOGL.</span>
@@ -8023,7 +8854,7 @@
       <section id="aiCommand" class="section">
         <div class="topbar">
           <div>
-            <div class="page-kicker"><span class="live-dot"></span> Learn with AI · Trade with AI</div>
+            <div class="page-kicker"><span class="live-dot"></span> Learn with AI ? Trade with AI</div>
             <h1>Welcome to AI Coach.</h1>
             <p class="subtitle">Start by choosing your path. Learn with AI teaches the full trading foundation. Trade with AI turns your own strategy, journal patterns, risk rules, and setup notes into a structured planning workspace.</p>
           </div>
@@ -8107,7 +8938,7 @@
           <div class="ai-page-hero">
             <span class="ai-command-kicker">Learn with AI</span>
             <h2>Your trading university, built into the journal.</h2>
-            <p>Choose what you trade, then learn the foundations in a clean path: market basics, chart reading, risk, psychology, setups, journaling, and links to deeper blog/video research. The goal is not hype — it is making every trader understand what they are doing before risking money.</p>
+            <p>Choose what you trade, then learn the foundations in a clean path: market basics, chart reading, risk, psychology, setups, journaling, and links to deeper blog/video research. The goal is not hype - it is making every trader understand what they are doing before risking money.</p>
           </div>
 
           <div class="panel">
@@ -8208,9 +9039,9 @@
                 <button class="primary" id="askAiLessonQuestionInline" type="button">Answer</button>
               </div>
               <div class="resource-grid">
-                <div class="resource-card"><b>Blog-style lessons</b><p>Short written guides can be added here for every topic, like a trading university inside TradeReview.</p><a href="../blog/" target="_blank" rel="noopener">Open blog library →</a></div>
-                <div class="resource-card"><b>YouTube-style video lessons</b><p>Embed beginner videos, platform walkthroughs, and strategy explainers here when your channel is ready.</p><a href="https://www.youtube.com/results?search_query=trading+risk+management+for+beginners" target="_blank" rel="noopener">Search learning videos →</a></div>
-                <div class="resource-card"><b>Ask from your journal</b><p>Ask AI to explain patterns from your own trades, mistakes, risk usage, setups, and screenshots.</p><a href="#trade-ai" data-ai-mode="trade">Open Trade with AI →</a></div>
+                <div class="resource-card"><b>Blog-style lessons</b><p>Short written guides can be added here for every topic, like a trading university inside TradeReview.</p><a href="../blog/" target="_blank" rel="noopener">Open blog library -></a></div>
+                <div class="resource-card"><b>YouTube-style video lessons</b><p>Embed beginner videos, platform walkthroughs, and strategy explainers here when your channel is ready.</p><a href="https://www.youtube.com/results?search_query=trading+risk+management+for+beginners" target="_blank" rel="noopener">Search learning videos -></a></div>
+                <div class="resource-card"><b>Ask from your journal</b><p>Ask AI to explain patterns from your own trades, mistakes, risk usage, setups, and screenshots.</p><a href="#trade-ai" data-ai-mode="trade">Open Trade with AI -></a></div>
               </div>
               <div class="ai-output" id="aiQuestionOutput">Ask a learning question and the answer will appear here with a simple explanation, example, practice drill, and risk warning.</div>
             </div>
@@ -8259,7 +9090,7 @@
           <div class="ai-page-hero">
             <span class="ai-command-kicker">Trade with AI</span>
             <h2>Turn your strategy into a risk-first execution plan.</h2>
-            <p>Trade with AI is the advanced workspace: paste your strategy, choose market context, use journal mistakes as guardrails, and generate a pre-trade checklist. It is built for planning and review — not random signals, not financial advice, and never automatic order placement.</p>
+            <p>Trade with AI is the advanced workspace: paste your strategy, choose market context, use journal mistakes as guardrails, and generate a pre-trade checklist. It is built for planning and review - not random signals, not financial advice, and never automatic order placement.</p>
           </div>
 
           <div class="panel">
@@ -8455,23 +9286,23 @@
                   </label>
                   <label>Default trading timezone
                     <select id="accountTradingTimeZone">
-                      <option value="America/New_York">New York / Eastern Time — NYSE, NASDAQ, US options</option>
-                      <option value="America/Chicago">Chicago / Central Time — CME futures</option>
+                      <option value="America/New_York">New York / Eastern Time - NYSE, NASDAQ, US options</option>
+                      <option value="America/Chicago">Chicago / Central Time - CME futures</option>
                       <option value="America/Denver">Denver / Mountain Time</option>
                       <option value="America/Los_Angeles">Los Angeles / Pacific Time</option>
-                      <option value="Europe/London">London — LSE / UK markets</option>
-                      <option value="Europe/Berlin">Berlin / Frankfurt — EU markets</option>
-                      <option value="Europe/Zurich">Zurich — Swiss market</option>
-                      <option value="Asia/Kathmandu">Nepal Time — NEPSE</option>
-                      <option value="Asia/Kolkata">India Standard Time — NSE / BSE</option>
+                      <option value="Europe/London">London - LSE / UK markets</option>
+                      <option value="Europe/Berlin">Berlin / Frankfurt - EU markets</option>
+                      <option value="Europe/Zurich">Zurich - Swiss market</option>
+                      <option value="Asia/Kathmandu">Nepal Time - NEPSE</option>
+                      <option value="Asia/Kolkata">India Standard Time - NSE / BSE</option>
                       <option value="Asia/Dubai">Dubai / Gulf Time</option>
                       <option value="Asia/Singapore">Singapore Time</option>
                       <option value="Asia/Hong_Kong">Hong Kong Time</option>
-                      <option value="Asia/Tokyo">Tokyo — Japan markets</option>
-                      <option value="Australia/Sydney">Sydney — ASX</option>
-                      <option value="Pacific/Auckland">Auckland — NZX</option>
+                      <option value="Asia/Tokyo">Tokyo - Japan markets</option>
+                      <option value="Australia/Sydney">Sydney - ASX</option>
+                      <option value="Pacific/Auckland">Auckland - NZX</option>
                       <option value="America/Toronto">Toronto / Eastern Canada</option>
-                      <option value="America/Sao_Paulo">São Paulo — Brazil</option>
+                      <option value="America/Sao_Paulo">S?o Paulo - Brazil</option>
                       <option value="UTC">UTC / Exchange time</option>
                     </select>
                   </label>
@@ -8486,7 +9317,7 @@
             <div class="panel">
               <div class="panel-header"><h2>Account Overview</h2></div>
               <div class="panel-body review-list account-overview-list">
-                <div class="review-item"><span>Signed in as</span><strong id="settingsSignedInEmail">—</strong></div>
+                <div class="review-item"><span>Signed in as</span><strong id="settingsSignedInEmail">-</strong></div>
                 <div class="review-item"><span>Current plan</span><strong id="settingsCurrentPlan">Free</strong></div>
                 <div class="review-item"><span>Account sync</span><strong>Private cloud journal</strong></div>
               </div>
@@ -8542,9 +9373,9 @@
             <div class="panel-header"><h2>Subscription Manager</h2><button class="primary" data-view-button="billing" type="button">Open plans</button></div>
             <div class="panel-body settings-stack">
               <div class="settings-plan-row"><div><strong>Free</strong><br><span>Manual journal, CSV import, and basic dashboard only. AI, agents, auto-capture, and broker sync are locked.</span></div><button type="button" data-plan="Free">Switch to Free</button></div>
-              <div class="settings-plan-row"><div><strong>Starter — $9.99/mo</strong><br><span>Learn with AI, Trade with AI prompts, weekly summaries, and replay notes.</span></div><button type="button" data-plan="Starter $9.99">Upgrade / Downgrade</button></div>
-              <div class="settings-plan-row"><div><strong>Pro — $29.99/mo</strong><br><span>Broker sync requests, TradingView auto capture, AI Coach, agents, and advanced reports.</span></div><button class="primary" type="button" data-plan="Pro $29.99">Upgrade / Downgrade</button></div>
-              <div class="settings-plan-row"><div><strong>Elite — $49.99/mo</strong><br><span>Higher AI limits, priority support, unlimited strategy tracking.</span></div><button type="button" data-plan="Elite $49.99">Upgrade / Downgrade</button></div>
+              <div class="settings-plan-row"><div><strong>Starter - $9.99/mo</strong><br><span>Learn with AI, Trade with AI prompts, weekly summaries, and replay notes.</span></div><button type="button" data-plan="Starter $9.99">Upgrade / Downgrade</button></div>
+              <div class="settings-plan-row"><div><strong>Pro - $29.99/mo</strong><br><span>Broker sync requests, TradingView auto capture, AI Coach, agents, and advanced reports.</span></div><button class="primary" type="button" data-plan="Pro $29.99">Upgrade / Downgrade</button></div>
+              <div class="settings-plan-row"><div><strong>Elite - $49.99/mo</strong><br><span>Higher AI limits, priority support, unlimited strategy tracking.</span></div><button type="button" data-plan="Elite $49.99">Upgrade / Downgrade</button></div>
               <p class="footer-note">Users should be able to upgrade, downgrade, or cancel anytime. The real self-serve subscription portal will be connected through Stripe Billing or PayPal subscriptions.</p>
               <div class="settings-status" id="subscriptionSettingsStatus"></div>
             </div>
@@ -8816,7 +9647,7 @@
       <p class="app-toast-title" id="appToastTitle">TradeReview AI</p>
       <p class="app-toast-message" id="appToastMessage"></p>
     </div>
-    <button class="app-toast-close" id="appToastClose" type="button" aria-label="Close message">×</button>
+    <button class="app-toast-close" id="appToastClose" type="button" aria-label="Close message">?</button>
   </div>
 
   <div class="confirm-modal" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMessage" aria-hidden="true" hidden>
@@ -8837,13 +9668,13 @@
   <section class="help-panel" id="helpPanel" aria-label="TradeReview help assistant" aria-hidden="true">
     <div class="assistant-head">
       <div class="assistant-identity">
-        <div class="assistant-avatar"><img src="../icons/tradereview-mark.png" alt="TradeReview AI"></div>
+        <div class="assistant-avatar"><img src="../icons/tradereview-aethel-logo.svg" alt="TradeReview AI"></div>
         <div><strong>Review Assistant</strong><span><span class="live-dot"></span> Instant product guidance</span></div>
       </div>
-      <button class="assistant-close" id="helpClose" type="button" aria-label="Close help">×</button>
+      <button class="assistant-close" id="helpClose" type="button" aria-label="Close help">?</button>
     </div>
     <div class="assistant-messages" id="helpMessages" aria-live="polite">
-      <div class="assistant-message guide">Hi — I can help with accounts, imports, journaling, risk, and the statistics in your workspace. What would you like to know?</div>
+      <div class="assistant-message guide">Hi - I can help with accounts, imports, journaling, risk, and the statistics in your workspace. What would you like to know?</div>
     </div>
     <div class="assistant-actions"><button id="instantGuideApp" type="button">Instant guide</button><button id="talkAgentApp" type="button">Talk to an agent</button></div>
     <form class="agent-support-form" id="agentSupportForm" hidden>
@@ -8873,8 +9704,8 @@
       <button type="button" data-help-question="Is my journal private?">Privacy</button>
     </div>
     <form class="assistant-form" id="helpForm">
-      <input id="helpInput" type="text" autocomplete="off" placeholder="Ask a question…" aria-label="Ask the Review Assistant">
-      <button class="primary" type="submit" aria-label="Send question">↑</button>
+      <input id="helpInput" type="text" autocomplete="off" placeholder="Ask a question..." aria-label="Ask the Review Assistant">
+      <button class="primary" type="submit" aria-label="Send question">?</button>
     </form>
   </section>
 
@@ -9032,9 +9863,9 @@
       { symbol: "FX:GBPUSD", display: "GBP/USD", name: "British Pound / U.S. Dollar", type: "forex", venue: "FX" },
       { symbol: "FX:USDJPY", display: "USD/JPY", name: "U.S. Dollar / Japanese Yen", type: "forex", venue: "FX" },
       { symbol: "FX:XAUUSD", display: "XAU/USD", name: "Gold Spot", type: "forex", venue: "FX" },
-      { symbol: "OANDA:XAUUSD", display: "XAU/USD", name: "Gold · OANDA", type: "forex", venue: "OANDA" },
-      { symbol: "OANDA:EURUSD", display: "EUR/USD", name: "Euro / U.S. Dollar · OANDA", type: "forex", venue: "OANDA" },
-      { symbol: "OANDA:GBPUSD", display: "GBP/USD", name: "British Pound / U.S. Dollar · OANDA", type: "forex", venue: "OANDA" },
+      { symbol: "OANDA:XAUUSD", display: "XAU/USD", name: "Gold ? OANDA", type: "forex", venue: "OANDA" },
+      { symbol: "OANDA:EURUSD", display: "EUR/USD", name: "Euro / U.S. Dollar ? OANDA", type: "forex", venue: "OANDA" },
+      { symbol: "OANDA:GBPUSD", display: "GBP/USD", name: "British Pound / U.S. Dollar ? OANDA", type: "forex", venue: "OANDA" },
       { symbol: "CME_MINI:ES1!", display: "ES1!", name: "E-mini S&P 500 futures", type: "futures", venue: "CME" },
       { symbol: "CME_MINI:NQ1!", display: "NQ1!", name: "E-mini Nasdaq futures", type: "futures", venue: "CME" },
       { symbol: "COMEX:GC1!", display: "GC1!", name: "Gold futures", type: "futures", venue: "COMEX" },
@@ -9051,52 +9882,52 @@
 
     tickerUniverse.forEach(item => {
       if (!item.market) item.market = ["FX", "OANDA", "CME", "COMEX", "NYMEX", "Binance", "Coinbase", "TVC"].includes(item.venue) ? "global" : "us";
-      if (!item.icon) item.icon = item.market === "global" ? "🌐" : "🇺🇸";
+      if (!item.icon) item.icon = item.market === "global" ? "ðŸŒ" : "ðŸ‡ºðŸ‡¸";
     });
     tickerUniverse.push(
-      { symbol: "NSE:RELIANCE", display: "RELIANCE", name: "Reliance Industries", type: "stocks", venue: "NSE", market: "india", icon: "🇮🇳" },
-      { symbol: "NSE:TCS", display: "TCS", name: "Tata Consultancy Services", type: "stocks", venue: "NSE", market: "india", icon: "🇮🇳" },
-      { symbol: "NSE:INFY", display: "INFY", name: "Infosys", type: "stocks", venue: "NSE", market: "india", icon: "🇮🇳" },
-      { symbol: "NSE:HDFCBANK", display: "HDFCBANK", name: "HDFC Bank", type: "stocks", venue: "NSE", market: "india", icon: "🇮🇳" },
-      { symbol: "NSE:NIFTY", display: "NIFTY", name: "Nifty 50 Index", type: "indices", venue: "NSE", market: "india", icon: "🇮🇳" },
-      { symbol: "BSE:SENSEX", display: "SENSEX", name: "BSE Sensex", type: "indices", venue: "BSE", market: "india", icon: "🇮🇳" },
-      { symbol: "XETR:SAP", display: "SAP", name: "SAP SE", type: "stocks", venue: "Xetra", market: "germany", icon: "🇩🇪" },
-      { symbol: "XETR:SIE", display: "SIE", name: "Siemens", type: "stocks", venue: "Xetra", market: "germany", icon: "🇩🇪" },
-      { symbol: "XETR:ALV", display: "ALV", name: "Allianz", type: "stocks", venue: "Xetra", market: "germany", icon: "🇩🇪" },
-      { symbol: "TVC:DAX", display: "DAX", name: "Germany 40 Index", type: "indices", venue: "TVC", market: "germany", icon: "🇩🇪" },
-      { symbol: "TSE:7203", display: "7203", name: "Toyota Motor", type: "stocks", venue: "Tokyo", market: "japan", icon: "🇯🇵" },
-      { symbol: "TSE:6758", display: "6758", name: "Sony Group", type: "stocks", venue: "Tokyo", market: "japan", icon: "🇯🇵" },
-      { symbol: "TSE:9984", display: "9984", name: "SoftBank Group", type: "stocks", venue: "Tokyo", market: "japan", icon: "🇯🇵" },
-      { symbol: "TVC:NI225", display: "NI225", name: "Nikkei 225 Index", type: "indices", venue: "TVC", market: "japan", icon: "🇯🇵" },
-      { symbol: "TSX:SHOP", display: "SHOP", name: "Shopify", type: "stocks", venue: "TSX", market: "canada", icon: "🇨🇦" },
-      { symbol: "TSX:RY", display: "RY", name: "Royal Bank of Canada", type: "stocks", venue: "TSX", market: "canada", icon: "🇨🇦" },
-      { symbol: "TSX:TD", display: "TD", name: "Toronto-Dominion Bank", type: "stocks", venue: "TSX", market: "canada", icon: "🇨🇦" },
-      { symbol: "TVC:TSX", display: "TSX", name: "S&P/TSX Composite Index", type: "indices", venue: "TVC", market: "canada", icon: "🇨🇦" },
-      { symbol: "HKEX:700", display: "700", name: "Tencent Holdings", type: "stocks", venue: "HKEX", market: "hk", icon: "🇭🇰" },
-      { symbol: "HKEX:9988", display: "9988", name: "Alibaba Group", type: "stocks", venue: "HKEX", market: "hk", icon: "🇭🇰" },
-      { symbol: "HKEX:3690", display: "3690", name: "Meituan", type: "stocks", venue: "HKEX", market: "hk", icon: "🇭🇰" },
-      { symbol: "TVC:HSI", display: "HSI", name: "Hang Seng Index", type: "indices", venue: "TVC", market: "hk", icon: "🇭🇰" },
-      { symbol: "LSE:HSBA", display: "HSBA", name: "HSBC Holdings", type: "stocks", venue: "LSE", market: "uk", icon: "🇬🇧" },
-      { symbol: "LSE:BP.", display: "BP.", name: "BP", type: "stocks", venue: "LSE", market: "uk", icon: "🇬🇧" },
-      { symbol: "LSE:AZN", display: "AZN", name: "AstraZeneca", type: "stocks", venue: "LSE", market: "uk", icon: "🇬🇧" },
-      { symbol: "TVC:UKX", display: "UKX", name: "FTSE 100 Index", type: "indices", venue: "TVC", market: "uk", icon: "🇬🇧" },
-      { symbol: "ASX:BHP", display: "BHP", name: "BHP Group", type: "stocks", venue: "ASX", market: "australia", icon: "🇦🇺" },
-      { symbol: "ASX:CBA", display: "CBA", name: "Commonwealth Bank", type: "stocks", venue: "ASX", market: "australia", icon: "🇦🇺" },
-      { symbol: "ASX:FMG", display: "FMG", name: "Fortescue Metals", type: "stocks", venue: "ASX", market: "australia", icon: "🇦🇺" },
-      { symbol: "TVC:XJO", display: "XJO", name: "ASX 200 Index", type: "indices", venue: "TVC", market: "australia", icon: "🇦🇺" },
-      { symbol: "BMFBOVESPA:PETR4", display: "PETR4", name: "Petrobras PN", type: "stocks", venue: "B3", market: "brazil", icon: "🇧🇷" },
-      { symbol: "BMFBOVESPA:VALE3", display: "VALE3", name: "Vale", type: "stocks", venue: "B3", market: "brazil", icon: "🇧🇷" },
-      { symbol: "TVC:IBOV", display: "IBOV", name: "Bovespa Index", type: "indices", venue: "TVC", market: "brazil", icon: "🇧🇷" },
-      { symbol: "EURONEXT:MC", display: "MC", name: "LVMH", type: "stocks", venue: "Euronext Paris", market: "france", icon: "🇫🇷" },
-      { symbol: "EURONEXT:OR", display: "OR", name: "L'Oreal", type: "stocks", venue: "Euronext Paris", market: "france", icon: "🇫🇷" },
-      { symbol: "TVC:CAC40", display: "CAC40", name: "CAC 40 Index", type: "indices", venue: "TVC", market: "france", icon: "🇫🇷" },
-      { symbol: "SGX:D05", display: "D05", name: "DBS Group", type: "stocks", venue: "SGX", market: "singapore", icon: "🇸🇬" },
-      { symbol: "SGX:O39", display: "O39", name: "OCBC Bank", type: "stocks", venue: "SGX", market: "singapore", icon: "🇸🇬" },
-      { symbol: "TVC:STI", display: "STI", name: "Straits Times Index", type: "indices", venue: "TVC", market: "singapore", icon: "🇸🇬" },
-      { symbol: "FX:AUDUSD", display: "AUD/USD", name: "Australian Dollar / U.S. Dollar", type: "forex", venue: "FX", market: "global", icon: "🌐" },
-      { symbol: "FX:USDCAD", display: "USD/CAD", name: "U.S. Dollar / Canadian Dollar", type: "forex", venue: "FX", market: "global", icon: "🌐" },
-      { symbol: "FX:USDINR", display: "USD/INR", name: "U.S. Dollar / Indian Rupee", type: "forex", venue: "FX", market: "global", icon: "🌐" },
-      { symbol: "CBOT_MINI:YM1!", display: "YM1!", name: "E-mini Dow futures", type: "futures", venue: "CBOT", market: "global", icon: "⚡" }
+      { symbol: "NSE:RELIANCE", display: "RELIANCE", name: "Reliance Industries", type: "stocks", venue: "NSE", market: "india", icon: "ðŸ‡®ðŸ‡³" },
+      { symbol: "NSE:TCS", display: "TCS", name: "Tata Consultancy Services", type: "stocks", venue: "NSE", market: "india", icon: "ðŸ‡®ðŸ‡³" },
+      { symbol: "NSE:INFY", display: "INFY", name: "Infosys", type: "stocks", venue: "NSE", market: "india", icon: "ðŸ‡®ðŸ‡³" },
+      { symbol: "NSE:HDFCBANK", display: "HDFCBANK", name: "HDFC Bank", type: "stocks", venue: "NSE", market: "india", icon: "ðŸ‡®ðŸ‡³" },
+      { symbol: "NSE:NIFTY", display: "NIFTY", name: "Nifty 50 Index", type: "indices", venue: "NSE", market: "india", icon: "ðŸ‡®ðŸ‡³" },
+      { symbol: "BSE:SENSEX", display: "SENSEX", name: "BSE Sensex", type: "indices", venue: "BSE", market: "india", icon: "ðŸ‡®ðŸ‡³" },
+      { symbol: "XETR:SAP", display: "SAP", name: "SAP SE", type: "stocks", venue: "Xetra", market: "germany", icon: "ðŸ‡©ðŸ‡ª" },
+      { symbol: "XETR:SIE", display: "SIE", name: "Siemens", type: "stocks", venue: "Xetra", market: "germany", icon: "ðŸ‡©ðŸ‡ª" },
+      { symbol: "XETR:ALV", display: "ALV", name: "Allianz", type: "stocks", venue: "Xetra", market: "germany", icon: "ðŸ‡©ðŸ‡ª" },
+      { symbol: "TVC:DAX", display: "DAX", name: "Germany 40 Index", type: "indices", venue: "TVC", market: "germany", icon: "ðŸ‡©ðŸ‡ª" },
+      { symbol: "TSE:7203", display: "7203", name: "Toyota Motor", type: "stocks", venue: "Tokyo", market: "japan", icon: "ðŸ‡¯ðŸ‡µ" },
+      { symbol: "TSE:6758", display: "6758", name: "Sony Group", type: "stocks", venue: "Tokyo", market: "japan", icon: "ðŸ‡¯ðŸ‡µ" },
+      { symbol: "TSE:9984", display: "9984", name: "SoftBank Group", type: "stocks", venue: "Tokyo", market: "japan", icon: "ðŸ‡¯ðŸ‡µ" },
+      { symbol: "TVC:NI225", display: "NI225", name: "Nikkei 225 Index", type: "indices", venue: "TVC", market: "japan", icon: "ðŸ‡¯ðŸ‡µ" },
+      { symbol: "TSX:SHOP", display: "SHOP", name: "Shopify", type: "stocks", venue: "TSX", market: "canada", icon: "ðŸ‡¨ðŸ‡¦" },
+      { symbol: "TSX:RY", display: "RY", name: "Royal Bank of Canada", type: "stocks", venue: "TSX", market: "canada", icon: "ðŸ‡¨ðŸ‡¦" },
+      { symbol: "TSX:TD", display: "TD", name: "Toronto-Dominion Bank", type: "stocks", venue: "TSX", market: "canada", icon: "ðŸ‡¨ðŸ‡¦" },
+      { symbol: "TVC:TSX", display: "TSX", name: "S&P/TSX Composite Index", type: "indices", venue: "TVC", market: "canada", icon: "ðŸ‡¨ðŸ‡¦" },
+      { symbol: "HKEX:700", display: "700", name: "Tencent Holdings", type: "stocks", venue: "HKEX", market: "hk", icon: "ðŸ‡­ðŸ‡°" },
+      { symbol: "HKEX:9988", display: "9988", name: "Alibaba Group", type: "stocks", venue: "HKEX", market: "hk", icon: "ðŸ‡­ðŸ‡°" },
+      { symbol: "HKEX:3690", display: "3690", name: "Meituan", type: "stocks", venue: "HKEX", market: "hk", icon: "ðŸ‡­ðŸ‡°" },
+      { symbol: "TVC:HSI", display: "HSI", name: "Hang Seng Index", type: "indices", venue: "TVC", market: "hk", icon: "ðŸ‡­ðŸ‡°" },
+      { symbol: "LSE:HSBA", display: "HSBA", name: "HSBC Holdings", type: "stocks", venue: "LSE", market: "uk", icon: "ðŸ‡¬ðŸ‡§" },
+      { symbol: "LSE:BP.", display: "BP.", name: "BP", type: "stocks", venue: "LSE", market: "uk", icon: "ðŸ‡¬ðŸ‡§" },
+      { symbol: "LSE:AZN", display: "AZN", name: "AstraZeneca", type: "stocks", venue: "LSE", market: "uk", icon: "ðŸ‡¬ðŸ‡§" },
+      { symbol: "TVC:UKX", display: "UKX", name: "FTSE 100 Index", type: "indices", venue: "TVC", market: "uk", icon: "ðŸ‡¬ðŸ‡§" },
+      { symbol: "ASX:BHP", display: "BHP", name: "BHP Group", type: "stocks", venue: "ASX", market: "australia", icon: "ðŸ‡¦ðŸ‡º" },
+      { symbol: "ASX:CBA", display: "CBA", name: "Commonwealth Bank", type: "stocks", venue: "ASX", market: "australia", icon: "ðŸ‡¦ðŸ‡º" },
+      { symbol: "ASX:FMG", display: "FMG", name: "Fortescue Metals", type: "stocks", venue: "ASX", market: "australia", icon: "ðŸ‡¦ðŸ‡º" },
+      { symbol: "TVC:XJO", display: "XJO", name: "ASX 200 Index", type: "indices", venue: "TVC", market: "australia", icon: "ðŸ‡¦ðŸ‡º" },
+      { symbol: "BMFBOVESPA:PETR4", display: "PETR4", name: "Petrobras PN", type: "stocks", venue: "B3", market: "brazil", icon: "ðŸ‡§ðŸ‡·" },
+      { symbol: "BMFBOVESPA:VALE3", display: "VALE3", name: "Vale", type: "stocks", venue: "B3", market: "brazil", icon: "ðŸ‡§ðŸ‡·" },
+      { symbol: "TVC:IBOV", display: "IBOV", name: "Bovespa Index", type: "indices", venue: "TVC", market: "brazil", icon: "ðŸ‡§ðŸ‡·" },
+      { symbol: "EURONEXT:MC", display: "MC", name: "LVMH", type: "stocks", venue: "Euronext Paris", market: "france", icon: "ðŸ‡«ðŸ‡·" },
+      { symbol: "EURONEXT:OR", display: "OR", name: "L'Oreal", type: "stocks", venue: "Euronext Paris", market: "france", icon: "ðŸ‡«ðŸ‡·" },
+      { symbol: "TVC:CAC40", display: "CAC40", name: "CAC 40 Index", type: "indices", venue: "TVC", market: "france", icon: "ðŸ‡«ðŸ‡·" },
+      { symbol: "SGX:D05", display: "D05", name: "DBS Group", type: "stocks", venue: "SGX", market: "singapore", icon: "ðŸ‡¸ðŸ‡¬" },
+      { symbol: "SGX:O39", display: "O39", name: "OCBC Bank", type: "stocks", venue: "SGX", market: "singapore", icon: "ðŸ‡¸ðŸ‡¬" },
+      { symbol: "TVC:STI", display: "STI", name: "Straits Times Index", type: "indices", venue: "TVC", market: "singapore", icon: "ðŸ‡¸ðŸ‡¬" },
+      { symbol: "FX:AUDUSD", display: "AUD/USD", name: "Australian Dollar / U.S. Dollar", type: "forex", venue: "FX", market: "global", icon: "ðŸŒ" },
+      { symbol: "FX:USDCAD", display: "USD/CAD", name: "U.S. Dollar / Canadian Dollar", type: "forex", venue: "FX", market: "global", icon: "ðŸŒ" },
+      { symbol: "FX:USDINR", display: "USD/INR", name: "U.S. Dollar / Indian Rupee", type: "forex", venue: "FX", market: "global", icon: "ðŸŒ" },
+      { symbol: "CBOT_MINI:YM1!", display: "YM1!", name: "E-mini Dow futures", type: "futures", venue: "CBOT", market: "global", icon: "?" }
     );
 
     const expandedTickerUniverse = [
@@ -9375,7 +10206,7 @@
       const loadingHtml = `
         <div class="connection-orb" aria-hidden="true"></div>
         <div class="connection-console">
-          <strong>${escapeHtml(title)} · ${provider}</strong>
+          <strong>${escapeHtml(title)} ? ${provider}</strong>
           <span>${escapeHtml(detail)}</span>
           <div class="connection-meter" aria-hidden="true"><i></i></div>
           <div class="connection-stages" aria-label="Connection progress">
@@ -9624,7 +10455,7 @@
       if (activatingUserId === user.id || (currentUser?.id === user.id && cloudSyncReady)) return;
       activatingUserId = user.id;
       cloudSyncReady = false;
-      setAuthStatus("Loading your private journal…");
+      setAuthStatus("Loading your private journal...");
       try {
         const prototypeState = serializableState();
         activeStoreKey = `${storeKey}-${user.id}`;
@@ -10082,7 +10913,7 @@
       const type = options.type || "warn";
       title.textContent = options.title || "TradeReview AI";
       body.textContent = message;
-      icon.textContent = options.icon || (type === "success" ? "✓" : type === "error" ? "!" : "!");
+      icon.textContent = options.icon || (type === "success" ? "?" : type === "error" ? "!" : "!");
       toast.className = `app-toast ${type} show`;
       toast.setAttribute("aria-hidden", "false");
       clearTimeout(appToastTimer);
@@ -10185,7 +11016,7 @@
         },
         entryLabel: captureLabel(trade, "entryScreenshot"),
         exitLabel: captureLabel(trade, "exitScreenshot"),
-        replayWindow: `${marketTimeLabel(trade, "entryTime")} → ${marketTimeLabel(trade, "exitTime")}`,
+        replayWindow: `${marketTimeLabel(trade, "entryTime")} -> ${marketTimeLabel(trade, "exitTime")}`,
         requestedOutputs: ["entry_screenshot", "exit_screenshot", "trade_replay_video"],
         tradingViewUrl: tradingViewUrl(trade),
         implementationNote: "Backend worker must seek the chart to entryDateTimeLocal and exitDateTimeLocal in the supplied timeZone before saving media as official entry/exit screenshots. If exact historical seek is unavailable, return exactHistoricalCapture:false so the app does not attach preview media as official proof."
@@ -10338,7 +11169,7 @@
       const statusTitle = hasCaptureMedia
         ? "Chart media is ready"
         : hasPreviewMedia
-          ? "Preview captured — exact seek needed"
+          ? "Preview captured - exact seek needed"
         : request?.jobId
           ? "Capture request sent"
           : request?.status === "backend_not_ready"
@@ -10376,10 +11207,10 @@
           <span>Replay window: ${escapeHtml(tradeDurationLabel(trade))}</span>
         </div>
         <div class="tv-capture-flow">
-          <div class="tv-capture-step" data-icon="📈"><strong>1</strong>Entry image</div>
-          <div class="tv-capture-step" data-icon="📉"><strong>2</strong>Exit image</div>
-          <div class="tv-capture-step" data-icon="▶"><strong>3</strong>Replay video</div>
-          <div class="tv-capture-step" data-icon="✓"><strong>4</strong>Attach to journal</div>
+          <div class="tv-capture-step" data-icon="ðŸ“ˆ"><strong>1</strong>Entry image</div>
+          <div class="tv-capture-step" data-icon="ðŸ“‰"><strong>2</strong>Exit image</div>
+          <div class="tv-capture-step" data-icon="?"><strong>3</strong>Replay video</div>
+          <div class="tv-capture-step" data-icon="?"><strong>4</strong>Attach to journal</div>
         </div>
         <div class="tv-capture-actions">
           <button class="primary" type="button" data-tv-capture="${trade.id}">${request ? "Refresh request" : "Request auto capture"}</button>
@@ -10401,7 +11232,7 @@
       const statusTitle = hasCaptureMedia
         ? "Chart media is ready"
         : hasPreviewMedia
-          ? "Preview captured — exact seek needed"
+          ? "Preview captured - exact seek needed"
         : request?.jobId
           ? "Capture request sent"
           : request?.status === "backend_not_ready"
@@ -10441,8 +11272,8 @@
           <span>Replay window: ${escapeHtml(tradeDurationLabel(trade))}</span>
         </div>
         <div class="tv-capture-flow compact-flow" aria-label="Capture progress">
-          <div class="tv-capture-step entry" data-icon="ENTRY"><strong>1</strong><span class="capture-marker">↗</span>Entry point</div>
-          <div class="tv-capture-step exit" data-icon="EXIT"><strong>2</strong><span class="capture-marker">↘</span>Exit point</div>
+          <div class="tv-capture-step entry" data-icon="ENTRY"><strong>1</strong><span class="capture-marker">?</span>Entry point</div>
+          <div class="tv-capture-step exit" data-icon="EXIT"><strong>2</strong><span class="capture-marker">?</span>Exit point</div>
           <div class="tv-capture-step" data-icon="REC"><strong>3</strong>Replay</div>
         </div>
         <div class="tv-capture-actions primary-actions">
@@ -10609,7 +11440,7 @@
       if (!trades.length) trades = sortedTrades.slice(-1);
       if (meta) {
         const net = trades.reduce((sum, trade) => sum + trade.pnl, 0);
-        meta.textContent = `${selectedRange.label} · ${trades.length} trade${trades.length === 1 ? "" : "s"} · ${money.format(net)} net`;
+        meta.textContent = `${selectedRange.label} ? ${trades.length} trade${trades.length === 1 ? "" : "s"} ? ${money.format(net)} net`;
       }
       const cumulative = [0];
       trades.forEach(trade => cumulative.push(cumulative[cumulative.length - 1] + trade.pnl));
@@ -10733,7 +11564,7 @@
         const pnl = days[day].reduce((sum, trade) => sum + trade.pnl, 0);
         return `<button class="day-button ${day === selectedDay ? "active" : ""}" data-day="${day}">
           <strong>${day}</strong>
-          <small>${days[day].length} trades · ${money.format(pnl)}</small>
+          <small>${days[day].length} trades ? ${money.format(pnl)}</small>
         </button>`;
       }).join("");
       document.querySelectorAll("[data-day]").forEach(button => {
@@ -10858,7 +11689,7 @@
           if (selectedTradeId === tradeId) selectedTradeId = null;
           saveState();
           render();
-          showAppToast("Trade deleted.", { title: "Deleted", type: "success", icon: "✓" });
+          showAppToast("Trade deleted.", { title: "Deleted", type: "success", icon: "?" });
         });
       });
     }
@@ -10959,7 +11790,7 @@
         && trade.tradingViewCapture?.media?.[mediaKey]
         && trade.tradingViewCapture.media[mediaKey] === image;
       const previewNotice = trade ? `<div class="visual-empty preview-warning">
-        <strong>Preview only — exact timestamp not confirmed</strong>
+        <strong>Preview only - exact timestamp not confirmed</strong>
         <span>Requested ${escapeHtml(label)}. TradeReview uses your selected trading timezone for this request. This preview is not saved as official proof until exact seeking is connected.</span>
         <a class="chart-link ${tone}" href="${escapeHtml(trade.tradingViewCapture?.media?.[mediaKey] || tradingViewUrl(trade))}" target="_blank" rel="noopener">Open preview image</a>
       </div>` : "";
@@ -10992,7 +11823,7 @@
       chartButton.disabled = false;
       chartButton.onclick = () => window.open(tradingViewUrl(trade), "_blank", "noopener");
       title.textContent = `${trade.symbol}`;
-      subtitle.textContent = `${trade.date} · Entry ${marketTimeLabel(trade, "entryTime")} · Exit ${marketTimeLabel(trade, "exitTime")} · ${chartTicker(trade)} 1m chart`;
+      subtitle.textContent = `${trade.date} ? Entry ${marketTimeLabel(trade, "entryTime")} ? Exit ${marketTimeLabel(trade, "exitTime")} ? ${chartTicker(trade)} 1m chart`;
       body.innerHTML = `<div class="trade-review">
         <div class="visual-stack">
           ${visualPanel(trade, "entryScreenshot", "Entry Point", "entryTime")}
@@ -11003,8 +11834,8 @@
           <div class="panel">
             <div class="panel-header"><h2>Trade Details</h2></div>
             <div class="panel-body detail-list">
-              <div class="detail-row"><span>Result</span><strong class="${trade.pnl >= 0 ? "money-win" : "money-loss"}">${money.format(trade.pnl)} · ${formatR(rMultiple(trade))}</strong></div>
-              <div class="detail-row"><span>Risk Used</span><strong class="${riskClass(riskUsedR(trade)) ? "risk-bad" : "risk-ok"}">${money.format(riskUsed(trade))} · ${riskUsedR(trade).toFixed(2)}R</strong></div>
+              <div class="detail-row"><span>Result</span><strong class="${trade.pnl >= 0 ? "money-win" : "money-loss"}">${money.format(trade.pnl)} ? ${formatR(rMultiple(trade))}</strong></div>
+              <div class="detail-row"><span>Risk Used</span><strong class="${riskClass(riskUsedR(trade)) ? "risk-bad" : "risk-ok"}">${money.format(riskUsed(trade))} ? ${riskUsedR(trade).toFixed(2)}R</strong></div>
               <div class="detail-row"><span>Planned R</span><strong>${money.format(tradePlannedRisk(trade))}</strong></div>
               <div class="detail-row"><span>Option Cost</span><strong>${money.format(estimateOptionCost(trade))}</strong></div>
               <div class="detail-row"><span>Setup</span><strong>${escapeHtml(trade.setup || "Untagged")}</strong></div>
@@ -11076,7 +11907,7 @@
       }
       if (heroStrip) {
         heroStrip.innerHTML = `
-          <div class="hero-mini-card"><span>Today’s mission</span><strong>${summary.trades ? "Protect your edge" : "Log first trade"}</strong></div>
+          <div class="hero-mini-card"><span>Today's mission</span><strong>${summary.trades ? "Protect your edge" : "Log first trade"}</strong></div>
           <div class="hero-mini-card"><span>Review engine</span><strong>Live insights</strong></div>
           <div class="hero-mini-card"><span>Risk radar</span><strong>${summary.riskBreaks ? `${summary.riskBreaks} alerts` : "Clean"}</strong></div>
         `;
@@ -11086,9 +11917,9 @@
     function renderProfileContext() {
       const profile = { ...defaultProfile(), ...(state.profile || {}) };
       const profileTimeZone = state.settings?.tradingTimeZone || Intl.DateTimeFormat().resolvedOptions().timeZone || "America/New_York";
-      const context = [profile.market, profile.broker].filter(Boolean).join(" · ") || "Your free review workspace";
+      const context = [profile.market, profile.broker].filter(Boolean).join(" ? ") || "Your free review workspace";
       document.querySelector("#traderContext").textContent = context;
-      document.querySelector("#accountProfile").textContent = profile.market && profile.broker ? `${profile.market} · ${profile.broker}` : "Complete trader profile";
+      document.querySelector("#accountProfile").textContent = profile.market && profile.broker ? `${profile.market} ? ${profile.broker}` : "Complete trader profile";
       document.querySelector("#primaryBrokerRoadmap").textContent = profile.broker ? `${profile.broker} direct sync` : "Direct broker sync";
       document.querySelector("#profileSummary").innerHTML = `
         <div class="profile-summary-row"><span>Trading experience</span><strong>${escapeHtml(profileValue("experience"))}</strong></div>
@@ -11402,7 +12233,7 @@ Important terms:
 - Long: buying because you want price to rise.
 - Short: selling borrowed shares because you want price to fall.
 - Volume: how many shares traded.
-- Market cap: company value based on share price × shares outstanding.
+- Market cap: company value based on share price ? shares outstanding.
 
 Beginner rule:
 Do not buy only because a stock is popular. Learn trend, levels, risk, and your exit first.`,
@@ -11707,7 +12538,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       document.querySelector("#onboardingProgress").style.width = `${((onboardingStep + 1) / 3) * 100}%`;
       document.querySelector("#onboardingBack").hidden = onboardingStep === 0;
       const next = document.querySelector("#onboardingNext");
-      next.textContent = onboardingStep === 2 ? "Open my free journal →" : "Continue →";
+      next.textContent = onboardingStep === 2 ? "Open my free journal ->" : "Continue ->";
       next.disabled = !selectedOnboardingValue(fieldNames[onboardingStep]);
     }
 
@@ -11810,7 +12641,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       if (![...select.options].some(option => option.value === nextValue)) {
         const customOption = document.createElement("option");
         customOption.value = nextValue;
-        customOption.textContent = `${nextValue} — custom saved timezone`;
+        customOption.textContent = `${nextValue} - custom saved timezone`;
         select.appendChild(customOption);
       }
       select.value = nextValue;
@@ -11845,7 +12676,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
       if (supportList) {
         const requests = (state.supportRequests || []).slice(-6).reverse();
         supportList.innerHTML = requests.length
-          ? requests.map(request => `<div class="review-item"><span>${escapeHtml(request.reason || "Support")}</span><strong>${escapeHtml(request.email || "No email")} · ${escapeHtml(request.message || "").slice(0, 120)}</strong></div>`).join("")
+          ? requests.map(request => `<div class="review-item"><span>${escapeHtml(request.reason || "Support")}</span><strong>${escapeHtml(request.email || "No email")} ? ${escapeHtml(request.message || "").slice(0, 120)}</strong></div>`).join("")
           : `<div class="review-item"><span>Inbox</span><strong>No local support requests yet.</strong></div>`;
       }
       const userList = document.querySelector("#ownerUserList");
@@ -11878,12 +12709,12 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
         if (requestsError) throw requestsError;
         if (userList) {
           userList.innerHTML = (users || []).length
-            ? users.map(user => `<div class="review-item"><span>${escapeHtml(user.plan || "Free")} · ${escapeHtml(new Date(user.created_at).toLocaleDateString())}</span><strong>${escapeHtml(user.email || "No email")} · ${escapeHtml(user.id || "")}</strong></div>`).join("")
+            ? users.map(user => `<div class="review-item"><span>${escapeHtml(user.plan || "Free")} ? ${escapeHtml(new Date(user.created_at).toLocaleDateString())}</span><strong>${escapeHtml(user.email || "No email")} ? ${escapeHtml(user.id || "")}</strong></div>`).join("")
             : `<div class="review-item"><span>Users</span><strong>No users returned yet.</strong></div>`;
         }
         if (supportList) {
           supportList.innerHTML = (requests || []).length
-            ? requests.map(request => `<div class="review-item"><span>${escapeHtml(request.reason || "Support")}</span><strong>${escapeHtml(request.customer_email || "No email")} · ${escapeHtml(request.message || "").slice(0, 140)}</strong></div>`).join("")
+            ? requests.map(request => `<div class="review-item"><span>${escapeHtml(request.reason || "Support")}</span><strong>${escapeHtml(request.customer_email || "No email")} ? ${escapeHtml(request.message || "").slice(0, 140)}</strong></div>`).join("")
             : `<div class="review-item"><span>Support</span><strong>No support requests in Supabase yet.</strong></div>`;
         }
         setSettingsStatus("adminSettingsStatus", "Owner backend data loaded from Supabase.");
@@ -11944,7 +12775,7 @@ Tomorrow's rule: I will only take ${setup} when the trigger, stop, target, and r
         const saved = Array.isArray(data) ? data[0] : data;
         const planList = document.querySelector("#ownerPlanOverrideList");
         if (planList) {
-          planList.innerHTML = `<div class="review-item"><span>${escapeHtml(saved?.plan || plan)}</span><strong>${escapeHtml(saved?.email || email)} · Manual owner override saved</strong></div>`;
+          planList.innerHTML = `<div class="review-item"><span>${escapeHtml(saved?.plan || plan)}</span><strong>${escapeHtml(saved?.email || email)} ? Manual owner override saved</strong></div>`;
         }
         setSettingsStatus("ownerPlanStatus", `${saved?.email || email} is now on ${saved?.plan || plan}. Ask them to refresh or sign in again.`);
       } catch (error) {
@@ -12537,11 +13368,11 @@ Education should come before size. If you cannot explain the trade idea, invalid
         ${escapeHtml(text)}
 
         <strong>What this agent watches</strong>
-        • Saved risk settings and max R per trade
-        • Repeated mistake tags from journal entries
-        • Setup tags that appear before losses
-        • Missed journal reviews or skipped preparation
-        • Emotional language like FOMO, revenge, rushed, bored, tilted, or overconfident
+        ? Saved risk settings and max R per trade
+        ? Repeated mistake tags from journal entries
+        ? Setup tags that appear before losses
+        ? Missed journal reviews or skipped preparation
+        ? Emotional language like FOMO, revenge, rushed, bored, tilted, or overconfident
 
         <strong>How it responds</strong>
         1. Gives a short warning before the next trade plan.
@@ -12697,7 +13528,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
       else agents.push(nextAgent);
       saveState();
       renderAgentPlanV2(nextAgent.mission, { activated: true });
-      showAppToast(`${nextAgent.kind} is active and scanning your journal data.`, { title: "Agent activated", type: "success", icon: "✓" });
+      showAppToast(`${nextAgent.kind} is active and scanning your journal data.`, { title: "Agent activated", type: "success", icon: "?" });
       const target = document.querySelector("#agentOutput");
       try {
         const aiOutput = await callTradeReviewAi("agent", {
@@ -12721,7 +13552,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
       state.activeAgents = ensureAgentState().filter(agent => agent.id !== agentId);
       saveState();
       renderAgentPlanV2(state.activeAgents[0]?.mission || undefined);
-      showAppToast("Agent stopped for this workspace.", { title: "Agent stopped", type: "info", icon: "○" });
+      showAppToast("Agent stopped for this workspace.", { title: "Agent stopped", type: "info", icon: "?" });
     }
 
     function renderActiveAgentList() {
@@ -12733,7 +13564,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
             const signals = summarizeAgentSignals(agent);
             const warnCount = signals.filter(signal => signal.level === "warn").length;
             return `<div class="active-agent-row">
-              <div><b>${escapeHtml(agent.kind)} ${warnCount ? "• needs review" : "• monitoring"}</b><span>${escapeHtml(agent.mission)}<br>${signals.length} live signal${signals.length === 1 ? "" : "s"} · ${warnCount} warning${warnCount === 1 ? "" : "s"}</span></div>
+              <div><b>${escapeHtml(agent.kind)} ${warnCount ? "? needs review" : "? monitoring"}</b><span>${escapeHtml(agent.mission)}<br>${signals.length} live signal${signals.length === 1 ? "" : "s"} ? ${warnCount} warning${warnCount === 1 ? "" : "s"}</span></div>
               <button type="button" data-stop-agent="${escapeHtml(agent.id)}">Stop</button>
             </div>`;
           }).join("")}</div>`
@@ -12935,7 +13766,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
               <span class="symbol-avatar flag">${escapeHtml(item.icon || item.display.replace(/[^A-Z0-9]/gi, "").slice(0, 1) || "?")}</span>
               <span class="symbol-code">${escapeHtml(item.symbol)}</span>
               <span class="symbol-name">${escapeHtml(item.name)}</span>
-              <span class="symbol-market">${escapeHtml(item.type)} · ${escapeHtml(item.venue)}</span>
+              <span class="symbol-market">${escapeHtml(item.type)} ? ${escapeHtml(item.venue)}</span>
             </button>`).join("");
         const rows = typedRow || matchRows
           ? `${typedRow}${matchRows}`
@@ -12946,7 +13777,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
             <button type="button" class="symbol-picker-close">Close</button>
           </div>
           <div class="symbol-market-filter">
-            <div class="symbol-market-label">Market coverage <span>${escapeHtml(selectedMarket.label)} · ${matches.length}${matches.length === 90 ? "+" : ""} shown</span></div>
+            <div class="symbol-market-label">Market coverage <span>${escapeHtml(selectedMarket.label)} ? ${matches.length}${matches.length === 90 ? "+" : ""} shown</span></div>
             <div class="symbol-region-tabs">${marketHtml}</div>
           </div>
           <div class="symbol-tabs">${tabHtml}</div>
@@ -13095,7 +13926,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
     });
     document.querySelector("#saveAgentRules")?.addEventListener("click", () => {
       if (!requirePlan("save AI agent rules", "pro")) return;
-      showAppToast("Agent rules saved as a draft. Backend automation can run these rules when agent jobs are connected.", { title: "Agent rules saved", type: "success", icon: "✓" });
+      showAppToast("Agent rules saved as a draft. Backend automation can run these rules when agent jobs are connected.", { title: "Agent rules saved", type: "success", icon: "?" });
     });
     document.querySelector("#saveAgentRules")?.addEventListener("click", event => {
       event.preventDefault();
@@ -13237,7 +14068,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
         setup.classList.add("attention-pulse");
         setTimeout(() => setup.classList.remove("attention-pulse"), 1200);
         document.querySelector("#manualBrokerProvider")?.focus();
-        showAppToast("Broker Sync setup is open below. Choose your broker, days, and import details.", { title: "Broker Sync setup", type: "info", icon: "↗" });
+        showAppToast("Broker Sync setup is open below. Choose your broker, days, and import details.", { title: "Broker Sync setup", type: "info", icon: "?" });
         return;
       }
       const panel = document.querySelector("#quickBrokerSyncPanel");
@@ -13292,7 +14123,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
       setMobileInstallStatus("<strong>Phone steps:</strong> Android Chrome: tap the browser menu and choose Install app. iPhone Safari: tap Share, then Add to Home Screen.");
     });
     document.querySelector("#authMobileInstallHelp").addEventListener("click", () => {
-      setAuthStatus("Android Chrome: tap Install or browser menu → Install app. iPhone Safari: tap Share → Add to Home Screen.");
+      setAuthStatus("Android Chrome: tap Install or browser menu -> Install app. iPhone Safari: tap Share -> Add to Home Screen.");
     });
     window.addEventListener("beforeinstallprompt", event => {
       event.preventDefault();
@@ -13350,7 +14181,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
         showAppToast("Choose a .csv file and try again.", { title: "CSV import blocked", type: "error" });
         return;
       }
-      setCsvImportStatus("warn", "Reading CSV…", `Checking ${file.name || "your file"} for trade rows.`);
+      setCsvImportStatus("warn", "Reading CSV...", `Checking ${file.name || "your file"} for trade rows.`);
       try {
         const text = await file.text();
         const count = importCsv(text);
@@ -13362,7 +14193,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
             `${report.totalRows} row${report.totalRows === 1 ? "" : "s"} found. ${report.rejected ? `${report.rejected} row${report.rejected === 1 ? "" : "s"} skipped and listed below.` : "Everything usable was imported."}`,
             report.reasons
           );
-          showAppToast(`Imported ${count} trade${count === 1 ? "" : "s"}.${report.rejected ? ` Skipped ${report.rejected} row(s).` : ""}`, { title: "CSV import complete", type: report.rejected ? "warn" : "success", icon: report.rejected ? "!" : "✓" });
+          showAppToast(`Imported ${count} trade${count === 1 ? "" : "s"}.${report.rejected ? ` Skipped ${report.rejected} row(s).` : ""}`, { title: "CSV import complete", type: report.rejected ? "warn" : "success", icon: report.rejected ? "!" : "?" });
           switchView("dashboard");
           return;
         }
@@ -13474,7 +14305,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
           delete state.journals[day];
           saveState();
           render();
-          showAppToast("Journal note deleted. Trades were kept.", { title: "Deleted", type: "success", icon: "✓" });
+          showAppToast("Journal note deleted. Trades were kept.", { title: "Deleted", type: "success", icon: "?" });
         }
       });
     });
@@ -13494,7 +14325,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
           selectedDay = null;
           saveState();
           render();
-          showAppToast("Trading day deleted.", { title: "Deleted", type: "success", icon: "✓" });
+          showAppToast("Trading day deleted.", { title: "Deleted", type: "success", icon: "?" });
         }
       });
     });
@@ -13508,7 +14339,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
         tomorrowRule: document.querySelector("#tomorrowRule").value.trim()
       };
       saveState();
-      showAppToast("Journal saved.", { title: "Saved", type: "success", icon: "✓" });
+      showAppToast("Journal saved.", { title: "Saved", type: "success", icon: "?" });
     });
 
     document.querySelector("#addDemo").addEventListener("click", () => {
@@ -13533,7 +14364,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
           selectedDay = null;
           saveState();
           render();
-          showAppToast("All trades and journal notes were cleared.", { title: "Data cleared", type: "success", icon: "✓" });
+          showAppToast("All trades and journal notes were cleared.", { title: "Data cleared", type: "success", icon: "?" });
         }
       });
     });
@@ -13553,7 +14384,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
           selectedDay = null;
           saveState();
           render();
-          showAppToast("This browser was reset.", { title: "Reset complete", type: "success", icon: "✓" });
+          showAppToast("This browser was reset.", { title: "Reset complete", type: "success", icon: "?" });
         }
       });
     });
@@ -13629,7 +14460,7 @@ Education should come before size. If you cannot explain the trade idea, invalid
       if (/google|gmail|sign in|login|account|password/.test(query)) {
         return "Use Continue with Google to sign in or create a new free account. You can also create an account with email and password. If sign-in says no account exists, switch to Create account first.";
       }
-      return "I can help with account access, CSV imports, adding trades, chart screenshots, daily journaling, risk flags, and dashboard statistics. Ask me about one of those and I’ll walk you through it.";
+      return "I can help with account access, CSV imports, adding trades, chart screenshots, daily journaling, risk flags, and dashboard statistics. Ask me about one of those and I'll walk you through it.";
     }
 
     function setHelpOpen(isOpen) {
@@ -13840,4 +14671,5 @@ Education should come before size. If you cannot explain the trade idea, invalid
   </script>
 </body>
 </html>
+
 
