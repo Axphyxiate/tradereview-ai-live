@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -24,16 +24,16 @@
       --text: #edf7f4;
       --muted: #93a5bd;
       --line: rgba(168, 185, 236, .14);
-      --green: #18d995;
+      --green: #A3E635;
       --green-2: #0fbf7f;
       --cyan: #59d9f0;
-      --blue: #5f86ff;
-      --violet: #9b7cff;
+      --blue: #A1A1AA;
+      --violet: #A1A1AA;
       --amber: #f2c56d;
-      --red: #ff536d;
+      --red: #A1A1AA;
       --shadow: 0 32px 90px rgba(0,0,0,.3);
       --scroll-accent: #7195ff;
-      --scroll-opposite: #9b7cff;
+      --scroll-opposite: #A1A1AA;
       --scroll-soft: rgba(95, 134, 255, .1);
     }
 
@@ -167,7 +167,7 @@
     }
 
     .button:hover { transform: translateY(-2px) scale(1.035); border-color: rgba(113,149,255,.48); background: rgba(255,255,255,.08); }
-    .button.primary { border: 0; color: #f7fbff; background: linear-gradient(135deg, #5f86ff, #9b7cff); box-shadow: 0 14px 34px rgba(95,134,255,.24); }
+    .button.primary { border: 0; color: #f7fbff; background: linear-gradient(135deg, #A1A1AA, #A1A1AA); box-shadow: 0 14px 34px rgba(95,134,255,.24); }
     .button.small { min-height: 40px; padding: 0 15px; }
 
     .hero {
@@ -330,8 +330,8 @@
     .mock-candle { transform-box: fill-box; transform-origin: center bottom; animation: candleIn .55s cubic-bezier(.2,.8,.2,1) both, candleLive 2.7s ease-in-out .8s infinite alternate; }
     .mock-candle:nth-of-type(2n) { animation-delay: .08s; }
     .mock-candle:nth-of-type(3n) { animation-delay: .16s; }
-    .mock-candle.up line, .mock-candle.up rect { stroke: #18d995; fill: #18d995; }
-    .mock-candle.down line, .mock-candle.down rect { stroke: #ff536d; fill: #ff536d; }
+    .mock-candle.up line, .mock-candle.up rect { stroke: #A3E635; fill: #A3E635; }
+    .mock-candle.down line, .mock-candle.down rect { stroke: #A1A1AA; fill: #A1A1AA; }
     @keyframes candleIn { from { opacity: 0; transform: scaleY(.15); } to { opacity: 1; transform: scaleY(1); } }
     @keyframes candleLive { from { filter: brightness(.86); } to { filter: brightness(1.42) drop-shadow(0 0 5px currentColor); } }
     .live-marker { stroke: var(--scroll-accent); stroke-width: 1.2; stroke-dasharray: 7 7; opacity: .5; animation: markerFlow 1.6s linear infinite; }
@@ -420,7 +420,7 @@
     .logo-oanda .broker-mark { color: #fff; background: #e31b23; }
     .logo-tradestation .broker-mark { color: #fff; background: linear-gradient(135deg, #005baa, #00aeef); }
     .logo-ninja .broker-mark { color: #fff; background: #111827; }
-    .logo-mt5 .broker-mark { color: #fff; background: linear-gradient(135deg, #0f766e, #38bdf8); }
+    .logo-mt5 .broker-mark { color: #fff; background: linear-gradient(135deg, #0f766e, #A1A1AA); }
     .logo-tradovate .broker-mark { color: #fff; background: #0f766e; }
     .logo-webull .broker-mark { color: #fff; background: #2563eb; }
     .logo-alpaca .broker-mark { color: #061410; background: #bef264; }
@@ -429,7 +429,7 @@
     .logo-topstep .broker-mark { color: #fff; background: #0ea5e9; }
     .logo-schwab .broker-mark { color: #fff; background: #005cb9; }
     .logo-etrade .broker-mark { color: #fff; background: #663399; }
-    .logo-csv .broker-mark { color: #061410; background: #86efac; }
+    .logo-csv .broker-mark { color: #061410; background: #A3E635; }
     .logo-api .broker-mark { color: #061410; background: #f2c56d; }
     @keyframes brokerSlide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
@@ -683,7 +683,7 @@
     .footer-links { display: flex; gap: 18px; }
 
     .help-button { position: fixed; z-index: 50; right: 22px; bottom: 22px; display: flex; align-items: center; gap: 10px; min-height: 50px; padding: 8px 16px 8px 9px; border: 1px solid rgba(126,151,255,.24); border-radius: 999px; color: #f1f6ff; background: linear-gradient(135deg, rgba(9,18,42,.94), rgba(24,20,53,.94)); box-shadow: 0 18px 50px rgba(0,0,0,.38), 0 0 34px rgba(126,151,255,.1); backdrop-filter: blur(16px); font-size: 12px; font-weight: 900; }
-    .help-icon { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; color: #071510; background: linear-gradient(135deg, #28e0a8, #6ea8ff, #9b7cff); font-weight: 950; transition: background .35s ease; }
+    .help-icon { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; color: #071510; background: linear-gradient(135deg, #A3E635, #A1A1AA, #A1A1AA); font-weight: 950; transition: background .35s ease; }
     .help-card { position: fixed; z-index: 55; right: 22px; bottom: 84px; width: min(390px,calc(100vw - 28px)); overflow: hidden; border: 1px solid rgba(142,167,255,.18); border-radius: 22px; background: radial-gradient(circle at 12% 0%, rgba(110,168,255,.17), transparent 19rem), radial-gradient(circle at 100% 18%, rgba(155,124,255,.13), transparent 18rem), rgba(7,12,28,.98); box-shadow: 0 30px 90px rgba(0,0,0,.5); opacity: 0; transform: translateY(10px) scale(.98); pointer-events: none; transition: .18s ease; }
     .help-card.open { opacity: 1; transform: none; pointer-events: auto; }
     .help-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 17px; border-bottom: 1px solid rgba(142,167,255,.14); background: linear-gradient(120deg, rgba(110,168,255,.1), rgba(155,124,255,.07), transparent); }
@@ -694,11 +694,11 @@
     .help-close { width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 50%; color: #a9bbb5; background: transparent; }
     .help-messages { height: 240px; overflow-y: auto; display: grid; align-content: start; gap: 9px; padding: 16px; }
     .message { max-width: 88%; padding: 11px 12px; border-radius: 13px; color: #c8d5ef; background: rgba(255,255,255,.045); font-size: 12px; line-height: 1.55; }
-    .message.user { margin-left: auto; color: #071510; background: linear-gradient(135deg, #28e0a8, #6ea8ff); }
+    .message.user { margin-left: auto; color: #071510; background: linear-gradient(135deg, #A3E635, #A1A1AA); }
     .help-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; padding: 0 11px 10px; }
     .help-actions button { min-height: 36px; border: 1px solid rgba(142,167,255,.15); border-radius: 9px; color: #b7c6df; background: rgba(255,255,255,.025); font-size: 10px; font-weight: 850; }
     .help-actions button:hover { border-color: rgba(110,168,255,.34); color: #f3f7ff; background: rgba(110,168,255,.08); }
-    .agent-link { display: block; margin: 0 11px 10px; padding: 10px 12px; border: 1px solid rgba(110,168,255,.25); border-radius: 9px; color: #071510; background: linear-gradient(135deg, #28e0a8, #6ea8ff); text-align: center; font-size: 11px; font-weight: 900; }
+    .agent-link { display: block; margin: 0 11px 10px; padding: 10px 12px; border: 1px solid rgba(110,168,255,.25); border-radius: 9px; color: #071510; background: linear-gradient(135deg, #A3E635, #A1A1AA); text-align: center; font-size: 11px; font-weight: 900; }
     .agent-link[hidden] { display: none; }
     .agent-email-form {
       display: none;
@@ -725,14 +725,14 @@
       border: 0;
       border-radius: 10px;
       color: #071510;
-      background: linear-gradient(135deg, #28e0a8, #6ea8ff, #9b7cff);
+      background: linear-gradient(135deg, #A3E635, #A1A1AA, #A1A1AA);
       font-weight: 950;
       cursor: pointer;
     }
     .agent-email-note { margin: 0; color: #8fa1c0; font-size: 10px; line-height: 1.45; }
     .help-form { display: flex; gap: 8px; padding: 11px; border-top: 1px solid rgba(142,167,255,.14); }
     .help-form input { width: 100%; min-height: 42px; padding: 0 12px; border: 1px solid rgba(142,167,255,.16); border-radius: 10px; outline: 0; color: #f3f7ff; background: #071126; }
-    .help-form button { width: 43px; border: 0; border-radius: 10px; color: #071510; background: linear-gradient(135deg, #28e0a8, #6ea8ff); font-weight: 900; }
+    .help-form button { width: 43px; border: 0; border-radius: 10px; color: #071510; background: linear-gradient(135deg, #A3E635, #A1A1AA); font-weight: 900; }
 
     @media (max-width: 900px) {
       .nav-links { display: none; }
@@ -795,7 +795,7 @@
     :root {
       --ae-bg:#191C21; --ae-deep:#0B1013; --ae-surface:#18181B; --ae-card:#151A20;
       --ae-text:#FFFFFF; --ae-muted:#A1A1AA; --ae-lime:#A3E635; --ae-cyan:#67E8F9;
-      --ae-red:#FB7185; --ae-border:#2A2A2E; --ae-radius:16px; --ae-control:8px;
+      --ae-red:#A1A1AA; --ae-border:#2A2A2E; --ae-radius:16px; --ae-control:8px;
     }
     html, body {
       background: var(--ae-bg) !important;
@@ -1339,6 +1339,286 @@
       .official-logo-hero img { max-height: 82px !important; }
     }
   </style>
+  <style id="aethel-md-palette-authority-20260730">
+    /*
+      Absolute palette authority from the supplied Aethel MD.
+      Allowed colors only: #A3E635, #191C21, #18181B, #2A2A2E, #FFFFFF, #A1A1AA.
+    */
+    :root {
+      --aethel-green:#A3E635 !important;
+      --aethel-bg:#191C21 !important;
+      --aethel-surface:#18181B !important;
+      --aethel-border:#2A2A2E !important;
+      --aethel-text:#FFFFFF !important;
+      --aethel-muted:#A1A1AA !important;
+      --ae-bg:#191C21 !important;
+      --ae-deep:#191C21 !important;
+      --ae-surface:#18181B !important;
+      --ae-card:#18181B !important;
+      --ae-text:#FFFFFF !important;
+      --ae-muted:#A1A1AA !important;
+      --ae-lime:#A3E635 !important;
+      --ae-cyan:#A1A1AA !important;
+      --ae-red:#A1A1AA !important;
+      --ae-border:#2A2A2E !important;
+      --md-primary:#A3E635 !important;
+      --md-bg:#191C21 !important;
+      --md-surface:#18181B !important;
+      --md-text:#FFFFFF !important;
+      --md-muted:#A1A1AA !important;
+      --md-border:#2A2A2E !important;
+      --red:#A1A1AA !important;
+      --green:#A3E635 !important;
+      --blue:#A1A1AA !important;
+      --cyan:#A1A1AA !important;
+      --purple:#A1A1AA !important;
+    }
+
+    html,
+    body {
+      background:
+        linear-gradient(rgba(255,255,255,.024) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.024) 1px, transparent 1px),
+        #191C21 !important;
+      background-size:64px 64px,64px 64px,auto !important;
+      color:#FFFFFF !important;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif !important;
+    }
+
+    body::before,
+    body::after,
+    .hero::before,
+    .hero::after,
+    .landing-webgl,
+    .market-canvas,
+    .scroll-aura,
+    .scroll-aura::before,
+    .scroll-aura::after,
+    .blog-visual,
+    .post-chart {
+      display:none !important;
+      opacity:0 !important;
+      visibility:hidden !important;
+      animation:none !important;
+    }
+
+    .shell,
+    main,
+    section,
+    .hero {
+      background:transparent !important;
+      color:#FFFFFF !important;
+    }
+
+    .nav,
+    .nav *,
+    .hero,
+    .hero > *,
+    .hero .official-logo-hero,
+    .hero .eyebrow,
+    .hero .hero-actions,
+    .hero .microcopy,
+    .product-frame,
+    .product-frame * {
+      opacity:1 !important;
+      visibility:visible !important;
+      filter:none !important;
+      transform:none !important;
+    }
+
+    .nav,
+    .product-frame,
+    .app-window,
+    .mock-app,
+    .mock-side,
+    .mock-main,
+    .mock-card,
+    .mock-stat,
+    .feature-card,
+    .tool,
+    .trust-stat,
+    .pricing-card,
+    .broker-card,
+    .blog-card,
+    .privacy-card,
+    .cta-inner,
+    footer,
+    .help-card,
+    .message,
+    .coach div,
+    .section-card,
+    .glass-card,
+    .dashboard-preview {
+      background:#18181B !important;
+      background-image:
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px) !important;
+      background-size:56px 56px !important;
+      border:1px solid #2A2A2E !important;
+      border-radius:16px !important;
+      box-shadow:none !important;
+      color:#FFFFFF !important;
+    }
+
+    .hero h1,
+    h1,
+    h2,
+    h3,
+    h4,
+    strong,
+    h1 span,
+    .hero h1 span,
+    .gradient,
+    .hero .gradient {
+      color:#FFFFFF !important;
+      -webkit-text-fill-color:#FFFFFF !important;
+      background:none !important;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif !important;
+      text-shadow:none !important;
+    }
+
+    .hero h1,
+    h1 {
+      font-weight:500 !important;
+      letter-spacing:-.055em !important;
+      line-height:1.04 !important;
+    }
+
+    p,
+    li,
+    small,
+    span,
+    .lead,
+    .subhead,
+    .muted,
+    .microcopy,
+    .post-card p,
+    .article-card p {
+      color:#A1A1AA !important;
+      text-shadow:none !important;
+    }
+
+    .eyebrow,
+    .pill,
+    .badge,
+    .metric-label,
+    .stat-label,
+    label,
+    .tag,
+    .category,
+    .meta {
+      background:#18181B !important;
+      border:1px solid #2A2A2E !important;
+      border-radius:9999px !important;
+      color:#A3E635 !important;
+      font-family:"JetBrains Mono","SFMono-Regular",Consolas,monospace !important;
+      box-shadow:none !important;
+    }
+
+    .button,
+    .button.primary,
+    button,
+    button.primary,
+    .nav-start,
+    .start-free {
+      background:#A3E635 !important;
+      border:1px solid #A3E635 !important;
+      border-radius:8px !important;
+      color:#191C21 !important;
+      box-shadow:none !important;
+      font-family:"JetBrains Mono","SFMono-Regular",Consolas,monospace !important;
+      font-weight:700 !important;
+      transition:transform .2s ease, filter .2s ease !important;
+    }
+
+    .button:hover,
+    button:hover,
+    .feature-card:hover,
+    .pricing-card:hover,
+    .broker-card:hover,
+    .blog-card:hover {
+      transform:translateY(-2px) !important;
+      filter:brightness(1.04) !important;
+      border-color:#A3E635 !important;
+    }
+
+    .button.secondary,
+    .nav-signin,
+    .help-button,
+    .agent-link,
+    .secondary {
+      background:#18181B !important;
+      border:1px solid #2A2A2E !important;
+      color:#FFFFFF !important;
+      box-shadow:none !important;
+    }
+
+    .positive,
+    [class*="positive"],
+    [class*="profit"],
+    [class*="gain"],
+    [class*="win"] {
+      color:#A3E635 !important;
+      border-color:#A3E635 !important;
+    }
+
+    .negative,
+    .loss,
+    .danger,
+    .warning,
+    [class*="negative"],
+    [class*="loss"],
+    [class*="danger"],
+    [class*="warning"],
+    [style*="--red"],
+    [style*="#ff"],
+    [style*="#ef"],
+    [style*="red"] {
+      color:#A1A1AA !important;
+      border-color:#2A2A2E !important;
+      background-color:#18181B !important;
+      box-shadow:none !important;
+    }
+
+    .mock-chart [stroke],
+    .mock-chart [fill],
+    .product-frame svg [stroke],
+    .product-frame svg [fill] {
+      stroke:#A3E635 !important;
+      fill:#A3E635 !important;
+    }
+
+    .mock-candle.down [stroke],
+    .mock-candle.down [fill],
+    .chart-legend span:last-child i,
+    .rule-break {
+      stroke:#A1A1AA !important;
+      fill:#A1A1AA !important;
+      background:#A1A1AA !important;
+      color:#A1A1AA !important;
+    }
+
+    .dot,
+    .window-dots i,
+    .chart-legend i,
+    .tool i,
+    .help-icon {
+      background:#A3E635 !important;
+      border-color:#A3E635 !important;
+      color:#191C21 !important;
+    }
+
+    img[src*="tradereview-aethel-logo"],
+    .brand-logo-wide,
+    .official-logo-hero img,
+    .mock-brand img,
+    .help-brand img {
+      background:transparent !important;
+      border:0 !important;
+      box-shadow:none !important;
+      filter:none !important;
+    }
+  </style>
 </head>
 <body>
   <div class="scroll-aura" aria-hidden="true"></div>
@@ -1591,8 +1871,8 @@
     const marketCanvas = document.querySelector("#marketCanvas");
     const marketContext = marketCanvas.getContext("2d");
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const themeGreen = [113, 149, 255];
-    const themeRed = [155, 124, 255];
+    const themeGreen = [163, 230, 53];
+    const themeRed = [161, 161, 170];
     let currentAccent = themeGreen;
     let scrollUpdateQueued = false;
     const appUrl = "./app/";
@@ -1807,7 +2087,7 @@
         if (index === marketCandles.length - 2) {
           marketContext.save();
           marketContext.globalAlpha = .16;
-          marketContext.fillStyle = rising ? "rgba(8,153,129,.45)" : "rgba(242,54,69,.45)";
+          marketContext.fillStyle = rising ? "rgba(163,230,53,.45)" : "rgba(161,161,170,.45)";
           marketContext.beginPath();
           marketContext.arc(candle.x, priceY(candle.close), 17, 0, Math.PI * 2);
           marketContext.fill();

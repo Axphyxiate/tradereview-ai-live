@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   color-scheme: dark;
   --bg: #050817;
   --panel: #0c1730;
@@ -6,10 +6,10 @@
   --text: #f3f7ff;
   --muted: #9baccc;
   --line: rgba(142, 167, 255, .16);
-  --green: #28e0a8;
+  --green: #A3E635;
   --red: #ff5470;
-  --blue: #6ea8ff;
-  --purple: #9b7cff;
+  --blue: #A1A1AA;
+  --purple: #A1A1AA;
 }
 
 * { box-sizing: border-box; }
@@ -61,7 +61,7 @@ a { color: inherit; text-decoration: none; }
 .brand-logo-wide { width: min(260px, 42vw); height: 58px; object-fit: contain; object-position: left center; border-radius: 13px; box-shadow: 0 10px 28px rgba(0,0,0,.28); }
 .nav-links { display: flex; align-items: center; gap: 10px; }
 .nav-link { min-height: 42px; display: inline-flex; align-items: center; padding: 0 16px; border: 1px solid var(--line); border-radius: 13px; color: #b7c5df; background: rgba(255,255,255,.025); font-size: 12px; font-weight: 900; }
-.nav-link.primary { border: 0; color: #06121c; background: linear-gradient(135deg,#28e0a8,#6ea8ff,#9b7cff); }
+.nav-link.primary { border: 0; color: #06121c; background: linear-gradient(135deg,#A3E635,#A1A1AA,#A1A1AA); }
 
 .blog-hero { position: relative; max-width: 920px; padding: 110px 0 72px; }
 .blog-hero::after { content: ""; position: absolute; right: -220px; top: 100px; width: 420px; height: 220px; border: 1px solid rgba(110,168,255,.14); border-radius: 40px; background: linear-gradient(135deg, rgba(110,168,255,.09), rgba(155,124,255,.08)); transform: rotate(-8deg); filter: blur(.2px); }
@@ -321,7 +321,7 @@ footer {
 :root {
   --ae-bg:#191C21; --ae-deep:#0B1013; --ae-surface:#18181B; --ae-card:#151A20;
   --ae-text:#FFFFFF; --ae-muted:#A1A1AA; --ae-lime:#A3E635; --ae-cyan:#67E8F9;
-  --ae-red:#FB7185; --ae-border:#2A2A2E; --ae-radius:16px; --ae-control:8px;
+  --ae-red:#A1A1AA; --ae-border:#2A2A2E; --ae-radius:16px; --ae-control:8px;
 }
 
 html, body {
@@ -864,4 +864,167 @@ button.primary,
   color:var(--lock-text) !important;
   border:1px solid var(--lock-border) !important;
   box-shadow:none !important;
+}
+
+/* Absolute Aethel MD palette authority: no legacy blue/red/cyan/mint theme leaks. */
+:root {
+  --aethel-green:#A3E635 !important;
+  --aethel-bg:#191C21 !important;
+  --aethel-surface:#18181B !important;
+  --aethel-border:#2A2A2E !important;
+  --aethel-text:#FFFFFF !important;
+  --aethel-muted:#A1A1AA !important;
+  --blue:#A1A1AA !important;
+  --cyan:#A1A1AA !important;
+  --red:#A1A1AA !important;
+  --purple:#A1A1AA !important;
+  --green:#A3E635 !important;
+}
+
+html,
+body {
+  background:
+    linear-gradient(rgba(255,255,255,.024) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.024) 1px, transparent 1px),
+    #191C21 !important;
+  background-size:64px 64px,64px 64px,auto !important;
+  color:#FFFFFF !important;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif !important;
+}
+
+body::before,
+body::after,
+.blog-hero::before,
+.blog-hero::after,
+.article-hero::before,
+.article-hero::after,
+.post-chart,
+.blog-visual {
+  display:none !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+}
+
+.blog-shell,
+.article-shell,
+main,
+section {
+  background:transparent !important;
+  color:#FFFFFF !important;
+}
+
+.blog-nav,
+.nav,
+.post-card,
+.article,
+.article-card,
+.side-card,
+.blog-hero,
+.article-head,
+.resource-card,
+footer,
+.help-card,
+.message,
+.cta-inner,
+.panel,
+.card {
+  background:#18181B !important;
+  background-image:
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px) !important;
+  background-size:56px 56px !important;
+  border:1px solid #2A2A2E !important;
+  border-radius:16px !important;
+  box-shadow:none !important;
+  color:#FFFFFF !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+strong,
+label {
+  color:#FFFFFF !important;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif !important;
+  text-shadow:none !important;
+}
+
+p,
+li,
+span,
+small,
+.subtitle,
+.muted,
+.post-card p,
+.article-card p {
+  color:#A1A1AA !important;
+  text-shadow:none !important;
+}
+
+.eyebrow,
+.pill,
+.badge,
+.category,
+.meta,
+.tag {
+  background:#18181B !important;
+  border:1px solid #2A2A2E !important;
+  border-radius:9999px !important;
+  color:#A3E635 !important;
+  box-shadow:none !important;
+  font-family:"JetBrains Mono","SFMono-Regular",Consolas,monospace !important;
+}
+
+.button,
+.button.primary,
+button,
+button.primary,
+.start-free {
+  background:#A3E635 !important;
+  border:1px solid #A3E635 !important;
+  border-radius:8px !important;
+  color:#191C21 !important;
+  box-shadow:none !important;
+  font-family:"JetBrains Mono","SFMono-Regular",Consolas,monospace !important;
+  font-weight:700 !important;
+}
+
+.button.secondary,
+.secondary,
+.nav-signin,
+.help-button {
+  background:#18181B !important;
+  border:1px solid #2A2A2E !important;
+  color:#FFFFFF !important;
+  box-shadow:none !important;
+}
+
+.negative,
+.loss,
+.danger,
+.warning,
+[class*="negative"],
+[class*="loss"],
+[class*="danger"],
+[class*="warning"],
+[style*="--red"],
+[style*="#ff"],
+[style*="#ef"],
+[style*="red"] {
+  color:#A1A1AA !important;
+  border-color:#2A2A2E !important;
+  background-color:#18181B !important;
+  box-shadow:none !important;
+}
+
+.positive,
+[class*="positive"],
+[class*="profit"],
+[class*="gain"],
+[class*="win"],
+.dot,
+.help-icon {
+  color:#A3E635 !important;
+  border-color:#A3E635 !important;
 }
