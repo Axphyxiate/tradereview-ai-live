@@ -551,3 +551,185 @@ p, li, .muted, .excerpt, .article-meta { color:var(--ae-muted) !important; }
   .brand-logo-wide, .nav img, .logo img, .brand img { width:190px !important; height:54px !important; }
 }
 
+/* Aethel MD-only authority: charcoal, lime, Inter, mono labels. */
+:root {
+  --md-primary:#A3E635;
+  --md-bg:#191C21;
+  --md-surface:#18181B;
+  --md-text:#FFFFFF;
+  --md-muted:#A1A1AA;
+  --md-border:#2A2A2E;
+  --md-card:16px;
+  --md-control:8px;
+  --md-mono:"JetBrains Mono","SFMono-Regular",Consolas,monospace;
+  --md-font:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+
+html,
+body {
+  background:
+    radial-gradient(circle at 74% 14%, rgba(163,230,53,.07), transparent 30%),
+    linear-gradient(135deg,#191C21 0%,#15181D 52%,#101216 100%) !important;
+  color:var(--md-text) !important;
+  font-family:var(--md-font) !important;
+}
+
+body::before,
+body::after,
+.blog-hero::before,
+.article-hero::before {
+  background:
+    linear-gradient(rgba(255,255,255,.032) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.032) 1px, transparent 1px) !important;
+  background-size:72px 72px !important;
+  opacity:.30 !important;
+  animation:mdGridDrift 24s linear infinite !important;
+  filter:none !important;
+}
+
+@keyframes mdGridDrift {
+  from { background-position:0 0,0 0; }
+  to { background-position:72px 72px,72px 72px; }
+}
+
+@keyframes mdReveal {
+  from { opacity:0; transform:translateY(18px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+.blog-nav,
+.blog-shell,
+.blog-hero,
+.article-hero,
+.post-card,
+.article-card,
+.resource-card,
+.callout,
+.toc,
+.newsletter,
+.footer-card,
+main section {
+  background:rgba(24,24,27,.92) !important;
+  border:1px solid var(--md-border) !important;
+  border-radius:var(--md-card) !important;
+  box-shadow:0 28px 80px rgba(0,0,0,.32) !important;
+  color:var(--md-text) !important;
+  backdrop-filter:blur(18px) !important;
+}
+
+.blog-nav {
+  max-width:1180px !important;
+  min-height:76px !important;
+  padding:12px 16px !important;
+  margin:28px auto 0 !important;
+}
+
+img[src*="tradereview-aethel-logo"],
+.blog-logo img,
+.brand img {
+  width:248px !important;
+  height:54px !important;
+  object-fit:contain !important;
+  object-position:left center !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+  padding:0 !important;
+}
+
+.blog-hero,
+.article-hero {
+  animation:mdReveal .7s cubic-bezier(.22,1,.36,1) both !important;
+}
+
+h1,
+.blog-hero h1,
+.article-hero h1 {
+  color:var(--md-text) !important;
+  font-family:var(--md-font) !important;
+  font-size:clamp(48px,7vw,96px) !important;
+  font-weight:500 !important;
+  letter-spacing:-.055em !important;
+  line-height:1.04 !important;
+  text-shadow:none !important;
+}
+
+h2,
+h3,
+h4 {
+  color:var(--md-text) !important;
+  letter-spacing:-.035em !important;
+}
+
+p,
+li,
+.subtitle,
+.muted,
+.post-card p,
+.article-card p {
+  color:var(--md-muted) !important;
+  font-size:16px !important;
+  line-height:1.6 !important;
+}
+
+.eyebrow,
+.pill,
+.badge,
+.category,
+.meta,
+.tag {
+  color:var(--md-primary) !important;
+  font-family:var(--md-mono) !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  letter-spacing:.04em !important;
+  text-transform:uppercase !important;
+}
+
+a,
+.blog-nav a {
+  color:var(--md-muted) !important;
+  text-decoration:none !important;
+}
+
+a:hover,
+.blog-nav a:hover {
+  color:var(--md-text) !important;
+}
+
+button,
+.button,
+.primary,
+.cta,
+.start-free {
+  background:var(--md-primary) !important;
+  color:#11150F !important;
+  border:1px solid rgba(163,230,53,.38) !important;
+  border-radius:var(--md-control) !important;
+  box-shadow:0 18px 44px rgba(163,230,53,.16) !important;
+  font-family:var(--md-mono) !important;
+  font-weight:700 !important;
+}
+
+.secondary,
+.button.secondary {
+  background:rgba(24,24,27,.88) !important;
+  color:var(--md-text) !important;
+  border:1px solid var(--md-border) !important;
+  box-shadow:none !important;
+}
+
+.post-card,
+.article-card,
+.resource-card {
+  transition:transform .24s ease,border-color .24s ease,background .24s ease !important;
+}
+
+.post-card:hover,
+.article-card:hover,
+.resource-card:hover {
+  transform:translateY(-4px) !important;
+  border-color:rgba(163,230,53,.35) !important;
+  background:rgba(31,34,40,.96) !important;
+}

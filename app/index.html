@@ -8219,6 +8219,745 @@
       box-shadow: 0 16px 38px rgba(0,0,0,.22) !important;
     }
   </style>
+  <style id="aethel-md-only-theme">
+    :root {
+      --md-primary: #A3E635;
+      --md-secondary: #191C21;
+      --md-background: #191C21;
+      --md-surface: #18181B;
+      --md-text: #FFFFFF;
+      --md-muted: #A1A1AA;
+      --md-border: #2A2A2E;
+      --md-card: 16px;
+      --md-control: 8px;
+      --md-shadow: 0 28px 80px rgba(0,0,0,.32);
+      --md-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+      --md-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    html,
+    body,
+    body.auth-required,
+    body.auth-pending,
+    body.app-ready {
+      background:
+        radial-gradient(circle at 78% 14%, rgba(163,230,53,.075), transparent 32%),
+        linear-gradient(135deg, #191C21 0%, #15181D 48%, #101216 100%) !important;
+      color: var(--md-text) !important;
+      font-family: var(--md-font) !important;
+    }
+
+    body::before,
+    body::after,
+    .auth-gate::before,
+    .auth-gate::after,
+    .dashboard-hero::before,
+    .dashboard-hero::after,
+    .agent-command-hero::before {
+      background:
+        linear-gradient(rgba(255,255,255,.032) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.032) 1px, transparent 1px) !important;
+      background-size: 72px 72px !important;
+      opacity: .32 !important;
+      filter: none !important;
+      animation: mdGridDrift 24s linear infinite !important;
+    }
+
+    @keyframes mdGridDrift {
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 72px 72px, 72px 72px; }
+    }
+
+    @keyframes mdReveal {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes mdPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(163,230,53,.20); }
+      50% { box-shadow: 0 0 0 8px rgba(163,230,53,0); }
+    }
+
+    a,
+    .auth-nav-links a,
+    .nav-actions a {
+      color: var(--md-muted) !important;
+      text-decoration: none !important;
+    }
+
+    a:hover,
+    .auth-nav-links a:hover,
+    .nav-actions a:hover {
+      color: var(--md-text) !important;
+    }
+
+    .auth-nav,
+    .topbar,
+    aside,
+    .app-shell aside,
+    .auth-card,
+    .auth-preview,
+    .dashboard-hero,
+    .card,
+    .panel,
+    .broker-hero,
+    .ai-page-hero,
+    .ai-command-hero,
+    .agent-command-hero,
+    .agent-card,
+    .agent-deck-card,
+    .learning-card,
+    .resource-card,
+    .billing-card,
+    .settings-card,
+    .journal-card,
+    .review-card,
+    table,
+    .recent-trades,
+    .modal,
+    .global-symbol-modal,
+    .global-symbol-finder,
+    .broker-sync-panel,
+    .csv-card {
+      background: rgba(24,24,27,.92) !important;
+      border: 1px solid var(--md-border) !important;
+      border-radius: var(--md-card) !important;
+      box-shadow: var(--md-shadow) !important;
+      color: var(--md-text) !important;
+      backdrop-filter: blur(18px) !important;
+    }
+
+    .auth-nav,
+    .topbar {
+      max-width: 1180px !important;
+      min-height: 76px !important;
+      padding: 12px 16px !important;
+      margin: 28px auto 0 !important;
+    }
+
+    .auth-nav-logo,
+    .auth-logo-lockup,
+    .workspace-logo-lockup,
+    aside .brand .brand-logo-wide-app,
+    .brand-logo-wide-app,
+    .auth-brand img,
+    .brand img,
+    img[src*="tradereview-aethel-logo"] {
+      width: 248px !important;
+      max-width: 100% !important;
+      height: 54px !important;
+      object-fit: contain !important;
+      object-position: left center !important;
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+    }
+
+    aside .brand,
+    .auth-logo-lockup,
+    .workspace-logo-lockup {
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+    }
+
+    .auth-shell {
+      max-width: 1240px !important;
+      padding: 72px 24px !important;
+      gap: 48px !important;
+    }
+
+    .auth-story,
+    .dashboard-hero .hero-copy,
+    .agent-command-copy {
+      animation: mdReveal .7s cubic-bezier(.22,1,.36,1) both !important;
+    }
+
+    .auth-story h1,
+    .dashboard-hero .hero-headline,
+    .hero-headline,
+    .page-hero h1,
+    .ai-page-hero h1,
+    .ai-command-hero h1,
+    .agent-command-hero h1,
+    h1 {
+      color: var(--md-text) !important;
+      font-family: var(--md-font) !important;
+      font-size: clamp(48px, 7.2vw, 96px) !important;
+      font-weight: 500 !important;
+      letter-spacing: -0.055em !important;
+      line-height: 1.04 !important;
+      text-shadow: none !important;
+    }
+
+    .auth-story > p,
+    .dashboard-hero .subtitle,
+    .hero-copy p,
+    .page-hero p,
+    .ai-page-hero p,
+    .ai-command-hero p,
+    .agent-command-hero p,
+    p,
+    td,
+    .muted {
+      color: var(--md-muted) !important;
+      font-size: 16px !important;
+      line-height: 1.6 !important;
+      font-weight: 400 !important;
+    }
+
+    .eyebrow,
+    .pill,
+    .status-pill,
+    .auth-free-badge,
+    .ticker,
+    .market-chip,
+    th,
+    label,
+    .metric-label,
+    .hero-dashboard-strip,
+    .agent-command-badges span {
+      color: var(--md-primary) !important;
+      font-family: var(--md-mono) !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      letter-spacing: .04em !important;
+      text-transform: uppercase !important;
+    }
+
+    button,
+    .button,
+    .primary,
+    .auth-submit,
+    .nav-start,
+    .actions .primary,
+    input[type="submit"] {
+      border-radius: var(--md-control) !important;
+      border: 1px solid rgba(163,230,53,.38) !important;
+      background: var(--md-primary) !important;
+      color: #11150F !important;
+      box-shadow: 0 18px 44px rgba(163,230,53,.16) !important;
+      font-family: var(--md-mono) !important;
+      font-weight: 700 !important;
+      letter-spacing: .025em !important;
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease !important;
+    }
+
+    button:hover,
+    .button:hover,
+    .primary:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 26px 56px rgba(163,230,53,.24) !important;
+    }
+
+    button:not(.primary):not(.auth-submit):not(.nav-start),
+    .button.secondary,
+    .nav-signin,
+    .auth-tabs button,
+    .google-button {
+      background: rgba(24,24,27,.86) !important;
+      color: var(--md-text) !important;
+      border: 1px solid var(--md-border) !important;
+      box-shadow: none !important;
+    }
+
+    input,
+    textarea,
+    select,
+    .field,
+    .form-control {
+      background: #111317 !important;
+      border: 1px solid var(--md-border) !important;
+      border-radius: var(--md-control) !important;
+      color: var(--md-text) !important;
+      box-shadow: none !important;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none !important;
+      border-color: rgba(163,230,53,.7) !important;
+      box-shadow: 0 0 0 4px rgba(163,230,53,.10) !important;
+    }
+
+    .auth-preview,
+    .dashboard-hero {
+      overflow: hidden !important;
+      background:
+        radial-gradient(circle at 78% 18%, rgba(163,230,53,.08), transparent 32%),
+        linear-gradient(135deg, rgba(24,24,27,.98), rgba(25,28,33,.92)) !important;
+    }
+
+    .auth-preview *,
+    .hero-dashboard-strip *,
+    .mini-card *,
+    .metric-card *,
+    .stat-card * {
+      color: inherit !important;
+    }
+
+    .auth-preview .preview-card,
+    .auth-preview [class*="stat"],
+    .hero-dashboard-strip .mini-card,
+    .metric-card,
+    .stat-card {
+      background: rgba(24,24,27,.82) !important;
+      border: 1px solid var(--md-border) !important;
+      border-radius: 12px !important;
+      color: var(--md-text) !important;
+      box-shadow: none !important;
+    }
+
+    .auth-preview .preview-card,
+    .auth-preview [class*="stat"] {
+      background: rgba(163,230,53,.08) !important;
+      color: var(--md-text) !important;
+    }
+
+    .dashboard-hero {
+      min-height: 560px !important;
+      padding: clamp(32px, 6vw, 80px) !important;
+      display: grid !important;
+      grid-template-columns: minmax(0, 720px) minmax(280px, 1fr) !important;
+      align-items: center !important;
+      gap: 48px !important;
+    }
+
+    .dashboard-hero .hero-headline {
+      max-width: 760px !important;
+      font-size: clamp(48px, 6.6vw, 88px) !important;
+    }
+
+    .dashboard-hero .hero-copy::before,
+    .hero-copy::before {
+      display: none !important;
+    }
+
+    .command-orb,
+    .hero-command-visual {
+      background: rgba(24,24,27,.72) !important;
+      border: 1px solid var(--md-border) !important;
+      box-shadow: none !important;
+      animation: mdReveal .8s cubic-bezier(.22,1,.36,1) .12s both !important;
+    }
+
+    .command-orb::before,
+    .command-orb::after {
+      border-color: rgba(163,230,53,.18) !important;
+    }
+
+    nav button.active,
+    .auth-tabs button.active,
+    .market-chip.active,
+    .ai-mode-nav button.active {
+      background: rgba(163,230,53,.12) !important;
+      color: var(--md-primary) !important;
+      border-color: rgba(163,230,53,.45) !important;
+      box-shadow: inset 3px 0 var(--md-primary) !important;
+    }
+
+    .agent-command-hero,
+    .ai-command-hero,
+    .ai-page-hero {
+      min-height: 420px !important;
+      padding: clamp(28px, 5vw, 64px) !important;
+      display: grid !important;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, .95fr) !important;
+      align-items: center !important;
+      gap: 36px !important;
+    }
+
+    .agent-card,
+    .agent-deck-card,
+    .learning-card,
+    .resource-card,
+    .billing-card,
+    .settings-card,
+    .journal-card,
+    .review-card,
+    .metric-card,
+    .stat-card {
+      transition: transform .24s ease, border-color .24s ease, background .24s ease !important;
+    }
+
+    .agent-card:hover,
+    .agent-deck-card:hover,
+    .learning-card:hover,
+    .resource-card:hover,
+    .billing-card:hover,
+    .settings-card:hover,
+    .journal-card:hover,
+    .review-card:hover,
+    .metric-card:hover,
+    .stat-card:hover {
+      transform: translateY(-4px) !important;
+      border-color: rgba(163,230,53,.35) !important;
+      background: rgba(31,34,40,.96) !important;
+    }
+
+    .positive,
+    .profit,
+    .win,
+    .success,
+    .green,
+    [class*="positive"] {
+      color: var(--md-primary) !important;
+    }
+
+    .negative,
+    .loss,
+    .error,
+    [class*="negative"] {
+      color: #F87171 !important;
+    }
+
+    .gradient-bar,
+    .risk-bar,
+    .progress,
+    .mini-progress {
+      background: linear-gradient(90deg, var(--md-primary), rgba(163,230,53,.35)) !important;
+    }
+
+    table thead,
+    th {
+      background: rgba(255,255,255,.025) !important;
+      border-bottom: 1px solid var(--md-border) !important;
+    }
+
+    table tr,
+    td {
+      border-color: var(--md-border) !important;
+    }
+
+    .auth-preview .preview-card,
+    .auth-preview .preview-panel,
+    .auth-preview div[style],
+    .dashboard-hero div[style] {
+      background-color: transparent;
+    }
+
+    [style*="background: rgb(230"],
+    [style*="background-color: rgb(230"],
+    [style*="#e6dfd0"],
+    [style*="#E6DFD0"] {
+      background: rgba(24,24,27,.92) !important;
+      color: var(--md-text) !important;
+    }
+
+    @media (max-width: 900px) {
+      .auth-shell,
+      .dashboard-hero,
+      .agent-command-hero,
+      .ai-command-hero,
+      .ai-page-hero {
+        grid-template-columns: 1fr !important;
+      }
+
+      .auth-nav,
+      .topbar {
+        margin: 12px !important;
+      }
+
+      .auth-story h1,
+      .dashboard-hero .hero-headline,
+      .hero-headline,
+      h1 {
+        font-size: clamp(40px, 14vw, 68px) !important;
+      }
+    }
+  </style>
+  <style id="aethel-authority-v2">
+    /* Aethel design brief authority layer: no older neon/blue/beige systems past this point. */
+    :root {
+      --aethel-lime: #A3E635;
+      --aethel-bg: #191C21;
+      --aethel-surface: #18181B;
+      --aethel-surface-2: #202126;
+      --aethel-text: #FFFFFF;
+      --aethel-muted: #A1A1AA;
+      --aethel-border: #2A2A2E;
+      --aethel-radius-card: 16px;
+      --aethel-radius-control: 8px;
+      --aethel-font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --aethel-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+    }
+
+    html, body, body.auth-pending, body.auth-required, body.app-ready {
+      background:
+        radial-gradient(circle at 74% 12%, rgba(163,230,53,.07), transparent 30rem),
+        radial-gradient(circle at 12% 92%, rgba(255,255,255,.035), transparent 26rem),
+        #191C21 !important;
+      color: var(--aethel-text) !important;
+      font-family: var(--aethel-font) !important;
+    }
+
+    body::before, body::after, .auth-gate::before, .auth-gate::after {
+      background:
+        linear-gradient(rgba(255,255,255,.026) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.026) 1px, transparent 1px) !important;
+      background-size: 64px 64px !important;
+      opacity: .42 !important;
+      animation: aethelDrift 28s linear infinite !important;
+    }
+
+    @keyframes aethelDrift {
+      from { background-position: 0 0, 0 0; }
+      to { background-position: 64px 64px, 64px 64px; }
+    }
+
+    @keyframes aethelFloatIn {
+      from { opacity: 0; transform: translateY(18px); clip-path: inset(0 0 16% 0); }
+      to { opacity: 1; transform: translateY(0); clip-path: inset(0); }
+    }
+
+    body.app-ready { background: #191C21 !important; }
+    body.app-ready aside {
+      width: 240px !important;
+      padding: 28px 18px !important;
+      background: rgba(18,20,25,.96) !important;
+      border-right: 1px solid var(--aethel-border) !important;
+      box-shadow: none !important;
+    }
+    body.app-ready .section {
+      left: 240px !important;
+      width: calc(100vw - 240px) !important;
+      padding: clamp(24px, 3.2vw, 44px) !important;
+      background: transparent !important;
+    }
+
+    .auth-nav, .topbar, aside, .auth-card, .auth-preview, .dashboard-hero, .card, .panel,
+    .metric-card, .stat-card, .journal-card, .review-card, .agent-command-hero,
+    .ai-command-hero, .ai-page-hero, .billing-card, .settings-card, .global-symbol-finder,
+    .broker-sync-panel, .csv-card, table, .modal {
+      background: rgba(24,24,27,.94) !important;
+      border: 1px solid var(--aethel-border) !important;
+      border-radius: var(--aethel-radius-card) !important;
+      box-shadow: 0 26px 70px rgba(0,0,0,.24) !important;
+      color: var(--aethel-text) !important;
+    }
+
+    aside .brand, .auth-logo-lockup, .workspace-logo-lockup {
+      width: 100% !important;
+      min-height: auto !important;
+      padding: 0 0 20px !important;
+      margin: 0 0 22px !important;
+      background: transparent !important;
+      border: 0 !important;
+      border-bottom: 1px solid var(--aethel-border) !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    aside .brand .brand-logo-wide-app,
+    .auth-nav-logo,
+    .auth-logo-lockup img,
+    .workspace-logo-lockup img,
+    img[src*="tradereview-aethel-logo"] {
+      width: min(210px, 100%) !important;
+      height: 48px !important;
+      object-fit: contain !important;
+      object-position: left center !important;
+      background: transparent !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    nav { gap: 10px !important; }
+    nav button {
+      min-height: 48px !important;
+      justify-content: flex-start !important;
+      padding: 0 14px !important;
+      border-radius: var(--aethel-radius-control) !important;
+      background: transparent !important;
+      color: var(--aethel-muted) !important;
+      border: 1px solid transparent !important;
+      box-shadow: none !important;
+      font-family: var(--aethel-mono) !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      letter-spacing: .02em !important;
+      text-transform: uppercase !important;
+    }
+    nav button:hover, nav button.active {
+      background: rgba(163,230,53,.08) !important;
+      border-color: rgba(163,230,53,.28) !important;
+      color: var(--aethel-text) !important;
+      box-shadow: inset 3px 0 0 var(--aethel-lime) !important;
+      transform: translateX(2px) !important;
+    }
+
+    .auth-shell { max-width: 1180px !important; padding: clamp(64px, 9vh, 112px) 24px !important; }
+    .auth-nav { max-width: 1180px !important; margin-top: 28px !important; border-radius: 16px !important; }
+    .auth-story, .auth-preview, .dashboard-hero, .metric-card, .stat-card {
+      animation: aethelFloatIn .72s cubic-bezier(.22,1,.36,1) both !important;
+    }
+
+    h1, .auth-story h1, .dashboard-hero .hero-headline, .hero-headline,
+    .page-hero h1, .ai-page-hero h1, .ai-command-hero h1, .agent-command-hero h1 {
+      color: var(--aethel-text) !important;
+      font-family: var(--aethel-font) !important;
+      font-size: clamp(48px, 6vw, 82px) !important;
+      font-weight: 500 !important;
+      line-height: 1.04 !important;
+      letter-spacing: -0.045em !important;
+      text-shadow: none !important;
+    }
+
+    p, td, .muted, .subtitle, .auth-story > p, .dashboard-hero .subtitle {
+      color: var(--aethel-muted) !important;
+      font-family: var(--aethel-font) !important;
+      font-size: 16px !important;
+      line-height: 1.6 !important;
+      font-weight: 400 !important;
+    }
+
+    label, th, .eyebrow, .pill, .status-pill, .metric-label, .auth-free-badge,
+    .hero-dashboard-strip, .agent-command-badges span {
+      color: var(--aethel-lime) !important;
+      font-family: var(--aethel-mono) !important;
+      font-size: 12px !important;
+      font-weight: 600 !important;
+      letter-spacing: .04em !important;
+      text-transform: uppercase !important;
+    }
+
+    button, .button, .primary, .auth-submit, .nav-start, input[type="submit"] {
+      min-height: 44px !important;
+      border-radius: var(--aethel-radius-control) !important;
+      border: 1px solid rgba(163,230,53,.46) !important;
+      background: var(--aethel-lime) !important;
+      color: #10130D !important;
+      font-family: var(--aethel-mono) !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      letter-spacing: .03em !important;
+      box-shadow: 0 18px 44px rgba(163,230,53,.14) !important;
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease !important;
+    }
+    button:hover, .button:hover, .primary:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 22px 54px rgba(163,230,53,.22) !important;
+    }
+    button:not(.primary):not(.auth-submit):not(.nav-start), .button.secondary, .nav-signin, .google-button {
+      background: rgba(24,24,27,.96) !important;
+      color: var(--aethel-text) !important;
+      border-color: var(--aethel-border) !important;
+      box-shadow: none !important;
+    }
+
+    input, textarea, select {
+      background: #111317 !important;
+      border: 1px solid var(--aethel-border) !important;
+      border-radius: var(--aethel-radius-control) !important;
+      color: var(--aethel-text) !important;
+      box-shadow: none !important;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(163,230,53,.70) !important;
+      box-shadow: 0 0 0 4px rgba(163,230,53,.09) !important;
+      outline: 0 !important;
+    }
+
+    .dashboard-hero {
+      min-height: 460px !important;
+      padding: clamp(34px, 5vw, 64px) !important;
+      display: grid !important;
+      grid-template-columns: minmax(0, 680px) 1fr !important;
+      align-items: center !important;
+      gap: 36px !important;
+      background:
+        radial-gradient(circle at 78% 22%, rgba(163,230,53,.045), transparent 26rem),
+        linear-gradient(135deg, rgba(24,24,27,.985), rgba(25,28,33,.96)) !important;
+      overflow: hidden !important;
+    }
+    .dashboard-hero .hero-headline {
+      max-width: 760px !important;
+      font-size: clamp(46px, 5.6vw, 78px) !important;
+    }
+    .dashboard-hero .hero-copy::before, .hero-copy::before { display: none !important; }
+    .dashboard-hero .subtitle {
+      max-width: 650px !important;
+      padding: 18px 20px !important;
+      background: rgba(17,19,23,.88) !important;
+      border-left: 3px solid var(--aethel-lime) !important;
+      border-radius: 0 var(--aethel-radius-control) var(--aethel-radius-control) 0 !important;
+    }
+    .hero-command-visual, .command-orb {
+      opacity: .55 !important;
+      background: rgba(24,24,27,.72) !important;
+      border: 1px solid var(--aethel-border) !important;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+    .command-card { background: rgba(24,24,27,.88) !important; border-color: var(--aethel-border) !important; }
+
+    .metric-card, .stat-card, .mini-card, .agent-lab-card, .agent-card, .billing-card,
+    .learning-card, .resource-card, .settings-card, .journal-card, .review-card {
+      background: rgba(24,24,27,.88) !important;
+      border: 1px solid var(--aethel-border) !important;
+      border-radius: var(--aethel-radius-card) !important;
+      transition: transform .22s ease, border-color .22s ease, background .22s ease !important;
+    }
+    .metric-card:hover, .stat-card:hover, .mini-card:hover, .agent-lab-card:hover,
+    .agent-card:hover, .billing-card:hover, .learning-card:hover, .resource-card:hover,
+    .settings-card:hover, .journal-card:hover, .review-card:hover {
+      transform: translateY(-4px) !important;
+      border-color: rgba(163,230,53,.32) !important;
+      background: var(--aethel-surface-2) !important;
+    }
+
+    .gradient-bar, .risk-bar, .progress, .mini-progress {
+      background: var(--aethel-lime) !important;
+    }
+    .negative, .loss, .error, [class*="negative"] { color: #F87171 !important; }
+    .positive, .profit, .win, .success, [class*="positive"] { color: var(--aethel-lime) !important; }
+
+    .agent-command-hero, .ai-command-hero, .ai-page-hero {
+      min-height: 440px !important;
+      background:
+        radial-gradient(circle at 72% 28%, rgba(163,230,53,.07), transparent 24rem),
+        rgba(24,24,27,.94) !important;
+    }
+
+    .dashboard-hero::before,
+    .dashboard-hero::after {
+      opacity: .18 !important;
+    }
+
+    .hero-mini-card,
+    .dashboard-hero .hero-dashboard-strip > *,
+    .dashboard-hero .status-pill {
+      background: rgba(24,24,27,.90) !important;
+      border-color: var(--aethel-border) !important;
+      color: var(--aethel-text) !important;
+    }
+
+    .account-panel {
+      background: rgba(24,24,27,.92) !important;
+      border: 1px solid var(--aethel-border) !important;
+      border-radius: var(--aethel-radius-card) !important;
+      box-shadow: none !important;
+    }
+
+    @media (max-width: 940px) {
+      body.app-ready aside { width: 90px !important; }
+      body.app-ready .section { left: 90px !important; width: calc(100vw - 90px) !important; }
+      aside .brand .brand-logo-wide-app { width: 54px !important; object-fit: cover !important; object-position: left center !important; }
+      nav button { font-size: 0 !important; justify-content: center !important; }
+      nav button::first-letter { font-size: 16px !important; }
+    }
+
+    @media (max-width: 700px) {
+      body.app-ready aside { width: 100vw !important; }
+      body.app-ready .section { left: 0 !important; width: 100vw !important; }
+      .dashboard-hero, .agent-command-hero, .ai-command-hero, .ai-page-hero { grid-template-columns: 1fr !important; min-height: auto !important; }
+      h1, .dashboard-hero .hero-headline { font-size: clamp(38px, 12vw, 58px) !important; }
+    }
+  </style>
 </head>
 <body class="auth-pending">
   <section class="auth-gate" id="authGate" aria-labelledby="authTitle">
@@ -8397,14 +9136,14 @@
     <aside>
       <a class="brand" href="../" aria-label="Open TradeReview AI main page"><img class="brand-logo-wide-app" src="../icons/tradereview-aethel-logo.svg" alt="TradeReview AI - Review Every Trade. Refine Every Decision."></a>
       <nav aria-label="Main navigation">
-        <button class="active" data-view="dashboard" title="Dashboard">? Dashboard</button>
+        <button class="active" data-view="dashboard" title="Dashboard">Dashboard</button>
         <button data-view="import" title="Add a trade">+ Add Trade</button>
-        <button data-view="journal" title="Journal">? Journal</button>
-        <button data-view="tradeReview" title="Trade review" hidden>? Review</button>
-        <button data-view="aiCommand" title="Learn and trade with AI">? AI Coach</button>
-        <button data-view="agents" title="AI agents">? Agents</button>
+        <button data-view="journal" title="Journal">Journal</button>
+        <button data-view="tradeReview" title="Trade review" hidden>Review</button>
+        <button data-view="aiCommand" title="Learn and trade with AI">AI Coach</button>
+        <button data-view="agents" title="AI agents">Agents</button>
         <button data-view="billing" title="Plans and billing">$ Billing</button>
-        <button data-view="settings" title="Settings">? Settings</button>
+        <button data-view="settings" title="Settings">Settings</button>
       </nav>
       <div class="account-panel">
         <strong id="accountGreeting">Welcome back</strong>
