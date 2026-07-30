@@ -9651,6 +9651,379 @@
       }
     }
   </style>
+  <style id="aethel-clean-authority-20260730">
+    /*
+      Final clean design authority.
+      This deliberately removes the older blue/purple/teal/beige theme layers and
+      uses only the Aethel MD palette:
+      bg #191C21, surface #18181B, border #2A2A2E, text #FFFFFF/#A1A1AA,
+      accent #A3E635.
+    */
+    :root {
+      --clean-bg: #191C21;
+      --clean-surface: #18181B;
+      --clean-surface-2: #202126;
+      --clean-border: #2A2A2E;
+      --clean-text: #FFFFFF;
+      --clean-muted: #A1A1AA;
+      --clean-green: #A3E635;
+      --clean-danger: #F87171;
+      --clean-radius: 16px;
+      --clean-control: 8px;
+      --clean-font: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      --clean-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+    }
+
+    html,
+    body,
+    body.app-ready,
+    body.auth-active {
+      background:
+        radial-gradient(circle at 82% 18%, rgba(163,230,53,.055), transparent 24rem),
+        linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px),
+        var(--clean-bg) !important;
+      background-size: auto, 56px 56px, 56px 56px, auto !important;
+      color: var(--clean-text) !important;
+      font-family: var(--clean-font) !important;
+    }
+
+    body::before,
+    body::after,
+    .hero-webgl,
+    .landing-canvas,
+    .market-canvas,
+    .dashboard-hero::before,
+    .dashboard-hero::after,
+    .auth-hero::before,
+    .auth-hero::after,
+    .hero-command-visual,
+    .command-orb,
+    .orbital-system,
+    .scroll-candles,
+    .bull-bear-stage,
+    .animated-chart-bg,
+    [class*="webgl"],
+    [class*="bull"],
+    [class*="bear"] {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      animation: none !important;
+    }
+
+    aside,
+    .sidebar,
+    .app-sidebar,
+    .auth-nav,
+    .topbar,
+    .dashboard-hero,
+    .auth-card,
+    .auth-preview,
+    .card,
+    .panel,
+    .metric-card,
+    .stat-card,
+    .settings-card,
+    .pricing-card,
+    .agent-card,
+    .learning-card,
+    .ai-panel,
+    .csv-panel,
+    .broker-panel,
+    .modal,
+    .drawer,
+    .toast,
+    .help-panel,
+    .owner-console,
+    .symbol-search-modal,
+    .market-finder,
+    .symbol-finder,
+    .capture-card,
+    .review-card,
+    .journal-card,
+    .trade-row,
+    .trade-table,
+    .performance-card {
+      background: linear-gradient(180deg, rgba(32,33,38,.96), rgba(24,24,27,.98)) !important;
+      border: 1px solid var(--clean-border) !important;
+      border-radius: var(--clean-radius) !important;
+      color: var(--clean-text) !important;
+      box-shadow: 0 18px 48px rgba(0,0,0,.28) !important;
+    }
+
+    aside,
+    .sidebar,
+    .app-sidebar {
+      background: #111418 !important;
+      border-right: 1px solid var(--clean-border) !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+
+    .dashboard-hero,
+    .auth-hero {
+      min-height: auto !important;
+      padding: clamp(32px, 5vw, 72px) !important;
+      overflow: hidden !important;
+      display: grid !important;
+      gap: 28px !important;
+      background:
+        radial-gradient(circle at 72% 26%, rgba(163,230,53,.08), transparent 21rem),
+        linear-gradient(180deg, rgba(32,33,38,.96), rgba(24,24,27,.98)) !important;
+      border-color: var(--clean-border) !important;
+    }
+
+    .dashboard-hero .hero-copy,
+    .auth-story,
+    .page-hero,
+    .ai-command-hero,
+    .agent-command-hero {
+      max-width: 860px !important;
+      opacity: 1 !important;
+      transform: none !important;
+      animation: cleanRise .55s cubic-bezier(.22,1,.36,1) both !important;
+    }
+
+    @keyframes cleanRise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1,
+    .hero-headline,
+    .dashboard-hero .hero-headline,
+    .auth-story h1,
+    .page-title {
+      color: var(--clean-text) !important;
+      font-family: var(--clean-font) !important;
+      font-size: clamp(44px, 7.5vw, 96px) !important;
+      font-weight: 500 !important;
+      line-height: 1.04 !important;
+      letter-spacing: -0.045em !important;
+      text-shadow: none !important;
+      max-width: 920px !important;
+    }
+
+    h2,
+    h3,
+    h4,
+    strong,
+    label,
+    th {
+      color: var(--clean-text) !important;
+      font-family: var(--clean-font) !important;
+      text-shadow: none !important;
+    }
+
+    p,
+    td,
+    small,
+    .muted,
+    .subtitle,
+    .dashboard-hero .subtitle,
+    .auth-story p,
+    .helper,
+    .hint {
+      color: var(--clean-muted) !important;
+      font-family: var(--clean-font) !important;
+      line-height: 1.6 !important;
+      text-shadow: none !important;
+    }
+
+    .eyebrow,
+    .kicker,
+    .page-kicker,
+    .badge,
+    .pill,
+    .status-pill,
+    .lock-badge,
+    .tier-badge,
+    .plan-badge,
+    .metric-label,
+    .section-label,
+    .tag,
+    .chip {
+      background: rgba(163,230,53,.08) !important;
+      border: 1px solid rgba(163,230,53,.18) !important;
+      color: var(--clean-green) !important;
+      border-radius: 9999px !important;
+      font-family: var(--clean-mono) !important;
+      font-size: 12px !important;
+      font-weight: 700 !important;
+      letter-spacing: .04em !important;
+      text-transform: uppercase !important;
+      box-shadow: none !important;
+    }
+
+    button,
+    .button,
+    .btn,
+    .primary,
+    .cta-primary,
+    .nav-start,
+    .start-free,
+    .plan-cta,
+    input[type="button"],
+    input[type="submit"] {
+      background: var(--clean-green) !important;
+      border: 1px solid rgba(163,230,53,.36) !important;
+      border-radius: var(--clean-control) !important;
+      color: #11150F !important;
+      box-shadow: 0 16px 34px rgba(163,230,53,.12) !important;
+      font-family: var(--clean-mono) !important;
+      font-weight: 800 !important;
+      letter-spacing: .01em !important;
+      text-transform: none !important;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease !important;
+    }
+
+    button:hover,
+    .button:hover,
+    .btn:hover,
+    .primary:hover,
+    .cta-primary:hover {
+      transform: translateY(-1px) !important;
+      box-shadow: 0 20px 42px rgba(163,230,53,.18) !important;
+    }
+
+    .secondary,
+    .btn-secondary,
+    .cta-secondary,
+    .nav-signin,
+    button.secondary,
+    .button.secondary {
+      background: rgba(24,24,27,.95) !important;
+      border: 1px solid var(--clean-border) !important;
+      color: var(--clean-text) !important;
+      box-shadow: none !important;
+    }
+
+    input,
+    select,
+    textarea,
+    .input,
+    .select,
+    .field,
+    [contenteditable="true"] {
+      background: #111418 !important;
+      border: 1px solid var(--clean-border) !important;
+      border-radius: var(--clean-control) !important;
+      color: var(--clean-text) !important;
+      box-shadow: none !important;
+      font-family: var(--clean-font) !important;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(163,230,53,.64) !important;
+      outline: 2px solid rgba(163,230,53,.18) !important;
+    }
+
+    a,
+    .link {
+      color: var(--clean-text) !important;
+      text-decoration-color: rgba(163,230,53,.45) !important;
+    }
+
+    a:hover,
+    .link:hover {
+      color: var(--clean-green) !important;
+    }
+
+    .active,
+    .nav-item.active,
+    .sidebar a.active,
+    .selected,
+    .is-active {
+      background: rgba(163,230,53,.10) !important;
+      border-color: rgba(163,230,53,.42) !important;
+      color: var(--clean-text) !important;
+      box-shadow: inset 3px 0 0 var(--clean-green) !important;
+    }
+
+    .brand,
+    .brand-lockup,
+    .app-brand {
+      color: var(--clean-text) !important;
+      gap: 10px !important;
+    }
+
+    .brand span:not(.sr-only),
+    .brand-name,
+    .brand-text {
+      display: none !important;
+    }
+
+    img[src*="tradereview"],
+    .brand-logo-wide-app,
+    .auth-nav-logo,
+    .workspace-logo-lockup,
+    .auth-logo-lockup,
+    .auth-mini-logo {
+      background: #111418 !important;
+      border: 1px solid var(--clean-border) !important;
+      border-radius: 12px !important;
+      box-shadow: 0 16px 32px rgba(0,0,0,.24) !important;
+      object-fit: contain !important;
+      filter: saturate(.92) contrast(1.02) !important;
+    }
+
+    .positive,
+    .profit,
+    .win,
+    .success,
+    [class*="positive"],
+    [class*="success"] {
+      color: var(--clean-green) !important;
+    }
+
+    [class*="lock"],
+    [class*="premium"],
+    [class*="upgrade"] {
+      border-color: rgba(163,230,53,.22) !important;
+      color: var(--clean-green) !important;
+    }
+
+    .negative,
+    .loss,
+    .danger,
+    .error,
+    [class*="negative"],
+    [class*="danger"],
+    [class*="error"] {
+      color: var(--clean-danger) !important;
+    }
+
+    table,
+    thead,
+    tbody,
+    tr,
+    .table-row {
+      background: transparent !important;
+      border-color: var(--clean-border) !important;
+    }
+
+    .performance-curve,
+    canvas,
+    svg {
+      border-color: var(--clean-border) !important;
+    }
+
+    @media (max-width: 900px) {
+      h1,
+      .hero-headline,
+      .dashboard-hero .hero-headline,
+      .auth-story h1 {
+        font-size: clamp(42px, 14vw, 64px) !important;
+      }
+      .dashboard-hero,
+      .auth-hero {
+        padding: 28px !important;
+      }
+    }
+  </style>
 </head>
 <body class="auth-pending">
   <section class="auth-gate" id="authGate" aria-labelledby="authTitle">
